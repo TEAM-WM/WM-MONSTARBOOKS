@@ -16,9 +16,12 @@
 	
 	<update id="update">
 	</update>
-	
-	삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 
-	<update id="delete">
+	-->
+	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
+	<!-- <update id="delete" parameterType="int">
+		UPDATE EX
+		SET deleted='yes'
+		WHERE num=#{param1}
 	</update> -->
 	
 </mapper>

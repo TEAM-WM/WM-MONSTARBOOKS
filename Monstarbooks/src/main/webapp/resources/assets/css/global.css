@@ -1,0 +1,110 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+@import url(./header.css); 
+@import url(./footer.css);
+@import url(./main.css);
+@import url(./common.css);
+/* Global*/
+:root {
+    /* Color */
+    --color-white: #fefefe;
+    --color-gray: #e7e7e7;
+    --color-black: #0b0b0b;
+    --color-main: #000d82;
+    --color-main-dark: #00084f;
+    --color-sub: #f5dd00;
+
+    /* Font size */
+    --font-large: 32px;
+    --font-medium: 24px;
+    --font-regular: 16px;
+    --font-small: 14px;
+    --font-micro: 10px;
+
+    /* Font weight */
+    --weight-bold: 900;
+    --weight-semi-bold: 600;
+    --weight-regular: 400;
+
+    /* Size */
+    --desktop-size: 1200px;
+}
+
+/* Universal tags */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'NanumSquare', sans-serif;
+    color: var(--color-black);
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+button,
+input {
+    cursor: pointer;
+}
+
+a:hover,
+button:hover {
+    opacity: 0.5;
+}
+
+body{
+    width: 100%;
+    padding-top: 100px;;
+}
+.container {
+    width: 100%;
+}
+
+/* 정렬 */
+.center{
+    text-align: center;
+}
+.left{
+    text-align: left;
+}
+.right{
+    text-align: right;
+}
+/* 화살표 */
+.arrow-up {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #595959;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    opacity: 0;
+    transition: all 300ms ease-in;
+    pointer-events: none;
+    font-size: 20px;
+    font-weight: 300;
+    z-index:999;
+}
+.arrow-up::before{
+    content: "\f062";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+.arrow-up.visible {
+    pointer-events: auto;
+    opacity: 1;
+}
+/* 메인 */
+main {
+    width: var(--desktop-size);
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 116px;
+}
+
+/* main article {} */

@@ -28,8 +28,8 @@ public class ExController {
 		service = new ExServiceList(session);
 		service.execute(model);
 
-		return "/ex/sample1";
+		return "common/ex/sample1";
 
 	}// list 종료
-
+	
 }// class 종료
