@@ -22,13 +22,8 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-		<beans:property name="order" value="2" />
-	</beans:bean>
-	
+
+
 	<!-- 타일즈설정 -->
 	<beans:bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
@@ -47,7 +42,13 @@
 			value="org.springframework.web.servlet.view.tiles3.TilesView"></beans:property>
 		<beans:property name="order" value="1" /> <!-- 우선순위를 타일즈를 일빠로 주겠다 -->
 	</beans:bean>
-
+	<!-- 기본 resolover -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" />
+	</beans:bean>
 	<!-- DI -->
 	<context:component-scan
 		base-package="com.monstar.books" />

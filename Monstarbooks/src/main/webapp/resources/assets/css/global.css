@@ -104,7 +104,10 @@ main {
     width: var(--desktop-size);
     text-align: center;
     margin: 0 auto;
-    padding-top: 116px;
+    padding: 200px 0 100px 0;
+    min-height:70vh;
 }
-
+main.main{
+	padding-top: 116px;
+}
 /* main article {} */

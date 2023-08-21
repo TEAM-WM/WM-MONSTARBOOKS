@@ -3,18 +3,35 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
+	<!-- 사용자 레이아웃 -->
 	<definition name="commonlayout"
 		template="/WEB-INF/views/tiles/common/layout.jsp">
 		<put-attribute name="header"
 			value="/WEB-INF/views/tiles/common/header.jsp" />
-			<put-attribute name="main"
-			value="" />
 		<put-attribute name="footer"
 			value="/WEB-INF/views/tiles/common/footer.jsp" />
 	</definition>
 
-	<definition name="*/*" extends="commonlayout">
+	<definition name="common/*/*" extends="commonlayout">
 		<put-attribute name="main"
 			value="/WEB-INF/views/common/{1}/{2}.jsp" />
 	</definition>
+	
+	<!-- 메인화면 -->
+	<definition name="*" extends="commonlayout">
+		<put-attribute name="main"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+	
+	<!-- 메인 레이아웃 -->
+	<definition name="*"
+		template="/WEB-INF/views/tiles/layout.jsp">
+		<put-attribute name="header"
+			value="/WEB-INF/views/tiles/common/header.jsp" />
+		<put-attribute name="main"
+			value="/WEB-INF/views/home.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/tiles/common/footer.jsp" />
+	</definition>
+	<!-- 관리자 레이아웃 -->
 </tiles-definitions>

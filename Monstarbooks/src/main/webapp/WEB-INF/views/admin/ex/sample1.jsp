@@ -18,7 +18,7 @@
     	${dto.deleted } <br/>
 	</c:forEach>
 <script>
-	document.title = "몬스타북스 :: 샘플페이지"; 
+	document.title = "몬스타북스' 관리자"; 
 </script>
 </body>
 </html>

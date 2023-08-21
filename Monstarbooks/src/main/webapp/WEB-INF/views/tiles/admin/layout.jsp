@@ -9,7 +9,9 @@
 </head>
 <body>
 	<tiles:insertAttribute name="header" />
-	<tiles:insertAttribute name="main" />
+	<main>
+		<tiles:insertAttribute name="main" />
+	</main>
 	<tiles:insertAttribute name="footer" />
 </body>
 </html>

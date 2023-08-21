@@ -19,7 +19,7 @@
 			<!-- global-service-list  종료 -->
 			<div class="global-header-main">
 				<h1>
-					<a href="./"> </a>
+					<a href="${pageContext.request.contextPath}/"> </a>
 				</h1>
 				<!-- 검색 -->
 				<div class="global-search">

@@ -67,7 +67,7 @@
                         </dl>
                     </div>
                     <h3 class="footer-logo">
-                        <img src="../assets/imgs/logo3.png" alt="">
+                        <img src="${pageContext.request.contextPath}/resources/assets/imgs/logo3.png" alt="">
                     </h3>
                 </div>
             </div><!-- global-footer-container -->
