@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ExDto {
-	private int exno;
-	private String extitle;
-	private String excontent;
-	private Date exregdate;
-	private String deleted;
+	private int exno; //번호
+	private String extitle; //제목
+	private String excontent; // 내용
+	private Date exregdate; // 등록날짜
+	private String deleted; // 삭제여부
 }

@@ -25,7 +25,7 @@ public class ExServiceList implements ExService {
 	public void execute(Model model) {
 		
 		System.out.println(">>>리스트 신호");
-
+		
 		ExDao dao = session.getMapper(ExDao.class);
 		ArrayList<ExDto> dto = dao.list();
 		model.addAttribute("dto", dto);

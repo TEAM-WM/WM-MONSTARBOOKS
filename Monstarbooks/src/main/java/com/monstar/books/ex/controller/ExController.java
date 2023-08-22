@@ -18,6 +18,7 @@ public class ExController {
 	@Autowired
 	private SqlSession session;
 
+	// 230818 / 리연 추가
 	@RequestMapping("/ex/sample1")
 	public String list(Model model) {
 
