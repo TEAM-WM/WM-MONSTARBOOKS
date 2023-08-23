@@ -34,4 +34,14 @@
 			value="/WEB-INF/views/tiles/common/footer.jsp" />
 	</definition>
 	<!-- 관리자 레이아웃 -->
+	<definition name="adminlayout"
+		template="/WEB-INF/views/tiles/admin/layout.jsp">
+		<put-attribute name="header"
+			value="/WEB-INF/views/tiles/admin/header.jsp" />
+	</definition>
+
+	<definition name="admin/*/*" extends="adminlayout">
+		<put-attribute name="main"
+			value="/WEB-INF/views/admin/{1}/{2}.jsp" />
+	</definition>
 </tiles-definitions>
