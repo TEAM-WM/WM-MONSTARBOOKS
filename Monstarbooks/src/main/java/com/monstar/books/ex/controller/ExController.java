@@ -34,4 +34,17 @@ public class ExController {
 
 	}// list 종료
 	
+	@RequestMapping("/ex/sample2")
+	public String list2(Model model) {
+
+		System.out.println("샘플입니다.");
+
+		model.addAttribute("sample", "샘플값");
+
+		service = new ExServiceList(session);
+		service.execute(model);
+
+		return "admin/ex/sample1";
+
+	}// list 종료
 }// class 종료
