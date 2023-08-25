@@ -14,7 +14,7 @@
 			<li>가입완료</li>
 		</ul>
 	</div>
-	<form action="./access" method="post" class="join left">
+	<form action="${pageContext.request.contextPath}/join/access" method="post" class="join left">
 		<label for="id">아이디</label>
 		<div class="form-small">
 			<input type="text" name="id" placeholder="아이디를 입력해주세요." id="id" minlength="5" maxlength="13" required>

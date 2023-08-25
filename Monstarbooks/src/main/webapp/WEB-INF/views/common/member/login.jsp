@@ -21,14 +21,14 @@
 		<input type="password" name="pw" placeholder="비밀번호를 입력해주세요" id="pw">
 		<span class="valid-check">아이디 또는 비밀번호를 확인해주세요.</span>
 			<input type="submit" value="로그인">
-			<input type="button" value="회원가입" onclick="location.href='../join';">
+			<input type="button" value="회원가입" onclick="location.href='${pageContext.request.contextPath}/join';">
 		<div class="login-text-wrap">
 			<div class="login-save">
 				<input type="checkbox" name="idchk" id="idchk"> <label
 					for="idchk"></label> <span>아이디 저장</span>
 			</div>
 			<div>
-				<a href="../find/">아이디 / 비밀번호 찾기</a>
+				<a href="${pageContext.request.contextPath}/find/">아이디 / 비밀번호 찾기</a>
 			</div>
 		</div>
 		<div class="social-wrap">
