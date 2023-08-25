@@ -1,0 +1,21 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230824 / 리연 추가 -->
+<mapper namespace="com.monstar.books.member.dao.MemberDao">
+
+	<!-- <select id="list" resultType="com.monstar.books.ex.dto.MemberDto"> 
+		SELECT * FROM EX </select> -->
+
+	<!-- <select id="detail"> </select> <update id="update"> </update> -->
+
+	<insert id="insert">
+		INSERT INTO m_member
+		VALUES(m_member_seq.NEXTVAL,#{mid}, #{mpw},
+		#{mbirth},#{mname},#{memail},#{mtel},SYSDATE,null,null,'관리자','no')
+	</insert>
+	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 -->
+	<!-- <update id="delete" parameterType="int"> UPDATE EX SET deleted='yes' 
+		WHERE num=#{param1} </update> -->
+
+</mapper>

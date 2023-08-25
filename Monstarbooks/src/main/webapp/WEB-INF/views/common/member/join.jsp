@@ -7,16 +7,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="./." method="post" class="join left">
+	<div class="step-list">
+		<ul>
+			<li>약관동의</li>
+			<li class="active">정보입력</li>
+			<li>가입완료</li>
+		</ul>
+	</div>
+	<form action="./access" method="post" class="join left">
 		<label for="id">아이디</label>
 		<div class="form-small">
 			<input type="text" name="id" placeholder="아이디를 입력해주세요." id="id" minlength="5" maxlength="13" required>
 			<input type="button" value="중복확인" />
 		</div>
-		
+		<span class="form-sapn">5자리 이상 13자리 이하 영문과 숫자 조합만 가능합니다.</span>
 		<label for="pw">비밀번호</label>
 		<input type="password" name="pw" placeholder="비밀번호를 입력해주세요" id="pw" minlength="6" maxlength="20">
-		<span class="blue">영문, 숫자, 특수문자 중 2가지 조합하여 6~20자리</span>
+		<span class="form-sapn">영문, 숫자, 특수문자 중 2가지 조합하여 6~20자리 이하</span>
 		
 		<label for="pwCheck">비밀번호 확인</label>
 		<input type="password" name="pwCheck" placeholder="비밀번호를 입력해주세요" id="pwCheck">
@@ -25,10 +32,13 @@
 		<input type="text" name="name" placeholder="이름을 입력해주세요." id="name" required>
 		
         <label for="birth">생년월일</label>
-        <input type="date" id="birth" placeholder="생년월일을입력해주세요" required>
+        <input type="date" id="birth" name="birth" placeholder="생년월일을입력해주세요" required>
+        
+        <label for="tel">전화번호</label>
+        <input type="tel" name="tel" id="tel" placeholder="ex)01000000000" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" required>
         
         <label for="email">이메일</label>
-        <input type="email" id="email" placeholder="이메일을 입력하세요" required>
+        <input type="email" name="email" id="email" placeholder="이메일을 입력하세요" required>
 		
 		<label for="adress">주소</label>
 		<div class="form-small">
