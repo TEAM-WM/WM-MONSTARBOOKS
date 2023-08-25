@@ -9,7 +9,7 @@
 <body>
 		<header>
 			<h1>
-				<a href="./index.html"> <img src="${pageContext.request.contextPath}/resources/assets/imgs/logo1.png"
+				<a href="${pageContext.request.contextPath}/"> <img src="${pageContext.request.contextPath}/resources/assets/imgs/logo1.png"
 					alt="몬스타북스" srcset="">
 				</a>
 			</h1>
