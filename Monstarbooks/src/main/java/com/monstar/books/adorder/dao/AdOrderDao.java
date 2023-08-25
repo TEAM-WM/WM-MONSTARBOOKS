@@ -16,6 +16,8 @@ public interface AdOrderDao {
 	public int selectBoardTotCount3(String searchKeyword); //책제목+주문자로 검색
 
 	public int selectBoardTotCount4(String searchKeyword);  //조건 없이 검색
+	
+	//public ArrayList<AdOrderDto> getOrderList(int rowStart, int rowEnd, String searchKeyword, String setNum);
 
 	
 	

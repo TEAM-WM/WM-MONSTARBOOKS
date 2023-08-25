@@ -4,7 +4,7 @@
 
 <mapper namespace="com.monstar.books.adorder.dao.AdOrderDao">
 
-<!-- 주문 목록 가져오기  -->
+	<!-- 주문 목록 가져오기 -->
 <select id="getOrderList"
     resultType="com.monstar.books.adorder.dto.AdOrderDto">
     SELECT
@@ -22,22 +22,27 @@
     JOIN m_member mm ON mo.memberno = mm.memberno
     ORDER BY mo.orderno DESC  <!-- 주문 번호를 기준으로 내림차순 정렬 -->
     </select>
-    
+
+
      <select id="selectBoardTotCount1" resultType="Integer">
-    SELECT COUNT(*) FROM M_ORDER WHERE btitle LIKE '%'|| #{param1} || '%'
+    SELECT COUNT(*) FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%'
 	</select>
 
     <select id="selectBoardTotCount2" resultType="Integer">
-    SELECT COUNT(*) FROM M_ORDER WHERE memberno LIKE '%'|| #{param1} || '%'
+    SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'|| #{param1} || '%'
 	</select>
 
+	<!-- 둘다 검색하는거 구현안됨 -->
     <select id="selectBoardTotCount3" resultType="Integer">
-    SELECT COUNT(*) FROM M_ORDER WHERE btitle LIKE '%'|| #{param1} || '%' OR memberno LIKE '%'|| #{param1} || '%'
+    SELECT (
+        (SELECT COUNT(*) FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%') +
+        (SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'|| #{param1} || '%')
+    ) AS TOTAL_COUNT
 	</select>
 
     <select id="selectBoardTotCount4" resultType="Integer">
     SELECT COUNT(*) FROM M_ORDER
 	</select>
-  
+	
 
 </mapper>
