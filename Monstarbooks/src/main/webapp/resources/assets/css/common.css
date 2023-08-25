@@ -50,7 +50,9 @@ input {
     transition: border 300ms ease-in-out;
     color: #767676;
 }
-
+input:read-only {
+    background: var(--color-gray);
+}
 .login {
     text-align: left;
 }
@@ -133,6 +135,20 @@ input[type="file"] {
 }
 
 /* 유효성 체크 */
+.form-sapn{
+	display: inline-block;
+    color: var(--color-main);
+    font-size: 12px;
+    padding: 0 0 0 5px;
+    margin-bottom: 5px;
+    position:relative;
+    top:-8px;
+}
+.form-sapn::before{
+	content: "▶";
+	padding-right:3px;
+}
+
 .valid-check {
     display: inline-block;
     color: var(--color-main);
@@ -285,4 +301,87 @@ input[type="file"] {
     transform: rotate(0deg);
 }
 
+/* 회원가입 선호장르 */
+.favorite-box{
+	margin-bottom:20px;
+}
 
+.favorite-box input[type="checkbox"]+label {
+    display: inline-block;
+    text-align:center;
+    width: auto;
+    height:30px;
+    line-height:1.9em;
+    padding: 0 10px 0 20px;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    color: var(--color-main-dark);
+	border: 1px solid var(--color-main-dark);
+}
+.favorite-box input[type="checkbox"]+label::after {
+    content: '#';
+    font-family:FontAwesome;
+    color: var(--color-main-dark);
+    left: 8px;
+    top: 0px;
+}
+
+.favorite-box input[type="checkbox"]:checked+label{
+    color:var(--color-white);
+}
+.favorite-box input[type="checkbox"]:checked+label::after {
+    color:var(--color-white);
+}
+
+.join{
+	padding-bottom: 50px;
+}
+.step-list{
+	width:100%;
+	text-align:center;
+}
+.step-list ul{
+	width:340px;
+	text-align: right;
+	margin: 0 auto;
+}
+.step-list ul li{
+	color: #f0f0f0;
+	display: inline-block;
+	position:relative;
+	margin-right:30px;
+}
+
+.step-list ul li::before{
+	text-align:center;
+	content:'\f0da';
+	display: inline-block;
+	width:15px;
+	height:15px;
+	padding:2px 2px 0 0;
+	margin-right:10px;
+	box-sizing: border-box;
+	font-family:FontAwesome;
+	color: var(--color-white);
+	font-size:3px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    position: absolute;
+    top:3px;
+    right:-35px;
+}
+.step-list ul li.active{
+	color: var(--color-main-dark);
+	font-weight: var(--weight-bold);
+}
+.step-list ul li.active::before{
+    background: var(--color-main-dark);
+}
+
+.step-list ul li:last-child{
+	margin-right:0;
+}
+.step-list ul li:last-child::before{
+	content:none;
+}
