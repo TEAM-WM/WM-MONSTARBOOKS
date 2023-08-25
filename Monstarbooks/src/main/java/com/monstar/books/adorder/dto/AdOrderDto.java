@@ -3,9 +3,9 @@ package com.monstar.books.adorder.dto;
 import java.sql.Timestamp;
 
 public class AdOrderDto {
-    private String memberId;        // NUMBER
-	private String memberName;
-    private int orderNo;
+    private String memberId;        // VARCHAR2
+	private String memberName;		//VARCHAR2
+    private int orderNo;			//NUMBER
     private Timestamp orderDate; // DATE
     private String productName;  // VARCHAR2
 	private int productCount;     // NUMBER
