@@ -6,7 +6,7 @@ public class PageVo {
 	private Integer rowStart;			  // 시작 행 번호
 	private Integer rowEnd;				  // 종료 행 번호
 	private Integer totPage;              // 전체 페이지 수
-	private Integer totRow=0;			  // 전체 데이터 수
+	private Integer totRow=0;			  // 전체 데이터 수	-> 책 수량?
 	private Integer page;				  // 현재 페이지
 	private Integer pageStart; 			  // 시작 페이지
 	private Integer pageEnd; 			  // 종료 페이지
