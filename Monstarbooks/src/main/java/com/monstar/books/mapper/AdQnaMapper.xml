@@ -1,0 +1,58 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230818 / 리연 추가 -->
+<mapper namespace="com.monstar.books.adqna.dao.QnaDao">
+	<resultMap type="com.monstar.books.adqna.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+		<result column="MNAME" property="mname"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adqna.dto.QnaDto" id="Qna">
+		<result column="QNANO" property="qnano"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="QCATEGORY" property="qcategory"/>
+		<result column="QTITLE" property="qtitle"/>
+		<result column="QREGDATE" property="qregdate"/>
+		<result column="QSTATUS" property="qstatus"/>
+		<result column="QANSWER" property="qanswer"/>
+		<result column="QFILESRC" property="qfilesrc"/>
+		<result column="DELETED" property="deleted"/>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<select id="list" resultType="com.monstar.books.adqna.dto.QnaDto" resultMap="Qna">
+		SELECT *FROM
+		(SELECT ROWNUM NUM, N.*FROM
+		(SELECT Q.QNANO, M.MNAME, Q.QTITLE,Q.QREGDATE, Q.QSTATUS
+		FROM M_QNA Q JOIN M_MEMBER M 
+		ON Q.MEMBERNO = M.MEMBERNO
+		ORDER BY Q.QNANO DESC)N)
+		WHERE NUM BETWEEN #{param1} AND #{param1}
+		
+		
+	</select>
+	
+	<select id="selectQnatotCount" resultType="Integer">
+		SELECT COUNT(*)FROM M_QNA
+	</select>
+
+	
+	<!-- <select id="detail">
+	</select>
+	
+	<insert id="insert">
+	</insert>
+	
+	<update id="update">
+	</update>
+	-->
+	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
+	<!-- <update id="delete" parameterType="int">
+		UPDATE EX
+		SET deleted='yes'
+		WHERE num=#{param1}
+	</update> -->
+	
+</mapper>
