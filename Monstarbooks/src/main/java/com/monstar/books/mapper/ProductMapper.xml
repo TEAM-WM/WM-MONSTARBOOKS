@@ -1,0 +1,67 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.monstar.books.product.dao.ProductDao">
+
+	<!-- <select id="list" resultType="com.monstar.books.product.dto.BookDto">
+		SELECT BOOKNO, BTITLE, BPUBLISHER, BWRITER, BPRICE,BSTATUS, BCDATE,
+			 BMDATE, BSTOCK, BSTOCK 
+		FROM M_BOOK
+	</select> -->
+	
+	<resultMap type="com.monstar.books.product.dto.BookDetailDto" id="BookDetail">
+		<result column = "BOOKNO" property="bookno" />
+		<result column = "BCATEGORYNO" property="bcategoryno" />
+		<result column = "BIMG" property="bimg" />
+		<result column = "BIMGDETAIL" property="bimgdetail" />
+		<result column = "BDESCRIPTION" property="bdescription" />
+		<result column = "BPAGE" property="bpage" />
+		<result column = "BESIZE" property="besize" />
+		<result column = "BADGE" property="badge" />
+		<result column = "BPDATE" property="bpdate" />
+		
+	</resultMap>
+	<resultMap type="com.monstar.books.product.dto.BookDto" id="Book">
+		<result column = "BOOKNO" property="bookno" />
+		<result column = "btitle" property="btitle" />
+		<result column = "bsubtitle" property="bsubtitle" />
+		<result column = "bwriter" property="bwriter" />
+		<result column = "btranslator" property="btranslator" />
+		<result column = "bpublisher" property="bpublisher" />
+		<result column = "bpdate" property="bpdate" />
+		<result column = "bprice" property="bprice" />
+		<result column = "bpricesell" property="bpricesell" />
+		<result column = "bdiscount" property="bdiscount" />
+		<result column = "bisbn" property="bisbn" />
+		<result column = "bstatus" property="bstatus" />
+		<result column = "bcdate" property="bcdate" />
+		<result column = "bmdate" property="bmdate" />
+		<result column = "bstock" property="bstock" />
+		<collection property="bookDetailDto" resultMap="BookDetailDto" ></collection>
+		
+	</resultMap>
+	
+	<select id="list" resultType="com.monstar.books.product.dto.BookDto">
+		SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
+		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+		ON B.BOOKNO = BD.BOOKNO
+	</select>
+	
+	<!-- <select id="detail">
+	</select>
+	
+	<insert id="insert">
+	</insert>
+	
+	<update id="update">
+	</update>
+	-->
+	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
+	<!-- <update id="delete" parameterType="int">
+		UPDATE EX
+		SET deleted='yes'
+		WHERE num=#{param1}
+	</update> -->
+	
+</mapper>
