@@ -20,6 +20,8 @@ public interface AdOrderDao {
 
 	public int selectBoardTotCount4(String searchKeyword);  //기본검색 없이 검색
 	
-	public List<AdOrderDto> orderDetail(int orderNo);
+	public List<AdOrderDto> getorderDetail(int orderNo);
+	
+	public List<AdOrderDto> getpaymentDetail(int orderNo);
 	
 }

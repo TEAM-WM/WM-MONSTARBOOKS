@@ -43,11 +43,16 @@ public class AdOrderDetailService implements AdOrderService {
         AdOrderDao dao = sqlSession.getMapper(AdOrderDao.class);
 
         if (orderNo != 0) {
-          List<AdOrderDto> dto = dao.orderDetail(orderNo);
+            // 주문 상세 정보와 결제 정보를 각각 받아옴
+            List<AdOrderDto> orderDetailDto = dao.getorderDetail(orderNo);
+            List<AdOrderDto> paymentDetailDto = dao.getpaymentDetail(orderNo);
             
-            System.out.println("dto:"+dto);
-            // 주문 상세 정보를 모델에 추가
-            model.addAttribute("orderDetail", dto);
+            System.out.println("orderDetailDto:" + orderDetailDto);
+            System.out.println("paymentDetailDto:" + paymentDetailDto);
+            
+            // 각각의 정보를 model에 저장
+            model.addAttribute("orderDetail", orderDetailDto);
+            model.addAttribute("paymentDetail", paymentDetailDto);
         }
     }
 }

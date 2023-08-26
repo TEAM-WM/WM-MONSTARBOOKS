@@ -80,18 +80,21 @@
 		ORDER BY mo.orderno DESC
 		<!-- 주문 번호를 기준으로 내림차순 정렬 -->
 	</select>
-	
+
 	<!-- 페이징 -->
 	<select id="selectBoardTotCount1" resultType="Integer">
-		SELECT COUNT(*) FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%'
+		SELECT COUNT(*)
+		FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%'
 	</select>
 
 	<select id="selectBoardTotCount2" resultType="Integer">
-		SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'|| #{param1} || '%'
+		SELECT COUNT(*)
+		FROM M_MEMBER WHERE MID LIKE '%'|| #{param1} || '%'
 	</select>
 
 	<select id="selectBoardTotCount4" resultType="Integer">
-		SELECT COUNT(*) FROM M_ORDER
+		SELECT COUNT(*)
+		FROM M_ORDER
 	</select>
 
 
@@ -102,7 +105,7 @@
 
 	<!-- 주문번호가 1번인 상품이 몇개인가 카운트 하여 BOOKCOUNT로 받아 BOOKCOUNT가 1이상일시 ~~책 외 1권으로 
 		표시가능하게 SQL 문작성 -->
-	<select id="orderDetail"
+	<select id="getorderDetail"
 		resultType="com.monstar.books.adorder.dto.AdOrderDto">
 		SELECT
 		OD.ORDERNO AS orderNo,
@@ -125,6 +128,41 @@
 		M_BOOK B ON OD.BOOKNO = B.BOOKNO
 		WHERE OD.ORDERNO = #{param1}
 	</select>
+
+	<!-- 결제정보 받아오기 쿼리 필요 값은 m_order -->
+	<!-- 주문번호, 총상품의 가격 sum(판매가 * 수량) , 결제금액, 결제방법, 쿠폰이름 쿠폰의 유효성에 따라 할인 금액을 선택 
+		쿠폰이 유효하지 않으면 할인 금액 0 , 총삼품 가격에서 할인 금액 차감하여 최종결제 금액 계산 -->
+	<select id="getpaymentDetail"
+		resultType="com.monstar.books.adorder.dto.AdOrderDto">
+		SELECT
+		o.orderno,
+		SUM(od.opricesell * od.ocount) AS
+		totalAmount,
+		o.ototalprice,
+		o.opay AS paymentMethod, -- opay를
+		paymentMethod로 매핑
+		c.cpname AS couponName, -- cpname을 couponName으로 매핑
+		CASE
+		WHEN c.cpvalid >= SYSDATE THEN c.cpprice
+		ELSE 0
+		END AS
+		applied_coupon_price,
+		(SUM(od.opricesell * od.ocount) - CASE WHEN
+		c.cpvalid >= SYSDATE THEN c.cpprice ELSE 0
+		END) AS finalpay
+		FROM
+		m_order
+		o
+		LEFT JOIN m_coupon c ON o.cpno = c.cpno
+		JOIN m_order_detail od ON
+		o.orderno = od.orderno
+		WHERE
+		o.orderno = #{param1}
+		GROUP BY
+		o.orderno,
+		o.ototalprice, o.opay, c.cpname, c.cpvalid, c.cpprice
+	</select>
+
 
 
 
