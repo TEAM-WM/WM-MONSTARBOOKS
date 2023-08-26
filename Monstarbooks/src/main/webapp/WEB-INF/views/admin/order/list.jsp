@@ -33,7 +33,8 @@
 
 
 
-	<table border="1">
+
+	<table border="3" width="80%">
 		<tr>
 			<th>주문 번호</th>
 			<th>주문자</th>
@@ -50,10 +51,10 @@
 				<td>${order.memberName}&nbsp;(${order.memberId})</td>
 				<td>${order.orderDate}</td>
 				<td>${order.productName}</td>
-				<td>${order.productCount}</td>
-				<td>${order.totalAmount}</td>
+				<td>${order.productCount}권</td>
+				<td>${order.totalAmount}원</td>
 				<td>${order.orderStatus}</td>
-				<td><a href="/order/detail?orderNo=${order.orderNo}">상세보기</a></td>
+				<td><a href="detail?orderNo=${order.orderNo}">상세보기</a></td>
 			</tr>
 		</c:forEach>
 	</table>
