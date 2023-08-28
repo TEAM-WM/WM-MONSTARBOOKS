@@ -38,6 +38,14 @@ public class MemberController {
 		return "common/member/find";
 	}// list 종료
 
+	// 230828 리연 추가
+	// 회원가입 - 이용약관
+	@RequestMapping("/join/terms")
+	public String joinTearms() {
+		System.out.println(">>>회원가입 이용약관");
+		return "common/member/joinTerms";
+	}// list 종료
+	
 	// 230824 리연 추가
 	// 회원가입 폼
 	@RequestMapping("/join")
