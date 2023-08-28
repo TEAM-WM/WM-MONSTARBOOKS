@@ -337,6 +337,8 @@ input[type="file"] {
 .join{
 	padding-bottom: 50px;
 }
+
+/* 회원가입 스텝 */
 .step-list{
 	width:100%;
 	text-align:center;
@@ -384,4 +386,45 @@ input[type="file"] {
 }
 .step-list ul li:last-child::before{
 	content:none;
+}
+
+/* 회원가입 약관동의  */
+.terms{
+    margin-top: 30px;
+}
+.terms > div{
+	display:flex;
+	justify-content: space-between;
+	text-align:left;
+    gap: 10px;
+}
+.terms > div input[type="checkbox"]+label{
+    top: -4px;
+}
+.term-all-box{
+    border: 1px solid var(--color-gray);
+    border: solid 1px #ebebeb;
+    border-bottom-color: #d8d8d8;
+    border-right-color: #d8d8d8;
+    border-radius: 3px;
+    padding: 20px 10px;
+}
+.term-item-box{
+    border-bottom: 1px solid #ebebeb;
+    padding: 15px 10px;
+}
+
+.terms > div > div{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.term-item-box button{
+    font-size: 12px;
+    color: var(--color-main);
+    padding-top: 3px;
+}
+
+.terms input[type="submit"]{
+    margin-top:30px;
 }
