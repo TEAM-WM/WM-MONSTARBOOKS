@@ -83,7 +83,6 @@ public class AdOrderListService implements AdOrderService {
 		String mid = request.getParameter("memberId");
 		
 
-
 		if (pn != null) {
 			if (pn.equals("productName")) {
 				productName = pn;
@@ -108,8 +107,7 @@ public class AdOrderListService implements AdOrderService {
 		}
 
 
-
-		// 주문검색 (경우에 따라 4개의 경우의수로 총 갯수 구하기)
+		// 주문검색 페이징 (경우에 따라 3개의 경우로 총 갯수 구하기)
 		int total = 0;
 		if (productName.equals("productName") && memberId.equals("")) {
 			total = dao.selectBoardTotCount1(searchKeyword);
@@ -127,21 +125,33 @@ public class AdOrderListService implements AdOrderService {
 		int rowStart = searchvo.getRowStart();
 		int rowEnd = searchvo.getRowEnd();
 
-		//주문검색
-		ArrayList<AdOrderDto> getOrderList = null;
-		if (productName.equals("productName") && memberId.equals("")) {
-		    getOrderList = dao.getOrderListProductName(rowStart, rowEnd, searchKeyword);
-		} else if (productName.equals("") && memberId.equals("memberId")) {
-		    getOrderList = dao.getOrderListMemberId(rowStart, rowEnd, searchKeyword);
-		} else if (productName.equals("") && memberId.equals("")) {
-		    getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "4");
+		//주문검색 회원id 책제목 기본
+		// 배송상태 검색 값 받아오기
+		String searchDelivery = request.getParameter("searchDelivery");
+
+		if (searchDelivery != null && !searchDelivery.isEmpty() && !searchDelivery.equals("allProduct")) {
+		    // 배송 상태에 따라 필터링된 주문 목록 가져오기
+		    ArrayList<AdOrderDto> filteredOrderList = dao.getDeliveryStatus(rowStart, rowEnd, searchKeyword, searchDelivery);
+		    model.addAttribute("getOrderList", filteredOrderList);
+		    System.out.println("배송상황 필터링" + searchDelivery);
+		} else {
+		    // 배송상태 검색 값이 없으면 모든 목록 사용
+		    ArrayList<AdOrderDto> getOrderList = null;
+		    if (productName.equals("productName") && memberId.equals("")) {
+		        getOrderList = dao.getOrderListProductName(rowStart, rowEnd, searchKeyword);
+		    } else if (productName.equals("") && memberId.equals("memberId")) {
+		        getOrderList = dao.getOrderListMemberId(rowStart, rowEnd, searchKeyword);
+		    } else if (productName.equals("") && memberId.equals("")) {
+		        getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "4");
+		    }
+		    model.addAttribute("getOrderList", getOrderList);
+		    System.out.println("전체검색");
 		}
-		
-		model.addAttribute("getOrderList", getOrderList);
+
 		model.addAttribute("sk", searchKeyword);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVo", searchvo);
 
+
 	}
 }
-		
