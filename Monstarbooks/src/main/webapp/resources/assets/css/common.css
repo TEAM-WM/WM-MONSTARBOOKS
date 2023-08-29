@@ -136,13 +136,16 @@ input[type="file"] {
 
 /* 유효성 체크 */
 .form-sapn{
-	display: inline-block;
+	display: block;
     color: var(--color-main);
     font-size: 12px;
     padding: 0 0 0 5px;
     margin-bottom: 5px;
     position:relative;
     top:-8px;
+}
+.form-sapn.none{
+	display:none;
 }
 .form-sapn::before{
 	content: "▶";
