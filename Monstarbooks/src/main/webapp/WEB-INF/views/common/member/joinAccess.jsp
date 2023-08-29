@@ -15,8 +15,27 @@
 			<li class="active">가입완료</li>
 		</ul>
 	</div>
-	<i class="fa-solid fa-door-open"></i>
-	<h2>회원가입이 완료되었습니다.</h2>
-	${dto.mname }님 가입을 환영합니다.
+	<div class="join-success">
+		<i class="fa-solid fa-circle-check"></i>
+		<h2>회원가입이 완료되었습니다.</h2>
+		<h4>
+			<strong>
+				${dto.mname }
+			</strong>
+			님 가입을 환영합니다.
+		</h4>
+		<h6>
+			MONSTARBOOKS의 회원이 되신 것을 환영합니다!<br>
+			로그인하시면 더욱 다양한 서비스와 혜택을 제공받으실 수 있습니다.
+		</h6>
+		<div class="btn-wrap">
+			<button type="button" onclick="location.href='${pageContext.request.contextPath}/'">
+				메인으로
+			</button>
+			<button type="button" onclick="location.href='${pageContext.request.contextPath}/login'">
+				로그인
+			</button>
+		</div>
+	</div>
 </body>
 </html>
