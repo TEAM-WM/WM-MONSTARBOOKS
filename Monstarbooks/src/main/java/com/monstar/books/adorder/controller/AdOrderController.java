@@ -8,45 +8,61 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.monstar.books.adorder.sevice.AdOrderDetailService;
 import com.monstar.books.adorder.sevice.AdOrderListService;
 import com.monstar.books.adorder.sevice.AdOrderService;
+import com.monstar.books.adorder.sevice.AdupdateOrderStatusService;
 import com.monstar.books.vopage.SearchVo;
 
 @Controller
 public class AdOrderController {
-	
-	@Autowired
+
 	AdOrderService adorderservice;
-	
+
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	@RequestMapping("admin/order/list")
 	public String adorderList(HttpServletRequest request, Model model, SearchVo searchvo) {
-	    
-	    System.out.println("adorderList 호출");
-	    
-	    model.addAttribute("request", request);
-	    model.addAttribute("SearchVo", searchvo);
-	    
-	    adorderservice = new AdOrderListService(sqlSession);
-	    adorderservice.execute(model);
-	    
-	    
-	    return "/admin/order/list"; // 검색 결과를 표시하는 뷰 페이지로 이동
+
+		System.out.println("adorderList 호출");
+
+		model.addAttribute("request", request);
+		model.addAttribute("SearchVo", searchvo);
+
+		adorderservice = new AdOrderListService(sqlSession);
+		adorderservice.execute(model);
+
+		return "/admin/order/list"; // 검색 결과를 표시하는 뷰 페이지로 이동
+	}
+
+	@RequestMapping("admin/order/detail")
+	public String adorderdetail(HttpServletRequest request, Model model) {
+		System.out.println("adorderdetail 호출");
+
+		model.addAttribute("request", request);
+
+		adorderservice = new AdOrderDetailService(sqlSession);
+		adorderservice.execute(model);
+
+		return "/admin/order/detail";
 	}
 	
-	/*
-	 * @RequestMapping("/adorder/adorderdetail") public String
-	 * adorderdetail(HttpServletRequest request, Model model) {
-	 * System.out.println("adorderdetail 호출");
-	 * 
-	 * model.addAttribute("request",request); adorderservice = new
-	 * AdOrderListService(sqlSession); adorderservice.execute(model);
-	 * 
-	 * return "admin/adorder/orderdetail"; }
-	 */
+
+	@RequestMapping("/admin/order/adupdateOrderStatus") // 주문 상황 업데이트
+	public String adupdateOrderStatus(HttpServletRequest request, Model model) {
+	    System.out.println("adupdateOrderStatus 호출");
+	    
+	    model.addAttribute("request", request);
+
+	    // adupdateOrderStatusService 생성
+	    adorderservice = new AdupdateOrderStatusService(sqlSession);
+
+	    // execute 메소드에 orderNo와 newStatus를 전달
+	    adorderservice.execute(model);
+
+	    return "redirect:/admin/order/list";
+	}
 
 
 }

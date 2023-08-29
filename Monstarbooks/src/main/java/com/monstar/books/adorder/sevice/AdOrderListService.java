@@ -6,12 +6,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.adorder.dao.AdOrderDao;
 import com.monstar.books.adorder.dto.AdOrderDto;
 import com.monstar.books.vopage.SearchVo;
+
 
 @Service
 public class AdOrderListService implements AdOrderService {
@@ -24,7 +26,7 @@ public class AdOrderListService implements AdOrderService {
 
 	@Override
 	public void execute(Model model) {
-		System.out.println(">>AdOrderService");
+		System.out.println(">>AdOrderListService");
 
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = 
@@ -52,8 +54,6 @@ public class AdOrderListService implements AdOrderService {
 		
 		// brdtitle : 사용자가 선택한 검색 필드(도서명 또는 주문자(회원id))
 		String[] brdtitle = request.getParameterValues("searchType");
-		System.out.println("brdtitle : " + brdtitle);
-		//출력되는지 확인
 
 		if (brdtitle != null) {
 			for (int i = 0; i < brdtitle.length; i++) {
@@ -68,12 +68,12 @@ public class AdOrderListService implements AdOrderService {
 				if (val.equals("productName")) {// 도서명 검색
 					model.addAttribute("productName", "true"); // 검색 체크 유지
 					productName = "productName";
-					System.out.println("도서명 검색:"+productName);
+					
 
 				} else if (val.equals("memberId")) { // 주문자 (회원 id) 검색
 					model.addAttribute("memberId", "true"); // 검색 체크 유지
 					memberId = "memberId";
-					System.out.println("주문자 검색:"+memberId);
+					
 				}
 			}
 		}
@@ -82,7 +82,6 @@ public class AdOrderListService implements AdOrderService {
 		String pn = request.getParameter("productName");
 		String mid = request.getParameter("memberId");
 		
-
 
 		if (pn != null) {
 			if (pn.equals("productName")) {
@@ -104,20 +103,16 @@ public class AdOrderListService implements AdOrderService {
 		System.out.println("sk값이 잘 오나 :"+searchKeyword);
 		if (searchKeyword == null) {
 			searchKeyword = "";
-	//		model.addAttribute("sk", searchKeyword);
 			System.out.println("검색어 (sk) " + searchKeyword);
 		}
 
 
-
-		// 주문검색 (경우에 따라 4개의 경우의수로 총 갯수 구하기)
+		// 주문검색 페이징 (경우에 따라 3개의 경우로 총 갯수 구하기)
 		int total = 0;
 		if (productName.equals("productName") && memberId.equals("")) {
 			total = dao.selectBoardTotCount1(searchKeyword);
 		} else if (productName.equals("") && memberId.equals("memberId")) {
 			total = dao.selectBoardTotCount2(searchKeyword);
-		} else if (productName.equals("productName") && memberId.equals("memberno")) {
-			total = dao.selectBoardTotCount3(searchKeyword);
 		} else if(productName.equals("")&&memberId.equals("")) {
 			total= dao.selectBoardTotCount4(searchKeyword);
 		}
@@ -125,35 +120,38 @@ public class AdOrderListService implements AdOrderService {
 		System.out.println("totcnt :" + total);
 		searchvo.pageCalculate(total);
 
-//		// 계산결과들 출력
-//		System.out.println("totrow:" + total);
-//		System.out.println("clickpage:" + searchvo.getPage());
-//		System.out.println("pageStart:" + searchvo.getPageStart());
-//		System.out.println("pageEnd:" + searchvo.getPageEnd());
-//		System.out.println("pageTot:" + searchvo.getTotPage());
-//		System.out.println("rowStart:" + searchvo.getRowStart());
-//		System.out.println("rowEnd:" + searchvo.getRowEnd());
 
 		// pageVO에 정의해둔 페이징 글 번호 전달
 		int rowStart = searchvo.getRowStart();
 		int rowEnd = searchvo.getRowEnd();
 
-		ArrayList<AdOrderDto> getOrderList = null;
-		if (productName.equals("productName") && memberId.equals("")) {
-		    getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "1");
-		} else if (productName.equals("") && memberId.equals("memberId")) {
-		    getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "2");
-		} else if (productName.equals("productName") && memberId.equals("memberId")) {
-		    getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "3");
-		} else if (productName.equals("") && memberId.equals("")) {
-		    getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "4");
+		//주문검색 회원id 책제목 기본
+		// 배송상태 검색 값 받아오기
+		String searchDelivery = request.getParameter("searchDelivery");
+
+		if (searchDelivery != null && !searchDelivery.isEmpty() && !searchDelivery.equals("allProduct")) {
+		    // 배송 상태에 따라 필터링된 주문 목록 가져오기
+		    ArrayList<AdOrderDto> filteredOrderList = dao.getDeliveryStatus(rowStart, rowEnd, searchKeyword, searchDelivery);
+		    model.addAttribute("getOrderList", filteredOrderList);
+		    System.out.println("배송상황 필터링" + searchDelivery);
+		} else {
+		    // 배송상태 검색 값이 없으면 모든 목록 사용
+		    ArrayList<AdOrderDto> getOrderList = null;
+		    if (productName.equals("productName") && memberId.equals("")) {
+		        getOrderList = dao.getOrderListProductName(rowStart, rowEnd, searchKeyword);
+		    } else if (productName.equals("") && memberId.equals("memberId")) {
+		        getOrderList = dao.getOrderListMemberId(rowStart, rowEnd, searchKeyword);
+		    } else if (productName.equals("") && memberId.equals("")) {
+		        getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "4");
+		    }
+		    model.addAttribute("getOrderList", getOrderList);
+		    System.out.println("전체검색");
 		}
 
-		model.addAttribute("getOrderList", getOrderList);
 		model.addAttribute("sk", searchKeyword);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVo", searchvo);
 
+
 	}
 }
-		
