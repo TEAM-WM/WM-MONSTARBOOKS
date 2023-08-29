@@ -14,7 +14,7 @@
 					<li>가입완료</li>
 				</ul>
 			</div>
-			<form action="${pageContext.request.contextPath}/join/termsAccess" method="post" class="terms left">
+			<form action="${pageContext.request.contextPath}/join" method="post" class="terms left">
 				<div class="term-all-box">
 					<div>
 						<input type="checkbox" name="termsAll" id="termsAll" value="전체선택"/>
