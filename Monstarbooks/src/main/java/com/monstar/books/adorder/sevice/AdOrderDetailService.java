@@ -46,13 +46,16 @@ public class AdOrderDetailService implements AdOrderService {
             // 주문 상세 정보와 결제 정보를 각각 받아옴
             List<AdOrderDto> orderDetailDto = dao.getorderDetail(orderNo);
             List<AdOrderDto> paymentDetailDto = dao.getpaymentDetail(orderNo);
+            List<AdOrderDto> productDetailDto = dao.getproductDetail(orderNo);
             
             System.out.println("orderDetailDto:" + orderDetailDto);
             System.out.println("paymentDetailDto:" + paymentDetailDto);
+            System.out.println("productDetailDto" +productDetailDto);
             
             // 각각의 정보를 model에 저장
             model.addAttribute("orderDetail", orderDetailDto);
             model.addAttribute("paymentDetail", paymentDetailDto);
+            model.addAttribute("productDetail",productDetailDto);
         }
     }
 }
