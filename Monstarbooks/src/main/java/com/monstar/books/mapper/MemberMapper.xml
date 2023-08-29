@@ -21,5 +21,12 @@
 	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 -->
 	<!-- <update id="delete" parameterType="int"> UPDATE EX SET deleted='yes' 
 		WHERE num=#{param1} </update> -->
-
+	
+	<!-- 아이디 체크 -->
+	<!-- 아이디 중복 체크 -->
+	<select id="isExist" parameterType="string" resultType="string">
+		SELECT mid
+		FROM M_MEMBER
+		WHERE mid=#{inputId}
+	</select>
 </mapper>

@@ -11,7 +11,7 @@
 		<div class="global-header-container">
 			<div class="global-service-list">
 				<ul>
-					<li><a href="${pageContext.request.contextPath}/join/"> 회원가입 </a></li>
+					<li><a href="${pageContext.request.contextPath}/join/terms"> 회원가입 </a></li>
 					<li><a href="${pageContext.request.contextPath}/login/"> 로그인 </a></li>
 					<li><a href="#"> 고객센터 </a></li>
 				</ul>

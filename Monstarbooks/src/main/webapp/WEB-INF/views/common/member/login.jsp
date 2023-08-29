@@ -21,7 +21,7 @@
 		<input type="password" name="pw" placeholder="비밀번호를 입력해주세요" id="pw">
 		<span class="valid-check">아이디 또는 비밀번호를 확인해주세요.</span>
 			<input type="submit" value="로그인">
-			<input type="button" value="회원가입" onclick="location.href='${pageContext.request.contextPath}/join';">
+			<input type="button" value="회원가입" onclick="location.href='${pageContext.request.contextPath}/join/terms';">
 		<div class="login-text-wrap">
 			<div class="login-save">
 				<input type="checkbox" name="idchk" id="idchk"> <label

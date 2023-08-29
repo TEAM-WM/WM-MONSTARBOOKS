@@ -59,9 +59,17 @@ public class MemberInsertService implements MemberService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		 // 배열을 쉼표로 구분된 문자열로 변환
-	    String mfavorite = String.join(",", favoriteArray);
-	    System.out.println("변환된 선호장르 : "+mfavorite);
+		String mfavorite=null;
+		if (favoriteArray != null) {
+		    System.out.println(Arrays.toString(favoriteArray));
+		    // 배열을 쉼표로 구분된 문자열로 변환
+		    mfavorite = String.join(",", favoriteArray);
+		    System.out.println("변환된 선호장르 : " + mfavorite);
+		} else {
+			mfavorite = "";
+		    System.out.println("선호장르가 선택되지 않았습니다.");
+		}
+		
 		// 스프링 시큐리티로 암호화 하기
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPwd = encoder.encode(inputPwd);
