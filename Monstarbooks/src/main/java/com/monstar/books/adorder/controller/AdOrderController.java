@@ -22,7 +22,7 @@ public class AdOrderController {
 	@Autowired
 	private SqlSession sqlSession;
 
-	@RequestMapping("admin/order/list")
+	@RequestMapping("/admin/order/list")
 	public String adorderList(HttpServletRequest request, Model model, SearchVo searchvo) {
 
 		System.out.println("adorderList 호출");
@@ -33,8 +33,8 @@ public class AdOrderController {
 		adorderservice = new AdOrderListService(sqlSession);
 		adorderservice.execute(model);
 
-		return "/admin/order/list"; // 검색 결과를 표시하는 뷰 페이지로 이동
-	}
+		return "admin/order/list"; // 검색 결과를 표시하는 뷰 페이지로 이동
+	}// 주문관리목록
 
 	@RequestMapping("admin/order/detail")
 	public String adorderdetail(HttpServletRequest request, Model model) {
@@ -45,10 +45,9 @@ public class AdOrderController {
 		adorderservice = new AdOrderDetailService(sqlSession);
 		adorderservice.execute(model);
 
-		return "/admin/order/detail";
-	}
+		return "admin/order/detail";
+	}//주문관리 상세
 	
-
 	@RequestMapping("/admin/order/adupdateOrderStatus") // 주문 상황 업데이트
 	public String adupdateOrderStatus(HttpServletRequest request, Model model) {
 	    System.out.println("adupdateOrderStatus 호출");
@@ -62,7 +61,5 @@ public class AdOrderController {
 	    adorderservice.execute(model);
 
 	    return "redirect:/admin/order/list";
-	}
-
-
-}
+	}//주문상황 종료
+}//class
