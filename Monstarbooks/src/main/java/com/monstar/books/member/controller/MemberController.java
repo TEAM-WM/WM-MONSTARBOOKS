@@ -1,5 +1,7 @@
 package com.monstar.books.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.monstar.books.member.sevice.MemberIDCheckService;
 import com.monstar.books.member.sevice.MemberInsertService;
 import com.monstar.books.member.sevice.MemberListService;
 import com.monstar.books.member.sevice.MemberService;
+import com.monstar.books.member.sevice.MemberServiceMap;
 
 //@RequestMapping("/user/*")
 @Controller
@@ -18,7 +24,8 @@ public class MemberController {
 
 	@Autowired
 	MemberService service;
-
+	MemberServiceMap serviceMap;
+	
 	@Autowired
 	private SqlSession session;
 
@@ -71,11 +78,14 @@ public class MemberController {
 		service.execute(model);
 		return "admin/member/list";
 	}
-//	// 아이디가 중복확인 기능 : 아이디 존재 여부 요청 처리
-//	@RequestMapping("/member/checkid")
-//	@ResponseBody
-//	public Map<String, Object> checkid(@RequestParam String inputId) {
-//		// boolean값 들어있는 Map 객체 리턴
-//		return usersService.isExistId(inputId);
-//	}
+	
+	// 아이디 중복확인 기능 : 아이디 존재 여부 요청 처리
+	@RequestMapping("/member/checkid")
+	@ResponseBody
+	public Map<String, Object> checkid(HttpServletRequest request,Model model) {
+		// boolean값 들어있는 Map 객체 리턴
+		serviceMap = new MemberIDCheckService(session);
+		model.addAttribute("id", request.getParameter("inputId"));
+		return serviceMap.execute(model);
+	}
 }// class 종료
