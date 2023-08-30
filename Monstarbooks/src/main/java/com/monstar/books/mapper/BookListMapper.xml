@@ -1,0 +1,116 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!-- 230822 / 진성 추가 -->
+<mapper namespace="com.monstar.books.booklist.dao.BookListDao">
+
+	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Detail">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BCATEGORYNO" property="bcategoryno"/>
+		<result column="BIMG" property="bimg"/>
+		<result column="BIMGDETAIL" property="bimgdetail"/>
+		<result column="BDESCRIPTION" property="bdescription"/>
+		<result column="BPAGE" property="bpage"/>
+		<result column="BSIZE" property="bsize"/>
+		<result column="BADGE" property="badge"/>
+		<result column="BPDATE" property="bpdate"/>
+	</resultMap>
+	<resultMap type="com.monstar.books.booklist.dto.BookListDto" id="List">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BTITLE" property="btitle"/>
+		<result column="BSUBTITLE" property="bsubtitle"/>
+		<result column="BWRITER" property="bwriter"/>
+		<result column="BTRANSLATOR" property="btranslator"/>
+		<result column="BPUBLISHER" property="bpublisher"/>
+		<result column="BPDATE" property="bpdate"/>
+		<result column="BPRICE" property="bprice"/>
+		<result column="BPRICESELL" property="bpricesell"/>
+		<result column="BDISCOUNT" property="bdiscount"/>
+		<result column="BISBN" property="bisbn"/>
+		<result column="BSTATUS" property="bstatus"/>
+		<result column="BCDATE" property="bcdate"/>
+		<result column="BMDATE" property="bmdate"/>
+		<collection property="detail" resultMap="Detail"></collection>
+		<collection property="category" resultMap="Category"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.BookCategoryDto" id="Category">
+		<result column="BCATEGORYNO" property="bcategoryno"/>
+		<result column="BCATEGORY1" property="bcategory1"/>
+		<result column="BCATEGORY2" property="bcategory2"/>
+		<result column="category" property="Category"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.BookReviewDto" id="Review">
+		<result column="REVIEWNO" property="reviewno"/>
+		<result column="BOOKNO" property="bookno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="RTITLE" property="rtitle"/>
+		<result column="RCONTENT" property="rcontent"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="RSTAR" property="rstar"/>
+		<result column="REFILESRC" property="refilesrc"/>
+		<result column="DELETED" property="deleted"/>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+	</resultMap>
+	
+	
+	<!-- 리스트 -->
+	<select id="list" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,
+		B.BPRICESELL,B.BDISCOUNT FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO
+	</select>
+	
+	<!-- 전체페이지 -->
+	<select id="TotCount" resultType="Integer">
+		SELECT COUNT(*) FROM M_BOOK
+	</select>
+	
+	<!-- 도서 상세페이지 -->
+	<select id="bookDetail" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		<!-- SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,
+		B.BPDATE,B.BPRICE,B.BPRICESELL,B.BDISCOUNT,B.BISBN,
+		D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE
+		FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO AND B.BOOKNO = #{param1} -->
+		SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,B.BPDATE,B.BPRICE,
+		B.BPRICESELL,B.BDISCOUNT,B.BISBN,
+		D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE,
+		C.BCATEGORY1,C.BCATEGORY2
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO 
+		AND D.BCATEGORYNO = C.BCATEGORYNO
+		AND B.BOOKNO=#{param1}
+	</select>
+	
+	<!-- 리뷰 조회 -->		
+	<select id="bookReivew" parameterType="com.monstar.books.booklist.dto.BookReviewDto" resultMap="Review">
+		SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
+		M.MID
+		FROM M_REVIEW R,M_MEMBER M
+		WHERE R.MEMBERNO = M.MEMBERNO
+		AND BOOKNO= #{param1}
+	</select>
+
+	<!-- 별점 평균 -->
+	<select id="starAvg" resultType="Float">
+		SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW WHERE BOOKNO=#{param1}
+	</select>
+	
+	<!-- 리뷰 전체 수 조회 -->
+	<select id="reviewCnt" resultType="Integer">
+		SELECT COUNT(REVIEWNO) FROM M_REVIEW WHERE BOOKNO=#{param1}
+	</select>
+	
+	<!-- 별점 차트 -->
+	<select id="starChart" resultType="com.monstar.books.booklist.dto.BookReviewDto">
+		SELECT RSTAR, COUNT(*) STARCNT FROM M_REVIEW WHERE BOOKNO=#{param1} 
+		GROUP BY RSTAR ORDER BY RSTAR
+	</select>
+	
+</mapper>

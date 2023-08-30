@@ -83,12 +83,11 @@ input[type="submit"] {
     color: var(--color-white);
 }
 
-input[type="button"] {
+input[type="button"],button {
     background-color: var(--color-white);
     font-weight: var(--weight-bold);
     color: var(--color-main);
     border-color: var(--color-main);
-
 }
 
 input[type="checkbox"] {
@@ -136,13 +135,16 @@ input[type="file"] {
 
 /* 유효성 체크 */
 .form-sapn{
-	display: inline-block;
+	display: block;
     color: var(--color-main);
     font-size: 12px;
     padding: 0 0 0 5px;
     margin-bottom: 5px;
     position:relative;
     top:-8px;
+}
+.form-sapn.none{
+	display:none;
 }
 .form-sapn::before{
 	content: "▶";
@@ -337,6 +339,8 @@ input[type="file"] {
 .join{
 	padding-bottom: 50px;
 }
+
+/* 회원가입 스텝 */
 .step-list{
 	width:100%;
 	text-align:center;
@@ -384,4 +388,87 @@ input[type="file"] {
 }
 .step-list ul li:last-child::before{
 	content:none;
+}
+
+/* 회원가입 약관동의  */
+.terms{
+    margin-top: 30px;
+}
+.terms > div{
+	display:flex;
+	justify-content: space-between;
+	text-align:left;
+    gap: 10px;
+}
+.terms > div input[type="checkbox"]+label{
+    top: -4px;
+}
+.term-all-box{
+    border: 1px solid var(--color-gray);
+    border: solid 1px #ebebeb;
+    border-bottom-color: #d8d8d8;
+    border-right-color: #d8d8d8;
+    border-radius: 3px;
+    padding: 20px 10px;
+}
+.term-item-box{
+    border-bottom: 1px solid #ebebeb;
+    padding: 15px 10px;
+}
+
+.terms > div > div{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.term-item-box button{
+    font-size: 12px;
+    color: var(--color-main);
+    padding-top: 3px;
+}
+
+.terms input[type="submit"]{
+    margin-top:30px;
+}
+
+/* 회원가입 성공 */
+.join-success{
+    margin-top:40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.join-success i{
+    color: var(--color-main);
+    font-size: 60px;
+}
+.join-success strong{
+    color: var(--color-main);
+}
+.join-success h6{
+    font-size: var(--font-regular);
+    font-weight: var(--weight-regular);
+    line-height: 1.5em;
+}
+.btn-wrap{
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.btn-wrap button{
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    border-radius: 5px;
+    font-size: var(--font-regular);
+    border: 1px solid var(--color-main);
+    transition: border 300ms ease-in-out;
+}
+.btn-wrap button:first-child{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    border: none;
 }

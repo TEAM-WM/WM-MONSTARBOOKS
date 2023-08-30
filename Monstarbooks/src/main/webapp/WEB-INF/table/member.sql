@@ -20,3 +20,7 @@ select * from m_member;
 
 commit;
 INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'admin', '1234', '1999-07-04','김리연','liyeon@kakao.com','01000000000',sysdate,null,null,'관리자','no');
+
+SELECT mid
+FROM M_MEMBER
+WHERE mid='admin';
