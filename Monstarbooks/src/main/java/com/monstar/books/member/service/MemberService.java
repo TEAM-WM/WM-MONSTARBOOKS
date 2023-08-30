@@ -1,4 +1,4 @@
-package com.monstar.books.member.sevice;
+package com.monstar.books.member.service;
 
 import org.springframework.ui.Model;
 
