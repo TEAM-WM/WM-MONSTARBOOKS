@@ -1,21 +1,32 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
 <!-- 230824 / 리연 추가 -->
 <mapper namespace="com.monstar.books.member.dao.MemberDao">
 
-	<!-- <select id="list" resultType="com.monstar.books.ex.dto.MemberDto"> 
-		SELECT * FROM EX </select> -->
+	<select id="list" resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT * FROM M_MEMBER ORDER BY MEMBERNO DESC
+	</select>
 
 	<!-- <select id="detail"> </select> <update id="update"> </update> -->
 
+	<!-- 처음 가입시 사용자 -->
 	<insert id="insert">
-		INSERT INTO m_member
-		VALUES(m_member_seq.NEXTVAL,#{mid}, #{mpw},
-		#{mbirth},#{mname},#{memail},#{mtel},SYSDATE,null,null,'관리자','no')
+		INSERT INTO M_MEMBER
+		VALUES(M_MEMBER_SEQ.NEXTVAL,#{mid}, #{mpw},
+		#{mbirth},#{mname},#{memail},#{mtel},SYSDATE,NULL,#{mfavorite},'사용자','no')
 	</insert>
 	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 -->
 	<!-- <update id="delete" parameterType="int"> UPDATE EX SET deleted='yes' 
 		WHERE num=#{param1} </update> -->
-
+	
+	<!-- 아이디 체크 -->
+	<!-- 아이디 중복 체크 -->
+	<select id="isExist" parameterType="string" resultType="string">
+		SELECT mid
+		FROM M_MEMBER
+		WHERE mid=#{inputId}
+	</select>
 </mapper>
