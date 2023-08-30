@@ -4,59 +4,118 @@
 
 <mapper namespace="com.monstar.books.product.dao.ProductDao">
 
-	<!-- <select id="list" resultType="com.monstar.books.product.dto.BookDto">
-		SELECT BOOKNO, BTITLE, BPUBLISHER, BWRITER, BPRICE,BSTATUS, BCDATE,
-			 BMDATE, BSTOCK, BSTOCK 
-		FROM M_BOOK
-	</select> -->
-	
-	<resultMap type="com.monstar.books.product.dto.BookDetailDto" id="BookDetail">
+<!-- 	<resultMap type="com.monstar.books.product.dto.BookDetailDto" id="BookDetailDto">
 		<result column = "BOOKNO" property="bookno" />
 		<result column = "BCATEGORYNO" property="bcategoryno" />
 		<result column = "BIMG" property="bimg" />
 		<result column = "BIMGDETAIL" property="bimgdetail" />
 		<result column = "BDESCRIPTION" property="bdescription" />
 		<result column = "BPAGE" property="bpage" />
-		<result column = "BESIZE" property="besize" />
+		<result column = "BSIZE" property="bsize" />
 		<result column = "BADGE" property="badge" />
 		<result column = "BPDATE" property="bpdate" />
-		
 	</resultMap>
-	<resultMap type="com.monstar.books.product.dto.BookDto" id="Book">
+	<resultMap type="com.monstar.books.product.dto.BookDto" id="BookDto">
 		<result column = "BOOKNO" property="bookno" />
-		<result column = "btitle" property="btitle" />
-		<result column = "bsubtitle" property="bsubtitle" />
-		<result column = "bwriter" property="bwriter" />
-		<result column = "btranslator" property="btranslator" />
-		<result column = "bpublisher" property="bpublisher" />
-		<result column = "bpdate" property="bpdate" />
-		<result column = "bprice" property="bprice" />
-		<result column = "bpricesell" property="bpricesell" />
-		<result column = "bdiscount" property="bdiscount" />
-		<result column = "bisbn" property="bisbn" />
-		<result column = "bstatus" property="bstatus" />
-		<result column = "bcdate" property="bcdate" />
-		<result column = "bmdate" property="bmdate" />
-		<result column = "bstock" property="bstock" />
+		<result column = "BTITLE" property="btitle" />
+		<result column = "BSUBTITLE" property="bsubtitle" />
+		<result column = "BWRITER" property="bwriter" />
+		<result column = "BTRANSLATOR" property="btranslator" />
+		<result column = "BPUBLISHER" property="bpublisher" />
+		<result column = "BPDATE" property="bpdate" />
+		<result column = "BPRICE" property="bprice" />
+		<result column = "BPRICESELL" property="bpricesell" />
+		<result column = "BDISCOUNT" property="bdiscount" />
+		<result column = "BISBN" property="bisbn" />
+		<result column = "BSTATUS" property="bstatus" />
+		<result column = "BCDATE" property="bcdate" />
+		<result column = "BMDATE" property="bmdate" />
+		<result column = "BSTOCK" property="bstock" />
 		<collection property="bookDetailDto" resultMap="BookDetailDto" ></collection>
+	</resultMap> -->
 		
+	
+	<resultMap type="com.monstar.books.product.dto.BookCategoryDto" id="BookCategoryDto">
+		<result column = "BCATEGORYNO" property="bcategoryno" />
+		<result column = "BCATEGORY1" property="bcategory1" />
+		<result column = "BCATEGORY2" property="bcategory2" />			
+	</resultMap>
+	<resultMap type="com.monstar.books.product.dto.BookDetailDto" id="BookDetailDto">
+		<result column = "BOOKNO" property="bookno" />
+		<result column = "BCATEGORYNO" property="bcategoryno" />
+		<result column = "BIMG" property="bimg" />
+		<result column = "BIMGDETAIL" property="bimgdetail" />
+		<result column = "BDESCRIPTION" property="bdescription" />
+		<result column = "BPAGE" property="bpage" />
+		<result column = "BSIZE" property="bsize" />
+		<result column = "BPDATE" property="bpdate" />
+		<!-- <result column = "BADGE" property="badge" /> -->
+	</resultMap>
+	<resultMap type="com.monstar.books.product.dto.BookDto" id="BookDto">
+		<result column = "BOOKNO" property="bookno" />
+		<result column = "BISBN" property="bisbn" />
+		<result column = "BTITLE" property="btitle" />
+		<result column = "BSUBTITLE" property="bsubtitle" />
+		<result column = "BPUBLISHER" property="bpublisher" />
+		<result column = "BWRITER" property="bwriter" />
+		<result column = "BTRANSLATOR" property="btranslator" />
+		<result column = "BPDATE" property="bpdate" />
+		<result column = "BPRICE" property="bprice" />
+		<result column = "BPRICESELL" property="bpricesell" />
+		<result column = "BDISCOUNT" property="bdiscount" />
+		<result column = "BSTATUS" property="bstatus" />
+		<result column = "BCDATE" property="bcdate" />
+		<result column = "BMDATE" property="bmdate" />
+		<result column = "BSTOCK" property="bstock" />
+		<collection property="bookDetailDto" resultMap="BookDetailDto" ></collection>
+		<collection property="bookCategoryDto" resultMap="BookCategoryDto" ></collection>
 	</resultMap>
 	
-	<select id="list" resultType="com.monstar.books.product.dto.BookDto">
+	<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
 		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
 		ON B.BOOKNO = BD.BOOKNO
 	</select>
-	
-	<!-- <select id="detail">
+		
+	<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+		SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
+			B.BPRICE, B.BPRICESELL, B.BDISCOUNT, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, 
+    		BD.BOOKNO, BD.BCATEGORYNO, BD.BIMG, BD.BIMGDETAIL, BD.BDESCRIPTION, BD.BPAGE, BD.BSIZE, BD.BPDATE, 
+    		BC.BCATEGORYNO, BC.BCATEGORY1, BC.BCATEGORY2
+		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+		ON B.BOOKNO = BD.BOOKNO
+		JOIN M_BOOK_CATEGORY BC
+		ON BD.BCATEGORYNO = BC.BCATEGORYNO
+		WHERE B.BOOKNO = #{param1}
 	</select>
-	
-	<insert id="insert">
+		
+	<insert id="insertBook">
+		INSERT INTO M_BOOK(BOOKNO, BISBN, BTITLE, BSUBTITLE, BPUBLISHER, BWRITER, BTRANSLATOR,
+		BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
+		VALUES(M_BOOK_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
+		#{param7}, #{param8}, #{param9}, #{param10}, #{param11}, SYSDATE, NULL, #{param12})
 	</insert>
 	
-	<update id="update">
-	</update>
-	-->
+	<select id="selectCategory" resultType="com.monstar.books.product.dto.BookCategoryDto">
+		SELECT * FROM M_BOOK_CATEGORY
+	</select>
+		
+<!-- 	<insert id="insertBookCategory">
+		
+	</insert>
+	
+	<insert id="insertBookDetail">
+		
+	</insert>
+	
+	<insert id="insertBookAllData">
+		
+	</insert> -->
+		
+	<!-- <update id="update">
+		
+	</update> -->
+	
 	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
 	<!-- <update id="delete" parameterType="int">
 		UPDATE EX
