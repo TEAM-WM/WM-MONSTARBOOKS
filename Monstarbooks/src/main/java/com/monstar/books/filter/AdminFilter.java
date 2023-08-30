@@ -30,10 +30,11 @@ public class AdminFilter implements Filter{
 		HttpSession session = req.getSession();
 		//로그인된 아이디가 있는지 얻어와본다.
 		String id=(String)session.getAttribute("id");
-		
+		//세션에 저장된 권한 얻어오기
+		String auth=(String)session.getAttribute("auth");
 		if(id != null) {
 			
-			if(id.equals("admin")) { //로그인된 상태
+			if(auth.equals("관리자")) { //로그인된 상태
 				//요청의 흐름 계속 진행시키기
 				chain.doFilter(request, response);
 			}else{

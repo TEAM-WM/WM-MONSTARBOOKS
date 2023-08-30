@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 //필터링할 요청 경로를 배열로 여러개 지정 할 수 있다.
 @WebFilter({"/common/myprofile/myprofile_list"})
 public class LoginFilter implements Filter{
-
 	@Override
 	public void destroy() {}
 
@@ -37,6 +36,7 @@ public class LoginFilter implements Filter{
 		if(id !=null) {//로그인된 상태
 			//요청의 흐름을 이어간다.
 			chain.doFilter(request, response);
+			
 		}else {//로그인 안 된 상태
 			//원래 가려던 url정보 읽어오기
 			String url = req.getRequestURI();
@@ -48,11 +48,12 @@ public class LoginFilter implements Filter{
 			String encodedUrl=null;
 			if(query==null) {//전송 파라미터가 없다면
 				encodedUrl = URLEncoder.encode(url);
-				
-				
 			}else {
 				encodedUrl=URLEncoder.encode(url+"?"+query);
 			}
+			// 이전에 읽어온 경로를 세션에 저장
+		    session.setAttribute("requestedUrl", encodedUrl);
+		    
 			//로그인 폼으로 리다이렉트 이동하라고 응답
 			HttpServletResponse res = (HttpServletResponse)response;
 			String cPath = req.getContextPath();
