@@ -5,6 +5,9 @@ import java.sql.Date;
 public class MyOrderDto {
 	
 	private Date orderDate;   //주문날자
+	private Date orderDatedFormatted;  //주문날짜 형식변경
+	
+	private int OrderNo;
 	private String orderStatus;   //주문상태
 	private String category1;   //상위 카테고리
 	private	String productCount;  //상품수량 -> 책 수량
@@ -12,8 +15,36 @@ public class MyOrderDto {
 	private String productName; //상품이름 -> 책 이름
 	private String memberId; //회원 id
 	private String orderNO; //주문번호
+	private String totalAmount; //총 상품가격 (sum(od.pricesell * od.ocount)
+	private String productImage;  //책이미지 저장
+	
+	public int getOrderNo() {
+		return OrderNo;
+	}
+	public void setOrderNo(int orderNo) {
+		OrderNo = orderNo;
+	}
+	
+	public Date getOrderDatedFormatted() {
+		return orderDatedFormatted;
+	}
+	public void setOrderDatedFormatted(Date orderDatedFormatted) {
+		this.orderDatedFormatted = orderDatedFormatted;
+	}
 	
 	
+	public String getProductImage() {
+		return productImage;
+	}
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
+	}
+	public String getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	public String getMemberId() {
 		return memberId;
 	}

@@ -4,20 +4,22 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.monstar.books.adorder.dao.AdOrderDao">
+<mapper namespace="com.monstar.books.mypage.dao.MyOrderDao">
 
 	<!--주문목록 가져오기 -->
 	<select id="getDeliverStatus"
 		resultType="com.monstar.books.mypage.dto.MyOrderDto">
 		SELECT
-		o.oorderdate AS orderDate,
+		od.oregdate AS orderDate,
 		o.ostatus AS orderStatus,
 		bc.bcategory1 AS category1,
 		od.ocount AS productCount,
 		od.opricesell AS productPrice,
+		(od.opricesell * od.ocount) AS totalAmount, -- 추가: 상품 총 가격 계산
 		b.btitle AS productName,
 		m.mid AS memberId,
-		o.orderno AS orderNO
+		o.orderno AS orderNO,
+		bd.bimg AS productImage -- 추가: 상품 이미지
 		FROM
 		m_order o
 		JOIN
@@ -27,9 +29,15 @@
 		JOIN
 		m_member m ON o.memberno = m.memberno
 		JOIN
-		m_book_category bc ON b.bcategoryno = bc.bcategoryno
+		m_book_detail bd ON od.bookno = bd.bookno
+		JOIN
+		m_book_category bc ON bd.bcategoryno = bc.bcategoryno
 		WHERE
-		m.memberId =#{param1};
+		m.mid = 'user1' -- 변경: 파라미터를 사용한 동적 쿼리
+		ORDER BY
+		orderDate DESC
+
+		<!-- #{param1}; -->
 	</select>
 
 </mapper>
