@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +12,32 @@
 		<div class="global-header-container">
 			<div class="global-service-list">
 				<ul>
+				<c:choose>
+					<c:when test="${empty sessionScope.id }">
 					<li><a href="${pageContext.request.contextPath}/join/terms"> 회원가입 </a></li>
 					<li><a href="${pageContext.request.contextPath}/login/"> 로그인 </a></li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a class="header-id">
+								<span>${id }</span> 님 환영합니다.
+							</a>
+						</li>
+						<li>
+						<a href="javascript:logout()">
+							로그아웃
+						</a>
+						</li>
+						<c:if test="${auth eq '관리자'}">
+							<li>
+								<a href="${pageContext.request.contextPath }/admin/">
+								<i class="fas fa-cog"></i>
+								운영관리
+								</a>
+							</li>
+						</c:if>
+				</c:otherwise>
+			</c:choose>
 					<li><a href="#"> 고객센터 </a></li>
 				</ul>
 			</div>
@@ -152,5 +177,12 @@
 		</div>
 	</header>
 	<!-- header 종료 -->
+	
+	<script>
+	function logout(){
+		alert("로그아웃 되었습니다");
+		location.href="${pageContext.request.contextPath }/logout";
+	}
+	</script>
 </body>
 </html>
