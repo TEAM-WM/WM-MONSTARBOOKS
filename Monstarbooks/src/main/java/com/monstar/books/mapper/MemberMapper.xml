@@ -29,4 +29,12 @@
 		FROM M_MEMBER
 		WHERE mid=#{inputId}
 	</select>
+	
+	
+	<!-- 회원정보 가져오기 -->
+	<select id="getData" parameterType="string" resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY
+		FROM M_MEMBER
+		WHERE mid=#{mid}
+	</select>
 </mapper>
