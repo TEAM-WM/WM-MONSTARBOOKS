@@ -71,7 +71,7 @@
 				<td>
 					<form action="/books/admin/order/adupdateOrderStatus" method="post">
 						<input type="hidden" name="orderNo" value="${order.orderNo}">
-						<select name="newStatus">
+						<select name="newStatus" style="float: left;">
 							<option value="배송준비중"
 								${order.orderStatus == '배송준비중' ? 'selected' : ''}>배송준비중</option>
 							<option value="배송중"
@@ -79,7 +79,8 @@
 							<option value="배송완료"
 								${order.orderStatus == '배송완료' ? 'selected' : ''}>배송완료</option>
 						</select>
-						<button type="submit">상태 변경</button>
+						<button type="submit" style="float : left">상태
+							변경</button>
 					</form>
 				</td>
 				<td><a href="detail?orderNo=${order.orderNo}">상세보기</a></td>

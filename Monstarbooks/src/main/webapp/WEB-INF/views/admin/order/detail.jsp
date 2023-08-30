@@ -48,29 +48,28 @@
         </c:when>
     </c:choose>
     
-    <table border="1" width="80%" align="center" cellspacing="0" cellpadding="5">
-        <thead>
+   <table border="1" width="50%" align="center" cellspacing="0" cellpadding="4">
+    <thead>
+        <tr>
+            <th colspan="2"><strong>상품 정보</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach items="${productDetail}" var="product">
             <tr>
-                <th colspan="4"><strong>상품 정보</strong></th>
+                <td style="vertical-align: top;">
+                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${product.productImage}"
+                         alt="상품 이미지" height="300px" style="width: auto; max-width: 100%;">
+                </td>
+                <td style="vertical-align: top;">
+                    <p>상품명: ${product.productName}</p>
+                    <p>가격: ${product.productPrice}<br>수량: ${product.productCount}</p>
+                    <p>카테고리: ${product.category1} / ${product.category2}</p>
+                    <p>배송상황: ${product.orderStatus}</p>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${productDetail}" var="product">
-                <tr>
-                    <td rowspan="2">
-                        <img src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${product.productImage}"
-                             alt="상품 이미지" width="100px" height="150px">
-                    </td>
-                    
-                    <td>상품명: ${product.productName}</td>
-                    <td>가격: ${product.productPrice}<br>수량: ${product.productCount}</td>
-                </tr>
-                <tr>
-                       <td> 카테고리: ${product.category1} / ${product.category2} </td>
-                       <td> 배송상황: ${product.orderStatus}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+        </c:forEach>
+    </tbody>
+</table>
 </body>
 </html>
