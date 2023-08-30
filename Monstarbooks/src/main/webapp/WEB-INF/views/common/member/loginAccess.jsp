@@ -11,7 +11,7 @@
 <c:choose>
 		<c:when test="${isSuccess }">
 			<script>
-				alert("로그인 되었습니다.");
+				alert("로그인되었습니다.");
 				location.href="${url }";
 			</script>
 		</c:when>
