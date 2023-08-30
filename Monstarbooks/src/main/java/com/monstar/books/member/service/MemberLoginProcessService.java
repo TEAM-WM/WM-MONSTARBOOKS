@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -61,6 +60,7 @@ public class MemberLoginProcessService implements MemberService {
 		if (isValid) {// 만일 유효한 정보이면(있다면)
 			httpSession.setAttribute("id", dto.getMid());
 			httpSession.setAttribute("auth", dto.getMauthority());
+			httpSession.setAttribute("memberNumber", dto.getMemberno());
 			model.addAttribute("isSuccess", true);
 			// 로그인 상태 유지
 			if (remember == null) {// 체크 안했다면

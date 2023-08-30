@@ -60,7 +60,7 @@ public class MemberController {
 		request.setAttribute("savedId", savedId);
 		request.setAttribute("url", url);
 		return "common/member/login";
-	}//list 종료
+	}// list 종료
 
 	// 로그인 요청처리
 	@RequestMapping("/login/access")
@@ -68,25 +68,29 @@ public class MemberController {
 			HttpServletResponse response) {
 		System.out.println(">>로그인 요청처리");
 		// 로그인
-		String url=request.getParameter("url");
+		String url = request.getParameter("url");
 		System.out.println(url);
 		if (url == null) {
 			String cPath = request.getContextPath();
 			url = cPath + "/home";// 로그인후 인덱스 페이지로가기
 		}
-		String encodedUrl=URLEncoder.encode(url);
-		model.addAttribute("response",response);
-		model.addAttribute("request",request);
-		model.addAttribute("httpSession",httpSession);
+		String id = request.getParameter("id");
+		System.out.println("컨트롤러 아이디값 : "+id);
+		
+		String encodedUrl = URLEncoder.encode(url);
+		model.addAttribute("response", response);
+		model.addAttribute("request", request);
+		model.addAttribute("httpSession", httpSession);
 		model.addAttribute("url", url);
 		model.addAttribute("encodedUrl", encodedUrl);
-		
+
 		service = new MemberLoginProcessService(session);
 		// service 에서 로그인 할 아이디 비밀번호에 맞는 정보 찾아오는 비즈니스로직 처리를 한다.
 		service.execute(model);
+		
 		return "common/member/loginAccess";
 	}
-	
+
 	// 로그아웃 요청처리
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
@@ -137,7 +141,7 @@ public class MemberController {
 		model.addAttribute("id", request.getParameter("inputId"));
 		return serviceMap.execute(model);
 	}
-	
+
 //====================관리자====================
 	@RequestMapping("/admin/member/list")
 	public String adminMember(Model model, HttpServletRequest request) {

@@ -14,10 +14,15 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
 		String auth = (String)session.getAttribute("auth");
+		Integer no = (Integer) session.getAttribute("memberNumber");
+		if(no==null) {
+			no=0;
+		}
 		System.out.println("=============");
-		System.out.println("세션에 저장된 값 : "+id);
-		System.out.println("세션에 저장된 값 : "+auth);
+		System.out.println("세션에 저장된 아이디값 : "+id);
+		System.out.println("세션에 저장된 권한 : "+auth);
+		System.out.println("세션에 저장된 회원번호 : "+no);
 		System.out.println("=============");
 		return "home";
-	}
-}
+	}//home
+}//class
