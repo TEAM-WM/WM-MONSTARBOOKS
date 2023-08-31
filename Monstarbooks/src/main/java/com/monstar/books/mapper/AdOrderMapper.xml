@@ -133,25 +133,24 @@
 		표시가능하게 SQL 문작성 -->
 	<select id="getorderDetail"
 		resultType="com.monstar.books.adorder.dto.AdOrderDto">
-		SELECT
+	SELECT
 		OD.ORDERNO AS orderNo,
 		OD.OREGDATE AS orderDate,
 		D.DADDRESS2 AS daddress2,
 		D.DNAME AS dname,
+		D.DTEL AS dtel, -- 추가된 부분 (연락처)
 		B.BTITLE AS productName,
 		OD.OCOUNT AS productCount,
 		B.BOOKNO AS bookNo,
 		(
 		SELECT COUNT(*)
-		FROM
-		M_ORDER_DETAIL MOD
+		FROM M_ORDER_DETAIL MOD
 		WHERE MOD.ORDERNO = OD.ORDERNO
 		) AS bookCount
 		FROM
 		M_ORDER_DETAIL OD
 		JOIN M_DELIVERY D ON OD.ORDERNO = D.ORDERNO
-		JOIN
-		M_BOOK B ON OD.BOOKNO = B.BOOKNO
+		JOIN M_BOOK B ON OD.BOOKNO = B.BOOKNO
 		WHERE OD.ORDERNO = #{param1}
 	</select>
 
@@ -204,12 +203,14 @@
 		OD.OCOUNT AS productCount,
 		BC.BCATEGORY1 AS category1,
 		BC.BCATEGORY2 AS category2,
-		MO.OSTATUS AS orderStatus
+		MO.OSTATUS AS orderStatus,
+		D.DTEL AS dtel
 		FROM M_ORDER_DETAIL OD
 		LEFT JOIN M_BOOK B ON OD.BOOKNO = B.BOOKNO
 		LEFT JOIN M_BOOK_DETAIL BD ON B.BOOKNO = BD.BOOKNO
 		LEFT JOIN M_BOOK_CATEGORY BC ON BD.BCATEGORYNO = BC.BCATEGORYNO
 		JOIN M_ORDER MO ON OD.ORDERNO = MO.ORDERNO
+		JOIN M_DELIVERY D ON OD.ORDERNO = D.ORDERNO 
 		WHERE OD.ORDERNO = #{param1}
 	</select>
 

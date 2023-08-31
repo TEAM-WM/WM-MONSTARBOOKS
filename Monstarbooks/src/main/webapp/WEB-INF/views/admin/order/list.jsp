@@ -71,7 +71,7 @@
 				<td>
 					<form action="/books/admin/order/adupdateOrderStatus" method="post">
 						<input type="hidden" name="orderNo" value="${order.orderNo}">
-						<select name="newStatus">
+						<select name="newStatus" style="float: left;">
 							<option value="배송준비중"
 								${order.orderStatus == '배송준비중' ? 'selected' : ''}>배송준비중</option>
 							<option value="배송중"
@@ -79,7 +79,8 @@
 							<option value="배송완료"
 								${order.orderStatus == '배송완료' ? 'selected' : ''}>배송완료</option>
 						</select>
-						<button type="submit">상태 변경</button>
+						<button type="submit" style="float : left">상태
+							변경</button>
 					</form>
 				</td>
 				<td><a href="detail?orderNo=${order.orderNo}">상세보기</a></td>
@@ -93,7 +94,7 @@
 
 
 
-<%-- 
+	<%-- 
 	<c:set var="totRowcnt" value="${getOrderList.size()}" />
 	<!-- totrowcnt를 주문 목록의 개수를 나타나게 함으로 한개의 주문번호당 한개의 주문으로 표시 -->
  --%>
@@ -105,7 +106,6 @@
 			<p>주문이 없습니다.</p>
 		</c:otherwise>
 	</c:choose>
-
 
 	<div>
 		<!-- 페이징 -->

@@ -33,8 +33,15 @@ public class AdOrderDto {
     
     private String newStatus;   //배송상태를 업데이트 배송준비중,배송중,배송완료
         
+    private String dtel; //연락처
     // Getter와 Setter 메서드 작성
     
+	public String getDtel() {
+		return dtel;
+	}
+	public void setDtel(String dtel) {
+		this.dtel = dtel;
+	}
 	public String getNewStatus() {
 		return newStatus;
 	}
