@@ -25,7 +25,7 @@ public class MyProfileDto { //m_member 테이블 사용
 	private String mprofileimg;	//회원프로필사진
 	private String mfavorite;	//회원선호장르
 	private String mauthority;	//회원권한
-	private String deleted;		//탈퇴여부
+	private String deleted;		//회원 탈퇴 여부 -- 탈퇴시 yes 가입시 no
 	
 }// Dto 종료
 
