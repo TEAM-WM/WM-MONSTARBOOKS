@@ -9,4 +9,5 @@ public interface MemberDao {
 	public void insert(MemberDto dto); // 회원가입
 	public ArrayList<MemberDto> list();// 관리자 회원 목록
 	public String isExist(String inputId); //아이디 중복체크
+	public MemberDto idSearch(String id);
 }//======== MemberDao ========

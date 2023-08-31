@@ -60,7 +60,7 @@ public class MemberController {
 		request.setAttribute("savedId", savedId);
 		request.setAttribute("url", url);
 		return "common/member/login";
-	}// list 종료
+	}// login 종료
 
 	// 로그인 요청처리
 	@RequestMapping("/login/access")
@@ -89,38 +89,28 @@ public class MemberController {
 		service.execute(model);
 		
 		return "common/member/loginAccess";
-	}
+	}// login/access
 
 	// 로그아웃 요청처리
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/home";
-	}
+	}// logout
 
-	// 230824 리연 추가
-	// 아이디 비밀번호 찾기 폼
-	@RequestMapping("/find")
-	public String find() {
-		System.out.println(">>>아이디/비밀번호 찾기 폼");
-		return "common/member/find";
-	}// list 종료
-
-	// 230828 리연 추가
 	// 회원가입 - 이용약관
 	@RequestMapping("/join/terms")
 	public String joinTearms() {
 		System.out.println(">>>회원가입 이용약관");
 		return "common/member/joinTerms";
-	}// list 종료
+	}// join/terms 종료
 
-	// 230824 리연 추가
 	// 회원가입 폼
 	@RequestMapping("/join")
 	public String join() {
 		System.out.println(">>>회원가입 폼");
 		return "common/member/join";
-	}// list 종료
+	}// join 종료
 
 	// 회원가입 완료 요청 처리
 	@RequestMapping("/join/access")
@@ -130,7 +120,7 @@ public class MemberController {
 		model.addAttribute("request", request);
 		service.execute(model);
 		return "common/member/joinAccess";
-	}
+	}// join/access
 
 	// 아이디 중복확인 기능 : 아이디 존재 여부 요청 처리
 	@RequestMapping("/member/checkid")
@@ -140,9 +130,35 @@ public class MemberController {
 		serviceMap = new MemberIDCheckService(session);
 		model.addAttribute("id", request.getParameter("inputId"));
 		return serviceMap.execute(model);
-	}
+	}// member/checkid
+	
+	// 아이디 비밀번호 찾기 폼
+	@RequestMapping("/find")
+	public String find() {
+		System.out.println(">>>아이디/비밀번호 찾기 폼");
+		return "common/member/find";
+	}// find 종료
+	
+	
+//	@RequestMapping("/find/idPhone")
+//	public String idFindPhone() {
+//		System.out.println(">>>아이디찾기 전화번호 요청처리");
+//		return "common/member/find";
+//	}// find/idPhone 종료
+//	
+//	@RequestMapping("/find/pwEmail")
+//	public String pwFindEmail() {
+//		System.out.println(">>>비밀번호찾기 이메일 요청처리");
+//		return "common/member/find";
+//	}// find/pwEmail 종료
+//	
+//	@RequestMapping("/find/pwPhone")
+//	public String pwFindPhone() {
+//		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
+//		return "common/member/find";
+//	}// find/pwPhone 종료
 
-//====================관리자====================
+	//====================관리자====================
 	@RequestMapping("/admin/member/list")
 	public String adminMember(Model model, HttpServletRequest request) {
 		System.out.println(">>>관리자 회원 리스트 요청처리");
