@@ -20,7 +20,6 @@ public class AdNoticeDetailServiceList implements AdNoticeService {
 	
 	@Override
 	public void execute(Model model) {
-		System.out.println(">>> AdNoticeDetailServiceList");
 		
 		// Map 변환
 		Map<String, Object> map = model.asMap();
