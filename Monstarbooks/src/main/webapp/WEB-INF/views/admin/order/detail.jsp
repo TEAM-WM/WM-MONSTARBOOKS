@@ -12,43 +12,7 @@
     </script>
     <h2>주문 상세 정보</h2>
     
-    <c:choose>
-        <c:when test="${not empty orderDetail}">
-            <div>
-                <strong>주문 정보</strong>
-                <p>주문 번호: ${orderDetail[0].orderNo}</p>
-                <p>주문 날짜: ${orderDetail[0].orderDate}</p>
-                <p>수령인: ${orderDetail[0].dname}</p>
-                <p>주소지: ${orderDetail[0].daddress2}</p>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <p>주문 상세 정보를 가져오지 못했습니다.</p>
-        </c:otherwise>
-    </c:choose>
-
-    <c:forEach items="${orderDetail}" var="order">
-        <p>
-            상품명: ${order.productName}
-            <c:if test="${order.bookCount > 1}">
-                ${order.productCount}권
-            </c:if>
-        </p>
-    </c:forEach>
-    
-    <c:choose>
-        <c:when test="${not empty paymentDetail}">
-            <div>
-                <strong>결제 정보</strong>
-                <p>총 상품 가격: ${paymentDetail[0].totalAmount}￦</p>
-                <p>할인 쿠폰: ${paymentDetail[0].couponName}</p>
-                <p>총 결제 금액: ${paymentDetail[0].finalpay}￦</p>
-                <p>결제 방법: ${paymentDetail[0].paymentMethod}</p>
-            </div>
-        </c:when>
-    </c:choose>
-    
-   <table border="1" width="50%" align="center" cellspacing="0" cellpadding="4">
+    <table>
     <thead>
         <tr>
             <th colspan="2"><strong>상품 정보</strong></th>
@@ -71,5 +35,63 @@
         </c:forEach>
     </tbody>
 </table>
+    
+      <div class="center-align">
+                <c:choose>
+                    <c:when test="${not empty orderDetail}">
+                        <table class="info-table">
+                            <caption><strong>주문 정보</strong></caption>
+                            <tr>
+                                <th>주문 번호</th>
+                                <td>${orderDetail[0].orderNo}</td>
+                            </tr>
+                            <tr>
+                                <th>주문 날짜</th>
+                                <td>${orderDetail[0].orderDate}</td>
+                            </tr>
+                            <tr>
+                                <th>수령인</th>
+                                <td>${orderDetail[0].dname}</td>
+                            </tr>
+                            <tr>
+                                <th>주소지</th>
+                                <td>${orderDetail[0].daddress2}</td>
+                            </tr>
+                            <tr>
+                            	<th>연락처</th>
+                            	<td>${orderDetail[0].dtel}</td>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <p>주문 상세 정보를 가져오지 못했습니다.</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            
+            <div class="center-align">
+                <c:choose>
+                    <c:when test="${not empty paymentDetail}">
+                        <table class="info-table">
+                            <caption><strong>결제 정보</strong></caption>
+                            <tr>
+                                <th>총 상품 가격</th>
+                                <td>${paymentDetail[0].totalAmount}￦</td>
+                            </tr>
+                            <tr>
+                                <th>할인 쿠폰</th>
+                                <td>${paymentDetail[0].couponName}</td>
+                            </tr>
+                            <tr>
+                                <th>총 결제 금액</th>
+                                <td>${paymentDetail[0].finalpay}￦</td>
+                            </tr>
+                            <tr>
+                                <th>결제 방법</th>
+                                <td>${paymentDetail[0].paymentMethod}</td>
+                            </tr>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </div>
 </body>
 </html>

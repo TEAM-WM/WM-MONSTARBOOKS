@@ -94,7 +94,7 @@
 
 
 
-<%-- 
+	<%-- 
 	<c:set var="totRowcnt" value="${getOrderList.size()}" />
 	<!-- totrowcnt를 주문 목록의 개수를 나타나게 함으로 한개의 주문번호당 한개의 주문으로 표시 -->
  --%>
@@ -106,7 +106,6 @@
 			<p>주문이 없습니다.</p>
 		</c:otherwise>
 	</c:choose>
-
 
 	<div>
 		<!-- 페이징 -->
