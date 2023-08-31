@@ -4,7 +4,7 @@ const now_utc = Date.now(); // 지금 날짜를 밀리초로
 const timeOff = new Date().getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
 // new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
 const today = new Date(now_utc - timeOff).toISOString().split('T')[0];
-document.querySelector('#birth').setAttribute('max', today);
+//document.querySelector('#birth').setAttribute('max', today);
 
 // 아코디언
 const acc = document.querySelectorAll('.accordion-wrap li');
