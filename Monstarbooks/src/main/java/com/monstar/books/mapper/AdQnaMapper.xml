@@ -14,6 +14,7 @@
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="QCATEGORY" property="qcategory"/>
 		<result column="QTITLE" property="qtitle"/>
+		<result column="QCONTENT" property="qcontent"/>
 		<result column="QREGDATE" property="qregdate"/>
 		<result column="QSTATUS" property="qstatus"/>
 		<result column="QANSWER" property="qanswer"/>
@@ -22,37 +23,70 @@
 		<collection property="member" resultMap="Member"></collection>
 	</resultMap>
 	
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE QTITLE LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==2">
+				WHERE MNAME LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==3">
+				WHERE QTITLE LIKE '%'||#{param3}||'%' OR MNAME LIKE '%'||#{param3}||'%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
+	
 	<select id="list" resultType="com.monstar.books.adqna.dto.QnaDto" resultMap="Qna">
 		SELECT *FROM
 		(SELECT ROWNUM NUM, N.*FROM
-		(SELECT Q.QNANO, M.MNAME, Q.QTITLE,Q.QREGDATE, Q.QSTATUS
+		(SELECT Q.QNANO, M.MNAME, Q.QTITLE,Q.QREGDATE, Q.QSTATUS,Q.DELETED
 		FROM M_QNA Q JOIN M_MEMBER M 
 		ON Q.MEMBERNO = M.MEMBERNO
-		ORDER BY Q.QNANO DESC)N)
-		WHERE NUM BETWEEN #{param1} AND #{param1}
-		
-		
+		ORDER BY Q.QNANO DESC)N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 	
-	<select id="selectQnatotCount" resultType="Integer">
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)FROM M_QNA WHERE QTITLE LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*)FROM M_MEMBER WHERE MNAME LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)
+		FROM m_qna
+		JOIN m_member ON m_qna.memberno = m_member.memberno
+		WHERE m_qna.qtitle LIKE '%'||#{param1}||'%'
+   		OR m_member.mname LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount4" resultType="Integer">
 		SELECT COUNT(*)FROM M_QNA
 	</select>
 
-	
-	<!-- <select id="detail">
+	<select id="qnadetail" resultType="com.monstar.books.adqna.dto.QnaDto" resultMap="Qna">
+		SELECT Q.QNANO,Q.QSTATUS,Q.QCATEGORY,Q.QTITLE,M.MID,M.MNAME,Q.QREGDATE,Q.QCONTENT,Q.QFILESRC,Q.QANSWER
+		FROM M_QNA Q JOIN M_MEMBER M
+		ON Q.MEMBERNO = M.MEMBERNO
+		WHERE QNANO=#{param1}
 	</select>
-	
-	<insert id="insert">
-	</insert>
-	
-	<update id="update">
+	<update id="qnaAnswer">
+		UPDATE M_QNA SET QANSWER=#{param2} WHERE QNANO=#{param1}
 	</update>
-	-->
-	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
-	<!-- <update id="delete" parameterType="int">
-		UPDATE EX
-		SET deleted='yes'
-		WHERE num=#{param1}
-	</update> -->
+	<select id="qnadetailreply" resultType="com.monstar.books.adqna.dto.QnaDto" resultMap="Qna">
+		SELECT Q.QNANO,Q.QSTATUS,Q.QCATEGORY,Q.QTITLE,M.MID,M.MNAME,Q.QREGDATE,Q.QCONTENT,Q.QFILESRC,Q.QANSWER
+		FROM M_QNA Q JOIN M_MEMBER M
+		ON Q.MEMBERNO = M.MEMBERNO
+		WHERE QNANO=#{param1}
+	</select>
+	<update id="qnadelete" parameterType="int">
+		UPDATE M_QNA SET DELETED='yes' WHERE QNANO=#{param1}
+	</update>
+	<update id="QnaStatusService">
+		UPDATE M_QNA SET QSTATUS=#{param2} WHERE QNANO=#{param1}
+	</update>
 	
 </mapper>

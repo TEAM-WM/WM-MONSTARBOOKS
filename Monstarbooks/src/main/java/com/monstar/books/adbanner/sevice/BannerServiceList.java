@@ -1,4 +1,4 @@
-package com.monstar.books.adqna.sevice;
+package com.monstar.books.adbanner.sevice;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,33 +11,33 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.monstar.books.adqna.dao.QnaDao;
-import com.monstar.books.adqna.dto.QnaDto;
-import com.monstar.books.adqna.vopage.SearchVO;
+import com.monstar.books.adbanner.dao.BannerDao;
+import com.monstar.books.adbanner.dto.BannerDto;
+import com.monstar.books.adbanner.vopage.SearchVO;
 @Primary
 @Service
-public class QnaServiceList implements QnaService {
-	
+public class BannerServiceList implements BannerService{
+
 	@Autowired
 	private SqlSession session;
 
 	// 생성자
-	public QnaServiceList(SqlSession session) {
+	public BannerServiceList(SqlSession session) {
 		this.session = session;
 	}
 
 	@Override
 	public void execute(Model model) {
-		System.out.println(">>>리스트 신호");
-		
+		System.out.println(">>>배너 리스트 신호");
 		Map<String, Object> map=model.asMap();
-		HttpServletRequest request=(HttpServletRequest)map.get("request");
+		HttpServletRequest request=(HttpServletRequest) map.get("request");
 		SearchVO searchVO=(SearchVO) map.get("searchVO");
 		
-		QnaDao dao = session.getMapper(QnaDao.class);
+		BannerDao dao=session.getMapper(BannerDao.class);
+		
 //		검색
-		String qtitle = "";
-		String mname = "";
+		String etitle = "";
+		String efilesrc = "";
 		String[] brdtitle = request.getParameterValues("searchType");
 		System.out.println("brdtitle : " + brdtitle);
 		if (brdtitle != null) {
@@ -48,29 +48,29 @@ public class QnaServiceList implements QnaService {
 //	      변수 저장
 		if (brdtitle != null) {
 			for (String var : brdtitle) {
-				if (var.equals("qtitle")) {
-					qtitle = "qtitle";
-					model.addAttribute("qtitle", "true");
-				} else if (var.equals("mname")) {
-					mname = "mname";
-					model.addAttribute("mname", "true");
+				if (var.equals("etitle")) {
+					etitle = "etitle";
+					model.addAttribute("etitle", "true");
+				} else if (var.equals("efilesrc")) {
+					efilesrc = "efilesrc";
+					model.addAttribute("efilesrc", "true");
 				}
 			}
 		}
 //	      검색결과 유지
-		String qt = request.getParameter("qtitle");
-		String mn = request.getParameter("mname");
+		String et = request.getParameter("etitle");
+		String ef = request.getParameter("efilesrc");
 //	      변수 저장
-		if (qt != null) {
-			if (qt.equals("qtitle")) {
-				qtitle =qt;
-				model.addAttribute("qtitle", "true");
+		if (et != null) {
+			if (et.equals("etitle")) {
+				etitle =et;
+				model.addAttribute("etitle", "true");
 			}
 		}
-		if (mn != null) {
-			if (mn.equals("mname")) {
-				mname = mn;
-				model.addAttribute("mname", "true");
+		if (ef != null) {
+			if (ef.equals("efilesrc")) {
+				efilesrc = ef;
+				model.addAttribute("efilesrc", "true");
 			}
 		}
 
@@ -94,13 +94,13 @@ public class QnaServiceList implements QnaService {
 //		검색어에 따른 총 갯수 변화
 		int total = 0;
 //		4개의 경우의 수로 총갯수 구하기
-		if (qtitle.equals("qtitle") && mname.equals("")) {
+		if (etitle.equals("etitle") && efilesrc.equals("")) {
 			total = dao.selectBoardTotCount1(searchKeyword);
-		} else if (qtitle.equals("") && mname.equals("mname")) {
+		} else if (etitle.equals("") && efilesrc.equals("efilesrc")) {
 			total = dao.selectBoardTotCount2(searchKeyword);
-		} else if (qtitle.equals("qtitle") && mname.equals("mname")) {
+		} else if (etitle.equals("qtitle") && efilesrc.equals("efilesrc")) {
 			total = dao.selectBoardTotCount3(searchKeyword);
-		} else if (qtitle.equals("") && mname.equals("")) {
+		} else if (etitle.equals("") && efilesrc.equals("")) {
 			total = dao.selectBoardTotCount4(searchKeyword);
 		}
 		System.out.println("tot" + total);
@@ -111,22 +111,22 @@ public class QnaServiceList implements QnaService {
 		int rowStart=searchVO.getRowStart();
 		int rowEnd=searchVO.getRowEnd();
 		
-		ArrayList<QnaDto> list = null;
+		ArrayList<BannerDto> list = null;
 
-		if (qtitle.equals("qtitle") && mname.equals("")) {
+		if (etitle.equals("etitle") && efilesrc.equals("")) {
 			model.addAttribute("list", dao.list(rowStart, rowEnd, searchKeyword, "1"));
-		} else if (qtitle.equals("") && mname.equals("mname")) {
+		} else if (etitle.equals("") && efilesrc.equals("efilesrc")) {
 			model.addAttribute("list", dao.list(rowStart, rowEnd, searchKeyword, "2"));
-		} else if (qtitle.equals("qtitle") && mname.equals("mname")) {
+		} else if (etitle.equals("qtitle") && efilesrc.equals("efilesrc")) {
 			model.addAttribute("list", dao.list(rowStart, rowEnd, searchKeyword, "3"));
-		} else if (qtitle.equals("") && mname.equals("")) {
+		} else if (etitle.equals("") && efilesrc.equals("")) {
 			model.addAttribute("list", dao.list(rowStart, rowEnd, searchKeyword, "4"));
 		}
 
 
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVO", searchVO);
+	}
 
-	}// override method
+}
 
-}// class
