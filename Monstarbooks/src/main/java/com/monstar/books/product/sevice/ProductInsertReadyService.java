@@ -32,7 +32,7 @@ public class ProductInsertReadyService implements ProductService {
 		
 		ProductDao dao = session.getMapper(ProductDao.class);
 		
-//		selectCategory에서 카테고리를 불러옴
+//		selectCategory에서 카테고리를 불러와둠
 		ArrayList<BookCategoryDto> dto = dao.selectCategory();
 		model.addAttribute("dto", dto);
 		

@@ -25,7 +25,7 @@ public class ProductController {
 	private SqlSession session;
 
 	//상품목록 리스트 화면
-	@RequestMapping("/admin/product/list")
+	@RequestMapping("/admin/product/productlist")
 	public String list(Model model) {
 
 		System.out.println(">>> LIST() >>>");
@@ -42,7 +42,7 @@ public class ProductController {
 	
 	
 	//상품목록 디테일 화면
-	@RequestMapping("/admin/product/productDetail")
+	@RequestMapping("/admin/product/productdetail")
 	public String detail(HttpServletRequest request, Model model) {
 
 		System.out.println(">>> CONTENT DETAIL() >>>");
@@ -57,8 +57,8 @@ public class ProductController {
 	}// detail 종료
 	
 	
-	//상품등록 화면
-	@RequestMapping("/admin/product/productInsertView")
+	//상품등록 준비 화면
+	@RequestMapping("/admin/product/productinsertview")
 	public String insert_view(Model model) {
 		
 		System.out.println(">>> INSERT VIEW() >>>");
@@ -69,9 +69,9 @@ public class ProductController {
 	}
 	
 	
-	//상품등록 프로세스
-	@RequestMapping(method = RequestMethod.POST, value = "/admin/product/productInsertService")
-	public String InsertService(Model model, HttpServletRequest request) {
+	//상품등록 화면
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/product/productinsert")
+	public String insert(Model model, HttpServletRequest request) {
 
 		System.out.println(">>> INSERT SERVICE() >>>");
 		
@@ -79,7 +79,7 @@ public class ProductController {
 		service = new ProductInsertService(session);
 		service.execute(model);
 
-		return "redirect:/admin/product/list";
+		return "redirect:/admin/product/productlist";
 	}
 	
 //	@RequestMapping("/ex/sample2")

@@ -33,6 +33,7 @@ public class ProductListService implements ProductService {
 		ProductDao dao = session.getMapper(ProductDao.class);
 		ArrayList<BookDto> dto = dao.list();
 		model.addAttribute("dto", dto);
+		System.out.println(dto);
 		
 //		System.out.println(dto);
 

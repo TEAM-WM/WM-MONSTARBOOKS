@@ -15,7 +15,7 @@
 	<article>
 	<div style="width:100%; text-align:right;">
 		<!-- <input type="button" value="상품등록" onclick=""/> -->
-		<a href="productInsertView">상품등록</a>
+		<a href="productinsertview">상품등록</a>
 	</div>
 		<table border=1 width="1600" align="center">
 			<thead>			
@@ -48,7 +48,7 @@
 						<td align=center>${dto.bcdate }</td>
 						<td align=center>${dto.bmdate }</td>
 						<td align=center>${dto.bstock }</td>
-						<td align=center><a href="productDetail?bookno=${dto.bookno }">상세보기</a></td>
+						<td align=center><a href="productdetail?bookno=${dto.bookno }">상세보기</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

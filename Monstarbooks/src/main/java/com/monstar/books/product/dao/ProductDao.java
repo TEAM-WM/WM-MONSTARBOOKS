@@ -19,8 +19,8 @@ public interface ProductDao {
 			String bpublisher, String bwriter, String btranslator, String bpdate,
 			int bprice, int bpricesell, int bdiscount, String bstatus, int bstock);//테이블 "도서" 정보 입력
 	public ArrayList<BookCategoryDto> selectCategory();//도서카테고리 정보 리스트
-//	public void insertBookCategory(String bcategory1, String bcategory2);//도서카테고리 선택 쿼리
-//	public void insertBookDetail(BookDto dto);
+	public void insertBookDetail(int bcategoryno, String bimg, String bimgdetail, 
+			String bdescription, int bpage, String bsize, String badge);
 //	public void insertBookAllData(BookDto dto);
 	
 	
