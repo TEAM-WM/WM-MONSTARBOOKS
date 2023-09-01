@@ -6,6 +6,47 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+table {
+	width: 500px;
+	margin: 20px auto;
+	border-collapse: collapse;
+	background-color: white;
+	border: 2px solid #000d82;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+	padding: 12px 20px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+td {
+	border-right: 1px solid #ddd;
+}
+
+td:last-child {
+	border-right: none;
+}
+
+th {
+	background-color: #000d82;
+	color: white;
+}
+
+tr:first-child {
+	border-radius: 0 0 10px 10px; /* 하단 모서리만 둥글게 */
+}
+
+tr:last-child {
+	border-radius: 10px 10px 0 0; 
+}
+
+tr:hover {
+	background-color: #f2f2f2;
+}
+</style>
 </head>
 <body>
 	<article class="join-success">
