@@ -74,16 +74,10 @@
 		<tr>
 			<td rowspan="2">첨부파일</td>
 			<td>
-				<!--
-				<c:if test="${noticeDetail.nfilesrc ne null }">
-
-				</c:if>
-				-->
-				<img border="1" width="75" height="75"
-				src="../../resources/assets/upload/${noticeDetail.nfilesrc }" alt="${noticeDetail.nfilesrc }" />
 				<input type="file" name="nfilesrc" />
 			</td>
 		</tr>
+		<tr> </tr>
 		<tr>
 			<td>
 				<input type="button" value="수정" onclick="check_update();" />

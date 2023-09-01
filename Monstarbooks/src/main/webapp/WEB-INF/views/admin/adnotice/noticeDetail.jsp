@@ -51,7 +51,11 @@
 				</c:if>
 			</td>
 		</tr>
-		<tr> </tr>
+		<tr>
+			<td>
+				${noticeDetail.nfilesrc }
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<button onclick="updateNotice();">공지 수정</button>
