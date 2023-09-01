@@ -3,26 +3,72 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.monstar.books.adnotice.dao.AdNoticeDao">
+
+<!-- 아래 notice에 추가하는 쿼리 -->
+<sql id="includeNotice">
+	<choose>
+		<when test="param4==1">
+			WHERE NTITLE LIKE '%' || #{param3} || '%'
+		</when>
+		<when test="param4==2">
+			WHERE NCONTENT LIKE '%' || #{param3} || '%'
+		</when>
+		<when test="param4==3">
+			WHERE NTITLE LIKE '%' || #{param3} || '%' OR NCONTENT LIKE '%' || #{param3} || '%'
+		</when>
+		<otherwise>
+		
+		</otherwise>
+	</choose>
+</sql>
+
+
+<!-- m_notice테이블의 전체 데이터를 불러오는 쿼리 -->
 <select id="notice" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
-	SELECT NOTICENO,NTITLE,NCONTENT,NWRITER,NREGDATE,
-	NFILESRC,DELETED,MEMBERNO FROM M_NOTICE ORDER BY
-	 NOTICENO DESC
+	 SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM M_NOTICE ORDER BY NOTICENO DESC) N
+	 	<include refid="includeNotice" />
+	 ) WHERE NUM BETWEEN #{param1} AND #{param2}
+	 
 </select>
 
+
+<!-- 선택한 공지의 모든 데이터를 불러오는 쿼리 -->
 <select id="noticeDetail" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
 	SELECT NOTICENO,NTITLE,NCONTENT,NWRITER,NREGDATE,
 	NFILESRC,DELETED,MEMBERNO FROM M_NOTICE WHERE
 	 NOTICENO = #{param1}
 </select>
 
+
+<!-- 선택한 공지의 제목 또는 내용을 수정하는 쿼리 -->
 <update id="update">
-	UPDATE M_NOTICE SET DELETED=#{param2}, NTITLE=#{param3}, NCONTENT=#{param4}
+	UPDATE M_NOTICE SET NTITLE=#{param2}, NCONTENT=#{param3}, NFILESRC=#{param4}
 	 WHERE NOTICENO=#{param1}
 </update>
 
+
+<!-- 공지를 등록하는 쿼리 -->
 <insert id="insert">
 	INSERT INTO M_NOTICE VALUES(M_NOTICE_SEQ.NEXTVAL,#{param1},#{param2},'관리자1',
-	SYSDATE,#{param3},'No',0)
+	SYSDATE,#{param3},'No',1)
 </insert>
+
+
+<!-- 검색 이후의 데이터 총합을 구하는 쿼리 -->
+<select id="selectTot1" resultType="Integer">
+	SELECT COUNT(*) FROM M_NOTICE WHERE NTITLE LIKE '%' || #{param1} || '%'
+</select>
+
+<select id="selectTot2" resultType="Integer">
+	SELECT COUNT(*) FROM M_NOTICE WHERE NCONTENT LIKE '%' || #{param1} || '%'
+</select>
+
+<select id="selectTot3" resultType="Integer">
+	SELECT COUNT(*) FROM M_NOTICE WHERE NTITLE LIKE '%' || #{param1} || '%' OR NCONTENT LIKE '%' || #{param1} || '%'
+</select>
+
+<select id="selectTot4" resultType="Integer">
+	SELECT COUNT(*) FROM M_NOTICE
+</select>
 
 </mapper>
