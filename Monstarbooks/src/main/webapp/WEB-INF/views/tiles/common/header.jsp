@@ -11,8 +11,8 @@
 		<div class="global-header-container">
 			<div class="global-service-list">
 				<ul>
-					<li><a href="#"> 회원가입 </a></li>
-					<li><a href="#"> 로그인 </a></li>
+					<li><a href="join/"> 회원가입 </a></li>
+					<li><a href="login/"> 로그인 </a></li>
 					<li><a href="#"> 고객센터 </a></li>
 				</ul>
 			</div>
