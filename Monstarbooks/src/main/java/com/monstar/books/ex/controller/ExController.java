@@ -12,10 +12,10 @@ import com.monstar.books.ex.sevice.ExServiceList;
 @Controller
 public class ExController {
 	
-	@Autowired
+//	@Autowired
 	ExService service;
 
-	@Autowired
+//	@Autowired
 	private SqlSession session;
 
 	// 230818 / 리연 추가

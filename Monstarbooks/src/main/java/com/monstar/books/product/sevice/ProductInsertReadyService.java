@@ -11,29 +11,30 @@ import org.springframework.ui.Model;
 import com.monstar.books.ex.dao.ExDao;
 import com.monstar.books.ex.dto.ExDto;
 import com.monstar.books.product.dao.ProductDao;
+import com.monstar.books.product.dto.BookCategoryDto;
 import com.monstar.books.product.dto.BookDto;
 
 @Service
-@Primary
-public class ProductListService implements ProductService {
+public class ProductInsertReadyService implements ProductService {
 
 	@Autowired
 	private SqlSession session;
 
 	// 생성자
-	public ProductListService(SqlSession session) {
+	public ProductInsertReadyService(SqlSession session) {
 		this.session = session;
 	}
 
 	@Override
 	public void execute(Model model) {
 		
-		System.out.println(">>> LIST SERVICE >>>");
+		System.out.println(">>> INSERT READY SERVICE>>>");
 		
 		ProductDao dao = session.getMapper(ProductDao.class);
-		ArrayList<BookDto> dto = dao.list();
+		
+//		selectCategory에서 카테고리를 불러와둠
+		ArrayList<BookCategoryDto> dto = dao.selectCategory();
 		model.addAttribute("dto", dto);
-		System.out.println(dto);
 		
 //		System.out.println(dto);
 
