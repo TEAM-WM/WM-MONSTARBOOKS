@@ -12,11 +12,11 @@ import com.monstar.books.m3pop.dao.QnaDao;
 
 
 @Service
-public class QnaDeleteService implements BServiceInter {
+public class QnaDeleteService2 implements BServiceInter {
 
 	private SqlSession sqlSession;
 	
-	public QnaDeleteService(SqlSession sqlSession) {
+	public QnaDeleteService2(SqlSession sqlSession) {
 		// TODO Auto-generated constructor stub
 		this.sqlSession=sqlSession;
 	}

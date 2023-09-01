@@ -18,7 +18,7 @@ import com.monstar.books.m3pop.service.MemberModifyService;
 
 
 @Controller
-public class MemberController {
+public class MemberController2 {
 	
 	BServiceInter bServiceInter;
 	
