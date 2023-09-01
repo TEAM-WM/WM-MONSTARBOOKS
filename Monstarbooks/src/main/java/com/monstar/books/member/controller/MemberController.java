@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.member.service.MemberIDCheckService;
+import com.monstar.books.member.service.MemberIDFindService;
 import com.monstar.books.member.service.MemberInsertService;
 import com.monstar.books.member.service.MemberListService;
 import com.monstar.books.member.service.MemberLoginProcessService;
@@ -140,12 +141,16 @@ public class MemberController {
 	}// find 종료
 	
 	
-//	@RequestMapping("/find/idPhone")
-//	public String idFindPhone() {
-//		System.out.println(">>>아이디찾기 전화번호 요청처리");
-//		return "common/member/find";
-//	}// find/idPhone 종료
-//	
+	@RequestMapping("/find/idPhone")
+	public String idFindPhone(HttpServletRequest request, Model model) {
+		System.out.println(">>>아이디찾기 전화번호 요청처리");
+		
+		service = new MemberIDFindService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "common/member/findResult";
+	}// find/idPhone 종료
+	
 //	@RequestMapping("/find/pwEmail")
 //	public String pwFindEmail() {
 //		System.out.println(">>>비밀번호찾기 이메일 요청처리");
