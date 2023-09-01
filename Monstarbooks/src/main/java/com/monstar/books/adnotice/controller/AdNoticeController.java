@@ -29,7 +29,7 @@ public class AdNoticeController {
 	
 	
 	// notice
-	@RequestMapping("/admin/adnotice/notice")
+	@RequestMapping("admin/adnotice/notice")
 	public String Notice(HttpServletRequest request, SearchVo searchVo, Model model) {
 		
 		System.out.println("notice-------------");
@@ -40,20 +40,20 @@ public class AdNoticeController {
 		// 공지사항 전체 데이터 가져오기
 		adnoticeService = new AdNoticeServiceList(sqlSession);
 		adnoticeService.execute(model);
-		return "/admin/adnotice/notice";
+		return "admin/adnotice/notice";
 	}
 	
 	
 	// noticeInsert
-	@RequestMapping("/admin/adnotice/noticeInsert")
+	@RequestMapping("admin/adnotice/noticeInsert")
 	public String NoticeInsert() {
 
-		return "/admin/adnotice/noticeInsert";
+		return "admin/adnotice/noticeInsert";
 	}
 	
 	
 	// noticeInsert2
-	@RequestMapping("/admin/adnotice/noticeInsert2")
+	@RequestMapping("admin/adnotice/noticeInsert2")
 	public String NoticeInsert2(HttpServletRequest request, Model model) {
 		
 		model.addAttribute("request",request);
@@ -65,7 +65,7 @@ public class AdNoticeController {
 	
 	
 	// noticeDetail
-	@RequestMapping("/admin/adnotice/noticeDetail")
+	@RequestMapping("admin/adnotice/noticeDetail")
 	public String NoticeDetail(HttpServletRequest request, Model model) {
 		
 		// 공지사항 조회
@@ -73,12 +73,12 @@ public class AdNoticeController {
 		adnoticeService = new AdNoticeDetailServiceList(sqlSession);
 		adnoticeService.execute(model);
 		
-		return "/admin/adnotice/noticeDetail";
+		return "admin/adnotice/noticeDetail";
 	}
 	
 	
 	// noticeUpdate
-	@RequestMapping("/admin/adnotice/noticeUpdate")
+	@RequestMapping("admin/adnotice/noticeUpdate")
 	public String NoticeUpdate(HttpServletRequest request, Model model) {
 		
 		// 공지사항 조회
@@ -86,12 +86,12 @@ public class AdNoticeController {
 		adnoticeService = new AdNoticeDetailServiceList(sqlSession);
 		adnoticeService.execute(model);
 		
-		return "/admin/adnotice/noticeUpdate";
+		return "admin/adnotice/noticeUpdate";
 	}
 	
 	
 	// noticeUpdate2
-	@RequestMapping("/admin/adnotice/noticeUpdate2")
+	@RequestMapping("admin/adnotice/noticeUpdate2")
 	public String NoticeUpdate2(HttpServletRequest request, Model model) {
 		
 		model.addAttribute("request",request);
