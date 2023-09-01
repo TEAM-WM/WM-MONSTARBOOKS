@@ -23,5 +23,7 @@ public class BookReviewDto {
 	private MemberDto member;
 	
 	private int starCnt;
+//	private float starAvg;
+//	private int reviewCnt;
 	
 }

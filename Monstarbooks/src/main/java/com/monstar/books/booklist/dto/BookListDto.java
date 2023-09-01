@@ -27,4 +27,7 @@ public class BookListDto {
 	
 	private BookDetailDto detail;
 	private BookCategoryDto category;
+	
+	private float starAvg;
+	private int reviewCnt;
 }

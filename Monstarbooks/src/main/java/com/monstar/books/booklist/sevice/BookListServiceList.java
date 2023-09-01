@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 
 import com.monstar.books.booklist.dao.BookListDao;
 import com.monstar.books.booklist.dto.BookListDto;
+import com.monstar.books.booklist.dto.BookReviewDto;
 import com.monstar.books.booklist.vopage.SearchVO;
 
 @Service
@@ -54,12 +57,17 @@ public class BookListServiceList implements BookListService {
 //		페이징 글 번호 전달
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
-		ArrayList<BookListDto> dto = dao.list(rowStart,rowEnd);
-//		ArrayList<BestListDto> dto = dao.list();
+		ArrayList<BookListDto> dto = dao.list(rowStart,rowEnd);	
 		
+//		별점, 리뷰 수
+//		ArrayList<BookReviewDto> rdto = dao.starAvgReCnt(dto.get(0).getBookno());
+
+
 		model.addAttribute("dto", dto);
+//		model.addAttribute("rdto", rdto);
 		model.addAttribute("totRowCnt",total);
 		model.addAttribute("searchVO",searchVO);
+
 
 	}// override method
 
