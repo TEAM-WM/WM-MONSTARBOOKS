@@ -4,34 +4,46 @@
 <!-- 230822 / [효슬] 마이페이지 추가 -->
 <mapper namespace="com.monstar.books.mypage.dao.MyProfileDao">
 
-	<select id="list" resultType="com.monstar.books.mypage.dto.MyProfileDto">
+	<!-- resultmap 타입으로 변경 -->
+	<resultMap type="com.monstar.books.mypage.dto.MyProfileDto"
+		id="MyProfile">
+		<result column="MEMBERNO" property="memberno" />
+		<result column="MID" property="mid" />
+		<result column="MPW" property="mpw" />
+		<result column="MBIRTH" property="mbirth" />
+		<result column="MNAME" property="mname" />
+		<result column="MEMAIL" property="memail" />
+		<result column="MTEL" property="mtel" />
+		<result column="MREGDATE" property="mregdate" />
+		<result column="MPROFILEIMG" property="mprofileimg" />
+		<result column="MFAVORITE" property="mfavorite" />
+		<result column="MAUTHORITY" property="mauthority" />
+		<result column="MDELETED" property="mdeleted" />
+	</resultMap>
+
+	<!-- 프로필 메인 -->
+	<select id="list" parameterType="com.monstar.books.mypage.dto.MyProfileDto" resultMap="MyProfile">
 		SELECT MEMBERNO,MID,MNAME,MPROFILEIMG FROM M_MEMBER
-		<!-- SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY,DELETED 
-		FROM M_MEMBER WHERE MEMBERNO=M_MEBER_SEQ.CURRVAL -->
 	</select>
 	
-<!-- 	 <delete id="delete">
-    	DELETE FROM M_MEMBER WHERE MEMBERNO=#{param1}
-    </delete> -->
-	 <delete id="delete">
-    	DELETE FROM M_MEMBER WHERE MPROFILEIMG=#{param1}
-    </delete>
-    
-	<update id="update">		
-		<!-- UPDATE M_MEMBER SET MID=#{param2},MNAME=#{param3},
-		MPROFILEIMG=#{param4} WHERE MEMBERNO=#{param1} -->
-		
-	<!-- 	UPDATE M_MEMBER 
-		SET MID=#{param2},MNAME=#{param3},MPROFILEIMG=#{param4} 
-		WHERE MEMBERNO=(SELECT M_MEBER_SEQ.CURRVAL FROM DUAL) -->
-		
-		UPDATE M_MEMBER 
-		SET MPROFILEIMG=#{param2} WHERE MEMBERNO=#{param1}
-		
+	<!-- 프로필 뷰 -->
+   	<select id="myprofileview" parameterType="com.monstar.books.mypage.dto.MyProfileDto" resultMap="MyProfile">
+	SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,
+	MPROFILEIMG,MFAVORITE,MAUTHORITY,DELETED FROM M_MEMBER WHERE MID=#{param1}
+	</select>
+	
+	<!-- 프로필 이미지 삭제 기능 -->
+	 <update id="delete">
+	 	UPDATE M_MEMBER SET DELETED='NO', MPROFILEIMG=NULL WHERE MID=#{param1}
     </update>
-	
-	
-	
+    
+    <!-- 프로필 이미지 수정 기능 -->
+	<update id="profileupdate">
+		UPDATE M_MEMBER
+		SET MPROFILEIMG=#{param2} WHERE MID=#{param1}
+		</update>
+
+
 	<!-- <select id="detail">
 	</select>
 	

@@ -9,17 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 @Service
 public class MyProfileDownloadService implements MyPageService {
+	@Autowired
 	private SqlSession sqlSession;
 
 	public MyProfileDownloadService(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
-
+	//230831 [효슬] 마이페이지 프로필이미지 다운로드, 저장공간 서비스 기능	
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>>MyProfileDownloadService");
@@ -33,7 +35,7 @@ public class MyProfileDownloadService implements MyPageService {
 				
 				String path=request.getParameter("p");
 				String mprofileimg=request.getParameter("f");
-				int memberno = Integer.parseInt(request.getParameter("memberno"));
+				String mid = request.getParameter("mid");
 				
 				try {// 파일 다운로드를 처리하기 위한 코드 블록 시작
 				    // 다운로드할 파일의 이름을 URL 인코딩하여 설정하고, 응답 헤더에 추가합니다.
