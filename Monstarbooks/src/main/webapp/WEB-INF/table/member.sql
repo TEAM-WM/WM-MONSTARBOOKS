@@ -30,3 +30,6 @@ UPDATE m_member set mauthority='관리자' where  mid='admin';
 select MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,to_char(MREGDATE, 'yyyy.mm.dd hh24"시"mm"분"')as mregdate,MPROFILEIMG,MFAVORITE,MAUTHORITY
 from M_MEMBER
 where MAUTHORITY='관리자';
+-- oofdapeqbhsd
+SELECT MPW
+		FROM M_MEMBER WHERE mname='김리연' AND mtel='01000000000' AND mid='admin3';
