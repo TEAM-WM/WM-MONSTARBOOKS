@@ -21,6 +21,7 @@ import com.monstar.books.member.service.MemberIDFindService;
 import com.monstar.books.member.service.MemberInsertService;
 import com.monstar.books.member.service.MemberListService;
 import com.monstar.books.member.service.MemberLoginProcessService;
+import com.monstar.books.member.service.MemberPwdFindService;
 import com.monstar.books.member.service.MemberService;
 import com.monstar.books.member.service.MemberServiceMap;
 
@@ -157,11 +158,15 @@ public class MemberController {
 //		return "common/member/find";
 //	}// find/pwEmail 종료
 //	
-//	@RequestMapping("/find/pwPhone")
-//	public String pwFindPhone() {
-//		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
-//		return "common/member/find";
-//	}// find/pwPhone 종료
+	@RequestMapping("/find/pwPhone")
+	public String pwFindPhone(HttpServletRequest request, Model model) {
+		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
+		service = new MemberPwdFindService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		
+		return "common/member/findPwdResult";
+	}// find/pwPhone 종료
 
 	//====================관리자====================
 	@RequestMapping("/admin/member/list")
