@@ -17,6 +17,13 @@
 /* header service */
 /* .global-service-list {} */
 
+.header-id span{
+	padding:5px 10px;
+	background: var(--color-main);
+	color: var(--color-white);
+	border-radius: 5px;
+	font-weight: var(--weight-bold);
+}
 .global-service-list ul {
     display: flex;
     justify-content: flex-end;

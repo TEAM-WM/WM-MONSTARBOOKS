@@ -19,7 +19,7 @@ public class MemberDto {
 	private String mtel;//전화번호
 	private Date mregdate;// 가입날짜
 	private String mprofileimg;//프로필 이미지 경로
-	private String[] mfavorite; // 선호장르
+	private String mfavorite; // 선호장르
 	private String mauthority;// 관리자 / 사용자 권한 여부
 	private String deleted;// 회원 탈퇴 여부 -- 탈퇴시 yes 가입시 no
 }
