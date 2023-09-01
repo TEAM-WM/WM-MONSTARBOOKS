@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookCategoryDto {
 	
-	private int bcategoryno;
-	private String bcategory1;
-	private String bcategory2;
+	private int bcategoryno; //카테고리번호
+	private String bcategory1; //상위 카테고리
+	private String bcategory2; //하위 카테고리
 }

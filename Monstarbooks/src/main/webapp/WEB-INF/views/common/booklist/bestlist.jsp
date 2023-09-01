@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -17,12 +18,14 @@
 	margin : 10px;
 	font-size: 15px;
 }
-
 table {
 	width: 1000px;
 	border-top: 2px solid #ccc;
 	border-bottom: 2px solid #ccc;
 	border-collapse: collapse;
+}
+td{
+	padding:10px;
 }
 #line {
 	border-bottom: 1px solid #ccc;
@@ -44,15 +47,86 @@ table {
 	color: white;
 	font-weight: bold;
 }
+.star {
+	position: relative;
+	font-size: 2rem;
+	color: #ddd;
+}
+.star input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	cursor: auto;
+}
+.star span {
+	width: 0;
+	position: absolute; 
+	left: 0;
+	color: orange;
+	overflow: hidden;
+	
+}
 </style>
 <script>
-$(document).ready(function(){
+/* 체크박스 전체선택 */
+$().ready(function(){
 	$("#all_select").click(function(){
 		if($("#all_select").is(":checked")) $("input[name=chk]").prop("checked", true);
 		else $("input[name=chk]").prop("checked", false);
 	});
 });
+/* 체크박스 선택 장바구니 담기 */
+function cart_add_check(){
+	var cnt = $("input[name=chk]:checked").length;
+	var arr = new Array();
+	$("input[name=chk]:checked").each(function(){
+		arr.push($(this).attr('id'));
+	});
 
+	 if(cnt == 0){
+		alert("선택된 상품이 없습니다.");
+	}
+	 else{
+		$.ajax({
+			url : '../addCartCheck',
+			type: 'post',
+			data: {
+				'memberno' : 1,
+				'chbox' : arr,
+				'cnt' : cnt
+				},
+			success:function(result){
+				if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
+					location.href='../cart';
+				}else{
+					return;
+				}
+			}
+		});
+	}
+}
+/* 장바구니 담기 */
+function add_cart(bookno){
+	var cnt = $(".cnt").text();
+	$.ajax({
+		url:'../addCart',
+		type:'post',
+		data : {
+			'memberno' : 1,
+			'bookno' : bookno,
+			'cnt' : 1
+			},
+		success : function(result){
+			if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
+				location.href='../cart';
+			}else{
+				return;
+			}
+		}
+	})
+}
 </script>
 </head>
 
@@ -69,7 +143,7 @@ $(document).ready(function(){
 		<div align="right">
 			<input type="checkbox" id="all_select" name="all_select" />
 			<label for="all_select"></label> <span>전체선택</span>
-			<button type="button" id="btn1">
+			<button type="button" id="btn1" onclick="cart_add_check()">
 			<img width="25px" 
 				src="${pageContext.request.contextPath}/resources/assets/imgs/icon_cart.svg" alt="장바구니" />
 				<b>장바구니</b></button>
@@ -79,18 +153,36 @@ $(document).ready(function(){
 			<c:forEach items="${dto }" var="list">
 				<tr>
 					<td rowspan="5" id="line" width="50px" align="center">
-						<div>
-							<input type="checkbox" id="chk" name="chk" /> <label for="chk"></label>
-						</div>
+						<input type="checkbox" id="${list.bookno }" name="chk" /> <label for="${list.bookno }"></label>
 					</td>
-					<td rowspan="5" id="line" align="center"><img width="auto" height="200px" 
+					<td rowspan="5" id="line" align="center" width="150px"><img width="auto" height="200px" 
 						src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
 						alt="책 썸네일 이미지" /></td>
 					<td>순위</td>
-					<td rowspan="5" id="line" align="center">배송예정일</td>
-					<td rowspan="5" id="line" align="center"><button type="button" id="btn2">장바구니</button>
+					
+					<!-- 배송예정일 -->
+					<td rowspan="5" id="line" align="center">
+						<jsp:useBean id="now" class="java.util.Date" />
+						<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
+						<fmt:formatDate value="${list.bpdate }" pattern="yyyyMMdd" var="pDate" />
+						<c:if test="${nowDate < pDate }">
+							<span style="background-color: lightblue; border-radius: 5px; padding:2px;">예약판매</span> <br />
+							<b><fmt:formatDate value="${list.bpdate }" pattern="MM월 dd일 (E)"/></b> <br /> 
+							출고예정 		
+						</c:if>
+						<c:if test="${nowDate >= pDate }">	
+							<c:set var="twoDayAfter" value="<%=new Date(new Date().getTime()+60*60*24*1000*2) %>"/>
+							<span style="background-color: pink; border-radius: 5px; padding:2px;">배송일정</span> <br />
+							<b><fmt:formatDate value="${twoDayAfter}" pattern="MM월 dd일 (E)"/></b> <br />
+							도착예정 		
+						</c:if>
+					
+					</td>
+					<td rowspan="5" id="line" align="center">
+						<button type="button" id="btn2" onclick="add_cart(${list.bookno})">장바구니</button>
 						<br /> <br />
-						<button type="button" id="btn3">바로구매</button></td>
+						<button type="button" id="btn3">바로구매</button>
+					</td>
 				</tr>
 				<tr>
 					<td><h3>
@@ -107,7 +199,13 @@ $(document).ready(function(){
 						(${list.bdiscount }%)</td>
 				</tr>
 				<tr>
-					<td id="line">평점 / 태그</td>
+					<td id="line">
+					<!-- 평점, 리뷰수 -->
+					<i class="fa-solid fa-star" style="color:orange"></i>
+					${list.starAvg } (${list.reviewCnt}개의 리뷰)
+					 / 
+					<!-- 태그 -->
+					 ${list.detail.badge }</td>
 				</tr>
 			</c:forEach>
 		</table>

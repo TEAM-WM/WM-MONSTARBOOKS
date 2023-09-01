@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import com.monstar.books.booklist.dao.BookListDao;
 import com.monstar.books.booklist.dto.BookListDto;
 import com.monstar.books.booklist.dto.BookReviewDto;
+import com.monstar.books.booklist.vopage.SearchVO;
 
 @Service
 public class BookDetailServiceList implements BookListService {
@@ -40,9 +41,28 @@ public class BookDetailServiceList implements BookListService {
 		BookListDao dao = session.getMapper(BookListDao.class);
 		
 		BookListDto dto = dao.bookDetail(bookno);
-		ArrayList<BookReviewDto> rdto = dao.bookReivew(bookno);
-		float starAvg = dao.starAvg(bookno);
+		
+//		리뷰 페이징
+		SearchVO searchVO = (SearchVO) map.get("searchVO");
+		String strPage = request.getParameter("page");
+		//처음 null 처리
+		if(strPage == null) 
+			strPage = "1";
+		int page = Integer.parseInt(strPage);
+		searchVO.setPage(page);
+		
+		//전체 리뷰 수 조회
 		int reviewCnt = dao.reviewCnt(bookno);
+		searchVO.pageCalculate(reviewCnt);
+		
+		//페이징 글 번호 전달
+		int rowStart = searchVO.getRowStart();
+		int rowEnd = searchVO.getRowEnd();
+		
+		ArrayList<BookReviewDto> rdto = dao.bookReivew(bookno,rowStart,rowEnd);
+		
+//		별점 평균 조회
+		float starAvg = dao.starAvg(bookno);
 		
 		model.addAttribute("detail",dto);
 		model.addAttribute("review",rdto);
