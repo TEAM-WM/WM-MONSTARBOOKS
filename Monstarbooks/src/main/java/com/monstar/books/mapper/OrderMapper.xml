@@ -1,0 +1,75 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!-- 230831 / 진성 추가 -->
+<mapper namespace="com.monstar.books.order.dao.OrderDao">
+
+	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Detail">
+		<result column="BIMG" property="bimg"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.BookListDto" id="List">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BTITLE" property="btitle"/>
+		<result column="BPRICESELL" property="bpricesell"/>
+		<result column="BPRICE" property="bprice"/>
+		<result column="BDISCOUNT" property="bdiscount"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.BookCategoryDto" id="Category">
+		<result column="BCATEGORY1" property="bcategory1"/>
+		<result column="category" property="Category"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.cart.dto.CartDto" id="Cart">
+		<result column="CARTNO" property="cartno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="BOOKNO" property="bookno"/>
+		<result column="CCOUNT" property="ccount"/>
+		<result column="CNT" property="cnt"/>
+		<collection property="list" resultMap="List"></collection>
+		<collection property="detail" resultMap="Detail"></collection>
+		<collection property="category" resultMap="Category"></collection>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+
+	<select id="cartSelList" parameterType="com.monstar.books.cart.dto.CartDto" resultMap="Cart">
+		SELECT C.CARTNO,C.MEMBERNO,C.BOOKNO,C.CCOUNT,
+		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,
+		D.BIMG,CT.BCATEGORY1, M.MEMBERNO
+		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY CT, M_MEMBER M
+		WHERE C.BOOKNO=B.BOOKNO 
+		AND C.BOOKNO=D.BOOKNO
+		AND D.BCATEGORYNO=CT.BCATEGORYNO
+		AND C.MEMBERNO=M.MEMBERNO
+		AND C.CARTNO IN 
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+		AND C.MEMBERNO = 1
+	</select>
+	
+	<select id="seltTotPrice" resultType="Integer">
+		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
+		WHERE B.BOOKNO=C.BOOKNO 
+		AND C.MEMBERNO=M.MEMBERNO 
+        AND C.CARTNO IN 
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+		AND C.MEMBERNO = 1
+	</select>
+
+	<select id="cartCnt" resultType="Integer">
+		SELECT COUNT(CARTNO) FROM M_CART 
+		WHERE MEMBERNO=1 AND CARTNO IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+	</select>
+</mapper>

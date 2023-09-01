@@ -1,0 +1,82 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230818 / 리연 추가 -->
+<mapper namespace="com.monstar.books.adbanner.dao.BannerDao">
+	<resultMap type="com.monstar.books.adbanner.dto.EventDto" id="Event">
+		<result column="EVENTNO" property="eventno"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="ECONTENT" property="econtent"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adbanner.dto.BannerDto" id="Banner">
+		<result column="BANNERNO" property="bannerno"/>
+		<result column="EVENTNO" property="eventno"/>
+		<result column="QCATEGORY" property="qcategory"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<collection property="event" resultMap="Event"></collection>
+	</resultMap>
+	
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE ETITLE LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==2">
+				WHERE EFILESRC LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==3">
+				WHERE ETITLE LIKE '%'||#{param3}||'%' OR EFILESRC LIKE '%'||#{param3}||'%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
+
+	<select id="list" resultType="com.monstar.books.adbanner.dto.BannerDto" resultMap="Banner">
+		SELECT *FROM     
+		(SELECT ROWNUM NUM, N.*FROM
+		(SELECT B.BANNERNO,B.EVENTNO,B.ETITLE,B.EFILESRC,B.EREGDATE,E.DELETED
+		FROM M_BANNER B JOIN M_EVENT E 
+		ON B.EVENTNO=E.EVENTNO
+		ORDER BY BANNERNO DESC)N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	<insert id="bannerwrite">
+		INSERT INTO M_BANNER VALUES
+		(SEQ_BANNERNO.NEXTVAL, SEQ_EVENTNO.NEXTVAL,#{param1},#{param2},SYSDATE)
+	</insert>
+	<select id="bannerdetail" resultType="com.monstar.books.adbanner.dto.BannerDto">
+		SELECT BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE
+        FROM M_BANNER
+        WHERE BANNERNO=#{param1}
+	</select>
+	<update id="bannerdelete">
+		UPDATE M_EVENT SET DELETED = 'yes' WHERE EVENTNO = #{param1}
+	</update>
+<!-- 	<select id="selectQnatotCount" resultType="Integer">
+		SELECT COUNT(*)FROM (SELECT*FROM 
+		M_BANNER B JOIN M_EVENT E
+		ON B.EVENTNO=E.EVENTNO)
+	</select> -->
+	
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)FROM M_BANNER WHERE ETITLE LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*)FROM M_BANNER WHERE EFILESRC LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)FROM M_BANNER WHERE ETITLE LIKE '%'||#{param1}||'%' OR EFILESRC LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount4" resultType="Integer">
+		SELECT COUNT(*)FROM M_BANNER
+	</select>
+	
+</mapper>

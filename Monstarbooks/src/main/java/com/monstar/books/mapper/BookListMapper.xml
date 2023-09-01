@@ -31,6 +31,8 @@
 		<result column="BSTATUS" property="bstatus"/>
 		<result column="BCDATE" property="bcdate"/>
 		<result column="BMDATE" property="bmdate"/>
+		<result column="STARAVG" property="starAvg"/>
+		<result column="REVIEWCNT" property="reviewCnt"/>
 		<collection property="detail" resultMap="Detail"></collection>
 		<collection property="category" resultMap="Category"></collection>
 	</resultMap>
@@ -63,11 +65,31 @@
 	
 	<!-- 리스트 -->
 	<select id="list" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		<!-- 페이징 전
 		SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,
-		B.BPRICESELL,B.BDISCOUNT FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO
+		B.BPRICESELL,B.BDISCOUNT FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO -->
+		
+		<!-- 페이징 후 -->
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,
+		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
+		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) STARAVG,
+		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+		FROM M_BOOK B, M_BOOK_DETAIL D 
+		WHERE B.BOOKNO = D.BOOKNO) N)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+		
 	</select>
 	
-	<!-- 전체페이지 -->
+	<!-- <select id="starAvgReCnt" resultType="com.monstar.books.booklist.dto.BookReviewDto">
+		SELECT ROUND(AVG(RSTAR),1) STARAVG, COUNT(REVIEWNO) REVIEWCNT FROM M_REVIEW 
+		WHERE BOOKNO=#{param1}
+	</select> -->
+	
+	<!-- 리스트 총 갯수 -->
 	<select id="TotCount" resultType="Integer">
 		SELECT COUNT(*) FROM M_BOOK
 	</select>
@@ -90,11 +112,24 @@
 	
 	<!-- 리뷰 조회 -->		
 	<select id="bookReivew" parameterType="com.monstar.books.booklist.dto.BookReviewDto" resultMap="Review">
+		<!-- 페이징 전 
 		SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
 		M.MID
 		FROM M_REVIEW R,M_MEMBER M
 		WHERE R.MEMBERNO = M.MEMBERNO
 		AND BOOKNO= #{param1}
+		ORDER BY R.REGDATE DESC -->
+		
+		<!-- 페이징 후 -->
+		SELECT * FROM 
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
+		M.MID
+		FROM M_REVIEW R,M_MEMBER M
+		WHERE R.MEMBERNO = M.MEMBERNO
+		AND BOOKNO= #{param1} 
+		ORDER BY R.REGDATE DESC) N)
+		WHERE NUM BETWEEN #{param2} AND #{param3}
 	</select>
 
 	<!-- 별점 평균 -->
@@ -112,5 +147,23 @@
 		SELECT RSTAR, COUNT(*) STARCNT FROM M_REVIEW WHERE BOOKNO=#{param1} 
 		GROUP BY RSTAR ORDER BY RSTAR
 	</select>
+	
+	<!-- 사용자 번호가져오기 -->
+	<!-- <select id="memberno" resultType="int">
+		
+	</select> -->
+	
+	<insert id="cartInsert">
+		INSERT INTO M_CART VALUES(M_CART_SEQ.NEXTVAL,#{param1},#{param2},#{param3})
+	</insert>
+		
+	<select id="booknoCheck" resultType="Integer">
+		SELECT BOOKNO FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=1
+	</select>
+	
+	<update id="cartAddUpdate">
+		UPDATE M_CART SET CCOUNT=CCOUNT+#{param3} WHERE BOOKNO=#{param2} AND MEMBERNO=1
+	</update>
+
 	
 </mapper>

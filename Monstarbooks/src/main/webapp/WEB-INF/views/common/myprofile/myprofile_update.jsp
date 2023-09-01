@@ -6,42 +6,106 @@
 <head>
 <meta charset="UTF-8">
 <title>myprofile_update</title>
-</head>
-<!--  로그인 및 회원 memberno를 hidden으로 연동해서 관련 자료가 뜨게끔 해야됨. -->
-<body>
-	<h2>프로필이미지 변경</h2> <br />
-	<form action="update" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="memberno" value="${sessionScope.myprofile_list.memberno }" />
-	<hr />
-		<img src="../resources/assets/imgs/hyoseul/profile.png" style=" max-width: 30%;  height: auto;">
-		
-	<table>
-				<tr>
-					<td class="left">이름</td>
-					<td>${myprofile_list.mname }</td>
-				</tr>
-					<tr> 
-				</tr>		
-				<tr>					
-					<td class="left">첨부</td>
-					<td><input type="file" name="mprofileimg" accept=".jpg, .png" onchange="imageChoose(this)" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					<input type="submit" value="update" /> &nbsp;&nbsp;
+<style>
+tr, td {
+	padding: 10px 0px 5px 0px;
+}
 
+form {
+	width: 500px;
+	align: center;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table {
+	width: 500px;
+	align: center;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+.relist {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 15px;
+	border-radius: 5px;
+	border: 1px solid #d9d9d9;
+	color: #767676;
+	background-color: var(- -color-white);
+	font-weight: var(- -weight-bold);
+	color: var(- -color-main);	
+} 
+
+</style>
+</head>
+<body>
+<br /> <br /><br />
+	<h2>My Profile Update</h2> <br />
+
+<form action="profileupdate" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="mid" value="${myprofile_view.mid }" />
+<br />
+
+	
+	<div align="center" class="card" style="height: 700px;">
+	<table>
+				<c:choose>
+			<c:when test="${not empty myprofile_view.mprofileimg}">
+				<tr>
+					<td class="center" colspan=2>
+						<div align="center" class="image-container">
+							<img
+								src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }"
+								alt="프로필사진" style="width: 200px; height: 200px;" />
+						</div>
 					</td>
 				</tr>
-	
+			</c:when>
+			<c:otherwise>
+				<tr>
+					<td class="left" colspan=2>
+						<div align="center" class="image-container">
+							<img
+								src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
+								alt="기본이미지" style="max-width: 40%; height: auto;">
+						</div>
+					</td>
+				</tr>
+			</c:otherwise>
+		</c:choose>
+			<tr>
+			<td> </td>
+		</tr>
+				<tr>
+					<td class="center" colspan="2">ID : &nbsp;${myprofile_view.mid }</td>
+				</tr>
+				<tr>
+			<td class="center" colspan="2">이름 : &nbsp;${myprofile_view.mname }&nbsp;님</td>
+			</tr>
+			<tr>
+			<td> </td>
+		</tr>		
+				<tr>
+					<td class="center" colspan="2"><input type="file" name="mprofileimg" accept=".jpg, .png, .gif" 
+					onchange="imageChoose(this)" value="${myprofile_view.mprofileimg }"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="left" colspan="2">
+					<input type="submit" value="update" />
+				<a href="list" class="relist">LIST</a>
+					</td>
+				</tr>
 		</table>
+		</div>
 	</form>
-
-
-
-
-
-
-
+	
 
 	
 <script>

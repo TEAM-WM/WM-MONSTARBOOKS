@@ -1,5 +1,6 @@
 package com.monstar.books.adnotice.service;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.Model;
 
 import com.monstar.books.adnotice.dao.AdNoticeDao;
-import com.monstar.books.adnotice.dto.AdNoticeDto;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class AdNoticeUpdateServiceList implements AdNoticeService {
 	private SqlSession sqlSession;
@@ -23,17 +25,36 @@ public class AdNoticeUpdateServiceList implements AdNoticeService {
 		Map<String, Object> map = model.asMap();
 		// Map에서 Request값 추출하기
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		MultipartRequest req=(MultipartRequest) map.get("req");
+//		String path = "C:\\MonstarBook\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
+//		MultipartRequest req = null;
+//		
+//		try {
+//			req = new MultipartRequest(request, path, 1024*1024*20,
+//					"utf-8", new DefaultFileRenamePolicy());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
-		String noticeno = request.getParameter("noticeno");
-		String deleted = request.getParameter("deleted");
-		String ntitle = request.getParameter("ntitle");
-		String ncontent = request.getParameter("ncontent");
-//		String nfilesrc = request.getParameter("nfilesrc");
+		// 수정값 받아오기
+//		String noticeno = request.getParameter("noticeno");
+//		String ntitle = request.getParameter("ntitle");
+//		String ncontent = request.getParameter("ncontent");
+		
+		String noticeno = req.getParameter("noticeno");
+		String ntitle = req.getParameter("ntitle");
+		String ncontent = req.getParameter("ncontent");
+		String nfilesrc = req.getFilesystemName("nfilesrc");
+		
+		System.out.println("noticeno:" + noticeno);
+//		System.out.println("nfilesrc : " + nfilesrc);		// 넘어옴
+		
+		if(nfilesrc == null) {
+			nfilesrc = "x";
+		}
+		
 		AdNoticeDao dao = sqlSession.getMapper(AdNoticeDao.class);
-		
-//		System.out.println(noticeno + "," + ntitle);
-		
-		dao.update(noticeno,deleted,ntitle,ncontent);
+		dao.update(noticeno,ntitle,ncontent,nfilesrc);
 		
 		
 		
