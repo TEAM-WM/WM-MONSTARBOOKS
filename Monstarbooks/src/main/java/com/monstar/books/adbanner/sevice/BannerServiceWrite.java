@@ -34,7 +34,8 @@ public class BannerServiceWrite implements BannerService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
 		BannerDao dao = session.getMapper(BannerDao.class);
-		String path = "/Applications/spring/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Monstarbooks3/resources/assets/imgs/banner";
+		
+		String path = "/Users/chajong-geon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/banner";
 
 		MultipartRequest req = null;
 		try {
