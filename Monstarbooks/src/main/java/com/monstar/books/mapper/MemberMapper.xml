@@ -51,4 +51,26 @@
 			</when>
 		</choose>
 	</select>
+	
+	
+	<!-- 비밀번호를 찾아보자 -->
+	<select id="pwdSearch" parameterType="com.monstar.books.member.dto.MemberDto"
+	resultType="String">
+	SELECT MPW FROM M_MEMBER
+		<choose>
+			<when test="mid !=null and mname != null and memail !=null">
+			 WHERE mname=#{mname} AND memail=#{memail} AND mid=#{mid}
+			</when>
+			<when test="mid != null and mname !=null and mtel !=null">
+			 WHERE mname=#{mname} AND mtel=#{mtel} AND mid=#{mid}
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="com.monstar.books.member.dto.MemberDto">
+		UPDATE M_MEMBER
+		SET mpw=#{mnewpwd}
+		WHERE mid=#{mid}
+	</update>
 </mapper>

@@ -273,6 +273,26 @@
 		    <artifactId>sdk</artifactId>
 		    <version>4.3.0</version>
 		</dependency>
+		
+		<!-- 이메일 인증을 위한 라이브러리 -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		<!-- Activation -->
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.5</version>
+		</dependency>
+		<!-- 이메일 인증을 위한 라이브러리 종료 -->
+				
 	</dependencies>
 	<build>
 		<plugins>

@@ -13,6 +13,7 @@ public class MemberDto {
 	private int memberno;//회원번호
 	private String mid;//아이디
 	private String mpw;//비밀번호
+	private String mnewpwd;//새로 입력할 비밀번호
 	private Date mbirth;//생일
 	private String mname;//이름
 	private String memail;//이메일
