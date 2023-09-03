@@ -18,21 +18,23 @@
 			<li class="active">
 				<button type="button">이메일로 찾기</button>
 				<div class="accordion-item">
-					<form action="./." method="post">
+					<form action="${pageContext.request.contextPath}/find/idEmail" method="post">
 						<label for="name">이름</label>
-						<input type="text" name="name"
-							placeholder="이름을 입력해주세요." id="name">
-							<label for="email">이메일</label>
-							
+						<input type="text" name="name" placeholder="이름을 입력해주세요." id="name">
+						
+						<label for="idEmailInput">이메일</label>
 						<div class="form-small">
-							<input type="email" name="email" id="email"
+							<input type="email" name="email" id="idEmailInput"
 								placeholder="이메일을 입력해주세요">
-							<input type="button" value="인증번호 발송">
+							<input type="button" value="인증번호 발송" id="idEmailSend">
 						</div>
 
 						<label for="certifyNumber">인증번호</label>
-						<input type="text" name="certifyNumber" id="certifyNumber"
-							placeholder="인증번호를 입력해주세요">
+						<div class="form-small">
+							<input type="text" name="certifyNumber" id="idEmailCertifyNumber"
+								placeholder="인증번호를 입력해주세요">
+							<input type="button" value="인증번호 확인" id="idEmailCertifyCheck" />
+						</div>
 							
 						<input type="submit" value="확인">
 					</form>
@@ -72,7 +74,7 @@
 			<li class="active">
 				<button type="button">이메일로 찾기</button>
 				<div class="accordion-item">
-					<form action="./." method="post">
+					<form action="${pageContext.request.contextPath}/find/pwEmail" method="post">
 						<label for="id">아이디</label> 
 						<input type="text" name="id"
 							placeholder="아이디를 입력해주세요." id="id">
@@ -82,14 +84,17 @@
 						
 						<label for="email">이메일</label>
 						<div class="form-small">
-							<input type="email" name="email" id="email"
+							<input type="email" name="email" id="pwEmailInput"
 								placeholder="이메일을 입력해주세요">
-							<input type="button" value="인증번호 발송">
+							<input type="button" value="인증번호 발송" id="pwEmailSend">
 						</div>
 
 						<label for="certifyNumber">인증번호</label>
-						<input type="text" name="certifyNumber" id="certifyNumber"
-							placeholder="인증번호를 입력해주세요">
+						<div class="form-small">
+							<input type="text" name="certifyNumber" id="pwEmailCertifyNumber"
+								placeholder="인증번호를 입력해주세요">
+							<input type="button" value="인증번호 확인" id="pwEmailCertifyCheck" />
+						</div>
 						
 						<input type="submit" value="확인">
 					</form>
@@ -162,8 +167,38 @@
 					alert("발송에 실패하였습니다.")
 				}
 			});
-		});
+		});//idPhone
 	
+		$('#idEmailSend').click(function() {
+			const to = $("#idEmailInput").val();
+			console.log(to)
+			$.ajax({
+				url : "sendEmail",
+				type : "get",
+				data : "to=" + to,
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+					const checkNum = data.numStr;
+					console.log('checkNum:' + checkNum);
+
+					//인증하기 버튼 클릭 이벤트
+					$('#idEmailCertifyCheck').click(function() {
+						const userNum = $('#idEmailCertifyNumber').val();
+						if (checkNum == userNum) {
+							alert('인증 성공하였습니다.');
+							flag = true;
+						} else {
+							alert('인증 실패하였습니다. 다시 입력해주세요.');
+							flag = false;
+						}
+					});
+				},
+				error : function() {
+					alert("발송에 실패하였습니다.")
+				}
+			});
+		});//idEmail
 		
 		$('#pwPhoneSend').click(function() {
 			const to = $("#pwPhoneInput").val();
@@ -193,10 +228,41 @@
 					alert("발송에 실패하였습니다.")
 				}
 			});
-		});
-		//pwPhone
+		});//pwPhone
+		
+		$('#pwEmailSend').click(function() {
+			const to = $("#pwEmailInput").val();
+			console.log(to)
+			$.ajax({
+				url : "sendEmail",
+				type : "get",
+				data : "to=" + to,
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+					const checkNum = data.numStr;
+					console.log('checkNum:' + checkNum);
+
+					//인증하기 버튼 클릭 이벤트
+					$('#pwEmailCertifyCheck').click(function() {
+						const userNum = $('#pwEmailCertifyNumber').val();
+						if (checkNum == userNum) {
+							alert('인증 성공하였습니다.');
+							flag = true;
+						} else {
+							alert('인증 실패하였습니다. 다시 입력해주세요.');
+							flag = false;
+						}
+					});
+				},
+				error : function() {
+					alert("발송에 실패하였습니다.")
+				}
+			});
+		});//pwEmail
+		
 		$("form").submit(function(e) {
-			const form = $(this); // 현재 폼 요소를 가져
+			const form = $(this); // 현재 폼 요소를 가져옴
 		    const idValue = form.find("#id").val();
 		    const nameValue = form.find("#name").val();
 		    console.log(idValue);
@@ -210,8 +276,6 @@
 		    	return true;
 		    }
 		});//form
-
-		
 	});//종료
 	</script>
 </body>

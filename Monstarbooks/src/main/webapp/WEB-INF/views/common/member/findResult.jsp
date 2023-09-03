@@ -9,14 +9,14 @@
 </head>
 <body>
 	<article class="join-success">
-		<i class="fa-solid fa-magnifying-glass"></i>
-		<c:choose>
+ 		<c:choose>
 			<c:when test="${ not empty dto }">
+				<i class="fa-solid fa-magnifying-glass"></i>
 				<h3>
 					${name }님의 아이디입니다.<br>
 					<span class="text-back">${info }</span>
 				</h3>
-				<table style="width=348px">
+				<table style="width:348px">
 					<tr>
 						<th>아이디</th>
 						<th>가입날짜</th>
@@ -34,6 +34,7 @@
 				</table>
 			</c:when>
 			<c:otherwise>
+				<i class="fa-solid fa-triangle-exclamation"></i>
 				<h3>입력하신 정보와 일치하는<br>회원정보가 없습니다.</h3>
 			</c:otherwise>
 		</c:choose>

@@ -141,6 +141,15 @@ public class MemberController {
 		return "common/member/find";
 	}// find 종료
 	
+	@RequestMapping("/find/idEmail")
+	public String idFindEmail(HttpServletRequest request, Model model) {
+		System.out.println(">>>아이디찾기 이메일 요청처리");
+		
+		service = new MemberIDFindService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "common/member/findResult";
+	}// find/idPhone 종료
 	
 	@RequestMapping("/find/idPhone")
 	public String idFindPhone(HttpServletRequest request, Model model) {
@@ -152,12 +161,12 @@ public class MemberController {
 		return "common/member/findResult";
 	}// find/idPhone 종료
 	
-//	@RequestMapping("/find/pwEmail")
-//	public String pwFindEmail() {
-//		System.out.println(">>>비밀번호찾기 이메일 요청처리");
-//		return "common/member/find";
-//	}// find/pwEmail 종료
-//	
+	@RequestMapping("/find/pwEmail")
+	public String pwFindEmail() {
+		System.out.println(">>>비밀번호찾기 이메일 요청처리");
+		return "common/member/findPwdResult";
+	}// find/pwEmail 종료
+
 	@RequestMapping("/find/pwPhone")
 	public String pwFindPhone(HttpServletRequest request, Model model) {
 		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
