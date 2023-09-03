@@ -25,7 +25,7 @@ import com.monstar.books.m3pop.vopage.SearchVO;
 
 
 @Controller
-public class QnaController {
+public class QnaController2 {
 	
 	BServiceInter bServiceInter;
 	
