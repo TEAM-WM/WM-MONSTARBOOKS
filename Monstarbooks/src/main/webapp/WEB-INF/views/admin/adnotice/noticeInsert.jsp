@@ -37,11 +37,6 @@
 		
 	}
 	
-	function deleteFile(){
-		// 첨부파일 초기화
-		
-	}
-	
 </script>
 </head>
 <body>
