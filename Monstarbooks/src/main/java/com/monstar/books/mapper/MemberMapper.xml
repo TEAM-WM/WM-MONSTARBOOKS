@@ -6,10 +6,6 @@
 <!-- 230824 / 리연 추가 -->
 <mapper namespace="com.monstar.books.member.dao.MemberDao">
 
-	<select id="list" resultType="com.monstar.books.member.dto.MemberDto">
-		SELECT * FROM M_MEMBER ORDER BY MEMBERNO DESC
-	</select>
-
 	<!-- <select id="detail"> </select> <update id="update"> </update> -->
 
 	<!-- 처음 가입시 사용자 -->
@@ -72,5 +68,52 @@
 		UPDATE M_MEMBER
 		SET mpw=#{mnewpwd}
 		WHERE mid=#{mid}
+	</update>
+	
+	<!-- 동적쿼리 -->
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE MID LIKE '%'||#{param3} ||'%'
+			</when>
+			<when test="param4==2">
+				WHERE MNAME LIKE '%'||#{param3} ||'%'
+			</when>
+			<when test="param4==3">
+				WHERE MID LIKE '%'||#{param3} ||'%' OR MNAME LIKE '%'||#{param3} ||'%'
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+	</sql>
+	<select id="list" resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT MEMBERNO,MID,MNAME,MEMAIL,MAUTHORITY,TO_CHAR(MREGDATE, 'YY-MM-DD')AS to_regdate
+		FROM
+		(SELECT ROWNUM NUM,N.* FROM (SELECT * FROM M_MEMBER ORDER BY MEMBERNO DESC) N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<!-- 유형별로 총 갯수 구하기 -->
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*) FROM M_MEMBER WHERE MNAME LIKE '%'||#{param1} ||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%' OR MNAME LIKE '%'||#{param1} ||'%'
+	</select>
+	<select id="selectBoardTotCount4" resultType="Integer">
+		SELECT COUNT(*) FROM M_MEMBER
+	</select>
+	
+	
+	<!-- 회원 권한 수정 -->
+	<update id="updateStatus" parameterType="com.monstar.books.member.dto.MemberDto"> 
+		UPDATE M_MEMBER SET MAUTHORITY=#{mauthority} 
+		WHERE MEMBERNO=#{memberno}
 	</update>
 </mapper>

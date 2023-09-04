@@ -15,12 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.member.service.MemberIDCheckService;
 import com.monstar.books.member.service.MemberIDFindService;
 import com.monstar.books.member.service.MemberInsertService;
 import com.monstar.books.member.service.MemberListService;
+import com.monstar.books.member.service.MemberListStatusService;
 import com.monstar.books.member.service.MemberLoginProcessService;
 import com.monstar.books.member.service.MemberPwdFindService;
 import com.monstar.books.member.service.MemberService;
@@ -184,7 +184,25 @@ public class MemberController {
 	public String adminMember(Model model, HttpServletRequest request) {
 		System.out.println(">>>관리자 회원 리스트 요청처리");
 		service = new MemberListService(session);
+		model.addAttribute("request",request);
 		service.execute(model);
 		return "admin/member/list";
+	}
+	@RequestMapping("/admin/member/list/status")
+	public String adminMemberStatus(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 권한 수정 요청처리");
+		service = new MemberListStatusService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "redirect:/admin/member/list";
+	}
+	
+	@RequestMapping("/admin/member/detail")
+	public String adminMemberDetail(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 상세보기 요청처리");
+		service = new MemberListService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "admin/member/detail";
 	}
 }// class 종료
