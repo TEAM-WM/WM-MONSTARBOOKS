@@ -8,4 +8,5 @@ public interface MemberDao {
 	public void insert(MemberDto dto);
 	public ArrayList<MemberDto> list();
 	public String isExist(String inputId);
+	public MemberDto getData(String mid);
 }//======== MemberDao ========

@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.monstar.books.member.sevice.MemberIDCheckService;
-import com.monstar.books.member.sevice.MemberInsertService;
-import com.monstar.books.member.sevice.MemberListService;
-import com.monstar.books.member.sevice.MemberService;
-import com.monstar.books.member.sevice.MemberServiceMap;
+import com.monstar.books.member.service.MemberIDCheckService;
+import com.monstar.books.member.service.MemberInsertService;
+import com.monstar.books.member.service.MemberListService;
+import com.monstar.books.member.service.MemberService;
+import com.monstar.books.member.service.MemberServiceMap;
+
+
 
 //@RequestMapping("/user/*")
 @Controller
