@@ -13,5 +13,5 @@ public interface MemberDao {
 	//usersDto 로 비밀번호 찾아오기
 	public String pwdSearch(MemberDto dto);// 비밀번호 찾기
 	//비밀번호 업데이트
-	public void updatePwd(MemberDto dto);// 비밀번호 찾기 후 업데이트
+	public void updatePwd(MemberDto dto);// 비밀번호 찾기 후 업데이트>>>>>>> refs/remotes/upstream/master
 }//======== MemberDao ========

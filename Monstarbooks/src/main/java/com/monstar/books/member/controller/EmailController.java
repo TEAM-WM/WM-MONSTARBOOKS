@@ -78,7 +78,7 @@ public class EmailController extends Authenticator {
 		}
         System.out.println("asdasdasdasdas지메이이이이이일 : "+p);
         
-        Map<String, String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<String, String>();
         response.put("numStr", numStr);
         return response;
     }
