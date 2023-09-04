@@ -5,19 +5,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.mypage.dao.MyProfileDao;
-import com.oreilly.servlet.MultipartRequest;
+
 @Service
 public class MyProfileDeleteService implements MyPageService {
+	@Autowired
 	private SqlSession sqlSession;
 	
 	public MyProfileDeleteService(SqlSession sqlSession) {
 		this.sqlSession=sqlSession;
 	}
-
+	//230828 [효슬] 마이페이지 프로필이미지 삭제 서비스 기능
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>>MyProfileDeleteService");
@@ -27,24 +29,14 @@ public class MyProfileDeleteService implements MyPageService {
 //		map에서 request추출
 		HttpServletRequest request=
 				(HttpServletRequest) map.get("request");
-		
+
 		MyProfileDao dao=sqlSession.getMapper(MyProfileDao.class);
 		
-		try {
-			int memberno = Integer.parseInt(request.getParameter("memberno"));
-			String mprofileimg = ((MultipartRequest) request).getFilesystemName("mprofileimg");
-			dao.delete(memberno, mprofileimg);
+		String mid = request.getParameter("mid");
+
+		dao.delete(mid);
 			
-	          if (mprofileimg == null) {
-	              mprofileimg = "";
-	          }
-			
-		} catch (NumberFormatException e) {
-			// TODO: handle exception
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+	
 	}// execute method
 		
 }// class 종료

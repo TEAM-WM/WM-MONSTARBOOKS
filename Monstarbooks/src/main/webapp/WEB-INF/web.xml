@@ -50,14 +50,14 @@
 	</filter-mapping>
 
 	<!-- 에러페이지 추가 -->
-<!-- 	<error-page>
+	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error/404.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/views/error/500.jsp</location>
-	</error-page> -->
+	</error-page>
 	
 	<!-- 스프링 Security 필터 -->
 	<!-- <filter>

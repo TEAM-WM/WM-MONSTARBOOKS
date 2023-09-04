@@ -1,0 +1,82 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230818 / 리연 추가 -->
+<mapper namespace="com.monstar.books.adreview.dao.ReviewDao"> 	
+<resultMap type="com.monstar.books.adreview.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+		<result column="MNAME" property="mname"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adreview.dto.BookDto" id="Book">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BTITLE" property="btitle"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adreview.dto.ReviewDto" id="Review">
+		<result column="REVIEWNO" property="reviewno"/>
+		<result column="BOOKNO" property="bookno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="RTITLE" property="rtitle"/>
+		<result column="RCONTENT" property="rcontent"/>
+		<result column="REDATE" property="redate"/>
+		<result column="RSTAR" property="rstar"/>
+		<result column="REFNLESRC" property="refnlesrc"/>
+		<result column="DELETED" property="deleted"/>
+		<collection property="member" resultMap="Member"></collection>
+		<collection property="book" resultMap="Book"></collection>
+	</resultMap>
+	
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE BTITLE LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==2">
+				WHERE MNAME LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==3">
+				WHERE BTITLE LIKE '%'||#{param3}||'%' OR MNAME LIKE '%'||#{param3}||'%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
+	<select id="review" resultType="com.monstar.books.adreview.dto.ReviewDto" resultMap="Review"> 
+		<!-- 
+		SELECT B.BTITLE,M.MNAME,M.MID,R.RCONTENT,R.REDATE,R.RSTAR,R.DELETED,R.REVIEWNO
+		FROM M_REVIEW R,M_BOOK B,M_MEMBER M
+		WHERE B.BOOKNO=R.BOOKNO AND R.MEMBERNO=M.MEMBERNO
+		 -->
+		SELECT *FROM (SELECT ROWNUM NUM, N.*FROM(SELECT B.BTITLE,M.MNAME,M.MID,R.RCONTENT,R.REDATE,R.RSTAR,R.DELETED,R.REVIEWNO,R.REFNLESRC
+		FROM M_REVIEW R,M_BOOK B,M_MEMBER M
+		WHERE B.BOOKNO=R.BOOKNO AND R.MEMBERNO=M.MEMBERNO ORDER BY R.REVIEWNO DESC)N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	<update id="reviewdelete">
+		UPDATE M_REVIEW SET DELETED='yes' WHERE REVIEWNO=#{param1}
+	</update>
+	
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)FROM M_BOOK WHERE BTITLE LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*)FROM M_MEMBER WHERE MEMBERNO LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)
+		FROM M_REVIEW R
+		JOIN M_BOOK B ON R.BOOKNO = B.BOOKNO
+		JOIN M_MEMBER M ON R.MEMBERNO = M.MEMBERNO
+		WHERE B.BTITLE LIKE '%'||#{param1}||'%'
+   		OR M.MNAME LIKE '%'||#{param1}||'%'
+	</select>	
+	<select id="selectBoardTotCount4" resultType="Integer">
+		SELECT COUNT(*)
+		FROM M_REVIEW R
+		JOIN M_BOOK B ON R.BOOKNO = B.BOOKNO
+		JOIN M_MEMBER M ON R.MEMBERNO = M.MEMBERNO
+	</select>
+</mapper>

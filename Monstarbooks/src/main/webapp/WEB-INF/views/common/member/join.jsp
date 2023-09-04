@@ -15,6 +15,12 @@
 		</ul>
 	</div>
 	<form action="${pageContext.request.contextPath}/join/access" method="post" class="join left">
+		<!-- hidden input으로 파라미터 값을 넘김 -->
+    	<input type="hidden" name="termsAll" value="${param.termsAll}">
+    	<input type="hidden" name="policyAgree" value="${param.policyAgree}">
+    	<input type="hidden" name="privacyAgree" value="${param.privacyAgree}">
+    	<input type="hidden" name="limitAgree" value="${param.limitAgree}">
+    	
 		<label for="id">아이디</label>
 		<div class="form-small">
 			<input type="text" name="id" placeholder="아이디를 입력해주세요." id="id" required>

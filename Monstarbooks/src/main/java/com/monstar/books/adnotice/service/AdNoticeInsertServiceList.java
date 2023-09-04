@@ -26,10 +26,10 @@ public class AdNoticeInsertServiceList implements AdNoticeService {
 		Map<String, Object> map = model.asMap();
 		// Map에서 Request값 추출
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
-		// 사진을 받는 폴더의 위치
-		String path = "C:\\MonstarBook-img";
+
+		String path = "C:\\MonstarBook\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
 		MultipartRequest req = null;
+		
 		try {
 			req = new MultipartRequest(request, path, 1024*1024*20,
 					"utf-8", new DefaultFileRenamePolicy());
@@ -43,18 +43,12 @@ public class AdNoticeInsertServiceList implements AdNoticeService {
 		// 파일을 request로 받아올때에는 getParameter가 아닌 getFilesystemName을 사용
 		String nfilesrc = req.getFilesystemName("nfilesrc");
 		
-		System.out.println(nfilesrc);
-		
 		if(nfilesrc == null) {
 			nfilesrc="x";
 		}
 		
 		AdNoticeDao dao = sqlSession.getMapper(AdNoticeDao.class);
-		
-//		System.out.println(ntitle + "," + ncontent);
-		
 		dao.insert(ntitle,ncontent,nfilesrc);
 		
 	}
-
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.monstar.books.m3pop.dao.QnaDao">
+	<sql id="includelist">
+	<choose>
+	<when test="param4==1">
+	WHERE QTITLE LIKE '%'||#{param3}||'%'
+	</when>
+	<when test="param4==2">
+	WHERE QCONTENT LIKE '%'||#{param3}||'%'
+	</when>
+	<when test="param4==3">
+	WHERE QTITLE LIKE '%'||#{param3}||'%' 
+	 OR QCONTENT LIKE '%'||#{param3}||'%' 
+	</when>
+	<otherwise>
+	
+	</otherwise>
+	
+	</choose>
+	
+	
+	</sql>
+
+
+
+    <select id="list" resultType="com.monstar.books.m3pop.dto.QnaDto">
+<!-- 	    SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,
+	    BHIT,BGROUP,BSTEP,BINDENT FROM REPLYBOARD 
+		ORDER BY BGROUP DESC, BSTEP ASC -->
+		
+<!-- 		SELECT * FROM
+		(SELECT ROWNUM NUM, 
+		N.* FROM 
+		(SELECT * FROM REPLYBOARD 
+		ORDER BY BGROUP DESC, BSTEP ASC) 
+		N)
+		WHERE NUM BETWEEN 
+		#{param1} AND #{param2} -->	
+		
+SELECT * FROM
+(SELECT ROWNUM NUM, N.* FROM 
+(SELECT * FROM QNA ORDER BY QREGDATE DESC) 
+N 
+<include refid="includelist"/>
+)
+WHERE NUM BETWEEN #{param1} AND #{param2}
+    </select>
+<select id="qnaTotalCount" resultType="Integer">
+SELECT COUNT(*) FROM QNA 
+<include refid="includelist"/>
+</select>     
+<!-- 	<select id="selectBoardTotCount" resultType="Integer">
+	
+	SELECT COUNT(*) FROM REPLYBOARD
+	</select>  -->  
+	
+	<select id="selectBoardTotCount" resultType="Integer">
+	SELECT COUNT(*) FROM QNA WHERE QTITLE LIKE '%'||#{param1}||'%'     
+	</select> 
+	
+	<select id="selectBoardTotCount2" resultType="Integer">
+	SELECT COUNT(*) FROM QNA WHERE QCONTENT LIKE '%'||#{param1}||'%'     
+	</select>
+	
+	<select id="selectBoardTotCount3" resultType="Integer">
+	SELECT COUNT(*) FROM QNA WHERE QTITLE LIKE '%'||#{param1}||'%' 
+	 OR QCONTENT LIKE '%'||#{param1}||'%'    
+	</select> 
+		
+	<select id="selectBoardTotCount4" resultType="Integer">
+	SELECT COUNT(*) FROM QNA 
+	</select> 	
+	 
+   	<insert id="write">
+	INSERT INTO QNA(QNANO,QCATEGORY,QTITLE,QCONTENT,QFILESRC,MID) 
+	VALUES(QNA_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},#{param5})			 
+   	</insert>
+    
+    <select id="contentView" resultType="com.monstar.books.m3pop.dto.QnaDto">
+    	SELECT QNANO,QCATEGORY,QTITLE,MID,
+    	
+    	QCONTENT,QREGDATE,QSTATUS,QANSWER,QFILESRC
+    	
+		FROM QNA WHERE QNANO= #{param1}
+    </select>
+    
+    <update id="upHit">
+    	UPDATE QNA SET QHIT=QHIT+1 WHERE QNANO=#{param1}
+    </update>
+
+    <update id="modify">
+    	UPDATE QNA SET QCATEGORY=#{param2} , QTITLE=#{param3} , 
+    	 QCONTENT=#{param4}, QFILESRC=#{param5} WHERE QNANO=#{param1}
+    </update>
+    
+    <delete id="delete">
+    	DELETE QNA  WHERE QNANO = #{param1}
+    </delete>
+    
+
+
+
+
+
+	
+
+	
+	
+</mapper>

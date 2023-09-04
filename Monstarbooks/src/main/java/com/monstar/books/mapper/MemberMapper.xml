@@ -29,4 +29,48 @@
 		FROM M_MEMBER
 		WHERE mid=#{inputId}
 	</select>
+	
+	<!-- 회원정보 가져오기 -->
+	<select id="getData" parameterType="string" resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY
+		FROM M_MEMBER
+		WHERE mid=#{mid}
+	</select>
+	
+	<!-- 아이디를 찾아보자.. -->
+	<select id="idSearch" parameterType="com.monstar.books.member.dto.MemberDto"
+	resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT MID, MREGDATE
+		FROM M_MEMBER
+		<choose>
+			<when test="mname != null and memail !=null">
+				WHERE mname=#{mname} AND memail=#{memail}
+			</when>
+			<when test="mname !=null and mtel !=null">
+				WHERE mname=#{mname} AND mtel=#{mtel}
+			</when>
+		</choose>
+	</select>
+	
+	
+	<!-- 비밀번호를 찾아보자 -->
+	<select id="pwdSearch" parameterType="com.monstar.books.member.dto.MemberDto"
+	resultType="String">
+	SELECT MPW FROM M_MEMBER
+		<choose>
+			<when test="mid !=null and mname != null and memail !=null">
+			 WHERE mname=#{mname} AND memail=#{memail} AND mid=#{mid}
+			</when>
+			<when test="mid != null and mname !=null and mtel !=null">
+			 WHERE mname=#{mname} AND mtel=#{mtel} AND mid=#{mid}
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="com.monstar.books.member.dto.MemberDto">
+		UPDATE M_MEMBER
+		SET mpw=#{mnewpwd}
+		WHERE mid=#{mid}
+	</update>
 </mapper>
