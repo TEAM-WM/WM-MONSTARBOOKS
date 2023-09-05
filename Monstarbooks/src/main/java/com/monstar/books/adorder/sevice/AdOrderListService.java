@@ -15,6 +15,7 @@ import com.monstar.books.adorder.dto.AdOrderDto;
 import com.monstar.books.vopage.SearchVo;
 
 
+
 @Service
 public class AdOrderListService implements AdOrderService {
 
@@ -23,6 +24,13 @@ public class AdOrderListService implements AdOrderService {
 	public AdOrderListService(SqlSession sqlsession) {
 		this.sqlSession = sqlsession;
 	}
+	
+	/*
+	 * public PageVo(int page, int displayRowCount) { this.page = page;
+	 * this.displayRowCount = displayRowCount; }
+	 */
+
+//	 PageVo pageVo = new PageVo(searchvo.getPage(), 10); // 한 페이지당 10개의 데이터
 
 	@Override
 	public void execute(Model model) {
@@ -32,8 +40,11 @@ public class AdOrderListService implements AdOrderService {
 		HttpServletRequest request = 
 				(HttpServletRequest) map.get("request");
 		
+		SearchVo searchvo = (SearchVo) map.get("searchVo");
+		
+		
 		// paging
-		String strPage = request.getParameter("page");
+				String strPage = request.getParameter("page");
 
 		// 처음 null 처리
 		if (strPage == null) {
@@ -43,7 +54,7 @@ public class AdOrderListService implements AdOrderService {
 		int page = Integer.parseInt(strPage);
 		
 		//검색 vo에 페이지 값 담아주기
-		SearchVo searchvo = new SearchVo();
+		
 		searchvo.setPage(page);
 		
 
@@ -109,6 +120,7 @@ public class AdOrderListService implements AdOrderService {
 
 		// 주문검색 페이징 (경우에 따라 3개의 경우로 총 갯수 구하기)
 		int total = 0;
+		
 		if (productName.equals("productName") && memberId.equals("")) {
 			total = dao.selectBoardTotCount1(searchKeyword);
 		} else if (productName.equals("") && memberId.equals("memberId")) {
@@ -117,14 +129,17 @@ public class AdOrderListService implements AdOrderService {
 			total= dao.selectBoardTotCount4(searchKeyword);
 		}
 
-		System.out.println("totcnt :" + total);
+		System.out.println("total :" + total);
+		
 		searchvo.pageCalculate(total);
 
 
 		// pageVO에 정의해둔 페이징 글 번호 전달
 		int rowStart = searchvo.getRowStart();
+		System.out.println("rowStart :" + rowStart);
 		int rowEnd = searchvo.getRowEnd();
-
+		System.out.println("rowEnd :" + rowEnd);
+		
 		//주문검색 회원id 책제목 기본
 		// 배송상태 검색 값 받아오기
 		String searchDelivery = request.getParameter("searchDelivery");
@@ -133,7 +148,7 @@ public class AdOrderListService implements AdOrderService {
 		    // 배송 상태에 따라 필터링된 주문 목록 가져오기
 		    ArrayList<AdOrderDto> filteredOrderList = dao.getDeliveryStatus(rowStart, rowEnd, searchKeyword, searchDelivery);
 		    model.addAttribute("getOrderList", filteredOrderList);
-		    System.out.println("배송상황 필터링" + searchDelivery);
+		    System.out.println("배송상황 필터링 : " + searchDelivery);
 		} else {
 		    // 배송상태 검색 값이 없으면 모든 목록 사용
 		    ArrayList<AdOrderDto> getOrderList = null;
@@ -142,16 +157,16 @@ public class AdOrderListService implements AdOrderService {
 		    } else if (productName.equals("") && memberId.equals("memberId")) {
 		        getOrderList = dao.getOrderListMemberId(rowStart, rowEnd, searchKeyword);
 		    } else if (productName.equals("") && memberId.equals("")) {
-		        getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword, "4");
+		        getOrderList = dao.getOrderList(rowStart, rowEnd, searchKeyword);
 		    }
+		    
 		    model.addAttribute("getOrderList", getOrderList);
-		    System.out.println("전체검색");
+		    System.out.println("기본검색"+getOrderList);
 		}
-
+		
 		model.addAttribute("sk", searchKeyword);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVo", searchvo);
-
 
 	}
 }
