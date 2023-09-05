@@ -131,5 +131,11 @@
 			<button type="button" onclick="location.href='../member/list'">목록</button>
 		</div>
 	</article>
+	<article>
+		<h2>
+			${dto.mname }회원님의 주문 내역입니다. 
+		</h2>
+	
+	</article>
 </body>
 </html>

@@ -146,6 +146,8 @@
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
     border:none;
     padding: 10px;
+    background: var(--color-white);
+    color: var(--color-black);
 }
 .admin-container tr:hover{
     background-color: #fbfbfb;
@@ -169,7 +171,6 @@ td img{
 }
 
 .admin-table table {
-	width: 700px;
 	margin-bottom: 20px;
 }
 
