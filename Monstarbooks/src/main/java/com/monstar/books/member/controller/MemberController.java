@@ -29,6 +29,9 @@ import com.monstar.books.member.service.MemberLoginProcessService;
 import com.monstar.books.member.service.MemberPwdFindService;
 import com.monstar.books.member.service.MemberService;
 import com.monstar.books.member.service.MemberServiceMap;
+import com.monstar.books.myorder.service.MyOrderListService;
+import com.monstar.books.mypage.service.MyPageService;
+import com.monstar.books.vopage.SearchVo;
 
 
 //@RequestMapping("/user/*")
@@ -38,7 +41,7 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	MemberServiceMap serviceMap;
-
+	
 	@Autowired
 	private SqlSession session;
 
@@ -202,11 +205,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/admin/member/detail")
-	public String adminMemberDetail(Model model, HttpServletRequest request) {
+	public String adminMemberDetail(Model model, HttpServletRequest request,SearchVo searchvo) {
 		System.out.println(">>>관리자 회원 상세보기 요청처리");
 		service = new AdMemberDetailService(session);
 		model.addAttribute("request",request);
+		model.addAttribute("SearchVo",searchvo);
+
 		service.execute(model);
+		
 		return "admin/member/detail";
 	}
 	
