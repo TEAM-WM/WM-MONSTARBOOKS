@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,7 +136,89 @@
 		<h2>
 			${dto.mname }회원님의 주문 내역입니다. 
 		</h2>
-	
+		
+			<table>
+		<tr>
+			<th>주문일자</th>
+			<th>상품정보</th>
+			<th>수량</th>
+			<th>가격</th>
+			<th>총 가격</th>
+			<th>배송 상태</th>
+			<!-- <th></th>
+			<th></th> -->
+		</tr>
+
+		<!-- 주문 목록 데이터를 반복해서 출력 -->
+		<c:set var="prevOrderNo" value="" />
+		<c:forEach var="order" items="${orderList}">
+			<c:set var="currentOrderNo" value="${order.orderNo}" />
+			<c:if test="${currentOrderNo ne prevOrderNo}">
+				<tr style="border-top: 2px solid black;">
+				<tr>
+
+					<td rowspan="2" class="center-align-td"><fmt:formatDate
+							value="${order.orderDate}" pattern="yyyy.MM.dd" /><br> <strong><a
+							href="${pageContext.request.contextPath}/admin/order/detail?orderNo=${order.orderNo}">주문 상세보기</a>
+					</strong></td>
+				</tr>
+				<c:set var="prevOrderNo" value="${currentOrderNo}" />
+			</c:if>
+
+			<tr>
+				<td><img class="product-image"
+					src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${order.productImage}"
+					alt="상품 이미지" align="left"> ${order.productName}</td>
+				<td>${order.productCount}개</td>
+				<td>${order.productPrice}원</td>
+				<td>${order.totalAmount}원</td>
+				<td><strong>${order.orderStatus}</strong></td>
+				<c:set var="prevOrderNo" value="${currentOrderNo}" />
+		</c:forEach>
+	</table>
+
+	<c:choose>
+		<c:when test="${totRowcnt > 0}">
+			<p>${totRowcnt}건의 주문 존재합니다.</p>
+		</c:when>
+		<c:otherwise>
+			<p>주문이 없습니다.</p>
+		</c:otherwise>
+	</c:choose>
+
+	<div>
+		<!-- 이전 페이지 링크 -->
+		<c:if test="${searchVo.page > 1}">
+			<a
+				href="<c:url value='/admin/order/list'><c:param name='page' value='${searchVo.page - 1}'/></c:url>">
+				<i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-left"></i>
+			</a>
+		</c:if>
+
+		<!-- 페이지 갯수 표시 -->
+		<c:forEach begin="${searchVo.pageStart}" end="${searchVo.pageEnd}"
+			var="i">
+			<c:choose>
+				<c:when test="${i eq searchVo.page}">
+					<span style="font-weight: bold;">${i}</span>
+				</c:when>
+				<c:otherwise>
+					<!-- 페이지 번호 링크 -->
+					<a
+						href="<c:url value='/admin/order/list'><c:param name='page' value='${i}'/></c:url>"
+						style="text-decoration: none;">${i}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+
+		<!-- 다음 페이지 링크 -->
+		<c:if test="${searchVo.page < searchVo.totPage}">
+			<a
+				href="<c:url value='/admin/order/list'><c:param name='page' value='${searchVo.page + 1}'/></c:url>">
+				<i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-right"></i>
+			</a>
+		</c:if>
+	</div>
 	</article>
 </body>
 </html>

@@ -1,8 +1,10 @@
 package com.monstar.books.member.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ import org.springframework.ui.Model;
 
 import com.monstar.books.member.dao.MemberDao;
 import com.monstar.books.member.dto.MemberDto;
+import com.monstar.books.mypage.dao.MyOrderDao;
+import com.monstar.books.mypage.dto.MyOrderDto;
+import com.monstar.books.vopage.SearchVo;
 
 @Service
 public class AdMemberDetailService implements MemberService {
@@ -48,6 +53,41 @@ public class AdMemberDetailService implements MemberService {
 		
 		model.addAttribute("favorite",favoriteList);
 		model.addAttribute("dto",dto);
+		
+
+        MyOrderDao myOrderDao = sqlSession.getMapper(MyOrderDao.class);
+        
+        //페이징 시작
+        String strPage = request.getParameter("page");
+        
+        if (strPage==null) {
+        	strPage="1";
+        }
+        System.out.println("page"+strPage);
+        int page = Integer.parseInt(strPage);
+        
+        SearchVo searchvo=new SearchVo();
+        searchvo.setPage(page);
+        
+        int total=0;
+        
+        total = myOrderDao.getOrderCount(dto.getMid());
+        searchvo.pageCalculate(total);
+        
+        int rowStart=searchvo.getRowStart();
+        int rowEnd=searchvo.getRowEnd();
+        
+        
+
+        // memberId를 이용하여 주문 내역 조회
+        ArrayList<MyOrderDto> orderList = myOrderDao.getDeliverStatus(dto.getMid());
+        
+
+
+        // 조회된 주문 내역을 모델에 추가
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("searchVo", searchvo);
+        model.addAttribute("totRowcnt",total);
 	}// method override
 
 }// class
