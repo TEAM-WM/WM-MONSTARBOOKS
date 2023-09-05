@@ -11,32 +11,36 @@
         document.title = "몬스타북스:주문상세";
     </script>
     <h2>주문 상세 정보</h2>
-    
-    <table>
-    <thead>
-        <tr>
-            <th colspan="2"><strong>상품 정보</strong></th>
-        </tr>
-    </thead>
-    <tbody>
-        <c:forEach items="${productDetail}" var="product">
-            <tr>
-                <td style="vertical-align: top;">
-                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${product.productImage}"
-                         alt="상품 이미지" height="300px" style="width: auto; max-width: 100%;">
-                </td>
-                <td style="vertical-align: top;">
-                    <p>상품명: ${product.productName}</p>
-                    <p>가격: ${product.productPrice}<br>수량: ${product.productCount}</p>
-                    <p>카테고리: ${product.category1} / ${product.category2}</p>
-                    <p>배송상황: ${product.orderStatus}</p>
-                </td>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
-    
-      <div class="center-align">
+
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2" >
+				<caption><strong>상품 정보</strong></caption>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${productDetail}" var="product">
+				<tr>
+					<td style="vertical-align: top;"><img
+						src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${product.productImage}"
+						alt="상품 이미지" height="300px" style="width: auto; max-width: 100%;">
+					</td>
+					<td style="vertical-align: top;">
+						<p>상품명: ${product.productName}</p>
+						<p>
+							가격: ${product.productPrice}<br>수량: ${product.productCount}
+						</p>
+						<p>카테고리: ${product.category1} / ${product.category2}</p>
+						<p>배송상황: ${product.orderStatus}</p>
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
+	<div class="center-align">
                 <c:choose>
                     <c:when test="${not empty orderDetail}">
                         <table class="info-table">

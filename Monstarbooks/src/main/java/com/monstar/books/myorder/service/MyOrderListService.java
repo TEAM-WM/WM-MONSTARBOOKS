@@ -38,7 +38,8 @@ public class MyOrderListService implements MyPageService {
         
         // 세션에서 회원 ID 가져오기
         HttpSession session = request.getSession();
-        String memberId = (String) session.getAttribute("memberId");
+        String memberId = (String) session.getAttribute("id");
+        System.out.println("id :"+memberId);
 
         
         MyOrderDao dao = sqlSession.getMapper(MyOrderDao.class);
