@@ -50,6 +50,18 @@ input {
     transition: border 300ms ease-in-out;
     color: #767676;
 }
+/* select{
+	display: inline-block;
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    font-size: var(--font-regular);
+    border: 1px solid #d9d9d9;
+    transition: border 300ms ease-in-out;
+    color: #767676;
+} */
 input:read-only {
     background: var(--color-gray);
 }

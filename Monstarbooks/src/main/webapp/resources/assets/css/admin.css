@@ -163,3 +163,21 @@
 td img{
     width: 100%;
 }
+
+.admin-table {
+	width: 100%;
+}
+
+.admin-table table {
+	width: 700px;
+	margin-bottom: 20px;
+}
+
+.admin-table table td {
+	text-align: left;
+	padding: 0 30px;
+}
+
+.admin-table .favorite-box {
+	overflow-x: auto;
+}

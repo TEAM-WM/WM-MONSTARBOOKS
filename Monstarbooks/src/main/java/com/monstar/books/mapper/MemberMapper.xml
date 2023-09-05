@@ -14,28 +14,37 @@
 		VALUES(M_MEMBER_SEQ.NEXTVAL,#{mid}, #{mpw},
 		#{mbirth},#{mname},#{memail},#{mtel},SYSDATE,NULL,#{mfavorite},'사용자','no')
 	</insert>
-	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 -->
-	<!-- <update id="delete" parameterType="int"> UPDATE EX SET deleted='yes' 
-		WHERE num=#{param1} </update> -->
-	
+
+
 	<!-- 아이디 체크 -->
 	<!-- 아이디 중복 체크 -->
 	<select id="isExist" parameterType="string" resultType="string">
-		SELECT mid
+		SELECT
+		mid
 		FROM M_MEMBER
 		WHERE mid=#{inputId}
 	</select>
-	
+
 	<!-- 회원정보 가져오기 -->
-	<select id="getData" parameterType="string" resultType="com.monstar.books.member.dto.MemberDto">
-		SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY
+	<select id="getData" parameterType="string"
+		resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT *
 		FROM M_MEMBER
-		WHERE mid=#{mid}
+		WHERE mid=#{mid} AND deleted='no'
 	</select>
-	
+
+	<!-- 관리자에서 회원정보 가져오기 탈퇴여부를 따지지 않고 가져옴 -->
+	<select id="getData2" parameterType="Integer"
+		resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT *
+		FROM M_MEMBER
+		WHERE memberno=#{memberno}
+	</select>
+
 	<!-- 아이디를 찾아보자.. -->
-	<select id="idSearch" parameterType="com.monstar.books.member.dto.MemberDto"
-	resultType="com.monstar.books.member.dto.MemberDto">
+	<select id="idSearch"
+		parameterType="com.monstar.books.member.dto.MemberDto"
+		resultType="com.monstar.books.member.dto.MemberDto">
 		SELECT MID, MREGDATE
 		FROM M_MEMBER
 		<choose>
@@ -47,29 +56,31 @@
 			</when>
 		</choose>
 	</select>
-	
-	
+
+
 	<!-- 비밀번호를 찾아보자 -->
-	<select id="pwdSearch" parameterType="com.monstar.books.member.dto.MemberDto"
-	resultType="String">
-	SELECT MPW FROM M_MEMBER
+	<select id="pwdSearch"
+		parameterType="com.monstar.books.member.dto.MemberDto"
+		resultType="String">
+		SELECT MPW FROM M_MEMBER
 		<choose>
 			<when test="mid !=null and mname != null and memail !=null">
-			 WHERE mname=#{mname} AND memail=#{memail} AND mid=#{mid}
+				WHERE mname=#{mname} AND memail=#{memail} AND mid=#{mid}
 			</when>
 			<when test="mid != null and mname !=null and mtel !=null">
-			 WHERE mname=#{mname} AND mtel=#{mtel} AND mid=#{mid}
+				WHERE mname=#{mname} AND mtel=#{mtel} AND mid=#{mid}
 			</when>
 		</choose>
 	</select>
-	
+
 	<!-- 비밀번호 변경 -->
-	<update id="updatePwd" parameterType="com.monstar.books.member.dto.MemberDto">
+	<update id="updatePwd"
+		parameterType="com.monstar.books.member.dto.MemberDto">
 		UPDATE M_MEMBER
 		SET mpw=#{mnewpwd}
 		WHERE mid=#{mid}
 	</update>
-	
+
 	<!-- 동적쿼리 -->
 	<sql id="includeList">
 		<choose>
@@ -80,40 +91,77 @@
 				WHERE MNAME LIKE '%'||#{param3} ||'%'
 			</when>
 			<when test="param4==3">
-				WHERE MID LIKE '%'||#{param3} ||'%' OR MNAME LIKE '%'||#{param3} ||'%'
+				WHERE MID LIKE '%'||#{param3} ||'%' OR MNAME LIKE
+				'%'||#{param3} ||'%'
 			</when>
 			<otherwise>
 
 			</otherwise>
 		</choose>
 	</sql>
-	<select id="list" resultType="com.monstar.books.member.dto.MemberDto">
-		SELECT MEMBERNO,MID,MNAME,MEMAIL,MAUTHORITY,TO_CHAR(MREGDATE, 'YY-MM-DD')AS to_regdate
+	<select id="list"
+		resultType="com.monstar.books.member.dto.MemberDto">
+		SELECT MEMBERNO,MID,MNAME,MEMAIL,MAUTHORITY,TO_CHAR(MREGDATE,
+		'YY-MM-DD')AS to_regdate,deleted
 		FROM
-		(SELECT ROWNUM NUM,N.* FROM (SELECT * FROM M_MEMBER ORDER BY MEMBERNO DESC) N
-			<include refid="includeList"/>
+		(SELECT ROWNUM NUM,N.* FROM
+		(SELECT * FROM M_MEMBER ORDER BY MEMBERNO DESC) N
+		<include refid="includeList" />
 		)
 		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
-	
+
 	<!-- 유형별로 총 갯수 구하기 -->
 	<select id="selectBoardTotCount1" resultType="Integer">
-		SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%'
+		SELECT COUNT(*)
+		FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%'
 	</select>
 	<select id="selectBoardTotCount2" resultType="Integer">
-		SELECT COUNT(*) FROM M_MEMBER WHERE MNAME LIKE '%'||#{param1} ||'%'
+		SELECT COUNT(*)
+		FROM M_MEMBER WHERE MNAME LIKE '%'||#{param1} ||'%'
 	</select>
 	<select id="selectBoardTotCount3" resultType="Integer">
-		SELECT COUNT(*) FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%' OR MNAME LIKE '%'||#{param1} ||'%'
+		SELECT COUNT(*)
+		FROM M_MEMBER WHERE MID LIKE '%'||#{param1} ||'%' OR MNAME LIKE
+		'%'||#{param1} ||'%'
 	</select>
 	<select id="selectBoardTotCount4" resultType="Integer">
-		SELECT COUNT(*) FROM M_MEMBER
+		SELECT COUNT(*)
+		FROM M_MEMBER
 	</select>
-	
-	
+
+
 	<!-- 회원 권한 수정 -->
-	<update id="updateStatus" parameterType="com.monstar.books.member.dto.MemberDto"> 
-		UPDATE M_MEMBER SET MAUTHORITY=#{mauthority} 
+	<update id="updateStatus"
+		parameterType="com.monstar.books.member.dto.MemberDto">
+		UPDATE M_MEMBER SET MAUTHORITY=#{mauthority}
 		WHERE MEMBERNO=#{memberno}
 	</update>
+
+	<!-- 회원 탈퇴처리 -->
+	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 -->
+	<update id="delete" parameterType="int">
+		UPDATE M_MEMBER SET deleted='yes'
+		WHERE memberno=#{no}
+	</update>
+
+	<!-- 회원 복구 -->
+	<update id="restore" parameterType="int">
+		UPDATE M_MEMBER SET deleted='no'
+		WHERE memberno=#{no}
+	</update>
+
+	<!-- 전체 회원정보 수정 -->
+	<update id="updateUser" parameterType="com.monstar.books.member.dto.MemberDto">
+	UPDATE M_MEMBER
+	SET
+	MBIRTH=#{mbirth},
+	MNAME=#{mname},
+	MEMAIL=#{memail},
+	MTEL=#{mtel},
+	MFAVORITE=#{mfavorite},
+	MAUTHORITY=#{mauthority}
+	WHERE MEMBERNO=#{memberno}
+	</update>
+
 </mapper>

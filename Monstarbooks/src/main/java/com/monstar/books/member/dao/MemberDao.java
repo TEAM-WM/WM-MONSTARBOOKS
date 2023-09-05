@@ -6,7 +6,8 @@ import com.monstar.books.member.dto.MemberDto;
 
 public interface MemberDao {
 	public MemberDto getData(String mid); // 아이디로 회원정보 얻어오기
-
+	public MemberDto getData2(int memberno); // 회원번호로 회원정보 얻어오기
+	
 	public void insert(MemberDto dto); // 회원가입
 
 	public ArrayList<MemberDto> list();// 관리자 회원 목록
@@ -31,4 +32,11 @@ public interface MemberDao {
 	
 	// 회원 권한 변경
 	public void updateStatus(MemberDto dto);
+	
+	// 회원 탈퇴처리
+	public void delete(int no);
+	// 회원 복구 처리
+	public void restore(int no);
+	
+	public void updateUser(MemberDto dto);
 }// ======== MemberDao ========
