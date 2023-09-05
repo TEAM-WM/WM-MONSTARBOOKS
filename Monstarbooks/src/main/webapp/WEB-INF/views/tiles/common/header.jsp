@@ -38,7 +38,7 @@
 						</c:if>
 				</c:otherwise>
 			</c:choose>
-					<li><a href="#"> 고객센터 </a></li>
+					<li><a href="${pageContext.request.contextPath }/cscenter"> 고객센터 </a></li>
 				</ul>
 			</div>
 			<!-- global-service-list  종료 -->

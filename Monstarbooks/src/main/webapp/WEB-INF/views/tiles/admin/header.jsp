@@ -15,7 +15,7 @@
             <nav>
                 <ul class="admin-menu-list">
                     <li class="active">
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-cube"></i>
                             <span>
                                 대시보드
@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/member/list">
                             <i class="fa-solid fa-user-astronaut"></i>
                             <span>
                                 회원관리
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/product/productlist">
                             <i class="fa-solid fa-book-open"></i>
                             <span>
                                 도서관리
@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/order/list">
                             <i class="fa-solid fa-briefcase"></i>
                             <span>
                                 주문관리
@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-ticket-simple"></i>
                             <span>
                                 쿠폰관리
@@ -64,27 +64,27 @@
                         <div class="admin-submenu-list">
                             <ul>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/adnotice/notice">
                                         공지사항
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/">
                                         FAQ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/qna/list">
                                         1:1문의
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/review/review">
                                         리뷰 관리
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/banner/list">
                                         배너 관리
                                     </a>
                                 </li>
