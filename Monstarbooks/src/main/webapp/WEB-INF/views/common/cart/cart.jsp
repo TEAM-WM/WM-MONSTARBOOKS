@@ -17,11 +17,9 @@ table, tr {
 	border-collapse: collapse;
 	text-align: center;
 }
-
 td {
 	padding: 10px;
 }
-
 #cnt {
 	margin: 0 30px;
 	width: 30px;
@@ -29,7 +27,6 @@ td {
 	text-align: center;
 	display: inline;
 }
-
 #btn2 {
 	width: 100px;
 	height: 40px;
@@ -38,7 +35,6 @@ td {
 	background-color: #e7e7e7;
 	font-weight: bold;
 }
-
 .cart_price {
 	border: 2px solid #000d82;
 	border-radius: 10px;
@@ -52,12 +48,14 @@ input:read-only {
 } 
 </style>
 <script>
+/* 전체체크박스 */
 $().ready(function(){
 	$("#all_select").click(function(){
 		if($("#all_select").is(":checked")) $("input[name=chk]").prop("checked", true);
 		else $("input[name=chk]").prop("checked", false);
 	});
 });
+
 /* 수량조절 */
 function count_up(n,p){
 	var cnt = $(".cnt_"+n).val();
@@ -73,6 +71,11 @@ function count_up(n,p){
 			check_sel();
 		}
 	});
+	//form submit 막기
+	$(".order_form").submit(function(e){
+		e.preventDefault();
+		$(".order_form").unbind();
+	})
 } 
 function count_down(n,p){
 	var cnt = $(".cnt_"+n).val();
@@ -90,20 +93,35 @@ function count_down(n,p){
 			}
 		});
 	}
+	//form submit 막기
+	$(".order_form").submit(function(e){
+		e.preventDefault();
+		$(".order_form").unbind();
+	})
 }
 /* 체크항목의 가격 합계 */
-function check_sel(){
+function check_sel(c){
 	var cnt = $("input[name=chk]:checked").length;
 	var arr = new Array(); 
-	var sum = 0;
+	var priceSum = 0;
+	var cntSum = 0;
 	$("input[name=chk]:checked").each(function(){
 		arr.push($(this).val());
 	});
 	for ( var i in arr) {
-		sum += Number($(".totPrice_"+arr[i]).text());			
+		priceSum += Number($(".totPrice_"+arr[i]).text());
+		cntSum += Number($(".cnt_"+arr[i]).val());
 	}
-	$(".product_price").text(sum.toLocaleString());
-	$(".tot_price").text((sum+2500).toLocaleString());
+	$(".product_price").text(priceSum.toLocaleString());
+	$(".tot_price").text((priceSum+2500).toLocaleString());
+	$("#product_cnt").text(cntSum);
+	
+	// 하나라도 체크해제되면 전체체크박스도 해제
+	if($("input[name=chk]:checked").length == c){
+		$('#all_select').prop('checked',true); 
+	}else{
+		$('#all_select').prop('checked',false); 
+	}
 }
 /* 선택상품 삭제 */
 function cart_delete(){
@@ -127,12 +145,9 @@ function cart_delete(){
 			success:function(result){
 				location.reload();
 			}
-		
 		});
 	}
 }
-
-
 
 /* 장바구니가 비었을 시 선택상품 주문버튼 누를때 */
 function cart_empty_sel(){
@@ -143,40 +158,29 @@ function cart_empty_all(){
 	alert('장바구니에 담긴 상품이 없습니다.')
 }
 /* 선택상품 주문 */
-/* function go_order_sel(){
-	let bookCount = $("#cnt").val();
-	$(".order_form").submit();
-	var cnt = $("input[name=chk]:checked").length;
-	var arr = new Array(); 
-	$("input[name=chk]:checked").each(function(){
-		arr.push($(this).val());
-	});
-	
+function go_order_sel(){
+	var cntSum = $("#product_cnt").text();
 	if(cnt == 0){
 		alert("선택된 상품이 없습니다.");
 	}
 	 else{
-		$.ajax({
-			type: 'POST',
-			url : './ordersel',
-			data: {
-				'chbox' : arr,
-				'cnt' : cnt
-				},
-			success:function(result){
-				if(confirm(cnt+"개의 상품을 주문하시겠습니까?")){
-					location.href="./order";
-				}else{
-					return;
-				}
-			}
-		});
+		 if(confirm(cntSum+"개의 상품을 주문하시겠습니까?")){
+			 $(".order_form").submit();
+		}else{
+			return;
+		} 
 	} 
-}*/
+}  
 /* 전체상품 주문 */
-function go_order_all(){
-	location.href="./order";
-}
+function go_order_all(cntSum){
+	$("input[name=chk]").prop("checked", true);
+	
+	if(confirm(cntSum+"개의 상품을 모두 주문하시겠습니까?")){
+		 $(".order_form").submit();
+	}else{
+		return;
+	} 
+} 
 </script>
 </head>
 <body>
@@ -193,10 +197,9 @@ function go_order_all(){
 
 	<br />
 	<br />
-
 	<!-- 장바구니 테이블 -->
-	<div align="center">
-	
+	<div align="left">
+	<form action="./order" method="post" class="order_form">
 		<c:choose>
 			<c:when test="${cnt == 0 }">
 				<div style="height: 250px;">
@@ -236,12 +239,12 @@ function go_order_all(){
 						<th>수량</th>
 						<th>가격</th>
 					</tr>
-
+					
 					<c:forEach items="${dto }" var="list">
 						<tr>
 							<!-- 체크박스 -->
 							<td><input type="checkbox" id="${list.cartno }" name="chk" value="${list.cartno }"
-								checked onclick="check_sel()"/>
+								checked onclick="check_sel(${cnt})"/>
 								<label for="${list.cartno }"></label></td>
 
 							<!-- 상품 정보 -->
@@ -272,8 +275,8 @@ function go_order_all(){
 						</tr>
 					</c:forEach>
 				</table>
+			</form>
 	</div>
-
 	<br />
 
 	<!-- 쇼핑계속하기, 선택상품 삭제 -->
@@ -292,7 +295,7 @@ function go_order_all(){
 	<!-- 총 결제 정보 -->
 	<div align="center" class="cart_price">
 		<h3>
-			총 ${cnt }개의 상품금액 
+			총 <span id="product_cnt">${cnt }</span>개의 상품금액 
 			<span class="product_price"><fmt:formatNumber value="${totPrice}" pattern="#,###,###" /></span>
 			원 &nbsp;	<i class="fa-solid fa-plus"></i> &nbsp; 배송비 2,500원 &nbsp; 
 			<i class="fa-solid fa-equals"></i> &nbsp; 결제 예정 금액 
@@ -305,14 +308,15 @@ function go_order_all(){
 
 	<!-- 주문 버튼 -->
 	<div align="right">
-		<input type="button" value="선택상품 주문" onclick="go_order_sel()"
+		<input type="button" value="선택상품 주문" onclick="go_order_sel()" class="go_order_sel"
 			style="width: 200px; display: inline;" /> <input type="button"
-			value="전체상품 주문" onclick="go_order_all()"
+			value="전체상품 주문" onclick="go_order_all(${cnt })"
 			style="width: 200px; display: inline; color: white; background-color: #00084f" />
 	</div>
 
 	</c:otherwise>
 	</c:choose>
+	
 	<script>
 	document.title = "몬스타북스 :: 장바구니"; 
 </script>

@@ -1,4 +1,3 @@
-<%-- <%@page import="java.sql.Date"%> --%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -22,15 +21,22 @@ table,tr, td {
 .right_line{
 	border-right: 2px solid #ccc;
 }
+#cnt {
+	margin: 0 30px;
+	width: 30px;
+	padding: 0;
+	text-align: center;
+	display: inline;
+}
+input:read-only {
+	background-color: white;
+} 
 #cart_btn{
 	cursor: pointer;
 }
 #order_btn{
 	cursor: pointer;
 	background-color: #00084f;
-}
-.cnt{
-	margin:0 30px;
 }
 .star {
 	position: relative;
@@ -56,21 +62,31 @@ table,tr, td {
 </style>
 <script>
 /* 수량조절 */
-$(function(){
+$().ready(function(){
 	var i = 1;
 	$(".plus_btn").click(function(){
-		$(".cnt").text(++i);
+		$("#cnt").val(++i);
+		//form submit 막기
+		$(".order_form").submit(function(e){
+			e.preventDefault();
+			$(".order_form").unbind();
+		})
 	});
 	$(".minus_btn").click(function(){
-		var cnt = $(".cnt").text();
+		var cnt = $("#cnt").val();
 		if(cnt > 1){
-			$(".cnt").text(--i);	
+			$("#cnt").val(--i);	
 		}
+			//form submit 막기
+			$(".order_form").submit(function(e){
+				e.preventDefault();
+				$(".order_form").unbind();
+			})
 	});
 });
 /* 장바구니 담기 */
 function add_cart(bookno){
-	var cnt = $(".cnt").text();
+	var cnt = $("#cnt").val();
 	$.ajax({
 		url:'../addCart',
 		type:'post',
@@ -88,15 +104,15 @@ function add_cart(bookno){
 		}
 	})
 }
-/* 주문하기 */
+/* 바로 주문 */
 function go_order(){
-	alert('주문하기');
+	$(".order_form").submit();
 }
 /* 리뷰 페이징 */
 function reviewPage(num){
 	$.ajax({
 		type:"get",
-		url:"${pageContext.request.contextPath}/booklist/reviewPage?bookno=${detail.bookno}&page="+num,
+		url:"${pageContext.request.contextPath}/booklist/reviewPage?bookno=${list.bookno}&page="+num,
 		success : function(result){
 			$("#reviewPage").html(result);	
 		}
@@ -108,24 +124,24 @@ function reviewPage(num){
 	<!-- 카테고리 분류 -->
 	<div align="left">
 		<a href="../"><i class="fa-solid fa-house"></i></a> / 
-		<a href=""> ${detail.category.bcategory1 }</a> / 
-		<a href="">${detail.category.bcategory2 }</a>
+		<a href=""> ${list.category.bcategory1 }</a> / 
+		<a href="">${list.category.bcategory2 }</a>
 	</div>
 	<br /> <br />
 	
 <!-- 도서 상세 테이블 -->
 <div align="center">
-	
 	<table>
+	
 		<tr>
 			<td rowspan="7" class="right_line" width="300px">
-			<img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${detail.detail.bimg }"
+			<img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
 				alt="책 썸네일 이미지" /></td>
-			<td colspan="3"><i class="fa-solid fa-crown" style="color:orange"></i> ${detail.detail.badge }</td>
+			<td colspan="3"><i class="fa-solid fa-crown" style="color:orange"></i> ${list.detail.badge }</td>
 		</tr>
 		<tr>
-			<td colspan="3"><h2>${detail.btitle }</h2>
-			<h4>${detail.bsubtitle }</h4></td>
+			<td colspan="3"><h2>${list.btitle }</h2>
+			<h4>${list.bsubtitle }</h4></td>
 		</tr>
 		<tr>
 			<td colspan="3"><i class="fa-solid fa-star" style="color:orange"></i>
@@ -137,45 +153,50 @@ function reviewPage(num){
 			</span>
 			 </td>
 		</tr>
+		<form action="../goOrder" method="post" class="order_form">
 		<tr>
 			<td class="right_line" align="center" height="70px">	
 				<!-- 수량조절버튼 -->
 				<b><button class="minus_btn"><i class="fa-solid fa-minus"></i></button>
-				<span class="cnt"> 1 </span>
+			
+				<input type="text" id="cnt" name="ccount" value="1" readonly/>
+				<input type="hidden" name="bookno" value="${list.bookno }"/>
+				
 				<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
 			
 			<!-- 장바구니 담기 -->	
-			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${detail.bookno})">
+			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno})">
 				<b>ADD TO CART</b>
 			</td>	
 			
 			<!-- 주문하기 -->
-			<td align="center" id="order_btn"  onclick="go_order()"><b style="color:#fefefe;">ORDER</b></td>
+			<td align="center" id="order_btn" onclick="go_order()"><b style="color:#fefefe;">ORDER</b></td>
 		</tr>
+		 </form>
 		<tr>
 			<td colspan="3">
-			<b style="font-size: 17px; color:orange;">${detail.bdiscount }% </b> 
-			<b style="font-size: 20px;"><fmt:formatNumber value="${detail.bpricesell }" pattern="#,###"/>원</b>
+			<b style="font-size: 17px; color:orange;">${list.bdiscount }% </b> 
+			<b style="font-size: 20px;"><fmt:formatNumber value="${list.bpricesell }" pattern="#,###"/>원</b>
 			<span style="text-decoration:line-through; ">
-					<fmt:formatNumber value="${detail.bprice }" pattern="#,###"/>원 </span></td>
+					<fmt:formatNumber value="${list.bprice }" pattern="#,###"/>원 </span></td>
 		</tr>
 		<tr>
-			<td colspan="3">저자 <b>${detail.bwriter }</b>  
-			| 출판사 <b> ${detail.bpublisher }</b> 
-			<c:if test=" ${detail.btranslator ne null} "> 
-				| 번역 <b>${detail.btranslator } </b>
+			<td colspan="3">저자 <b>${list.bwriter }</b>  
+			| 출판사 <b> ${list.bpublisher }</b> 
+			<c:if test=" ${list.btranslator ne null} "> 
+				| 번역 <b>${list.btranslator } </b>
 			</c:if>
 			<br /> 
-			<fmt:formatDate value="${detail.bpdate }" pattern="yyyy.MM.dd"/> 
-			| ${detail.detail.bpage }p | ISBN ${detail.bisbn }</td>
+			<fmt:formatDate value="${list.bpdate }" pattern="yyyy.MM.dd"/> 
+			| ${list.detail.bpage }p | ISBN ${list.bisbn }</td>
 		</tr>
 		<tr>
 			<td colspan="3">
 			<jsp:useBean id="now" class="java.util.Date" />
 			<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
-			<fmt:formatDate value="${detail.bpdate }" pattern="yyyyMMdd" var="pDate" />
+			<fmt:formatDate value="${list.bpdate }" pattern="yyyyMMdd" var="pDate" />
 			<c:if test="${nowDate < pDate }">
-				<fmt:formatDate value="${detail.bpdate }" pattern="yyyy년 MM월 dd일"/> 출고예정 		
+				<fmt:formatDate value="${list.bpdate }" pattern="yyyy년 MM월 dd일"/> 출고예정 		
 			</c:if>
 			<c:if test="${nowDate >= pDate }">	
 				<c:set var="twoDayAfter" value="<%=new Date(new Date().getTime()+60*60*24*1000*2) %>"/>
@@ -193,8 +214,8 @@ function reviewPage(num){
 		<!-- 카테고리 분류 -->
 		<tr>
 			<td height="100px"><h2>카테고리 분류</h2></td>
-			<td><a href="">${detail.category.bcategory1 }</a> > 
-				<a href="">${detail.category.bcategory2 }</a></td>
+			<td><a href="">${list.category.bcategory1 }</a> > 
+				<a href="">${list.category.bcategory2 }</a></td>
 		</tr>
 		
 		<!-- 책 정보 -->
@@ -205,25 +226,25 @@ function reviewPage(num){
 				<table border="1" style="width:500px; height:200px;">
 					<tr>
 						<td style="background-color:#eee">ISBN</td>
-						<td>${detail.bisbn }</td>
+						<td>${list.bisbn }</td>
 					</tr>
 					<tr>
 						<td style="background-color:#eee">발행(출시)일자</td>
-						<td><fmt:formatDate value="${detail.bpdate }" pattern="yyyy년 MM월 dd일"/></td>
+						<td><fmt:formatDate value="${list.bpdate }" pattern="yyyy년 MM월 dd일"/></td>
 					</tr>
 					<tr>
 						<td style="background-color:#eee">쪽수</td>
-						<td>${detail.detail.bpage }쪽</td>
+						<td>${list.detail.bpage }쪽</td>
 					</tr>
 					<tr>
 						<td style="background-color:#eee">크기</td>
-						<td>${detail.detail.bsize }</td>
+						<td>${list.detail.bsize }</td>
 					</tr>
 				</table>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">${detail.detail.bdescription }</td>
+			<td colspan="4">${list.detail.bdescription }</td>
 		</tr>
 		
 		<!-- 키워드 픽 -->
@@ -247,7 +268,7 @@ function reviewPage(num){
 		<!-- 도서상세 이미지 -->
 		<tr>
 			<td colspan="4"><img width="800px"
-				src="${pageContext.request.contextPath}/resources/assets/imgs/book/${detail.detail.bimgdetail }"
+				src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimgdetail }"
 				alt="도서 상세 이미지" /></td>
 		</tr>
 		

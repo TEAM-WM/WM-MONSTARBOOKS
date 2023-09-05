@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.monstar.books.booklist.sevice.BookDetailServiceList;
 import com.monstar.books.booklist.sevice.BookListService;
 import com.monstar.books.booklist.sevice.BookListServiceList;
+import com.monstar.books.booklist.sevice.GoOrderServiceList;
 import com.monstar.books.booklist.sevice.addCartCheckServiceList;
 import com.monstar.books.booklist.sevice.addCartServiceList;
-import com.monstar.books.booklist.sevice.BookDetailServiceList;
 import com.monstar.books.booklist.vopage.SearchVO;
-import com.monstar.books.cart.sevice.CartDeleteServiceList;
 
 @Controller
 public class BookListController {
@@ -96,6 +96,23 @@ public class BookListController {
 		service.execute(model);
 		
 //		return "redirect:";
+		
+	}// list 종료
+	
+	@RequestMapping(method=RequestMethod.POST, value="/goOrder")
+	public String goOrder(HttpServletRequest request,
+			@RequestParam String bookno, @RequestParam String ccount, Model model) {
+		
+		System.out.println("go orderrrrrrrr");
+		
+		model.addAttribute("request",request);
+		model.addAttribute("bookno",bookno);
+		model.addAttribute("ccount",ccount);
+
+		service = new GoOrderServiceList(session);
+		service.execute(model);
+		
+		return "common/order/order";
 		
 	}// list 종료
 	
