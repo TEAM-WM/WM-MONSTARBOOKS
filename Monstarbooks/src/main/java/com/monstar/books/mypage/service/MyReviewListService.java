@@ -34,9 +34,14 @@ public class MyReviewListService implements MyPageService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		SearchVO searchVO = (SearchVO) map.get("searchVO");
-//------------		
+
+//------------
+
+//		MemberDto member = (MemberDto) request.getSession().getAttribute("memberNumber");
+//		MemberDto member = (MemberDto) request.getSession().getAttribute("user");
 
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
+//		dao.reviewlist()
 //		searching
 		String rtitle = "";
 		String bookcategory = "";
@@ -129,27 +134,9 @@ public class MyReviewListService implements MyPageService {
 		// 패이징 글 번호전달
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
-		
 
-//		ArrayList<BoardDto> dtos =dao.reviewlist(rowStart,rowEnd);
-//		ArrayList<BoardDto> list=null;
-		if (rtitle.equals("rtitle") && rcontent.equals("")) {
-//			list=dao.list(rowStart,rowEnd,searchKeyword,"1");
-			model.addAttribute("reviewlist", dao.reviewlist(rowStart, rowEnd, searchKeyword, "1"));
-		} else if (rtitle.equals("") && rcontent.equals("rcontent")) {
-//			list=dao.list(rowStart,rowEnd,searchKeyword,"2");
-			model.addAttribute("reviewlist", dao.reviewlist(rowStart, rowEnd, searchKeyword, "2"));
-		} else if (rtitle.equals("rtitle") && rcontent.equals("rcontent")) {
-//			list=dao.list(rowStart,rowEnd,searchKeyword,"3");
-			model.addAttribute("reviewlist", dao.reviewlist(rowStart, rowEnd, searchKeyword, "3"));
-		} else if (rtitle.equals("") && rcontent.equals("")) {
-//			list=dao.list(rowStart,rowEnd,searchKeyword,"4");
-			model.addAttribute("reviewlist", dao.reviewlist(rowStart, rowEnd, searchKeyword, "4"));
-		}
-		
-//		String memberno = request.getParameter("memberno");		
-//		ArrayList<MyReviewDto> dto = dao.reviewlist(memberno);
-//		model.addAttribute("reviewlist", dto);
+		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd));
+//		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd, member.getMemberno()));
 		model.addAttribute("totRowCnt", total);
 		model.addAttribute("searchVO", searchVO);
 

@@ -2,6 +2,9 @@ package com.monstar.books.mypage.dto;
 
 import java.sql.Timestamp;
 
+import com.monstar.books.booklist.dto.BookDetailDto;
+import com.monstar.books.member.dto.MemberDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,10 +17,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 //230825 [효슬] 마이리뷰
-public class MyReviewDto { //m_review member, book, book_category 테이블 조인
+public class MyReviewDto {
+//m_review member, book, book_category, book_detail, order_detail 테이블 조인
 
 	private int reviewno;	//리뷰번호 PK
-	private int bookno;		//도서번호 FK
+	private int bookno;		//도서번호 FK	//int
 	private int memberno;	//회원번호 FK
 	private String rtitle;		//후기제목, 주문한 도서명 불러오기
 	private String rcontent;		//후기내용
@@ -26,10 +30,13 @@ public class MyReviewDto { //m_review member, book, book_category 테이블 조�
 	private String refilesrc;		//사진 
 	private String deleted;		//삭제여부 처음 등록 시 no, 삭제 시 yes
 	
-	private String mid;		// m_member 테이블에 있는 컬럼값 직접 적용
-	private MyProfileDto myprofile;	//m_member 테이블
+	private MemberDto member;	//m_member 테이블	
 	private BookDto book;				//m_book 테이블
+	private BookDetailDto bookdetail;	//m_bookdetail 테이블
 	private BookCategoryDto bookcategory;	//m_book_category 테이블
+	private OrderDetailDto orderdetail;		//m_order_detail 테이블
+	
+	
 	
 }// Dto 종료
 

@@ -19,12 +19,13 @@
 			</otherwise>
 		</choose>
 	</sql>
-	
-		<!-- includeList라는 SQL 조각을 정의하는 부분입니다. 이 조각은 조건에 따라 다른 WHERE 절을 생성합니다. <choose>는 
+
+
+	<!-- includeList라는 SQL 조각을 정의하는 부분입니다. 이 조각은 조건에 따라 다른 WHERE 절을 생성합니다. <choose>는 
 		SQL 조건문의 선택 블록을 나타냅니다. <when>은 조건이 참인 경우 실행됩니다. 여기서 param4 값에 따라 다른 조건절을 
 		생성합니다. <otherwise>는 <when> 조건이 모두 거짓인 경우 실행됩니다. -->
-    
-<!-- 230822 / [효슬] 마이페이지 추가 -->
+
+	<!-- 230822 / [효슬] 마이페이지 추가 -->
 
 	<!-- 230824 [효슬] MyReviewDto에 대한 resultMap 정의 -->
 	<resultMap type="com.monstar.books.mypage.dto.MyReviewDto"
@@ -40,10 +41,12 @@
 		<result column="REFILESRC" property="refilesrc" />
 		<result column="DELETED" property="deleted" />
 		<!-- 연관된 컬렉션 매핑 -->
-		<collection property="myprofile" resultMap="MyProfile"></collection>
+		<collection property="member" resultMap="Member"></collection>
 		<collection property="book" resultMap="Book"></collection>
+		<collection property="bookdetail" resultMap="Bookdetail"></collection>
 		<collection property="bookcategory"
 			resultMap="Bookcategory"></collection>
+		<collection property="orderdetail" resultMap="Orderdetail"></collection>
 	</resultMap>
 
 	<!-- BookDto에 대한 resultMap 정의 -->
@@ -77,8 +80,8 @@
 	</resultMap>
 
 	<!-- resultmap 타입으로 변경 -->
-	<resultMap type="com.monstar.books.mypage.dto.MyProfileDto"
-		id="MyProfile">
+	<resultMap type="com.monstar.books.member.dto.MemberDto"
+		id="Member">
 		<result column="MEMBERNO" property="memberno" />
 		<result column="MID" property="mid" />
 		<result column="MPW" property="mpw" />
@@ -91,41 +94,160 @@
 		<result column="MFAVORITE" property="mfavorite" />
 		<result column="MAUTHORITY" property="mauthority" />
 		<result column="MDELETED" property="mdeleted" />
-		<result column="myprofile" property="MyProfile" />
+		<result column="member" property="Member" />
 	</resultMap>
-	
 
-	<!-- reviewlist 리뷰리스트 -->
-	<select id="reviewlist"
+	<resultMap type="com.monstar.books.mypage.dto.OrderDetailDto"
+		id="Orderdetail">
+		<result column="ORDERNO" property="orderno" />
+		<result column="BOOKNO" property="bookno" />
+		<result column="OPRICESELL" property="opricesell" />
+		<result column="OCOUNT" property="ocount" />
+		<result column="OREFUND_CHECK" property="orefund_check" />
+		<result column="OREGDATE" property="oregdate" />
+
+		<!-- <collection property="member" resultMap="Member"></collection> <collection 
+			property="book" resultMap="Book"></collection> <collection property="bookdetail" 
+			resultMap="Bookdetail"></collection> <collection property="myreview" resultMap="MyReview"></collection> 
+			<collection property="bookcategory" resultMap="Bookcategory"></collection> -->
+	</resultMap>
+
+	<resultMap
+		type="com.monstar.books.booklist.dto.BookDetailDto" id="Bookdetail">
+		<result column="BOOKNO" property="bookno" />
+		<result column="BCATEGORYNO" property="bcategoryno" />
+		<result column="BIMG" property="bimg" />
+		<result column="BIMGDETAIL" property="bimgdetail" />
+		<result column="BDESCRIPTION" property="bdescription" />
+		<result column="BPAGE" property="bpage" />
+		<result column="BSIZE" property="bsize" />
+		<result column="BADGE" property="badge" />
+		<result column="BPDATE" property="bpdate" />
+	</resultMap>
+
+	<!-- ############################################# 수정 S ############################################# -->
+	<!-- reviewlist 마이페이지 리뷰목록 -->
+	<select id="reviewList"
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
 		resultMap="MyReview">
-		
-<!-- reviewlist라는 ID를 가진 쿼리를 정의. 이 쿼리는 com.monstar.books.mypage.dto.MyReviewDto 형식의 결과반환. -->
-
 		SELECT
-		R.REVIEWNO, R.BOOKNO, R.MEMBERNO, R.RTITLE, R.RCONTENT, R.REGDATE, R.RSTAR,
-		R.REFILESRC, R.DELETED,
-		M.MID, BC.BCATEGORYNO, BC.BCATEGORY1, BC.BCATEGORY2 
-		FROM M_REVIEW R, M_MEMBER M, M_BOOK_CATEGORY BC 
-		WHERE R.MEMBERNO = M.MEMBERNO 
+		R.REVIEWNO, R.BOOKNO, R.MEMBERNO, R.RCONTENT, R.REGDATE,
+		R.RSTAR,
+		R.REFILESRC, R.DELETED, M.MID, BC.BCATEGORYNO, BC.BCATEGORY1,
+		BC.BCATEGORY2, B.BTITLE
+		FROM M_REVIEW R, M_MEMBER M, M_BOOK_CATEGORY BC, M_BOOK B
+		WHERE R.MEMBERNO
+		= M.MEMBERNO
 		ORDER BY R.REVIEWNO DESC
-		
-<!-- 	SELECT * FROM
-		(SELECT ROWNUM NUM,N.* FROM (SELECT * FROM REPLYBOARD
-		ORDER BY BGROUP DESC,BSTEP ASC) N
-		<include refid="includeList" />
-		)
-		WHERE NUM BETWEEN #{param1} AND #{param2} -->
-		
+
+		<!-- reviewlist 마이페이지 리뷰목록 (로그인 처리 ) -->
+		<!-- SELECT * FROM ( SELECT A.*, ROWNUM as RNUM FROM ( SELECT R.REVIEWNO, 
+			R.BOOKNO, R.MEMBERNO, R.RTITLE, R.RCONTENT, R.REGDATE, R.RSTAR, R.REFILESRC, 
+			R.DELETED, (SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = #{param3}) AS 
+			MID, (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) 
+			AS BCATEGORY1, (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO 
+			= D.BCATEGORYNO) AS BCATEGORY2 FROM M_REVIEW R LEFT JOIN M_BOOK_DETAIL D 
+			ON D.BOOKNO = R.BOOKNO WHERE R.MEMBERNO = #{param3} AND R.DELETED = 'NO' 
+			ORDER BY R.REVIEWNO DESC) A) WHERE RNUM >= #{param1} AND #{param2} >= RNUM -->
+
 	</select>
-	<!-- BGROUP과 BSTEP 기준으로 정렬한 뒤, 페이징을 적용.
-	이 때, <include> 태그를 사용하여 앞서 정의한 includeList SQL 조각을 포함.
-	param4 값에 따라 WHERE 조건이 결정됩니다. -->
+
+	<!-- 리뷰 전체 수 조회 -->
+	<!-- <select id="reviewCnt" resultType="Integer"> SELECT COUNT(REVIEWNO) 
+		FROM M_REVIEW WHERE MEMBERNO=#{param1} </select> -->
+
+	<!-- reviewlist 마이페이지 리뷰 삭제 -->
+	<!-- <update id="deleteReview" parameterType="com.monstar.books.mypage.dto.MyReviewDto"> 
+		UPDATE M_REVIEW SET DELETED = 'YES' WHERE REVIEWNO = #{param1} </update> -->
+	<delete id="reviewdelete">
+		DELETE FROM M_REVIEW WHERE REVIEWNO=#{param1}
+	</delete>
+
+	<!-- reviewlist 마이페이지 리뷰 상세글 -->
+	<select id="myReviewView"
+		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
+		resultMap="MyReview">
+		SELECT
+		R.REVIEWNO,
+		R.MEMBERNO,
+		R.RTITLE,
+		R.RCONTENT,
+		R.RSTAR,
+		R.REFILESRC,
+		R.DELETED,
+		(SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO =
+		R.MEMBERNO) AS MID,
+		(SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE
+		C.BCATEGORYNO =
+		D.BCATEGORYNO) AS BCATEGORY1,
+		(SELECT C.BCATEGORY2 FROM
+		M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
+		D.BCATEGORYNO) AS BCATEGORY2,
+		(SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE
+		FROM M_REVIEW R
+		LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
+		LEFT
+		JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		WHERE
+		R.REVIEWNO = #{param1}
+		AND
+		R.DELETED = 'NO'
+	</select>
+
+	<!-- 230826,27 [효슬] 리뷰 상세글 수정 기능 -->
+	<update id="reviewUpdate">
+		UPDATE M_REVIEW
+		SET
+		RSTAR = #{param1},
+		RCONTENT =
+		#{param2}
+		<if test="param4 != null and param4 != ''">
+			,REFILESRC = #{param4}
+		</if>
+		WHERE REVIEWNO = #{param3}
+	</update>
+
+	<!-- 230905 [효슬] 리뷰 글쓰기폼 불러오기: 사용자, 책, 책 상세정보, 북카테고리, 주문정보 -->
+	<select id="bcategories"
+		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
+		resultMap="MyReview">
+		SELECT
+		R.REVIEWNO,
+		R.MEMBERNO,
+		R.RSTAR,
+		R.RCONTENT,
+		R.REFILESRC,
+		(SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = R.MEMBERNO) AS MID,
+		(SELECT B.BOOKNO FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BOOKNO,
+		(SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE,
+		(SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
+		D.BCATEGORYNO) AS BCATEGORY1,
+		(SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
+		D.BCATEGORYNO) AS BCATEGORY2,
+		(SELECT O.ORDERNO FROM M_ORDER_DETAIL O WHERE O.BOOKNO = R.BOOKNO) AS ORDERNO
+		FROM M_REVIEW R
+		LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+		LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		LEFT JOIN M_ORDER_DETAIL O ON O.BOOKNO = R.BOOKNO
+		LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
+		LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
+		WHERE
+		R.MEMBERNO = #{param1} AND R.BOOKNO = #{param2}
+		AND R.DELETED = 'NO'
+	</select>
+
+	<!-- 230906 [효슬] 리뷰 글쓰기 기능 -->
+	<insert id="reviewInsert">
+		INSERT INTO M_REVIEW(REVIEWNO, BOOKNO, MEMBERNO, RTITLE, RCONTENT,
+		REGDATE, RSTAR, REFILESRC, DELETED)
+		VALUES(M_REVIEW_SEQ.NEXTVAL,
+		#{param1}, #{param2}, #{param3},
+		#{param4}, SYSDATE, #{param5},
+		#{param6}, 'NO')
 		
-		<!-- SELECT R.REVIEWNO, R.BOOKNO, R.MEMBERNO, R.RTITLE, R.RCONTENT, R.REGDATE, 
-			R.RSTAR, R.REFILESRC, R.DELETED, M.MID, BC.BCATEGORYNO, BC.BCATEGORY1, BC.BCATEGORY2 
-			FROM M_REVIEW R, M_MEMBER M, M_BOOK_CATEGORY BC WHERE R.MEMBERNO = M.MEMBERNO 
-			AND R.MEMBERNO = #{param1} -->
+	</insert>
+	<!-- ############################################# 수정 E ############################################# -->
+
 
 	<!-- 230825 [효슬] 리뷰 페이징 카운트, 조회 기능 -->
 	<select id="selectReviewListTotCount1" resultType="Integer">
@@ -145,65 +267,26 @@
 		SELECT COUNT(*) FROM M_REVIEW
 	</select>
 	<!-- BTITLE,BCONTENT 각 컬럼에 특정 문자열이 포함된 게시물의 수를 세어 반환 -->
-	
-	<!-- 230828 [효슬] 리뷰 글쓰기 페이지 기능 -->
-	<insert id="reviewinsert">
-		INSERT INTO M_REVIEW 
-		VALUES(M_REVIEW_SEQ.NEXTVAL,0,0,#{param1},#{param2},SYSDATE,1,#{param3},'no')
-	</insert>
 
-	<select id="myreview_view" parameterType="com.monstar.books.mypage.dto.MyReviewDto" resultMap="MyReview">
-	
-	SELECT 
-	R.REVIEWNO, R.MEMBERNO, R.RTITLE, R.RCONTENT, R.RSTAR, R.REFILESRC, R.DELETED, M.MID, BC.BCATEGORY1, BC.BCATEGORY2 
-	FROM M_REVIEW R, M_BOOK B, M_MEMBER M, M_BOOK_CATEGORY BC 
-	WHERE R.MEMBERNO = M.MEMBERNO 
-	AND M.MID = #{param1}
-	</select>
-
-
-	<!-- 230826,27 [효슬] 리뷰 상세글 수정 기능 (손볼것) -->
-	<update id="reviewupdate">
-		UPDATE M_REVIEW SET RCONTENT=#{param4},
-		RSTAR=#{param5},REFILESRC=#{param6}
-		WHERE REVIEWNO=#{param1} AND MEMBERNO=#{param2} AND RTITLE=#{parma3} AND
-		BOOKNO={param7} AND BOOKCATEGORY2={param8}
-	</update>
-
-	<!-- <delete id="delete"> DELETE FROM M_MEMBER WHERE MEMBERNO=#{param1} 
-		</delete> -->
-	<!-- <delete id="delete"> DELETE FROM M_MEMBER WHERE MPROFILEIMG=#{param1} 
-		</delete> -->
 
 	<!-- <update id="update"> UPDATE M_MEMBER SET MID=#{param2},MNAME=#{param3}, 
 		MPROFILEIMG=#{param4} WHERE MEMBERNO=#{param1} UPDATE M_MEMBER SET MID=#{param2},MNAME=#{param3},MPROFILEIMG=#{param4} 
 		WHERE MEMBERNO=(SELECT M_MEBER_SEQ.CURRVAL FROM DUAL) UPDATE M_MEMBER SET 
 		MPROFILEIMG=#{param2} WHERE MEMBERNO=#{param1} </update> -->
 
-
 	<!-- <select id="detail"> </select> <insert id="insert"> </insert> <update 
 		id="update"> </update> 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 <update 
 		id="delete" parameterType="int"> UPDATE EX SET deleted='yes' WHERE num=#{param1} 
 		</update> -->
 
-	<!-- 230829 [효슬] 북 카테고리 테이블 조회 -->
-	<select id="bookCategory" parameterType="com.monstar.books.mypage.dto.BookCategoryDto"
-		resultMap="Bookcategory">
-		SELECT BCATEGORYNO, BCATEGORY1, BCATEGORY2 
-		FROM M_BOOK_CATEGORY 
-		ORDER BY BCATEGORYNO DESC
+
+	<!-- 230901 [효슬] 멤버 테이블 회원번호, 아이디 조회 -->
+	<select id="selectId"
+		parameterType="com.monstar.books.member.dto.MemberDto"
+		resultMap="Member">
+		SELECT MEMBERNO,MID FROM M_MEMBER WHERE MID=#{param1}
 	</select>
-	<!-- 230829 [효슬] 북 카테고리 테이블 조회 -->
-	<select id="book" parameterType="com.monstar.books.mypage.dto.BookDto"
-		resultMap="Book">
-		SELECT BOOKNO,BTITLE 
-		FROM M_BOOK ORDER BY BOOKNO DESC
-	</select>
-	<!-- 230830 [효슬] 멤버 테이블 조회 -->	
-	<select id="myProfile" parameterType="com.monstar.books.mypage.dto.MyProfileDto"
-		resultMap="MyProfile">
-		SELECT MEMBERNO,MID 
-		FROM M_MEMBER
-	</select>
+
+
 
 </mapper>
