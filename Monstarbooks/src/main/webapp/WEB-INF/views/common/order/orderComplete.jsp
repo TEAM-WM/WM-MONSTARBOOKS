@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,12 @@ table{
 	width: 1200px;
 	border-bottom: 2px solid #ccc;
 	border-collapse: collapse;
+}
+tr{
+	height: 50px;
+}
+td {
+	padding: 0px 10px;
 }
 .under_line{
 	border-bottom: 2px solid #ccc;
@@ -39,9 +46,17 @@ table{
 </style>
 </head>
 <body>
-	<h1 align="left">주문완료</h1>
+	<h1 align="left" style="margin: 30px;">결제완료</h1>
 	
-	<h2 style="margin:30px">감사합니다. 주문이 완료되었습니다.</h2>
+	<!-- 주문 단계 -->
+	<div align="right">
+		<span style="color: lightgray;">장바구니 <i class="fa-solid fa-circle-chevron-right" style="color: lightgray;"></i>
+		주문/결제 <i class="fa-solid fa-circle-chevron-right" style="color: lightgray;"></i></span> 
+			<b>결제완료</b></div>
+
+	<br /> <br />
+	
+	<h2 style="margin:20px 0 100px 0">감사합니다. 주문이 완료되었습니다.</h2>
 	
 	<!-- 주문정보 테이블 -->
 	<table>
@@ -54,15 +69,15 @@ table{
 		</tr>
 		<tr>
 			<th>주문번호</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.orderno}</c:forEach></td>
+			<td align="left">${dtos.orderno}</td>
 		</tr>
 		<tr>
 			<th>주문일시</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.odetail.oregdate}</c:forEach></td>
+			<td align="left"><fmt:formatDate value="${dtos.odetail.oregdate}" pattern="yyyy-MM-dd HH:mm:ss"/> </td>
 		</tr>
 	</table>
 	
-	<br /><br />
+	<br /><br /><br />
 	
 	<!-- 결제 정보 테이블 -->
 	<table>
@@ -75,7 +90,7 @@ table{
 		</tr>
 		<tr>
 			<th>상품 금액</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.ototalprice}</c:forEach></td>
+			<td align="left"><fmt:formatNumber value="${dtos.ototalprice}" pattern="#,###"/>원</td>
 		</tr>
 		<tr>
 			<th>쿠폰할인</th>
@@ -87,15 +102,15 @@ table{
 		</tr>
 		<tr>
 			<th>총 결제금액</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.ototalprice + 2500}</c:forEach></td>
+			<td align="left"><fmt:formatNumber value="${dtos.ototalprice + 2500}" pattern="#,###"/>원</td>
 		</tr>
 		<tr>
 			<th>결제 방법</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.opay}</c:forEach></td>
+			<td align="left">${dtos.opay}</td>
 		</tr>
 	</table>
 	
-	<br /><br />
+	<br /><br /><br />
 	
 	<!-- 주문 상품 정보 -->
 	<table>
@@ -108,7 +123,7 @@ table{
 		</colgroup>
 		<tr height="50px" class="under_line">
 			<th colspan="2"><h3>주문상품</h3></th>
-			<td colspan="3">총 ${cnt }개</td>		
+			<td colspan="3">총 ${dtos.count }개</td>		
 		</tr>
 		
 		<c:forEach items="${dto }" var="list">		
@@ -127,7 +142,7 @@ table{
 		</c:forEach>
 	</table>
 	
-	<br /><br />
+	<br /><br /><br />
 	
 	<!-- 배송지 정보 -->
 	<table>
@@ -139,23 +154,24 @@ table{
 			<td><h3>배송지 정보</h3></td>
 		</tr>
 		<tr>
-			<th>수령인/연락처</th>
-			<td align="left"><c:forEach items="${dto }" var="list">${list.delivery.dname}/
-				${list.delivery.dtel}</c:forEach></td>
+			<th>수령인</th>
+			<td align="left">${dtos.delivery.dname} / 
+				<fmt:formatNumber value="${dtos.delivery.dtel}" pattern="000,0000,0000" var="dtel"/>
+					<c:out value="${fn:replace(dtel, ',', '-') }"></c:out> </td>
 		</tr>
 		<tr>
 			<th>주소지</th>
-			<td align="left">[<c:forEach items="${dto }" var="list">${list.delivery.dzipcode}]
-			${list.delivery.daddress1}
-			${list.delivery.daddress3}
-			${list.delivery.daddress2}</c:forEach></td>
+			<td align="left">[<fmt:formatNumber value="${dtos.delivery.dzipcode}" pattern="00000"/>]
+			${dtos.delivery.daddress1}
+			${dtos.delivery.daddress3}
+			${dtos.delivery.daddress2}</td>
 		</tr>
 	</table>
 	
-	<br /><br />
+	<br /><br /><br />
 	<div>
 		<button id="btn2">주문내역 확인</button>
-		<button id="btn3">홈으로</button>
+		<button id="btn3" onclick="location.href='./'">홈으로</button>
 	</div>
 	
 	<script>

@@ -16,8 +16,11 @@ public interface OrderDao {
 	public void deliveryInsert(String memberno, String daddress1, String daddress2, 
 			String daddress3, String dzipcode, String dtel, String dname);
 
-//	주문,주문상세,배송,쿠폰 테이블 조회
+//	주문,주문상세,도서,도서디테일,도서 카테고리 테이블 조회
 //	public ArrayList<OrderDto> orderList(String memberno);
-	public ArrayList<OrderDto> orderList();
+	public ArrayList<OrderDto> orderDetail();
+
+//	주문,주문상세,배송 테이블 조회
+	public OrderDto orderList();
 	
 }//interface 종료

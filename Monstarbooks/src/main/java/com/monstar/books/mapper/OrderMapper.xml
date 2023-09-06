@@ -25,13 +25,14 @@
 			#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
 	</insert>
 	
-	<resultMap type="com.monstar.books.order.dto.OrderDto" id="Order">
+	<resultMap type="com.monstar.books.order.dto.OrderDto" id="orderList">
 		<result column="ORDERNO" property="orderno"/>
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="CPNO" property="cpno"/>
 		<result column="OTOTALPRICE" property="ototalprice"/>
 		<result column="OSTATUS" property="ostatus"/>
 		<result column="OPAY" property="opay"/>		
+		<result column="COUNT" property="count"/>		
 		<collection property="odetail" resultMap="Odetail"></collection>
 		<collection property="delivery" resultMap="Delivery"></collection>
 		<collection property="coupon" resultMap="Coupon"></collection>
@@ -84,24 +85,29 @@
 		<result column="BCATEGORY1" property="bcategory1"/>
 	</resultMap>
 	
-	<select id="orderList" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="Order">
-		SELECT O.ORDERNO, O.MEMBERNO,O.CPNO, O.OTOTALPRICE,O.OSTATUS,O.OPAY,
-			OD.BOOKNO,OD.OPRICESELL,OD.OCOUNT,OD.OREFUND_CHECK,OD.OREGDATE,
-			D.DELIVERYNO,D.DADDRESS1,D.DADDRESS2,D.DADDRESS3,D.DZIPCODE,D.DTEL,D.DNAME,
-			C.CPPRICE,
-			B.BTITLE,B.BDISCOUNT,B.BPRICE,
-			BD.BIMG, 
-			BB.BCATEGORY1
-		FROM M_ORDER O, M_ORDER_DETAIL OD, M_DELIVERY D,M_COUPON C, M_BOOK B, 
-			M_BOOK_DETAIL BD,M_BOOK_BCATEGORY BB
+	<select id="orderDetail" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="orderList">
+		SELECT BD.BIMG,BB.BCATEGORY1,B.BTITLE,B.BPRICE,B.BDISCOUNT,OD.OCOUNT,OD.OPRICESELL
+		FROM M_ORDER O, M_ORDER_DETAIL OD, M_BOOK B, M_BOOK_DETAIL BD, M_BOOK_BCATEGORY BB
 		WHERE O.ORDERNO = OD.ORDERNO
-			AND O.ORDERNO = D.ORDERNO 
-			AND OD.BOOKNO = B.BOOKNO
-			AND B.BOOKNO = BD.BOOKNO
-			AND BD.BCATEGORYNO = BB.BCATEGORYNO
-			AND O.ORDERNO=(SELECT LAST_NUMBER FROM USER_SEQUENCES
-							WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1 
-			AND O.MEMBERNO=1
+		AND OD.BOOKNO=B.BOOKNO
+		AND B.BOOKNO = BD.BOOKNO
+		AND BD.BCATEGORYNO = BB.BCATEGORYNO
+		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+		WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
+		AND O.MEMBERNO=1
+	</select>
+	
+	<select id="orderList" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="orderList">
+		SELECT O.ORDERNO, OD.OREGDATE,O.OTOTALPRICE,O.OPAY,
+		D.DNAME,D.DTEL,D.DZIPCODE,D.DADDRESS1,D.DADDRESS2,D.DADDRESS3,
+			(SELECT SUM(OCOUNT) FROM M_ORDER_DETAIL WHERE ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1) COUNT
+		FROM M_ORDER O,M_ORDER_DETAIL OD,M_DELIVERY D
+		WHERE O.ORDERNO = OD.ORDERNO
+		AND O.ORDERNO = D.ORDERNO
+		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
+		AND O.MEMBERNO = 1
 	</select>
 
 </mapper>

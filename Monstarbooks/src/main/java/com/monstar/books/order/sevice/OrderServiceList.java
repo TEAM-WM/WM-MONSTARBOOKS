@@ -42,9 +42,13 @@ public class OrderServiceList implements OrderService {
 
 //		주문,주문상세,배송 테이블 조회
 //		ArrayList<OrderDto> dto = dao.orderList(memberno);
-		ArrayList<OrderDto> dto = dao.orderList();//memberno 추후 추가
+		ArrayList<OrderDto> dto = dao.orderDetail();//memberno 추후 추가
+		
+//		OrderDto dtos = dao.orderList(memberno);//memberno 추후 추가
+		OrderDto dtos = dao.orderList();
 		
 		model.addAttribute("dto",dto);
+		model.addAttribute("dtos",dtos);
 
 	}// override method
 

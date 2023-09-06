@@ -28,4 +28,6 @@ public class OrderDto {
 	private BookListDto list;
 	private BookDetailDto bdetail;
 	private BookCategoryDto category;
+	
+	private int count;
 }

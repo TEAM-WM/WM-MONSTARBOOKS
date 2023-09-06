@@ -124,80 +124,86 @@ function coupon_check(){
 /* 결제하기 */
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
-function requestPay(pay){
-	if($("#order_agree").is(":checked")){
-		if($("input[name='payment']:checked").val()=='신용/체크카드'){
-			IMP.request_pay({
-				pg : 'html5_inicis',
-		        pay_method : 'card',
-		        merchant_uid: new Date().getTime(), 
-		        name : '도서',
-		        amount : pay,
-				buyer_name : '구매자'
-			},function (rsp){
-				if(rsp.success){
-					//결제 성공 시
-					alert("결제가 완료되었습니다.");
-					location.href="orderComplete";
-				}else{
-					//결제 실패 시
-					alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
-				}
-			});
-		}
-		else if($("input[name='payment']:checked").val()=='휴대폰'){
-			IMP.request_pay({
-				pg : 'danal.A010002002',
-		        pay_method : 'phone',
-		        merchant_uid: new Date().getTime(), 
-		        name : '도서',
-		        amount : pay,
-				buyer_name : '구매자'
-			},function (rsp){
-				if(rsp.success){
-					//결제 성공 시
-					alert("결제가 완료되었습니다.");
-					$(".payment_form").submit();
-				}else{
-					//결제 실패 시
-					alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
-				}
-			});
-		}
-		else if($("input[name='payment']:checked").val()=='카카오페이'){
-			IMP.request_pay({
-				pg : 'kakaopay.TC0ONETIME',
-		        pay_method : 'card',
-		        merchant_uid: new Date().getTime(), 
-		        name : '도서',
-		        amount : pay,
-				buyer_name : '구매자'
-			},function (rsp){
-				if(rsp.success){
-					//결제 성공 시
-					alert("결제가 완료되었습니다.");
-					$(".payment_form").submit();
-				}else{
-					//결제 실패 시
-					alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
-				}
-			});
-		}else{
-			alert("결제 방법을 선택해주세요.");
-		}
+/* function requestPay(pay){
+	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
+		alert("배송지를 입력해주세요.");
 	}else{
-		alert("주문 상품정보 이용약관에 동의해주세요.");
-	}
-	
-	
-} 
-/* function requestPay(){
+		if($("#dname").val()=="" && $("#dtel").val()==""){
+			alert("수령인의 성함과 연락처를 입력해주세요.");
+		}else{
+			if($("#order_agree").is(":checked")){
+				if($("input[name='payment']:checked").val()=='신용/체크카드'){
+					IMP.request_pay({
+						pg : 'html5_inicis',
+				        pay_method : 'card',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							location.href="orderComplete";
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}
+				else if($("input[name='payment']:checked").val()=='휴대폰'){
+					IMP.request_pay({
+						pg : 'danal.A010002002',
+				        pay_method : 'phone',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							$(".payment_form").submit();
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}
+				else if($("input[name='payment']:checked").val()=='카카오페이'){
+					IMP.request_pay({
+						pg : 'kakaopay.TC0ONETIME',
+				        pay_method : 'card',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							$(".payment_form").submit();
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}else{
+					alert("결제 방법을 선택해주세요.");
+				}
+			}else{
+				alert("주문 상품정보 이용약관에 동의해주세요.");
+			}
+		}
+	}	
+}  */
+function requestPay(){
 	$(".payment_form").submit();
-} */
+} 
 </script>
 </head>
 <body>
-	<h1 align="left">주문 / 결제</h1>
+	<h1 align="left" style="margin: 30px;">주문 / 결제</h1>
 	
 		<!-- 주문 단계 -->
 	<div align="right">
@@ -221,8 +227,8 @@ function requestPay(pay){
 					<input type="text" id="sample6_address" name="daddress1" placeholder="주소" style="width:50%;display: inline;" readonly>
 					<input type="text" id="sample6_extraAddress" name="daddress3" placeholder="참고항목" style="width:49%;display: inline;"readonly>
 					<input type="text" id="sample6_detailAddress" name="daddress2" placeholder="상세주소를 입력해주세요">
-					<input type="text" name="dname" placeholder="받는 분 성함" style="width:50%;display: inline;"/>
-					<input type="text" name="dtel" placeholder="받는 분 연락처('-'제외)" style="width:49%;display: inline;"/>
+					<input type="text" id="dname" name="dname" placeholder="받는 분 성함" style="width:50%;display: inline;"/>
+					<input type="text" id="dtel" name="dtel" placeholder="받는 분 연락처('-'제외)" style="width:49%;display: inline;"/>
 				</div>
 			</td>
 		</tr>
