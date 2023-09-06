@@ -80,7 +80,7 @@ public class AdMemberDetailService implements MemberService {
         
 
         // memberId를 이용하여 주문 내역 조회
-        ArrayList<MyOrderDto> orderList = myOrderDao.getDeliverStatus(dto.getMid());
+        ArrayList<MyOrderDto> orderList = myOrderDao.getDeliverStatus(rowStart,rowEnd,dto.getMid());
         
 
 
