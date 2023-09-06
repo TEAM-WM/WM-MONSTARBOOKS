@@ -21,8 +21,8 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-
-
+	
+	<tx:annotation-driven/>
 
 	<!-- 타일즈설정 -->
 	<beans:bean id="tilesConfigurer"
@@ -78,4 +78,10 @@
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
 
+	<!-- 트랜젝션 매니저 -->
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+	</beans:bean>
+	
+	<tx:annotation-driven/>
 </beans:beans>

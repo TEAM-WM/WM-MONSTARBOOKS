@@ -6,71 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-table {
-	width: 500px;
-	margin: 20px auto;
-	border-collapse: collapse;
-	background-color: white;
-	border: 2px solid #000d82;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-	padding: 12px 20px;
-	text-align: center;
-	border-bottom: 1px solid #ddd;
-}
-
-td {
-	border-right: 1px solid #ddd;
-}
-
-td:last-child {
-	border-right: none;
-}
-
-th {
-	background-color: #000d82;
-	color: white;
-}
-
-tr:first-child {
-	border-radius: 0 0 10px 10px; /* 하단 모서리만 둥글게 */
-}
-
-tr:last-child {
-	border-radius: 10px 10px 0 0; 
-}
-
-tr:hover {
-	background-color: #f2f2f2;
-}
-</style>
 </head>
 <body>
 	<article class="join-success">
-		<i class="fa-solid fa-magnifying-glass"></i>
-		<h2>
-			${name }님의 아이디입니다.<br>
-			<span>${info }</span>
-		</h2>
-		<table>
-			<tr>
-				<th>아이디</th>
-				<th>가입날짜</th>
-			</tr>
-		<c:forEach var="dto" items="${dto }">
-			<tr>
-				<td>
-					${dto.mid }
-				</td>
-				<td>
-					${dto.mregdate }
-				</td>
-			</tr>
-		</c:forEach>
-		</table>
+ 		<c:choose>
+			<c:when test="${ not empty dto }">
+				<i class="fa-solid fa-magnifying-glass"></i>
+				<h3>
+					${name }님의 아이디입니다.<br>
+					<span class="text-back">${info }</span>
+				</h3>
+				<table style="width:348px">
+					<tr>
+						<th>아이디</th>
+						<th>가입날짜</th>
+					</tr>
+					<c:forEach var="dto" items="${dto }">
+						<tr>
+							<td>
+								${dto.mid }
+							</td>
+							<td>
+								${dto.mregdate }
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</c:when>
+			<c:otherwise>
+				<i class="fa-solid fa-triangle-exclamation"></i>
+				<h3>입력하신 정보와 일치하는<br>회원정보가 없습니다.</h3>
+			</c:otherwise>
+		</c:choose>
+		 
+		
 		<div class="btn-wrap">
 			<button type="button" onclick="location.href='${pageContext.request.contextPath}/'">
 				메인으로

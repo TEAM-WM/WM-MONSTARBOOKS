@@ -23,6 +23,8 @@ public interface AdNoticeDao {
 	public void update(String noticeno, String ntitle,
 			String ncontent, String nfilesrc);
 	
+	// delete
+	public void delete(String noticeno);
 	
 
 }

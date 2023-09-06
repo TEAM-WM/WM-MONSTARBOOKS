@@ -9,24 +9,31 @@ create table m_member(
 	mregdate DATE	NOT NULL,
 	mprofileimg VARCHAR2(255)	NULL,
 	mfavorite VARCHAR2(255)	NULL,
-	mauthority VARCHAR2(10) DEFAULT 'ªÁøÎ¿⁄',
+	mauthority VARCHAR2(10) DEFAULT 'ÏÇ¨Ïö©Ïûê',
 	deleted	char(3) DEFAULT 'no',
     constraint m_member_id_pk primary key(mid)
 );
 commit;
 create sequence m_member_seq;
 
-select * from m_member;
+select * from m_member order by memberno desc;
 delete from m_member where mid='admin';
 commit;
-INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'admin', '1234', '1999-07-04','Íπ?Î¶¨Ïó∞','liyeon@kakao.com','01000000000',sysdate,null,null,'Í¥?Î¶¨Ïûê','no');
-INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'blue', '1234', '1999-07-04','Íπ?Î¶¨Ïó∞','liyeon@kakao.com','01000000000',sysdate,null,null,'?Ç¨?ö©?ûê','no');
+INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'admin', '1234', '1999-07-04','ÍπÄÎ¶¨Ïó∞','liyeon@kakao.com','01000000000',sysdate,null,null,'Í¥ÄÎ¶¨Ïûê','no');
+INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'blue', '1234', '1999-07-04','ÍπÄÎ¶¨Ïó∞','liyeon@kakao.com','01000000000',sysdate,null,null,'ÏÇ¨Ïö©Ïûê','no');
 SELECT mid
 FROM M_MEMBER
 WHERE mid='admin';
 
-UPDATE m_member set mauthority='Í¥?Î¶¨Ïûê' where  mid='admin';
+UPDATE m_member set mauthority='Í¥ÄÎ¶¨Ïûê' where  memberno='48';
 
-select MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,to_char(MREGDATE, 'yyyy.mm.dd hh24"?ãú"mm"Î∂?"')as mregdate,MPROFILEIMG,MFAVORITE,MAUTHORITY
+UPDATE M_MEMBER SET deleted='yes', mname='ÌÇπÏôïÏß±' WHERE memberno='82';
+
+select MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,to_char(MREGDATE, 'yyyy.mm.dd hh24"Ïãú"mm"Î∂Ñ"')as mregdate,MPROFILEIMG,MFAVORITE,MAUTHORITY
 from M_MEMBER
-where MAUTHORITY='∞¸∏Æ¿⁄';
+where MAUTHORITY='Í¥ÄÎ¶¨Ïûê';
+-- oofdapeqbhsd
+SELECT MPW
+		FROM M_MEMBER WHERE mname='ÍπÄÎ¶¨Ïó∞' AND mtel='01000000000' AND mid='admin3';
+        
+        

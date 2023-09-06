@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
 			<tr>
 				<td>${qnadetail.member.mid }</td>
 				<td>${qnadetail.member.mname }</td>
-				<td>${qnadetail.qregdate }</td>
+				<td><fmt:formatDate value="${qnadetail.qregdate }" pattern="yy-MM-dd" /></td>
 			</tr>
 			<tr>
 				<td colspan="3">${qnadetail.qcontent }</td>
@@ -40,8 +41,8 @@
 			</tr>
 			<input type="hidden" name="qnano" value="${qnadetail.qnano}">
 		</table>
-		<a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a>
 		<button type="submit"value="qnadetailview?qnano=${dto.qnano }">수정</button>
+		<button><a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a></button>
 	</form>
 </body>
 </html>

@@ -30,7 +30,8 @@ public class CartServiceList implements CartService {
 		
 		CartDao dao = session.getMapper(CartDao.class);
 		ArrayList<CartDto> dto = dao.cartList();
-		int cnt = dao.cartCnt(); //memberno 추후 추가
+		int cnt = dao.cartCnt(); //장바구니 전체 수 //memberno 추후 추가
+		int cartCnt = dao.cartTotCnt(); //장바구니 전체 수 * 한권당 수량 //memberno 추후 추가
 		Integer totPrice = dao.totPrice(); //memberno 추후 추가
 		if (totPrice == null) {
 			model.addAttribute("totPrice",0);			
@@ -38,6 +39,7 @@ public class CartServiceList implements CartService {
 			model.addAttribute("totPrice",totPrice);			
 		}
 		model.addAttribute("dto", dto);
+		model.addAttribute("cartCnt", cartCnt);
 		model.addAttribute("cnt", cnt);
 
 	}// override method

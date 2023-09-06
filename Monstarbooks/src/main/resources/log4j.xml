@@ -12,24 +12,24 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.monstar.books">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.springframework.beans">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 
 	<!-- Root Logger -->
