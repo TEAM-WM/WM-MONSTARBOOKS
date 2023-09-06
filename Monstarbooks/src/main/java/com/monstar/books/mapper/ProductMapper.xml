@@ -120,10 +120,23 @@
 		WHERE BOOKNO=#{param1}
 	</update>
 	
-	<update id="updateBookDetail">
+	<!-- <update id="updateBookDetail">
 		UPDATE M_BOOK_DETAIL
 		SET BCATEGORYNO=#{param2}, BIMG=#{param3}, BIMGDETAIL=#{param4}, 
 			BDESCRIPTION=#{param5}, BPAGE=#{param6}, BSIZE=#{param7}, BADGE=#{param8}
+		WHERE BOOKNO=#{param1}
+	</update> -->
+	
+	<update id="updateBookDetail">
+		UPDATE M_BOOK_DETAIL
+		SET BCATEGORYNO=#{param2}, BDESCRIPTION=#{param3}, BPAGE=#{param4}, 
+			BSIZE=#{param5}, BADGE=#{param6}
+		WHERE BOOKNO=#{param1}
+	</update>
+	
+	<update id="updateBookDetailImg">
+		UPDATE M_BOOK_DETAIL
+		SET BIMG=#{param2}, BIMGDETAIL=#{param3}
 		WHERE BOOKNO=#{param1}
 	</update>
 	
