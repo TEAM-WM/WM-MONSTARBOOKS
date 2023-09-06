@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
             </div>
             <nav>
                 <ul class="admin-menu-list">
-                    <li class="active">
+                    <li class="${pageContext.request.requestURI == '/admin/' ? 'active' : ''}">
                         <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-cube"></i>
                             <span>
@@ -22,8 +23,11 @@
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/admin/member/list">
+                    <c:set var="currentPage" value="${pageContext.request.requestURI}" />
+					<c:set var="targetPage" value="/admin/member/list" />
+
+					<li class="${currentPage eq targetPage ? 'active' : ''}">
+    					<a href="${pageContext.request.contextPath}/admin/member/list">
                             <i class="fa-solid fa-user-astronaut"></i>
                             <span>
                                 회원관리
@@ -55,7 +59,7 @@
                         </a>
                     </li>
                     <li class="accordion-button">
-                        <a href="">
+                        <a>
                             <i class="fa-solid fa-layer-group"></i>
                             <span>
                                 게시판 관리
