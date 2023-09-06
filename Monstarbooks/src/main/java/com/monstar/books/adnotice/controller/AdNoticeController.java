@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.monstar.books.adnotice.service.AdNoticeDeleteServiceList;
 import com.monstar.books.adnotice.service.AdNoticeDetailServiceList;
 import com.monstar.books.adnotice.service.AdNoticeInsertServiceList;
 import com.monstar.books.adnotice.service.AdNoticeService;
@@ -76,7 +77,6 @@ public class AdNoticeController {
 		return "admin/adnotice/noticeDetail";
 	}
 	
-	
 	// noticeUpdate
 	@RequestMapping("admin/adnotice/noticeUpdate")
 	public String NoticeUpdate(HttpServletRequest request, Model model) {
@@ -118,6 +118,17 @@ public class AdNoticeController {
 		// 위에서 받아온 a를 통해 수정을 하면 수정한 글의 상세페이지로 이동
 		return "redirect:noticeDetail?noticeno="+a;
 		
+	}
+	
+	@RequestMapping("admin/adnotice/delete")
+	public String delete(HttpServletRequest request, Model model) {
+		System.out.println("delete");
+		
+		model.addAttribute("request",request);
+		adnoticeService = new AdNoticeDeleteServiceList(sqlSession);
+		adnoticeService.execute(model);
+		
+		return "redirect:notice";
 	}
 	
 	

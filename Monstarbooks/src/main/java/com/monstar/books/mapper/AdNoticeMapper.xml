@@ -53,6 +53,11 @@
 	SYSDATE,#{param3},'No',1)
 </insert>
 
+<!-- 공지를 삭제하는 쿼리 -->
+<delete id="delete">
+	DELETE FROM M_NOTICE WHERE NOTICENO = #{param1}
+</delete>
+
 
 <!-- 검색 이후의 데이터 총합을 구하는 쿼리 -->
 <select id="selectTot1" resultType="Integer">

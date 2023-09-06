@@ -33,19 +33,14 @@ public class ProductDetailService implements ProductService {
 		
 		//map변환
 		Map<String, Object> map = model.asMap();
-		
-		//map에서 request 추출
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
 		//상품번호로 디테일페이지 진입
-		String bookno = request.getParameter("bookno");
+		int bookno = Integer.parseInt(request.getParameter("bookno"));
 		System.out.println("bookno: "+bookno);
 		
 		ProductDao dao = session.getMapper(ProductDao.class);
 		BookDto dto = dao.detail(bookno);
-		
-//		System.out.println(dto);
-		
 		model.addAttribute("dto", dto);
 		
 

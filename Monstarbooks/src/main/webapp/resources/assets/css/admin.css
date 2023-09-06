@@ -144,7 +144,10 @@
     overflow: hidden;
     border-collapse: collapse;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
+    border:none;
     padding: 10px;
+    background: var(--color-white);
+    color: var(--color-black);
 }
 .admin-container tr:hover{
     background-color: #fbfbfb;
@@ -161,4 +164,21 @@
 }
 td img{
     width: 100%;
+}
+
+.admin-table {
+	width: 100%;
+}
+
+.admin-table table {
+	margin-bottom: 20px;
+}
+
+.admin-table table td {
+	text-align: left;
+	padding: 0 30px;
+}
+
+.admin-table .favorite-box {
+	overflow-x: auto;
 }

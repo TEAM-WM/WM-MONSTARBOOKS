@@ -9,8 +9,9 @@
 </head>
 <body>
 <h3>productInsertView.jsp</h3>
+
 	<article>
-	<form action="productinsert" method="post">
+	<form action="productinsert" method="post" enctype="multipart/form-data">
 	<!-- 도서 테이블 -->
 		<label for="" style="font-size: 20px;">도서 테이블</label>
 		<label for="ISBN">ISBN</label>
@@ -20,28 +21,39 @@
 		</div>
 		<label for="btitle">도서제목</label>
 		<input type="text" name="btitle" />
+		
 		<label for="bsubtitle">도서부제목</label>
 		<input type="text" name="bsubtitle" />
+		
 		<label for="bpublisher">출판사</label>
 		<input type="text" name="bpublisher" />
+		
 		<label for="bwriter">저자</label>
 		<input type="text" name="bwriter" />
+		
 		<label for="btranslator">역자</label>
 		<input type="text" name="btranslator" />
-		<label for="bpdate">출간일</label>
+		
+		<label for="bpdate">출간날짜</label>
 		<input type="text" name="bpdate" />
+		
 		<label for="bprice">정가</label>
 		<input type="text" name="bprice" />
+		
 		<label for="bpricesell">판매가</label>
 		<input type="text" name="bpricesell" />
+		
 		<label for="bdiscount">할인율</label>
 		<input type="text" name="bdiscount" />
+		
 		<label for="bstatus">상태</label>
 		<input type="text" name="bstatus" />
-		<!-- <label for="bcdate">생성일</label>
-		<input type="text" name="bcdate" />
-		<label for="bmdate">수정일</label>
+		
+		<!-- <label for="bcdate">등록날짜</label>
+		<input type="text" name="bcdate" /> -->
+		<!-- <label for="bmdate">수정날짜</label>
 		<input type="text" name="bmdate" /> -->
+		
 		<label for="bstock">재고</label>
 		<input type="text" name="bstock" />
 					
@@ -49,15 +61,20 @@
 	<!-- 도서 상세 테이블 -->
 		<label for="" style="font-size: 20px;">도서 디테일 테이블</label>
 		<label for="bimg">도서썸네일</label>
-		<input type="text" name="bimg" />
+		<input type="file" name="bimg" />
+		
 		<label for="bimgdetail">도서상세이미지</label>
-		<input type="text" name="bimgdetail" />
+		<input type="file" name="bimgdetail" />
+		
 		<label for="bdescription">도서설명</label>
 		<input type="text" name="bdescription" />
+		
 		<label for="bpage">전체페이지</label>
 		<input type="text" name="bpage" />
+		
 		<label for="bsize">도서크기</label>
 		<input type="text" name="bsize" />
+		
 		<label for="badge">상품뱃지</label>
 		<input type="text" name="badge" />
 						
@@ -74,6 +91,8 @@
 				</c:forEach>
 			</div>
 				
+				
+
 				
 				
 				
@@ -107,8 +126,8 @@
 				
 				
 		
-		<input type="submit" value="등록" />
-		<a href="list">취소</a>
+		<input type="submit" value="등록하기" />
+		<a href="productlist">취소하기</a>
 	</form>
 	</article>
 	

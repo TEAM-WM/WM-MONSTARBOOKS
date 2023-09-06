@@ -18,7 +18,7 @@ import com.monstar.books.m3pop.service.MemberModifyService;
 
 
 @Controller
-public class MemberController {
+public class MemberController2 {
 	
 	BServiceInter bServiceInter;
 	
@@ -111,5 +111,44 @@ public class MemberController {
 
 		
 		return "redirect:/member/content_modify";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/member/pwCheck")
+	public String pwCheck(HttpServletRequest request, Model model) {
+		System.out.println("====pwCheck()====");
+				
+
+		HttpSession session = request.getSession();
+		//인터페이스 타입으로
+		String mid=(String) session.getAttribute("mid");
+		//String mid = request.getParameter("mid");
+		System.out.println("mid"+mid);
+		String mpw = request.getParameter("mpw");
+		System.out.println("mpw"+mpw);
+		MemberDao dao = sqlSession.getMapper(MemberDao.class);
+		int result=0;
+		String password = dao.pwCheck(mid,mpw);
+		String url="";
+		
+		if(password==null) {
+			password="";
+		}
+		//model.addAttribute("member", dtos);
+		System.out.println("pw"+password);
+		if(password.equals(mpw)) {
+			url="redirect:/member/content_modify";
+			//return "/member/content_modify";
+		}else {
+			System.out.println("비밀번호 틀림");
+			
+			url="redirect:/member/pwCheckForm";
+		
+			//return "/member/pwCheckForm?result=0";
+		}
+		System.out.println(url);
+		model.addAttribute("result", result);
+		return url;
+		
+		//return "redirect:/member/content_modify";
 	}
 }

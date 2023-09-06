@@ -25,4 +25,10 @@ public class HomeController {
 		System.out.println("=============");
 		return "home";
 	}//home
+	
+	@RequestMapping("/admin")
+	public String admin(HttpServletRequest request) {
+
+		return "admin/admin";
+	}//home
 }//class

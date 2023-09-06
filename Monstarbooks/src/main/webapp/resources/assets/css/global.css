@@ -77,6 +77,16 @@ body{
 .right{
     text-align: right;
 }
+
+.text-back{
+	padding:5px 10px;
+	background: var(--color-main);
+	color: var(--color-white);
+	border-radius: 5px;
+	font-weight: var(--weight-bold);
+	line-height:2em;
+}
+
 /* 화살표 */
 .arrow-up {
     width: 50px;

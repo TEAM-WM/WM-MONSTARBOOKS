@@ -9,15 +9,6 @@ public class MyOrderDto {
 	private Date orderDatedFormatted; // 주문날짜 형식변경
 
 	private int OrderNo;
-
-	public String getCategory2() {
-		return category2;
-	}
-
-	public void setCategory2(String category2) {
-		this.category2 = category2;
-	}
-
 	private String orderStatus; // 주문상태
 	private String category1; // 상위 카테고리
 	private String category2; // 하위카테고리
@@ -27,6 +18,31 @@ public class MyOrderDto {
 	private String bookNo; //책번호
 	
 	private String dtel; // 연락처
+	
+	private String memberId; // 회원 id
+	private String orderNO; // 주문번호
+	private String totalAmount; // 총 상품가격 (sum(od.pricesell * od.ocount)
+	private String productImage; // 책이미지 저장
+	
+	private String memberName; //회원 이름
+	
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getCategory2() {
+		return category2;
+	}
+
+	public void setCategory2(String category2) {
+		this.category2 = category2;
+	}
+
 	
 	public String getDtel() {
 		return dtel;
@@ -56,10 +72,6 @@ public class MyOrderDto {
 		this.bookNo = bookNo;
 	}
 
-	private String memberId; // 회원 id
-	private String orderNO; // 주문번호
-	private String totalAmount; // 총 상품가격 (sum(od.pricesell * od.ocount)
-	private String productImage; // 책이미지 저장
 
 	public int countOrdersByOrderNoAndDate(List<MyOrderDto> orderList, String orderNo, Date orderDate) {
 		int count = 0;
