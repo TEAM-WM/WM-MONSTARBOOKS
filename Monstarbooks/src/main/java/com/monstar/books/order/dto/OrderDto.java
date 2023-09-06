@@ -1,11 +1,10 @@
 package com.monstar.books.order.dto;
 
-import java.util.List;
+import java.util.Date;
 
 import com.monstar.books.booklist.dto.BookCategoryDto;
 import com.monstar.books.booklist.dto.BookDetailDto;
 import com.monstar.books.booklist.dto.BookListDto;
-import com.monstar.books.booklist.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,21 +14,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class OrderDto {
-	private int cartno;
+//	주문 테이블
+	private int orderno;
 	private int memberno;
-	private int bookno;
-	private int ccount;
+	private int cpno;
+	private int ototalprice;
+	private String ostatus;
+	private String opay;
 	
-	private int cnt;
-	
+	private OrderDetailDto odetail;
+	private DeliveryDto delivery;
+	private CouponDto coupon;
 	private BookListDto list;
-	private BookDetailDto detail;
+	private BookDetailDto bdetail;
 	private BookCategoryDto category;
-	private MemberDto member;
 	
-	private List<OrderDto> orders;
-	
-	public String toString() {
-		return "OrderDto [orders="+orders+"]";
-	}
+	private int count;
 }

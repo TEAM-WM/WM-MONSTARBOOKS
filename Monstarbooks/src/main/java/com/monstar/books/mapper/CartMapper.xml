@@ -54,6 +54,10 @@
 		SELECT COUNT(CARTNO) FROM M_CART WHERE MEMBERNO=1
 	</select>
 	
+	<select id="cartTotCnt" resultType="Integer">
+		SELECT SUM(CCOUNT) FROM M_CART WHERE MEMBERNO=1
+	</select>
+	
 	<update id="cntUpdate">
 		UPDATE M_CART SET CCOUNT=#{param1} WHERE MEMBERNO=1 AND CARTNO=#{param2}
 	</update>
@@ -69,4 +73,39 @@
 		DELETE FROM M_CART WHERE CARTNO=#{param1}
 	</delete>
 
+	<select id="cartSelList" parameterType="com.monstar.books.cart.dto.CartDto" resultMap="Cart">
+		SELECT C.CARTNO,C.MEMBERNO,C.BOOKNO,C.CCOUNT,
+		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,
+		D.BIMG,CT.BCATEGORY1, M.MEMBERNO
+		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY CT, M_MEMBER M
+		WHERE C.BOOKNO=B.BOOKNO 
+		AND C.BOOKNO=D.BOOKNO
+		AND D.BCATEGORYNO=CT.BCATEGORYNO
+		AND C.MEMBERNO=M.MEMBERNO
+		AND C.CARTNO IN 
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+		AND C.MEMBERNO = 1
+	</select>
+	
+	<select id="seltTotPrice" resultType="Integer">
+		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
+		WHERE B.BOOKNO=C.BOOKNO 
+		AND C.MEMBERNO=M.MEMBERNO 
+        AND C.CARTNO IN 
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+		AND C.MEMBERNO = 1
+	</select>
+
+	<select id="cartSelCnt" resultType="Integer">
+		SELECT SUM(CCOUNT) FROM M_CART 
+		WHERE MEMBERNO=1 AND CARTNO IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+	</select>
+	
 </mapper>

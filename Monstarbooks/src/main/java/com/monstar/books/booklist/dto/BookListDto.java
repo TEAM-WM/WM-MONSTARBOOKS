@@ -25,6 +25,9 @@ public class BookListDto {
 	private Date bcdate;
 	private Date bmdate;
 	
+	private int ccount;
+	
+	private BookListDto list;
 	private BookDetailDto detail;
 	private BookCategoryDto category;
 	

@@ -47,6 +47,9 @@ public interface BookListDao {
 
 	// 상품리스트 체크박스로 장바구니 추가
 	public void cartAddCheck(String i);
+
+	// 상세페이지에서 바로 주문
+	public ArrayList<BookListDto> goOrder(String memberno);
 	
 	
 }//interface 종료

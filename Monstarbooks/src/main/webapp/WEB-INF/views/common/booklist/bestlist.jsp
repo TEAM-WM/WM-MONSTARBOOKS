@@ -107,9 +107,16 @@ function cart_add_check(){
 		});
 	}
 }
+/* 하나라도 체크해제되면 전체체크박스도 해제 */
+function checkbox(c){
+	if($("input[name=chk]:checked").length == c){
+		$('#all_select').prop('checked',true); 
+	}else{
+		$('#all_select').prop('checked',false); 
+	}
+}
 /* 장바구니 담기 */
 function add_cart(bookno){
-	var cnt = $(".cnt").text();
 	$.ajax({
 		url:'../addCart',
 		type:'post',
@@ -127,10 +134,19 @@ function add_cart(bookno){
 		}
 	})
 }
+/* 바로 주문 */
+function go_order(bno){
+	$("#bookno").attr("value",bno);
+	$(".order_form").submit();
+}
 </script>
 </head>
 
 <body>
+<form action="../goOrder" class="order_form" method="post">
+	<input type="hidden" name="bookno" id="bookno" value="0"/>
+	<input type="hidden" name="ccount" value="1"/>
+</form>
 	<!-- 카테고리 분류 -->
 	<div align="left">
 		<a href="../"><i class="fa-solid fa-house"></i></a> / 
@@ -153,7 +169,7 @@ function add_cart(bookno){
 			<c:forEach items="${dto }" var="list">
 				<tr>
 					<td rowspan="5" id="line" width="50px" align="center">
-						<input type="checkbox" id="${list.bookno }" name="chk" /> <label for="${list.bookno }"></label>
+						<input type="checkbox" id="${list.bookno }" name="chk" onclick="checkbox(${totRowCnt})" /> <label for="${list.bookno }"></label>
 					</td>
 					<td rowspan="5" id="line" align="center" width="150px"><img width="auto" height="200px" 
 						src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
@@ -178,10 +194,13 @@ function add_cart(bookno){
 						</c:if>
 					
 					</td>
+					
+					<!-- 장바구니, 바로구매 -->
 					<td rowspan="5" id="line" align="center">
 						<button type="button" id="btn2" onclick="add_cart(${list.bookno})">장바구니</button>
 						<br /> <br />
-						<button type="button" id="btn3">바로구매</button>
+						
+						<button type="button" id="btn3" onclick="go_order(${list.bookno})">바로구매</button>
 					</td>
 				</tr>
 				<tr>
@@ -230,7 +249,7 @@ function add_cart(bookno){
 	<a href=""><i class="fa-solid fa-circle-chevron-right"></i></a>
 
 	<script>
-	document.title = "몬스타북스 :: 베스트셀러"; 
+	document.title = "몬스타북스 :: 베스트셀러";  
 	</script>
 </body>
 </html>

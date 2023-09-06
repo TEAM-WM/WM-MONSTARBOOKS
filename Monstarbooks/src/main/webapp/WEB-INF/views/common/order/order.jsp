@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -9,6 +10,8 @@
 <title>샘플페이지</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
 table{
 	width: 1200px;
@@ -59,6 +62,11 @@ function addr_write(){
 	sample6_execDaumPostcode();
 }
 function sample6_execDaumPostcode() {
+	//form submit 막기
+	$(".payment_form").submit(function(e){
+		e.preventDefault();
+		$(".payment_form").unbind();
+	})
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -113,19 +121,89 @@ function coupon_check(){
 	let openUrl = 'mycoupon'
 	window.open(openUrl,'pop',popOption);
 }
-/* function orderList(){
-	$.ajax({
-		type:"get",
-		url:"/orderList",
-		success : function(result){
-			$("#orderList").html(result);	
+/* 결제하기 */
+var IMP = window.IMP;
+IMP.init('imp30831436');//가맹점 식별코드 
+/* function requestPay(pay){
+	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
+		alert("배송지를 입력해주세요.");
+	}else{
+		if($("#dname").val()=="" && $("#dtel").val()==""){
+			alert("수령인의 성함과 연락처를 입력해주세요.");
+		}else{
+			if($("#order_agree").is(":checked")){
+				if($("input[name='payment']:checked").val()=='신용/체크카드'){
+					IMP.request_pay({
+						pg : 'html5_inicis',
+				        pay_method : 'card',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							location.href="orderComplete";
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}
+				else if($("input[name='payment']:checked").val()=='휴대폰'){
+					IMP.request_pay({
+						pg : 'danal.A010002002',
+				        pay_method : 'phone',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							$(".payment_form").submit();
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}
+				else if($("input[name='payment']:checked").val()=='카카오페이'){
+					IMP.request_pay({
+						pg : 'kakaopay.TC0ONETIME',
+				        pay_method : 'card',
+				        merchant_uid: new Date().getTime(), 
+				        name : '도서',
+				        amount : pay,
+						buyer_name : '구매자'
+					},function (rsp){
+						if(rsp.success){
+							//결제 성공 시
+							alert("결제가 완료되었습니다.");
+							$(".payment_form").submit();
+						}else{
+							//결제 실패 시
+							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
+						}
+					});
+				}else{
+					alert("결제 방법을 선택해주세요.");
+				}
+			}else{
+				alert("주문 상품정보 이용약관에 동의해주세요.");
+			}
 		}
-	});
-} */
+	}	
+}  */
+function requestPay(){
+	$(".payment_form").submit();
+} 
 </script>
 </head>
 <body>
-	<h1 align="left">주문 / 결제</h1>
+	<h1 align="left" style="margin: 30px;">주문 / 결제</h1>
 	
 		<!-- 주문 단계 -->
 	<div align="right">
@@ -134,23 +212,23 @@ function coupon_check(){
 			<span style="color: lightgray;">결제완료</span>
 	</div>
 
-	<br />
-	<br />
+	<br /> <br />
 	
 	<!-- 배송지 정보 -->
 	<table>
 		<tr>
+		<form action="orderInsert" class="payment_form" method="post">
 			<th width="30%" height="150px">배송지 정보</th>
 			<td><i class="fa-solid fa-location-dot"></i>
 				<b style="color:#00084f;">&nbsp;배송지를 등록해주세요.</b> <br /><br />
 				<button id="addr_btn" onclick="addr_write()"><i class='fa-solid fa-pen-to-square'></i>&nbsp;배송지 입력</button>
 				<div id="addr">
-					<input type="text" id="sample6_postcode" placeholder="우편번호" readonly>
-					<input type="text" id="sample6_address" placeholder="주소" style="width:50%;display: inline;" readonly>
-					<input type="text" id="sample6_extraAddress" placeholder="참고항목" style="width:49%;display: inline;"readonly>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요">
-					<input type="text" placeholder="받는 분 성함" style="width:50%;display: inline;"/>
-					<input type="text" placeholder="받는 분 연락처" style="width:49%;display: inline;"/>
+					<input type="text" id="sample6_postcode" name="dzipcode" placeholder="우편번호" readonly>
+					<input type="text" id="sample6_address" name="daddress1" placeholder="주소" style="width:50%;display: inline;" readonly>
+					<input type="text" id="sample6_extraAddress" name="daddress3" placeholder="참고항목" style="width:49%;display: inline;"readonly>
+					<input type="text" id="sample6_detailAddress" name="daddress2" placeholder="상세주소를 입력해주세요">
+					<input type="text" id="dname" name="dname" placeholder="받는 분 성함" style="width:50%;display: inline;"/>
+					<input type="text" id="dtel" name="dtel" placeholder="받는 분 연락처('-'제외)" style="width:49%;display: inline;"/>
 				</div>
 			</td>
 		</tr>
@@ -159,7 +237,6 @@ function coupon_check(){
 	<br /><br /><br />
 	
 	<!-- 주문 상품 정보 -->
-	<!-- <div id="orderList"></div> -->
 	<table>
 		<colgroup>
 			<col width="10%">
@@ -170,10 +247,20 @@ function coupon_check(){
 		</colgroup>
 		<tr height="50px" class="under_line">
 			<th colspan="2">주문상품</th>
-			<td colspan="3">총 ${cnt }개</td>
+			<td colspan="3">
+			<c:if test="${cnt >=1 }">총 ${cnt }개</c:if>		
+			<c:if test="${cnt == null }">총 1개</c:if></td>		
+			
 		</tr>
 		<c:forEach items="${dto }" var="list">
+		
+			<input type="hidden" name="bookno" value="${list.bookno }" />
+			
+		
 		<tr height="150px" class="under_line">
+			
+		<!-- 장바구니에서 주문 -->
+		<c:if test="${list.ccount ne 0 }">
 			<td><img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}" 
 				alt="책 썸네일 이미지" width="70%"/></td>
 			<td colspan="2" align="left">
@@ -181,9 +268,30 @@ function coupon_check(){
 				${list.list.btitle } </b> <br /><br /> 
 				<b><span style="color: orange">${list.list.bdiscount }%</span> 
 				<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
-			<td>${list.ccount }개</td>
+			<td>${list.ccount }
+				<c:if test="${list.ccount eq 0 }">${ccount }개</c:if></td>
 			<td><fmt:formatNumber value="${list.list.bpricesell * list.ccount}" 
-				pattern="#,###,###" />원</td>
+				pattern="#,###,###" />원</td>	
+			<input type="hidden" name="opricesell" value="${list.list.bpricesell }" />
+			<input type="hidden" name="ocount" value="${list.ccount }" />
+		</c:if> 
+			
+		<!-- 상세페이지에서 바로 주문 -->
+		<c:if test="${list.ccount eq 0 }">
+			<td><img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}" 
+				alt="책 썸네일 이미지" width="70%"/></td>
+			<td colspan="2" align="left">
+			<b style="font-size: large">[${list.category.bcategory1}도서] 
+				${list.btitle } </b> <br /><br /> 
+				<b><span style="color: orange">${list.bdiscount }%</span> 
+				<fmt:formatNumber value="${list.bprice }" pattern="#,###" />원</b></td>
+			<td>${ccount }개</td>
+			<td><fmt:formatNumber value="${list.bpricesell * ccount}"
+				pattern="#,###,###" />원</td>	
+			<input type="hidden" name="opricesell" value="${list.bpricesell }" />
+			<input type="hidden" name="ocount" value="${ccount }" />
+		</c:if> 
+			
 		</tr>
 		</c:forEach>
 	</table>
@@ -211,6 +319,8 @@ function coupon_check(){
 			<th>결제 정보</th>
 			<td></td>
 		</tr>
+		
+		<!-- 장바구니에서 주문 -->
 		<tr height="40px">
 			<th>상품금액</th>
 			<td align="left"><fmt:formatNumber value="${totPrice}" 
@@ -228,18 +338,26 @@ function coupon_check(){
 			<th>총 결제금액</th>
 			<td align="left"><b><fmt:formatNumber value="${totPrice + 2500}" 
 				pattern="#,###,###" />원</b></td>
-		</tr>
+		</tr>		
+		
 		<tr>
 			<th>결제 방법</th>
 			<td align="left">
-				<label for="pay_1"><input type="radio" name="payment" value="pay_1" id="pay_1"/> 
+				
+				<input type="hidden" name="memberno" value="1"/>
+				<input type="hidden" name="ototalprice" value="${totPrice + 2500}"/>
+				<!-- <input type="hidden" name="ostatus" value="결제완료"/> -->
+				<label for="pay_1"><input type="radio" name="payment" value="계좌이체" id="pay_1" onclick="return(false);"/> 
 					계좌이체</label>
-				<label for="pay_2"><input type="radio" name="payment" value="pay_2" id="pay_2"/> 
+				<label for="pay_2"><input type="radio" name="payment" value="신용/체크카드" id="pay_2"/> 
 					신용/체크카드</label>
-				<label for="pay_3"><input type="radio" name="payment" value="pay_3" id="pay_3"/> 
+				<label for="pay_3"><input type="radio" name="payment" value="휴대폰" id="pay_3"/> 
 					휴대폰</label>
-				<label for="pay_4"><input type="radio" name="payment" value="pay_4" id="pay_4"/> 
+				<label for="pay_4"><input type="radio" name="payment" value="무통장입금(가상계좌)" id="pay_4" onclick="return(false);"/> 
 					무통장입금(가상계좌)</label>
+				<label for="pay_5"><input type="radio" name="payment" value="카카오페이" id="pay_5"/> 
+					카카오페이</label>
+			</form>
 			</td>
 		</tr>
 	</table>
@@ -261,7 +379,7 @@ function coupon_check(){
 	
 	<!-- 결제하기 -->
 	<div align="center">
-		<input type="button" value="결제하기" id="pay_btn"/>
+		<input type="button" value="결제하기" id="pay_btn" onclick="requestPay(${totPrice + 2500})"/>
 	</div>
 	
 	<script>

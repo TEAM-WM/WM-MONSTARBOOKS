@@ -274,6 +274,13 @@
 		    <version>4.3.0</version>
 		</dependency>
 		
+		<!-- 트랜잭션 관리를 위한 라이브러리 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
 		<!-- 이메일 인증을 위한 라이브러리 -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -292,7 +299,6 @@
 			<version>2.9.5</version>
 		</dependency>
 		<!-- 이메일 인증을 위한 라이브러리 종료 -->
-				
 	</dependencies>
 	<build>
 		<plugins>
