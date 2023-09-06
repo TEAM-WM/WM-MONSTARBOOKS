@@ -17,6 +17,8 @@ import com.monstar.books.ex.dto.ExDto;
 import com.monstar.books.product.dao.ProductDao;
 import com.monstar.books.product.dto.BookCategoryDto;
 import com.monstar.books.product.dto.BookDto;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Service
 public class ProductUpdateService implements ProductService {
@@ -39,23 +41,32 @@ public class ProductUpdateService implements ProductService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
+		//파일업로드(도서썸네일, 디테일)
+		String path = "C:\\Users\\joon879\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\imgs\\product";
+
+		MultipartRequest req = null;
+		try {
+			req = new MultipartRequest(request, path, 1024 * 1024 * 20, "utf-8", new DefaultFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		//"도서"테이블에 넣을 정보
-		int bookno = Integer.parseInt(request.getParameter("bookno"));
-		int bisbn = Integer.parseInt(request.getParameter("bisbn"));
-		String btitle = request.getParameter("btitle");
-		String bsubtitle = request.getParameter("bsubtitle");
-		String bpublisher = request.getParameter("bpublisher");
-		String bwriter = request.getParameter("bwriter");
-		String btranslator = request.getParameter("btranslator");
-		String bpdate = request.getParameter("bpdate");
-		int bprice = Integer.parseInt(request.getParameter("bprice"));
-		int bpricesell = Integer.parseInt(request.getParameter("bpricesell"));
-		int bdiscount = Integer.parseInt(request.getParameter("bdiscount"));
-		String bstatus = request.getParameter("bstatus");
+		int bookno = Integer.parseInt(req.getParameter("bookno"));
+		int bisbn = Integer.parseInt(req.getParameter("bisbn"));
+		String btitle = req.getParameter("btitle");
+		String bsubtitle = req.getParameter("bsubtitle");
+		String bpublisher = req.getParameter("bpublisher");
+		String bwriter = req.getParameter("bwriter");
+		String btranslator = req.getParameter("btranslator");
+		String bpdate = req.getParameter("bpdate");
+		int bprice = Integer.parseInt(req.getParameter("bprice"));
+		int bpricesell = Integer.parseInt(req.getParameter("bpricesell"));
+		int bdiscount = Integer.parseInt(req.getParameter("bdiscount"));
+		String bstatus = req.getParameter("bstatus");
 //		String bcdate = request.getParameter("bcdate");
 //		String bmdate = request.getParameter("bmdate");
-		int bstock = Integer.parseInt(request.getParameter("bstock"));
+		int bstock = Integer.parseInt(req.getParameter("bstock"));
 				
 		//"도서" 테이블에 정보 입력
 		dao.updateBook(bookno, bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator,
@@ -65,14 +76,15 @@ public class ProductUpdateService implements ProductService {
 		
 		
 		//"디테일" 테이블에 넣을 정보
-		int bcategoryno = Integer.parseInt(request.getParameter("bcategoryno"));//"카테고리" 테이블 라디오버튼 입력값
+		int bcategoryno = Integer.parseInt(req.getParameter("bcategoryno"));//"카테고리" 테이블 라디오버튼 입력값
 			
-		String bimg = request.getParameter("bimg");
-		String bimgdetail = request.getParameter("bimgdetail");
-		String bdescription = request.getParameter("bdescription");
-		int bpage = Integer.parseInt(request.getParameter("bpage"));
-		String bsize = request.getParameter("bsize");
-		String badge = request.getParameter("badge");
+//		String bimg = req.getFilesystemName("bimg");
+//		String bimgdetail = req.getFilesystemName("bimgdetail");
+		
+		String bdescription = req.getParameter("bdescription");
+		int bpage = Integer.parseInt(req.getParameter("bpage"));
+		String bsize = req.getParameter("bsize");
+		String badge = req.getParameter("badge");
 		
 		System.out.println("bcategoryno: "+bcategoryno);
 		
@@ -83,9 +95,16 @@ public class ProductUpdateService implements ProductService {
 //		-> 일단 1번으로 고고
 		
 		//"디테일" 테이블에 정보 입력
-		dao.updateBookDetail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
+//		dao.updateBookDetail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
+//				bpage, bsize, badge);
+		dao.updateBookDetail(bookno, bcategoryno, bdescription,
 				bpage, bsize, badge);
 		
+		
+		String bimg = req.getFilesystemName("bimg");
+		String bimgdetail = req.getFilesystemName("bimgdetail");
+				
+		dao.updateBookDetailImg(bookno, bimg, bimgdetail);
 		
 		
 		

@@ -100,7 +100,13 @@
 		<!-- 도서 상세 테이블 -->
 				<tr>
 					<td>도서썸네일</td>
-					<td><img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg }" width="200" alt="도서썸네일" /></td>
+					<%-- <td><img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg }" width="200" alt="도서썸네일" /></td> --%>
+					<td>
+						<c:if test="${dto.bookDetailDto.bimg ne null }">
+							<img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg}" alt="썸네일" />
+						</c:if>
+					</td>
+					<%-- <td><a href="download?p=/resources/assets/imgs/product/&f=${dto.bookDetailDto.bimg }">${dto.bookDetailDto.bimg }</a></td> --%>
 				</tr>
 				<tr>
 					<td>도서상세이미지</td>
@@ -138,6 +144,7 @@
 			<a href="productlist">목록으로</a>
 			<a href="productdelete?bookno=${dto.bookno }">삭제하기</a>
 	</article>
+	
 
 	<script>
 		document.title = "상품디테일";
