@@ -9,7 +9,7 @@ import com.monstar.books.adorder.dto.AdOrderDto;
 
 public interface AdOrderDao {
 
-	public ArrayList<AdOrderDto> getOrderList(int start, int end, String sk); // 기본검색
+	public ArrayList<AdOrderDto> getOrderList(int rowStart, int rowEnd, String sk); // 기본검색
 
 	public ArrayList<AdOrderDto> getOrderListProductName(int start, int end, String sk); // 책 제목으로 검색
 
@@ -24,8 +24,6 @@ public interface AdOrderDao {
 	public int selectBoardTotCount1(String searchKeyword); // 책 제목으로 검색
 
 	public int selectBoardTotCount2(String searchKeyword); // 주문자(회원id)로 검색
-	
-	public int selectBoardTotCount3(String searchKeyword); //전체 검색 카운팅
 
 	public int selectBoardTotCount4(String searchKeyword); // 기본검색 없이 검색
 
