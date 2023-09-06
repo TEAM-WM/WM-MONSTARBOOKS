@@ -51,6 +51,10 @@
 	</select>
 	
 	<select id="cartCnt" resultType="Integer">
+		SELECT COUNT(CARTNO) FROM M_CART WHERE MEMBERNO=1
+	</select>
+	
+	<select id="cartTotCnt" resultType="Integer">
 		SELECT SUM(CCOUNT) FROM M_CART WHERE MEMBERNO=1
 	</select>
 	

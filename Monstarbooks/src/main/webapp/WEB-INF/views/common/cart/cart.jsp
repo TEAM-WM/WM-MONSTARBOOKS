@@ -184,7 +184,7 @@ function go_order_all(cntSum){
 </script>
 </head>
 <body>
-	<h1 align="left">장바구니(${cnt })</h1>
+	<h1 align="left" style="margin: 30px;">장바구니(${cnt })</h1>
 
 	<!-- 주문 단계 -->
 	<div align="right">
@@ -201,7 +201,7 @@ function go_order_all(cntSum){
 	<div align="left">
 	<form action="./order" method="post" class="order_form">
 		<c:choose>
-			<c:when test="${cnt == 0 }">
+			<c:when test="${cartCnt == 0 }">
 				<div style="height: 250px;">
 					<h2> <br /> 장바구니가 비었습니다. <br /> <br /> </h2>
 						<i class="fa-regular fa-face-sad-tear fa-5x"></i>
@@ -295,7 +295,7 @@ function go_order_all(cntSum){
 	<!-- 총 결제 정보 -->
 	<div align="center" class="cart_price">
 		<h3>
-			총 <span id="product_cnt">${cnt }</span>개의 상품금액 
+			총 <span id="product_cnt">${cartCnt }</span>개의 상품금액 
 			<span class="product_price"><fmt:formatNumber value="${totPrice}" pattern="#,###,###" /></span>
 			원 &nbsp;	<i class="fa-solid fa-plus"></i> &nbsp; 배송비 2,500원 &nbsp; 
 			<i class="fa-solid fa-equals"></i> &nbsp; 결제 예정 금액 
@@ -310,7 +310,7 @@ function go_order_all(cntSum){
 	<div align="right">
 		<input type="button" value="선택상품 주문" onclick="go_order_sel()" class="go_order_sel"
 			style="width: 200px; display: inline;" /> <input type="button"
-			value="전체상품 주문" onclick="go_order_all(${cnt })"
+			value="전체상품 주문" onclick="go_order_all(${cartCnt })"
 			style="width: 200px; display: inline; color: white; background-color: #00084f" />
 	</div>
 

@@ -11,8 +11,11 @@ public interface CartDao {
 //	장바구니 목록
 	public ArrayList<CartDto> cartList();
 
-//	장바구니 수량
+//	장바구니 전체 수
 	public int cartCnt();
+	
+//	장바구니 전체 수 * 한권당 수량
+	public int cartTotCnt();
 
 //	수량변경
 	public void cntUpdate(String cnt, String cartno);
@@ -31,5 +34,7 @@ public interface CartDao {
 	
 //	주문상품의 수
 	public int cartSelCnt(List<String> chArr);
+
+
 
 }//interface 종료
