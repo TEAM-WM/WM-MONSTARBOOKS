@@ -35,8 +35,10 @@ public class MyProfileUpdateService implements MyPageService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
 		// 파일 업로드를 위한 경로 설정
-		String path = "E:\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
-
+		String path = "C:\\javabigsetspring2023\\spring_work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\Monstarbooks\\resources\\assets\\upload";	
+//		해당 톰캣의 server.xml을 수정? <Context path="/상대경로" docBase="/절대경로" />
+		
+		
 		// MyProfileDao를 이용하여 데이터베이스 업데이트 수행
 		MyProfileDao dao = sqlSession.getMapper(MyProfileDao.class);
 

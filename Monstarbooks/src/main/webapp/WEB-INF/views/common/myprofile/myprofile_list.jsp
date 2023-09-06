@@ -90,7 +90,7 @@
 			</tr>
 				</table>
 			</c:forEach>
-					<a href="sample1" class=upde>회원정보관리</a> <br />
+					<a href="../member/content_view" class=upde>회원정보관리</a> <br />
 <br />
 <br />
 <br />
@@ -99,7 +99,7 @@
 </form>
 <br />
 	<script>
-		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";
+		document.title = "몬스타북스 :: 마이페이지 :: 프로필메인";
 	</script>
 </body>
 </html>

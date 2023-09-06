@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.mypage.dao.MyProfileDao;
 import com.monstar.books.mypage.dto.MyProfileDto;
 
@@ -37,7 +38,7 @@ public class MyProfileViewService implements MyPageService {
         MyProfileDao dao = sqlSession.getMapper(MyProfileDao.class);
         System.out.println("mid:"+mid);
         
-		MyProfileDto dto = dao.myprofileview(mid);
+		MemberDto dto = dao.myprofileview(mid);
 		model.addAttribute("myprofile_view", dto);
 
 
