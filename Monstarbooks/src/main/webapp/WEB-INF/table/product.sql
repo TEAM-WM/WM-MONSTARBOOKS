@@ -109,6 +109,22 @@ commit;
     ON B.BOOKNO = BD.BOOKNO;
 --</select>
 
+
+--∆‰¿Ã¬° ver.
+--<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+select * 
+from
+    (select rownum num, n.* 
+    from 
+        (select b.bookno, bd.bimg, b.btitle, b.bpublisher, b.bwriter, b.bprice, 
+            b.bstatus, b.bcdate, b.bmdate, b.bstock 
+        from m_book b inner join m_book_detail bd
+        on b.bookno = bd.bookno
+        order by bookno desc) n)
+where num between 1 and 10;
+--</select>
+
+
 --<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
     SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
 			B.BPRICE, B.BPRICESELL, B.BDISCOUNT, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, 
