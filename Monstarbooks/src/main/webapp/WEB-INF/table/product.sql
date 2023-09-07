@@ -180,3 +180,17 @@ insert into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
         bpage, bsize, bpdate, badge)
     values('4', '1', '기여어.png', '기여어.png', '이책은기여어입니다', '88', '133*200*30mm',
         '신상품');
+        
+        
+        
+insert into m_book(bookno, bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator, 
+        bpdate, bprice, bpricesell, bdiscount, bstatus, bcdate, bmdate, bstock)
+    values(m_book_seq.nextval, '1234', '제목4', '부제목4', '출판사4', '저자4', '번역4',
+        '23-8-23', '1000', '900', '10', '판매중', '23-8-23', null, '4'); 
+         
+insert into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
+        bpage, bsize, bpdate, badge)
+    values('4', '1', '기여어.png', '기여어.png', '이책은기여어입니다', '88', '133*200*30mm',
+        '신상품');
+        
+SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_BOOK_SEQ';

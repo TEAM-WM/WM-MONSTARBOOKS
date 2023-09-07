@@ -13,10 +13,24 @@
 <h3>productList.jsp</h3>
 <%-- 	<img src="${pageContext.request.contextPath}/resources/assets/imgs/kyobo.jpg" witdh="200" height="200" alt="" /> --%>
 	<img src="/books/resources/assets/imgs/product/기여어.png" alt="테스트이미지" width="100" />
-	<article>
+	
+	<!-- 검색 -->
+	<!-- 드롭다운 메뉴 -->
+	<label for="searchOption">검색 옵션:</label>
+	<select id="searchOption">
+	    <option value="도서번호">도서번호</option>
+	    <option value="도서제목">도서제목</option>
+	    <option value="출판사">출판사</option>
+	    <option value="저자">저자</option>
+	</select>
+<article>
+<label for="searchText">검색어:</label>
+<input type="text" id="searchText" />
+<button type="button" onclick="search()">검색</button>
 	<div style="width:100%; text-align:right;">
-		<!-- <input type="button" value="상품등록" onclick=""/> -->
-		<a href="productinsertview">상품등록</a>
+		<!-- <a href="productinsertview">상품등록</a> -->
+		<button type="button" onclick="location.href='productinsertview'" style="font-size: 18px; padding: 10px 20px; border: 1px solid #000;">상품등록</button>
+		
 	</div>
 		<table border=1 width="1600" align="center">
 			<thead>			
