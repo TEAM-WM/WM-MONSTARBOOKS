@@ -28,13 +28,15 @@ public class AdFaqUpdateServiceList implements AdFaqService {
 		String fquestion = request.getParameter("fquestion");
 		String fanswer = request.getParameter("fanswer");
 		String fcategory = request.getParameter("fcategory");
+		AdFaqDao dao = sqlSession.getMapper(AdFaqDao.class);
+		
+		
 		
 		System.out.println("faqno : " + faqno);
 		System.out.println("fquestion : " + fquestion);
 		System.out.println("fanswer : " + fanswer);
 		System.out.println("fcategory : " + fcategory);
 		
-		AdFaqDao dao = sqlSession.getMapper(AdFaqDao.class);
 		dao.faqUpdate(faqno,fquestion,fanswer,fcategory);
 		
 		

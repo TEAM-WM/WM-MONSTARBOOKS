@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>공지 상세</title>
 <script>
+
 	function updateNotice(){
 		if(confirm("공지를 수정하시겠습니까?")){
 			location.href = "./noticeUpdate?noticeno=${noticeDetail.noticeno }";
@@ -15,13 +16,15 @@
 		}
 	}
 	
-	function deleteNotice(){
+	function deleteNotice(i){
 		if(confirm("공지를 삭제하시겠습니까?")){
-			location.href = "./delete?noticeno=${noticenoDetail.noticeno}";
+			location.href = "delete?noticeno=" + i;
+			alert("공지가 삭제되었습니다");
 		}else {
 			return;
 		}
 	}
+	
 </script>
 </head>
 <body>
@@ -72,7 +75,7 @@
 		</tr>
 	</table>
 	
-	<button onclick="deleteNotice();">삭제</button>
+	<button onclick="deleteNotice(${noticeDetail.noticeno});">삭제</button>
 	
 		
 </body>

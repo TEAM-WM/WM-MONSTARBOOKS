@@ -8,6 +8,7 @@
 <title>몬스타북:FAQ</title>
 
 <script>
+	// onclick
 	function check_faqInsert(){
 		if(confirm("FAQ를 등록하시겠습니까?")){
 			location.href = "./faqInsert";
@@ -17,7 +18,7 @@
 	}
 	
 	function select_fcategory1(){
-		location.href = "faq";
+		location.href = "faq1";
 	}
 	
 	function select_fcategory2(){
@@ -28,8 +29,17 @@
 		location.href = "faq3";
 	}
 	
-	
+	function check_faqDelete(i){
+		if(confirm("FAQ를 삭제하시겠습니까?")){
+			location.href = "faqDelete?faqno=" + i;
+			alert("FAQ가 삭제되었습니다");
+			return;
+		}else {
+			return;
+		}
+	}
 </script>
+
 </head>
 <body>
 <h2>FAQ</h2>
@@ -42,29 +52,28 @@
 
 <button onclick="check_faqInsert();">등록</button>
 
-<div>
-	<ul>
-		<c:forEach items="${faq }" var="faq">
-		
-			<li>
-			<!-- 질문 -->
-				<div class="faq_question">
-					<h3>${faq.fquestion }</h3>
-					<!-- 수정을 하겠냐고 되묻는 팝업창 생성 해야 함 -->
-					<button><a href="faqUpdate?faqno=${faq.faqno }">수정</a></button>
-					<!-- 삭제를 하겠냐고 되묻는 팝업창 생성해야 함 -->
-					<button><a href="faqDelete?faqno=${faq.faqno }">삭제</a></button>
-				</div>
+	<!-- 아코디언 메뉴 -->
+	<div>
+		<ul>
+			<c:forEach items="${faq }" var="faq">
+				<li>
+					<!-- 질문 -->
+					<div>
+						<h3>Q. ${faq.fquestion }</h3>
+						<a href="faqUpdate?faqno=${faq.faqno }&fcategory=${faq.fcategory}">수정</a>
+						<button onclick="check_faqDelete(${faq.faqno});">삭제</button>
+						<button type="button">펼치기</button>
+					</div>
 				
-			<!-- 답변 -->
-				<div class="faq_answer">
-					<p>${faq.fanswer }</p>
-				</div>
-			</li>
-			
-		</c:forEach>
-	</ul>
-</div>
+					<!-- 답변 -->
+					<div>
+						<p>A. ${faq.fanswer }</p>
+					</div>
+				</li>
+			</c:forEach>			
+		</ul>
+	</div>
 	
 </body>
 </html>
+
