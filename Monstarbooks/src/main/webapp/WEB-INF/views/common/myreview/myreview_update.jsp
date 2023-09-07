@@ -13,70 +13,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Document</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
-<script>
-	function redeptlist(target) {
-		alert("target : "+target.value);
-		var htmltxt="";
-		//var pointvalue=document.getElementById("point").value;
-		$('input[name=rstar]').attr('value',target.value);
-		
-	
-	}
-	
-	function redeptlist() {
-		<%-- alert("<%=path%>"); --%>
-		var htmltxt="";
-		$.ajax({
-			type:"post",
-			url:"<%=path%>/myreview_list",
-			success:function(result){
-				htmltxt="<table border='1'>";
-				
-				for ( var ele in result) {
-					/* console.log(result[ele].loc); */
-					htmltxt=htmltxt+"<tr><td>no:"+result[ele].reviewno+
-					"</td><td>memberno:"+result[ele].memberno+"</td>"+
-					"<td>loc:"+result[ele].loc+"</td></tr>";
-					
-				}
-				
-				htmltxt=htmltxt+"</table>";
-				$("#display").html(htmltxt);
-			}
-			
-		});
-	}
-	</script>
-
-<script type="text/javascript">
-   function getvalue(target) {
-		alert(target.value);
-		
-	} 
-
-   </script>
 
 
 <style>
 div {
 width:550px;
 }
+
 form {
 width: 550px;
 align: center;
 padding: 0 0 0 10px;
 }
+
 table {
 width: 550px;
 align: center;
+margin-left: auto;
+margin-right: auto;
+height: 400px;
 }
 
 tr, td {
-	padding: 10px 0px 10px 0px;
+	padding: 10px 5px 10px 5px;
 }
 
 .relist {
@@ -95,27 +54,6 @@ tr, td {
 	font-weight: var(- -weight-bold);
 	color: var(- -color-main);
 	
-.star {
-	position: relative;
-	font-size: 2rem;
-	color: #ddd;
-}
-.star input {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	opacity: 0;
-	cursor: auto;
-}
-.star span {
-	width: 0;
-	position: absolute; 
-	left: 0;
-	color: orange;
-	overflow: hidden;
-	
-}
 </style>
 
 </head>
@@ -125,74 +63,78 @@ tr, td {
 	<br />
 	<br />
 
-	<h3>리뷰 수정</h3>
-	<form action="reviewupdate" method="post">
+	<h3>Review Update</h3>
+	
+	
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="../myprofile/myprofile.jsp" %>
+        </div>
+
+        <!-- 주문/배송 목록 테이블 -->
+        <table class="order-table">
+            <tr>
+                <th>주문일자</th>
+                <th>상품정보</th>
+                <th>수량</th>
+                <th>가격</th>
+                <th>총 가격</th>
+                <th>배송 상태</th>
+            </tr>
+		</table>
+	
+	
+	<form action="reviewupdate" method="post" enctype="multipart/form-data">
 	<br />
 	<table>
 		<tr>
 			<td colspan="2">
-			<input type="hidden" name="reviewno" value="${myreview_view.reviewrno }" />
+			<input type="hidden" name="reviewno" value="${myreview_view.reviewno }" />
 			<input type="hidden" name="memberno" value="${myreview_view.memberno }" /></td>
 		</tr>
 	
 	<tr>
-			<td colspan="2" style="border-bottom: 1px solid; border-color: darkgray;"
+			<td colspan="2" style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold;"
 				class="left">[${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }]
-				&nbsp;제목 ${myreview_view.rtitle } <br />
+			<%-- 	&nbsp;&nbsp; <input type="text" name="btitle" value="${myreview_view.book.btitle }"> <br /> --%>
+				&nbsp; ${myreview_view.book.btitle } <br />
 			<br />
 			</td>
 		</tr>
 
 		<tr>
-			<td class="left">별점</td>
-				<td class="left"	colspan="3">
-			      <c:choose>
-              <c:when test="${myreview_view.rstar == 1}">
-                ★
-              </c:when>
-              <c:when test="${myreview_view.rstar == 2}">
-                ★★
-              </c:when>
-              <c:when test="${myreview_view.rstar == 3}">
-                ★★★
-              </c:when>
-              <c:when test="${myreview_view.rstar == 4}">
-                ★★★★
-              </c:when>
-              <c:when test="${myreview_view.rstar == 5}">
-                ★★★★★
-              </c:when>
-            </c:choose></td>			
+			<td class="left">별점&nbsp;&nbsp;</td>
+				<td class="left">
+					<select name="rstar" style="color:#ffe100; font-weight: bold; font-size: 20px; ">
+						<option value="1" <c:if test="${myreview_view.rstar == 1}">selected</c:if>>★</option>
+						<option value="2" <c:if test="${myreview_view.rstar == 2}">selected</c:if>>★★</option>
+						<option value="3" <c:if test="${myreview_view.rstar == 3}">selected</c:if>>★★★</option>
+						<option value="4" <c:if test="${myreview_view.rstar == 4}">selected</c:if>>★★★★</option>
+						<option value="5" <c:if test="${myreview_view.rstar == 5}">selected</c:if>>★★★★★</option>
+					</select>
+			 </td>
 			</tr>
 		<tr>
-			<td class="left">후기</td>
-			<td>${myreview_view.rcontent }</td>
+			<td class="left">후기&nbsp;&nbsp;</td>
+			<%-- <td class="left"><textarea name="rcontent" rows="10" style="font-size: 15px; height: 300px;">${myreview_view.rcontent}</textarea></td> --%>
+			<td class="left"><input type="text" name="rcontent" style="height: 300px;" value="${myreview_view.rcontent}"></td>
 		</tr>
-		<tr>
-			<td class="left">첨부</td>
-			<td><input type="file" name="refilesrc" /></td>
+		 <tr>
+			<td class="left">첨부&nbsp;</td>
+			<td><input type="file" name="refilesrc" value="${myreview_view.refilesrc}" /></td>
 		</tr>
 		
 		<tr>			
 			<td colspan="2">
-			
-mid: <input type="text" name="mid" value="${myreview_list.mid }" />
 				<input type="submit" value="save" />
-				<a href="myreview_list" class="relist">list</a>
+				<a href="list" class="relist">list</a>
 			</td>
 		</tr>
 	</table>
 	<br />
 	<br />
 	
-		<div class="left">
-			<input type="hidden" name="point" value="" size="20" />
-			<input type="file" name="refilesrc" accept=".jpg, .png, .gif" onchange="imageChoose(this)" />
-				<br />
-				<input type="submit" value="update" />
-				<a href="myreview_list" class="relist">list</a>
-
-		</div>
 	</form>
 
 

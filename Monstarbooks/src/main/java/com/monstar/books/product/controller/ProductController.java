@@ -4,6 +4,7 @@ package com.monstar.books.product.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -32,12 +33,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.monstar.books.product.sevice.ProductInsertReadyService;
+import com.monstar.books.product.dto.BookDto;
 import com.monstar.books.product.sevice.ProductDetailService;
 import com.monstar.books.product.sevice.ProductUpdateReadyService;
 import com.monstar.books.product.sevice.ProductInsertService;
 import com.monstar.books.product.sevice.ProductListService;
 import com.monstar.books.product.sevice.ProductService;
 import com.monstar.books.product.sevice.ProductUpdateService;
+import com.monstar.books.product.vopage.SearchVO;
+
 
 @Controller
 public class ProductController {
@@ -50,15 +54,16 @@ public class ProductController {
 
 	//상품리스트
 	@RequestMapping("/admin/product/productlist")
-	public String list(Model model) {
+	public String list(Model model, HttpServletRequest request, SearchVO searchVO) {
 
 		System.out.println(">>> LIST() >>>");
 
-//		model.addAttribute("sample", "샘플값");
-
+		model.addAttribute("request", request);
+		model.addAttribute("serchVO", searchVO);
+				
 		service = new ProductListService(session);
 		service.execute(model);
-				
+					
 		return "admin/product/productList";
 
 	}// list 종료

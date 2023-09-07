@@ -485,14 +485,12 @@ input[type="file"] {
     border: none;
 }
 
-.table-wrap{
-	
-}
+/* .table-wrap{} */
 
 table {
 	border-collapse: collapse;
 	background-color: white;
-	border: 2px solid #000d82;
+	border: 2px solid var(--color-main-dark);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -511,10 +509,303 @@ td:last-child {
 }
 
 th {
-	background-color: #000d82;
-	color: white;
+	background-color: var(--color-main-dark);
+	color: var(--color-white);
 }
 
-tr:hover {
+/* tr:hover {
 	background-color: #f2f2f2;
+} */
+
+
+/* 고객센터 */
+.customer-wrap{
+    margin-top: 50px;
+}
+.customer-title-wrap h2{
+    font-weight: 100;
+    text-align: left;
+}
+.customer-subtitle-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-end;
+    margin-top: 40px;
+    padding: 0 0 20px;
+}
+.customer-subtitle-wrap h3{
+    font-weight: var(--weight-bold);
+}
+
+.customer-search-box{
+    background-color: rgba(80, 85, 177, 0.06);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.customer-search-input{
+    margin: 0 auto;
+    width: 600px;
+}
+
+.customer-search-input form{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.customer-search-input form input{
+    margin: 0;
+}
+.customer-search-input form input[type="text"]{
+    background-color: var(--color-white);
+    width: 80%;
+}
+.customer-search-input form input[type="submit"]{
+    width: 20%;
+}
+
+.faq-category-list{
+    margin-top: 10px;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.faq-category-list ul{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.faq-category-list ul li{
+    flex: 0 0 33%;
+    text-align: center;
+    padding: 22px 0;
+}
+.faq-sub ul li{
+    flex:  0 0 25%;
+    height: 100%;
+}
+.faq-sub ul li.active{
+    background-color: var(--color-main);
+    color: var(--color-white);
+}
+
+.faq-sub ul li.active a{
+    color: var(--color-white);
+    font-weight: var(--weight-bold);
+}
+.customer-inquiry-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.customer-inquiry-box .box {
+    flex-basis: 25%;
+    position: relative;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customer-inquiry-box .box.call {
+    flex-basis: 50%;
+    border: 1px solid #eaeaea;
+    background-color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+}
+
+.customer-inquiry-box .box-icon{
+    display: block;
+    width: 70px;
+    height: 70px;
+    line-height: 78px;
+    border-radius: 50%;
+    background-color: var(--color-white);
+    text-align: center;
+    font-size: 2em;
+}
+.customer-inquiry-box .box-content{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+    gap: 10px;
+}
+.customer-inquiry-box .box-content>p{
+    font-size: var(--font-small);
+}
+.customer-inquiry-box .box.call{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+.customer-inquiry-box .box.call .title {
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 900;
+}
+.customer-inquiry-box .box.call .tel {
+    font-size: 30px;
+    line-height: 30px;
+    letter-spacing: -0.01em;
+    font-weight: 900;
+    color: #474c98;
+}
+
+.customer-inquiry-box .box.call .desc {
+    color: #595959;
+    font-size: var(--font-small);
+}
+.customer-table-wrap{
+    width: 100%;
+}
+.customer-table-wrap table{
+    width: 100%;
+    border: none;
+    box-shadow: none;
+}
+.customer-table-wrap table tr:first-child{
+    border-top: 1px solid  var(--color-black);
+}
+.customer-table-wrap table th{
+    border-right: none;
+    font-size: var(--font-small);
+    font-weight: var(--weight-bold);
+    line-height: 1.5em;
+    color: #767676;
+    background-color: var(--color-white);
+}
+.customer-table-wrap table .left{
+    font-weight: var(--weight-semi-bold);
+}
+.customer-table-wrap table td{
+    border-right: none;
+    font-size: var(--font-small);
+    padding: 30px 10px;
+    line-height: 1.5em;
+}
+
+.faq-acc{
+    width: 100%;
+    border-top: 1px solid var(--color-black);
+}
+.faq-acc li{
+    border:none;
+    border-bottom: 1px solid #eaeaea;
+    padding: 0 20px;
+    background-color: var(--color-white);
+}
+.faq-acc button{
+    padding: 40px 0;
+}
+.faq-acc button::before{
+    content: "\51";
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width:35px;
+    height: 35px;
+    font-family:FontAwesome;
+    background-color: var(--color-main);
+    color: var(--color-white);
+    border-radius: 80%;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 10px;
+}
+.faq-acc button::after{
+    top:50px;
+}
+.faq-acc .accordion-item{
+    background-color: #eaeaea60;
+    border-radius: 10px;
+    font-size: var(--font-small);
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 30px 40px!important;
+    position: relative;
+}
+.faq-acc .accordion-item pre{
+    line-height: 1.8em;
+}
+
+.faq-acc .accordion-item::before{
+    content: '└';
+    position: absolute;
+    left: 23px;
+    top: 33px;
+}
+
+.customer-content{
+    margin-top:70px;
+}
+
+.customer-result{
+    /* p,strong */
+    text-align: left;
+    font-weight: var(--weight-bold);
+    margin-bottom: 20px;
+}
+.customer-result strong{
+    color: var(--color-main);
+}
+
+/* 게시판 상세보기 */
+.board-wrap{
+    width: 100%;
+
+}
+.board-wrap .board-detail-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.board-wrap .board-detail-header h3{
+    font-size: var(--font-medium);
+    font-weight: var(--weight-bold);
+}
+
+.board-wrap .board-detail-content{
+    text-align: left;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    margin-top: 40px;
+    padding: 40px 20px;
+    line-height: 1.5em;
+    min-height: 400px;
+}
+
+.board-pagination{
+    width: 100%;
+    margin-bottom: 70px;
+}
+.board-pagination > div{
+    padding: 30px 20px;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.board-pagination > div >a{
+    margin-left: 20px;
+}
+.board-wrap .btn-wrap{
+    margin: 0 auto;
 }

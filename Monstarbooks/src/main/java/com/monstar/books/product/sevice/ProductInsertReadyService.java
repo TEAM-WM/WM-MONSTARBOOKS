@@ -27,7 +27,7 @@ public class ProductInsertReadyService implements ProductService {
 	public ProductInsertReadyService(SqlSession session) {
 		this.session = session;
 	}
-
+	
 	@Override
 	public void execute(Model model) {
 		

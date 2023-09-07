@@ -39,10 +39,42 @@
 	font-weight: var(- -weight-bold);
 	color: var(- -color-main);	
 }
+
+/* 주문/배송 목록 테이블 스타일 */
+.order-table {
+    width: 100%; /* 테이블 70% 너비로 설정 */
+    float: right;
+}
+
+.content {
+	display:flex;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
+
 </style>
 </head>
 <!-- 로그인 시 회원이 등록한 이미지 출력/ 없을 경우 기본 이미지 -->
 <body>
+
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="myprofile.jsp" %>
+        </div>
+
+        <!-- 주문/배송 목록 테이블 -->
+        <table class="order-table">
+            <tr>
+                <th>주문일자</th>
+                <th>상품정보</th>
+                <th>수량</th>
+                <th>가격</th>
+                <th>총 가격</th>
+                <th>배송 상태</th>
+            </tr>
+		</table>
+		
 <br /><br />
 <form action="myprofile_list" method="post">
 	<div align="center" class="card" style="height: 700px;">
@@ -90,7 +122,7 @@
 			</tr>
 				</table>
 			</c:forEach>
-					<a href="sample1" class=upde>회원정보관리</a> <br />
+					<a href="../member/content_view" class=upde>회원정보관리</a> <br />
 <br />
 <br />
 <br />
@@ -99,7 +131,7 @@
 </form>
 <br />
 	<script>
-		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";
+		document.title = "몬스타북스 :: 마이페이지 :: 프로필메인";
 	</script>
 </body>
 </html>

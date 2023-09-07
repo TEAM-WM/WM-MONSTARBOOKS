@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>상품관리 - 상품목록</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
 </head>
 <body>
@@ -53,6 +54,35 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<hr />
+		totCnt: ${totRowcnt }<br />
+		현재페이지/토탈페이지: ${searchVO.page }/${searchVO.totPage }
+		<hr />
+		<!-- 페이징 -->
+				
+		<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+			<c:choose>
+				<c:when test="${i eq searchVO.page }">
+					<span style="color:red; font-weight: bold;">${i }</span>
+				</c:when>
+				<c:otherwise>
+					<a href="productlist?page=${i }" style="text-decoration: none;">${i }</a>
+				</c:otherwise>
+			</c:choose>	
+		</c:forEach>
+		
+		<style>
+		.fa-solid{
+			color: #333; 
+		}
+		
+		.fa-solid: hover{
+			color: orange; 
+		}
+
+		</style>
+		
+		
 	</article>
 
 	<script>

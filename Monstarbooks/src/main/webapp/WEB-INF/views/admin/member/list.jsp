@@ -49,7 +49,6 @@
 		</tbody>
 	</table>
 	
-	<form action=""></form>
 	
 	<form action="list" method="post" style="width:1000px;">
 		<div class="search-wrap">

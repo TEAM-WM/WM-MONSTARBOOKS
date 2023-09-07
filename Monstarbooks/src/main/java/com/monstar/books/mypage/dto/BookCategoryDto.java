@@ -15,5 +15,7 @@ public class BookCategoryDto {
 	private int bcategoryno;
 	private String bcategory1;
 	private String bcategory2;
+
 	
+
 }

@@ -25,13 +25,17 @@
 			<tr>
 				<td>${qnadetail.member.mid }</td>
 				<td>${qnadetail.member.mname }</td>
-				<td><fmt:formatDate value="${qnadetail.qregdate }" pattern="yy-MM-dd" /></td>
+				<td>${qnadetail.qregdate }</td>
 			</tr>
 			<tr>
 				<td colspan="3">${qnadetail.qcontent }</td>
 			</tr>
 			<tr>
-				<td colspan="3"> <img alt="aa" src="/books/resources/assets/imgs/review/aaa.png"></td>
+				<td colspan="3"> 
+					<c:if test="${not empty qnadetail.qfilesrc }">
+	 	                <img alt="${qnadetail.qfilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/qna/${qnadetail.qfilesrc }">
+	            	</c:if>
+				</td>
 				
 			</tr>
 			<tr>
@@ -42,7 +46,7 @@
 			<input type="hidden" name="qnano" value="${qnadetail.qnano}">
 		</table>
 		<button type="submit"value="qnadetailview?qnano=${dto.qnano }">수정</button>
-		<button><a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a></button>
+		<a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a>
 	</form>
 </body>
 </html>

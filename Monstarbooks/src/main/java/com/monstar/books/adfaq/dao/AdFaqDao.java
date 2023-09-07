@@ -7,6 +7,7 @@ import com.monstar.books.adfaq.dto.AdFaqDto;
 public interface AdFaqDao {
 	
 	// faqList
+	public ArrayList<AdFaqDto> faqListAll();	// 전체 FAQ 리스트 조회
 	public ArrayList<AdFaqDto> faqList1();		// 반품/교환/환불
 	public ArrayList<AdFaqDto> faqList2();		// 주문취소/변경
 	public ArrayList<AdFaqDto> faqList3();		// 배송/수령일 안내

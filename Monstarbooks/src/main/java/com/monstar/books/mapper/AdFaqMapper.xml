@@ -4,6 +4,11 @@
     
     <mapper namespace="com.monstar.books.adfaq.dao.AdFaqDao">
     
+    <!-- 전체 FAQ 리스트를 불러오는 쿼리 -->
+    <select id="faqListAll" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT * FROM M_FAQ ORDER BY FAQNO DESC
+    </select>
+    
     <!-- FAQ 반품/교환/환불 리스트를 불러오는 쿼리 -->
     <select id="faqList1" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
     	SELECT * FROM M_FAQ WHERE FCATEGORY='반품/교환/환불' ORDER BY FAQNO DESC

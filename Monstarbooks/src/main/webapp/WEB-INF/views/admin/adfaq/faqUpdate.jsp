@@ -34,8 +34,7 @@
 		}else {
 			return;
 		}
-	}	
-	
+	}		
 	
 </script>
 </head>
@@ -46,13 +45,40 @@
 	<input type="hidden" name="faqno" value="${faqDetail.faqno }" />
 		Question. <br />
 		
-		<!-- 드롭다운 중복값 제거 못했음 / 해야함 -->
+		<!-- 드롭다운 -->
 		<select name="fcategory">
-			<option value="${faqDetail.fcategory }" selected>${faqDetail.fcategory }</option>
-			<option id="fcategory1" value="반품/교환/환불">반품/교환/환불</option>
-			<option id="fcategory2" value="주문취소/변경">주문취소/변경</option>
-			<option id="fcategory3" value="배송/수령일 안내">배송/수령일 안내</option>
+		
+			<!-- 수정할 FAQ의 카테고리가 반품/교환/환불인 경우 -->
+			<c:choose>
+				<c:when test="${fcategory1 }">
+					<option id="fcategory1" value="반품/교환/환불" selected>반품/교환/환불</option>
+				</c:when>
+				<c:otherwise>
+					<option id="fcategory1" value="반품/교환/환불">반품/교환/환불</option>
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- 수정할 FAQ의 카테고리가 주문취소/변경인 경우 -->
+			<c:choose>
+				<c:when test="${fcategory2 }">
+					<option id="fcategory2" value="주문취소/변경" selected>주문취소/변경</option>
+				</c:when>
+				<c:otherwise>
+					<option id="fcategory2" value="주문취소/변경">주문취소/변경</option>
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- 수정할 FAQ의 카테고리가 배송/수령일 안내인 경우 -->
+			<c:choose>
+				<c:when test="${fcategory3 }">
+					<option id="fcategory3" value="배송/수령일 안내" selected>배송/수령일 안내</option>
+				</c:when>
+				<c:otherwise>
+					<option id="fcategory3" value="배송/수령일 안내">배송/수령일 안내</option>
+				</c:otherwise>
+			</c:choose>			
 		</select> <br />
+		
 		
 		<textarea type="text" name="fquestion" rows="10" cols="70" maxlength="500"
 		style="resize: none;">${faqDetail.fquestion }</textarea> <br /><br /><br />

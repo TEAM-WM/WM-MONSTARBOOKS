@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,7 @@ import com.monstar.books.member.dao.MemberDao;
 import com.monstar.books.member.dto.MemberDto;
 
 @Service
+@Slf4j
 public class MemberLoginProcessService implements MemberService {
 
 	@Autowired
@@ -50,6 +52,7 @@ public class MemberLoginProcessService implements MemberService {
 		if (dto != null) {// 아이디는 일치하는 경우(아이디만 일치할수 있다.)
 			String encodedPwd = dto.getMpw();
 			String inputPwd = request.getParameter("pw");
+			log.info("encodedPwd : {}, inputPwd : {}", encodedPwd, inputPwd);
 			BCryptPasswordEncoder machers = new BCryptPasswordEncoder();
 			// DB 비밀번호와 input 비밀번호 비교
 			isValid = machers.matches(inputPwd, encodedPwd);
@@ -58,6 +61,7 @@ public class MemberLoginProcessService implements MemberService {
 			System.out.println(isValid);
 		}
 		if (isValid) {// 만일 유효한 정보이면(있다면)
+
 			httpSession.setAttribute("id", dto.getMid());
 			httpSession.setAttribute("auth", dto.getMauthority());
 			httpSession.setAttribute("memberNumber", dto.getMemberno());

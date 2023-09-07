@@ -66,7 +66,11 @@ function updateReviewList() {
 			<c:forEach items="${review}" var="review">
 				<c:if test="${review.deleted ne 'yes'}">
 					<tr>
-						<td><img alt="aa" src="${pageContext.request.contextPath}/resources/assets/imgs/review/${review.refnlesrc }"></td>
+						<td>
+							<c:if test="${not empty review.refnlesrc }">
+		 	                	<img alt="aa" src="${pageContext.request.contextPath}/resources/assets/imgs/review/${review.refnlesrc }">
+		            		</c:if>
+						</td>
 						<td>${review.book.btitle }</td>
 						<td>${review.member.mname }</td>
 						<td>${review.rcontent }</td>
@@ -80,6 +84,7 @@ function updateReviewList() {
 								<c:when test="${review.rstar == 5}">★★★★★</c:when>
 							</c:choose>
 						</td>
+						
 						<td>
 							<a href="#" onclick="showDeleteConfirmation(${review.reviewno })">삭제</a>
 						</td>

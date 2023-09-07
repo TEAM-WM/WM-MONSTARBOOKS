@@ -14,10 +14,15 @@
 		<td>${bannerdetail.etitle }</td>
 	</tr>
 	<tr>
-		<td><img alt="배너" src="${pageContext.request.contextPath}/resources/assets/imgs/banner/${bannerdetail.efilesrc }"></td>
+		<td>
+			<c:if test="${not empty bannerdetail.efilesrc}">
+                <img alt="${bannerdetail.efilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/banner/${bannerdetail.efilesrc }">
+            </c:if>
+		</td>
+		
 	</tr>
 </table>
-<a href="">수정</a>
+<a href="list">목록</a>
 <a href="bannerdelete?bannerno=${bannerdetail.bannerno }">삭제</a>
 </body>
 </html>
