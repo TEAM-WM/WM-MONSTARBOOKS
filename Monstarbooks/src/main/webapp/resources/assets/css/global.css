@@ -151,6 +151,28 @@ main.main{
 .terms-modal .modal-content-wrap{
     width: 500px;
 }
+
+.coupon-modal .modal-content-wrap{
+	width:1000px;
+}
+
+.coupon-modal .modal-title{
+	position:relative;
+}
+
+.coupon-modal .modal-title .closeModalBtn{
+	position: absolute;
+    top: 53%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: min-content;
+    height: min-content;
+    padding: 0;
+    font-size: 30px;
+}
+.coupon-modal .modal-title .closeModalBtn i{
+	color:var(--color-white);
+}
 .modal-title{
     padding: 20px;
     background-color: var(--color-main-dark);

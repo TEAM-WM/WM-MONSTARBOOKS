@@ -1,8 +1,11 @@
 package com.monstar.books.member.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.monstar.books.member.dto.CouponMemberDto;
 import com.monstar.books.member.dto.MemberDto;
+import com.monstar.books.order.dto.CouponDto;
 
 public interface MemberDao {
 	public MemberDto getData(String mid); // 아이디로 회원정보 얻어오기
@@ -15,11 +18,11 @@ public interface MemberDao {
 	public String isExist(String inputId); // 아이디 중복체크
 
 	public ArrayList<MemberDto> idSearch(MemberDto dto);// 아이디 찾기
+	
 	// usersDto 로 비밀번호 찾아오기
-
 	public String pwdSearch(MemberDto dto);// 비밀번호 찾기
-	// 비밀번호 업데이트
 
+	// 비밀번호 업데이트
 	public void updatePwd(MemberDto dto);// 비밀번호 찾기 후 업데이트
 
 	// 페이징 처리를 위한 메소드
@@ -38,5 +41,8 @@ public interface MemberDao {
 	// 회원 복구 처리
 	public void restore(int no);
 	
-	public void updateUser(MemberDto dto);
+	public void updateUser(MemberDto dto);// 회원정보 수정
+	
+	//회원 보유 쿠폰 목록
+	public ArrayList<CouponMemberDto> getDataMemberCoupon(int memberno);
 }// ======== MemberDao ========

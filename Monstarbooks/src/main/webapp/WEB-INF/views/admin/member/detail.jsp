@@ -84,6 +84,16 @@
 			</tr>
 			<tr>
 				<th>
+					쿠폰
+				</th>
+				<td>
+					<button type="button" onclick="openModal('adminCouponModal')">
+						<i class="fa-solid fa-ticket"></i> 보유 쿠폰 확인
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<th>
 					탈퇴여부
 				</th>
 				<td>
@@ -119,17 +129,21 @@
 				</td>
 			</tr>
 		</table>
-		<div class="btn-wrap">
-			<button type="button" onclick="location.href='../member/update?memberNo=${dto.memberno}'">수정</button>
-			<c:choose>
-				<c:when test="${dto.deleted eq 'yes' }">
-					<button type="button" onclick="location.href='../member/restore?memberNo=${dto.memberno}'">회원복구</button>
-				</c:when>
-				<c:otherwise>
-					<button type="button" onclick="location.href='../member/delete?memberNo=${dto.memberno}'">탈퇴처리</button>
-				</c:otherwise>
-			</c:choose>
-			<button type="button" onclick="location.href='../member/list'">목록</button>
+		<div class="admin-btn-wrap">
+			<div class="btn-wrap">
+				<button type="button" onclick="location.href='../member/update?memberNo=${dto.memberno}'">수정</button>
+				<c:choose>
+					<c:when test="${dto.deleted eq 'yes' }">
+						<button type="button" onclick="location.href='../member/restore?memberNo=${dto.memberno}'">회원복구</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" onclick="location.href='../member/delete?memberNo=${dto.memberno}'">탈퇴처리</button>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="btn-wrap">
+				<button type="button" class="btn-gray" onclick="location.href='../member/list'">목록</button>
+			</div>
 		</div>
 	</article>
 	<article>
@@ -220,5 +234,76 @@
 		</c:if>
 	</div>
 	</article>
+	
+	
+	
+	<!-- 모달 -->
+	
+	<div id="adminCouponModal" class="modal coupon-modal">
+        <section class="modal-content-wrap">
+            <div class="modal-title left">
+	        	<button class="closeModalBtn" onclick="closeModal('adminCouponModal')"><i class="fa-solid fa-xmark"></i></button>
+                <h3>
+                    ${dto.mname }님의 쿠폰 내역입니다.
+                </h3>
+            </div>
+            <div class="modal-content">
+                <div class="modal-content-text left">
+                    <table>
+                    	<tr>
+                    		<th>
+                    			보유쿠폰번호
+                    		</th>
+                    		<th>
+                    			쿠폰이름
+                    		</th>
+                    		<th>
+                    			쿠폰설명
+                    		</th>
+                    		<th>
+                    			할인률
+                    		</th>
+                    		<th>
+                    			생성일
+                    		</th>
+                    		<th>
+                    			유효기간
+                    		</th>
+                    		<th>
+                    			쿠폰상태
+                    		</th>
+                    	</tr>
+                    	<c:forEach items="${couponList }" var="dto">
+							<tr>
+								<td>
+									${dto.cpno }
+								</td>
+								<td>
+									${dto.cpname }
+								</td>
+								<td>
+									${dto.cpdescription }								
+								</td>
+								<td>
+									${dto.cpprice }
+								</td>
+								<td>
+									<fmt:formatDate value="${dto.cpcreated }" pattern="yy-MM-dd" />
+								</td>
+								<td>
+									<fmt:formatDate value="${dto.cpvalid }" pattern="yy-MM-dd" />
+								</td>
+								<td>
+									${dto.cpstatus }
+								</td>
+							</tr>
+						</c:forEach>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- 모달 스크립트 -->
+    <script src="${pageContext.request.contextPath}/resources/assets/js/modal.js"></script>
 </body>
 </html>
