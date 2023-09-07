@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.member.dao.MemberDao;
-import com.monstar.books.member.dto.CouponMemberDto;
 import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.mypage.dao.MyOrderDao;
 import com.monstar.books.mypage.dto.MyOrderDto;
@@ -83,16 +82,14 @@ public class AdMemberDetailService implements MemberService {
         ArrayList<MyOrderDto> orderList = myOrderDao.getDeliverStatus(rowStart,rowEnd,dto.getMid());
         
         //쿠폰 들어오나 확인
-        ArrayList<CouponMemberDto> couponList = dao.getDataMemberCoupon(dto.getMemberno());
-        for (CouponMemberDto coupon : couponList) {
-            System.out.println("=== 쿠폰 정보 ===");
-            System.out.println("CPNO: " + coupon.getCpno_member());
-            System.out.println("CPNO: " + coupon.getCouponDto().getCpno());
-            System.out.println("CPNAME: " + coupon.getCouponDto().getCpname());
-            System.out.println("CPDESCRIPTION: " + coupon.getCouponDto().getCpdescription());
-            
-            // CouponMemberDto의 필드에 접근합니다.
-        }
+        ArrayList<CouponDto> couponList = dao.getDataMemberCoupon(dto.getMemberno());
+//        for (CouponDto coupon : couponList) {
+//            System.out.println("=== 쿠폰 정보 ===");
+//            System.out.println("CPNO: " + coupon.getCpMember().getCpno());
+//            System.out.println("CPNO: " + coupon.getCpno());
+//            System.out.println("CPNAME: " + coupon.getCpname());
+//            System.out.println("CPDESCRIPTION: " + coupon.getCpdescription());
+//        }
         
         // 조회된 쿠폰 내역 모델에 추가
         model.addAttribute("couponList",couponList);

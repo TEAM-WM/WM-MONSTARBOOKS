@@ -1,9 +1,7 @@
 package com.monstar.books.member.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import com.monstar.books.member.dto.CouponMemberDto;
 import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.order.dto.CouponDto;
 
@@ -44,5 +42,5 @@ public interface MemberDao {
 	public void updateUser(MemberDto dto);// 회원정보 수정
 	
 	//회원 보유 쿠폰 목록
-	public ArrayList<CouponMemberDto> getDataMemberCoupon(int memberno);
+	public ArrayList<CouponDto> getDataMemberCoupon(int memberno);
 }// ======== MemberDao ========
