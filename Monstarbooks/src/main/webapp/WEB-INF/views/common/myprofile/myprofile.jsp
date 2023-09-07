@@ -15,16 +15,11 @@
             padding: 20px;
         }
 
-        .myprofile-logo h1 {
-            font-size: 24px;
-            color: #00004B;
-        }
-
         .profile-image img {
             max-width: 100%;
             border-radius: 50%;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
+         }
 
         .mypofile-menu-list {
             list-style: none;
@@ -61,9 +56,9 @@
                     <c:when test="${not empty myprofile_view.mprofileimg}">
                         <tr>
                             <td class="center" colspan=2>
-                                <div align="center" class="image-container">
+                                <div align="left" class="image-container">
                                     <a href="download?p=resources/assets/upload/&f=${myprofile_view.mprofileimg }&mid=${myprofile_view.mid }">
-                                        <img src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }" alt="프로필사진" style="width: 70%; height: auto;" />
+                                        <img src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }" alt="프로필사진" style="width: 60%; height: auto;" />
                                     </a>
                                 </div>
                             </td>
@@ -72,8 +67,8 @@
                     <c:otherwise>
                         <tr>
                             <td class="left" colspan=2>
-                                <div align="center" class="image-container">
-                                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png" alt="기본이미지" style="max-width: 70%; height: auto;">
+                                <div align="left" class="image-container">
+                                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png" alt="기본이미지" style="max-width: 60%; height: auto;">
                                 </div>
                             </td>
                         </tr>
