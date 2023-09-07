@@ -153,15 +153,25 @@
 
 	<!-- 전체 회원정보 수정 -->
 	<update id="updateUser" parameterType="com.monstar.books.member.dto.MemberDto">
-	UPDATE M_MEMBER
-	SET
-	MBIRTH=#{mbirth},
-	MNAME=#{mname},
-	MEMAIL=#{memail},
-	MTEL=#{mtel},
-	MFAVORITE=#{mfavorite},
-	MAUTHORITY=#{mauthority}
-	WHERE MEMBERNO=#{memberno}
+		UPDATE M_MEMBER
+		SET
+		MBIRTH=#{mbirth},
+		MNAME=#{mname},
+		MEMAIL=#{memail},
+		MTEL=#{mtel},
+		MFAVORITE=#{mfavorite},
+		MAUTHORITY=#{mauthority}
+		WHERE MEMBERNO=#{memberno}
 	</update>
+			
+	<!-- 회원의 쿠폰 가져오기 -->
+	<select id="getDataMemberCoupon" parameterType="int" resultType="com.monstar.books.order.dto.CouponDto">
+	    SELECT C.CPNO as cpno, C.CPNAME as cpname, C.CPDESCRIPTION as cpdescription,
+	    C.CPPRICE as cpprice, C.CPCREATED as cpcreated, C.CPVALID as cpvalid, C.CPSTATUS as cpstatus
+	    FROM M_MEMBER M
+	    INNER JOIN M_COUPON_MEMBER CM ON M.MEMBERNO = CM.MEMBERNO
+	    INNER JOIN M_COUPON C ON CM.CPNO2 = C.CPNO
+	    WHERE M.MEMBERNO = #{memberno}
+	</select>
 
 </mapper>
