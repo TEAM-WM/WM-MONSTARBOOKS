@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,15 @@ public class MyReviewContentViewService implements MyPageService {
 		Map<String, Object> map = model.asMap();
 
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+//		
+//      세션에서 회원 ID 가져오기
+//      HttpSession session = request.getSession();
+//      String memberId = (String) session.getAttribute("id");
+//      System.out.println("id :"+memberId);		
+		//로그인프로세스 서비스 참조
+//		httpSession.setAttribute("id", dto.getMid());
+//		httpSession.setAttribute("memberNumber", dto.getMemberno());
+
 		
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
 //		MemberDto member = (MemberDto) request.getSession().getAttribute("user");
