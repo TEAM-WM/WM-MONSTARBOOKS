@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,16 +15,19 @@
             </div>
             <nav>
                 <ul class="admin-menu-list">
-                    <li class="active">
-                        <a href="">
+                    <li class="${pageContext.request.requestURI == '/admin/' ? 'active' : ''}">
+                        <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-cube"></i>
                             <span>
                                 대시보드
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="">
+                    <c:set var="currentPage" value="${pageContext.request.requestURI}" />
+					<c:set var="targetPage" value="/admin/member/list" />
+
+					<li class="${currentPage eq targetPage ? 'active' : ''}">
+    					<a href="${pageContext.request.contextPath}/admin/member/list">
                             <i class="fa-solid fa-user-astronaut"></i>
                             <span>
                                 회원관리
@@ -31,7 +35,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/product/productlist">
                             <i class="fa-solid fa-book-open"></i>
                             <span>
                                 도서관리
@@ -39,7 +43,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/order/list">
                             <i class="fa-solid fa-briefcase"></i>
                             <span>
                                 주문관리
@@ -47,7 +51,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-ticket-simple"></i>
                             <span>
                                 쿠폰관리
@@ -55,7 +59,7 @@
                         </a>
                     </li>
                     <li class="accordion-button">
-                        <a href="">
+                        <a>
                             <i class="fa-solid fa-layer-group"></i>
                             <span>
                                 게시판 관리
@@ -64,27 +68,27 @@
                         <div class="admin-submenu-list">
                             <ul>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/adnotice/notice">
                                         공지사항
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/">
                                         FAQ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/qna/list">
                                         1:1문의
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/review/review">
                                         리뷰 관리
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="${pageContext.request.contextPath}/admin/banner/list">
                                         배너 관리
                                     </a>
                                 </li>

@@ -36,10 +36,6 @@ public class AdNoticeUpdateServiceList implements AdNoticeService {
 //			e.printStackTrace();
 //		}
 		
-		// 수정값 받아오기
-//		String noticeno = request.getParameter("noticeno");
-//		String ntitle = request.getParameter("ntitle");
-//		String ncontent = request.getParameter("ncontent");
 		
 		String noticeno = req.getParameter("noticeno");
 		String ntitle = req.getParameter("ntitle");

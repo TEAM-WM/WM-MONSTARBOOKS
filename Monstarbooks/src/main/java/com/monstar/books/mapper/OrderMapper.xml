@@ -2,74 +2,112 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-	<!-- 230831 / 진성 추가 -->
+	<!-- 230904 / 진성 추가 -->
 <mapper namespace="com.monstar.books.order.dao.OrderDao">
-
-	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Detail">
+	<insert id="orderInsert">
+		INSERT INTO M_ORDER VALUES(M_ORDER_SEQ.NEXTVAL,
+			#{param1},1,#{param2},'결제완료',#{param3})
+	</insert>
+	
+	<insert id="orderInsetDetail">
+		<selectKey keyProperty="orderno" order="BEFORE" resultType="Integer">
+			SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_ORDER_SEQ'
+		</selectKey>
+		INSERT INTO M_ORDER_DETAIL VALUES(#{orderno},
+			#{param1},#{param2},#{param3},'환불가능',SYSDATE)
+	</insert>
+	
+	<insert id="deliveryInsert">
+		<selectKey keyProperty="orderno" order="BEFORE" resultType="Integer">
+			SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_ORDER_SEQ'
+		</selectKey>
+		INSERT INTO M_DELIVERY VALUES(M_DELIVERY_SEQ.NEXTVAL,#{orderno}-1,
+			#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+	</insert>
+	
+	<resultMap type="com.monstar.books.order.dto.OrderDto" id="orderList">
+		<result column="ORDERNO" property="orderno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO" property="cpno"/>
+		<result column="OTOTALPRICE" property="ototalprice"/>
+		<result column="OSTATUS" property="ostatus"/>
+		<result column="OPAY" property="opay"/>		
+		<result column="COUNT" property="count"/>		
+		<collection property="odetail" resultMap="Odetail"></collection>
+		<collection property="delivery" resultMap="Delivery"></collection>
+		<collection property="coupon" resultMap="Coupon"></collection>
+		<collection property="list" resultMap="List"></collection>
+		<collection property="bdetail" resultMap="Bdetail"></collection>
+		<collection property="category" resultMap="Category"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.OrderDetailDto" id="Odetail">
+		<result column="ORDERNO" property="orderno"/>
+		<result column="BOOKNO" property="bookno"/>
+		<result column="OPRICESELL" property="opricesell"/>
+		<result column="OCOUNT" property="ocount"/>
+		<result column="OREFUND_CHECK" property="orefund_check"/>
+		<result column="OREGDATE" property="oregdate"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.DeliveryDto" id="Delivery">
+		<result column="DELIVERYNO" property="deliveryno"/>
+		<result column="ORDERNO" property="orderno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="DADDRESS1" property="daddress1"/>
+		<result column="DADDRESS2" property="daddress2"/>
+		<result column="DADDRESS3" property="daddress3"/>
+		<result column="DZIPCODE" property="dzipcode"/>
+		<result column="DTEL" property="dtel"/>
+		<result column="DNAME" property="dname"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPPRICE" property="cpprice"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Bdetail">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BCATEGORYNO" property="bcategoryno"/>
 		<result column="BIMG" property="bimg"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.booklist.dto.BookListDto" id="List">
 		<result column="BOOKNO" property="bookno"/>
 		<result column="BTITLE" property="btitle"/>
-		<result column="BPRICESELL" property="bpricesell"/>
 		<result column="BPRICE" property="bprice"/>
 		<result column="BDISCOUNT" property="bdiscount"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.booklist.dto.BookCategoryDto" id="Category">
+		<result column="BCATEGORYNO" property="bcategoryno"/>
 		<result column="BCATEGORY1" property="bcategory1"/>
-		<result column="category" property="Category"/>
 	</resultMap>
 	
-	<resultMap type="com.monstar.books.booklist.dto.MemberDto" id="Member">
-		<result column="MEMBERNO" property="memberno"/>
-	</resultMap>
-	
-	<resultMap type="com.monstar.books.cart.dto.CartDto" id="Cart">
-		<result column="CARTNO" property="cartno"/>
-		<result column="MEMBERNO" property="memberno"/>
-		<result column="BOOKNO" property="bookno"/>
-		<result column="CCOUNT" property="ccount"/>
-		<result column="CNT" property="cnt"/>
-		<collection property="list" resultMap="List"></collection>
-		<collection property="detail" resultMap="Detail"></collection>
-		<collection property="category" resultMap="Category"></collection>
-		<collection property="member" resultMap="Member"></collection>
-	</resultMap>
-
-	<select id="cartSelList" parameterType="com.monstar.books.cart.dto.CartDto" resultMap="Cart">
-		SELECT C.CARTNO,C.MEMBERNO,C.BOOKNO,C.CCOUNT,
-		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,
-		D.BIMG,CT.BCATEGORY1, M.MEMBERNO
-		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY CT, M_MEMBER M
-		WHERE C.BOOKNO=B.BOOKNO 
-		AND C.BOOKNO=D.BOOKNO
-		AND D.BCATEGORYNO=CT.BCATEGORYNO
-		AND C.MEMBERNO=M.MEMBERNO
-		AND C.CARTNO IN 
-		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
-		#{item}
-		</foreach>
-		AND C.MEMBERNO = 1
+	<select id="orderDetail" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="orderList">
+		SELECT BD.BIMG,BB.BCATEGORY1,B.BTITLE,B.BPRICE,B.BDISCOUNT,OD.OCOUNT,OD.OPRICESELL
+		FROM M_ORDER O, M_ORDER_DETAIL OD, M_BOOK B, M_BOOK_DETAIL BD, M_BOOK_BCATEGORY BB
+		WHERE O.ORDERNO = OD.ORDERNO
+		AND OD.BOOKNO=B.BOOKNO
+		AND B.BOOKNO = BD.BOOKNO
+		AND BD.BCATEGORYNO = BB.BCATEGORYNO
+		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+		WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
+		AND O.MEMBERNO=1
 	</select>
 	
-	<select id="seltTotPrice" resultType="Integer">
-		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
-		WHERE B.BOOKNO=C.BOOKNO 
-		AND C.MEMBERNO=M.MEMBERNO 
-        AND C.CARTNO IN 
-        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
-		#{item}
-		</foreach>
-		AND C.MEMBERNO = 1
+	<select id="orderList" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="orderList">
+		SELECT O.ORDERNO, OD.OREGDATE,O.OTOTALPRICE,O.OPAY,
+		D.DNAME,D.DTEL,D.DZIPCODE,D.DADDRESS1,D.DADDRESS2,D.DADDRESS3,
+			(SELECT SUM(OCOUNT) FROM M_ORDER_DETAIL WHERE ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1) COUNT
+		FROM M_ORDER O,M_ORDER_DETAIL OD,M_DELIVERY D
+		WHERE O.ORDERNO = OD.ORDERNO
+		AND O.ORDERNO = D.ORDERNO
+		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
+		AND O.MEMBERNO = 1
 	</select>
 
-	<select id="cartCnt" resultType="Integer">
-		SELECT COUNT(CARTNO) FROM M_CART 
-		WHERE MEMBERNO=1 AND CARTNO IN
-		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
-		#{item}
-		</foreach>
-	</select>
 </mapper>

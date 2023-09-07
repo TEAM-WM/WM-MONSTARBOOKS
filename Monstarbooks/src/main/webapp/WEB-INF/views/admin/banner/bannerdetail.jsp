@@ -14,7 +14,7 @@
 		<td>${bannerdetail.etitle }</td>
 	</tr>
 	<tr>
-		<td><img alt="aa" src=""></td>
+		<td><img alt="배너" src="${pageContext.request.contextPath}/resources/assets/imgs/banner/${bannerdetail.efilesrc }"></td>
 	</tr>
 </table>
 <a href="">수정</a>

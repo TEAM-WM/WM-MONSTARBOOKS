@@ -1,8 +1,6 @@
 package com.monstar.books.myorder.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +10,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.monstar.books.adqna.vopage.SearchVO;
 import com.monstar.books.mypage.dao.MyOrderDao;
 import com.monstar.books.mypage.dto.MyOrderDto;
 import com.monstar.books.mypage.service.MyPageService;
-import com.monstar.books.vopage.SearchVo;
+import com.monstar.books.mypage.vopage.SearchVO;
 
 @Service
 public class MyOrderListService implements MyPageService {
@@ -38,7 +35,8 @@ public class MyOrderListService implements MyPageService {
         
         // 세션에서 회원 ID 가져오기
         HttpSession session = request.getSession();
-        String memberId = (String) session.getAttribute("memberId");
+        String memberId = (String) session.getAttribute("id");
+        System.out.println("id :"+memberId);
 
         
         MyOrderDao dao = sqlSession.getMapper(MyOrderDao.class);
@@ -52,7 +50,7 @@ public class MyOrderListService implements MyPageService {
         System.out.println("page"+strPage);
         int page = Integer.parseInt(strPage);
         
-        SearchVo searchvo=new SearchVo();
+        SearchVO searchvo=new SearchVO();
         searchvo.setPage(page);
         
         int total=0;
@@ -60,13 +58,16 @@ public class MyOrderListService implements MyPageService {
         total = dao.getOrderCount(memberId);
         searchvo.pageCalculate(total);
         
-        int rowStart=searchvo.getRowStart();
-        int rowEnd=searchvo.getRowEnd();
+     // pageVO에 정의해둔 페이징 글 번호 전달
+     		int rowStart = searchvo.getRowStart();
+     		System.out.println("rowStart :" + rowStart);
+     		int rowEnd = searchvo.getRowEnd();
+     		System.out.println("rowEnd :" + rowEnd);
         
         
 
         // memberId를 이용하여 주문 내역 조회
-        ArrayList<MyOrderDto> orderList = dao.getDeliverStatus(memberId);
+        ArrayList<MyOrderDto> orderList = dao.getDeliverStatus(rowStart, rowEnd, memberId);
         
 
 

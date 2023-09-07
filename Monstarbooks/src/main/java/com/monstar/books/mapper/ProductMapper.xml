@@ -48,8 +48,7 @@
 		<result column = "BDESCRIPTION" property="bdescription" />
 		<result column = "BPAGE" property="bpage" />
 		<result column = "BSIZE" property="bsize" />
-		<result column = "BPDATE" property="bpdate" />
-		<!-- <result column = "BADGE" property="badge" /> -->
+		<result column = "BADGE" property="badge" />
 	</resultMap>
 	<resultMap type="com.monstar.books.product.dto.BookDto" id="BookDto">
 		<result column = "BOOKNO" property="bookno" />
@@ -81,7 +80,7 @@
 	<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
 			B.BPRICE, B.BPRICESELL, B.BDISCOUNT, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, 
-    		BD.BOOKNO, BD.BCATEGORYNO, BD.BIMG, BD.BIMGDETAIL, BD.BDESCRIPTION, BD.BPAGE, BD.BSIZE, 
+    		BD.BOOKNO, BD.BCATEGORYNO, BD.BIMG, BD.BIMGDETAIL, BD.BDESCRIPTION, BD.BPAGE, BD.BSIZE, BD.BADGE, 
     		BC.BCATEGORYNO, BC.BCATEGORY1, BC.BCATEGORY2
 		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
 		ON B.BOOKNO = BD.BOOKNO
@@ -89,17 +88,21 @@
 		ON BD.BCATEGORYNO = BC.BCATEGORYNO
 		WHERE B.BOOKNO = #{param1}
 	</select>
+	
+	<select id="selectCategory" resultType="com.monstar.books.product.dto.BookCategoryDto">
+		SELECT * FROM M_BOOK_CATEGORY
+	</select>
+	
+	<select id="selectedCategory" resultType="com.monstar.books.product.dto.BookCategoryDto">
+		SELECT BCATEGORYNO FROM M_BOOK_CATEGORY
+	</select>
 		
 	<insert id="insertBook">
 		INSERT INTO M_BOOK(BOOKNO, BISBN, BTITLE, BSUBTITLE, BPUBLISHER, BWRITER, BTRANSLATOR,
 		BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
 		VALUES(M_BOOK_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
 		#{param7}, #{param8}, #{param9}, #{param10}, #{param11}, SYSDATE, NULL, #{param12})
-	</insert>
-	
-	<select id="selectCategory" resultType="com.monstar.books.product.dto.BookCategoryDto">
-		SELECT * FROM M_BOOK_CATEGORY
-	</select>
+	</insert>	
 		
  	<insert id="insertBookDetail">
 		INSERT INTO M_BOOK_DETAIL(BOOKNO, BCATEGORYNO, BIMG, BIMGDETAIL, BDESCRIPTION,
@@ -108,17 +111,42 @@
    	 	#{param5}, #{param6}, #{param7})
 	</insert>
 	
-	<!--<insert id="insertBookDetail">
-		
-	</insert>
+	<update id="updateBook">
+		UPDATE M_BOOK
+		SET BISBN=#{param2}, BTITLE=#{param3}, BSUBTITLE=#{param4}, BPUBLISHER=#{param5},
+			BWRITER=#{param6}, BTRANSLATOR=#{param7}, BPDATE=#{param8}, BPRICE=#{param9},
+			BPRICESELL=#{param10}, BDISCOUNT=#{param11}, BSTATUS=#{param12}, 
+			BMDATE=SYSDATE, BSTOCK=#{param13}
+		WHERE BOOKNO=#{param1}
+	</update>
 	
-	<insert id="insertBookAllData">
-		
-	</insert> -->
-		
-	<!-- <update id="update">
-		
+	<!-- <update id="updateBookDetail">
+		UPDATE M_BOOK_DETAIL
+		SET BCATEGORYNO=#{param2}, BIMG=#{param3}, BIMGDETAIL=#{param4}, 
+			BDESCRIPTION=#{param5}, BPAGE=#{param6}, BSIZE=#{param7}, BADGE=#{param8}
+		WHERE BOOKNO=#{param1}
 	</update> -->
+	
+	<update id="updateBookDetail">
+		UPDATE M_BOOK_DETAIL
+		SET BCATEGORYNO=#{param2}, BDESCRIPTION=#{param3}, BPAGE=#{param4}, 
+			BSIZE=#{param5}, BADGE=#{param6}
+		WHERE BOOKNO=#{param1}
+	</update>
+	
+	<update id="updateBookDetailImg">
+		UPDATE M_BOOK_DETAIL
+		SET BIMG=#{param2}, BIMGDETAIL=#{param3}
+		WHERE BOOKNO=#{param1}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기  -->
 	<!-- <update id="delete" parameterType="int">

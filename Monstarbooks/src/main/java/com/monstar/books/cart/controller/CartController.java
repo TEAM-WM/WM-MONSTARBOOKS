@@ -3,6 +3,7 @@ package com.monstar.books.cart.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.monstar.books.cart.sevice.CartDeleteServiceList;
 import com.monstar.books.cart.sevice.CartService;
 import com.monstar.books.cart.sevice.CartServiceList;
 import com.monstar.books.cart.sevice.CntUpdateServiceList;
+import com.monstar.books.order.controller.OrderController;
+import com.monstar.books.cart.sevice.CartToOrderServiceList;
 
 @Controller
 public class CartController {
@@ -38,7 +44,7 @@ public class CartController {
 
 		return "common/cart/cart";
 
-	}// list 종료
+	}// cart 종료
 	
 	@RequestMapping(method=RequestMethod.POST, value="/cntUpdate")
 	public String cntUpdate(HttpServletRequest request,Model model) {
@@ -50,7 +56,7 @@ public class CartController {
 		service.execute(model);
 		
 		return "redirect:cart";
-	}// list 종료
+	}// cntUpdate 종료
 	
 	@RequestMapping(method=RequestMethod.POST, value="/cartDelete")
 	public String cartDelete(HttpServletRequest request,
@@ -66,6 +72,24 @@ public class CartController {
 		
 		return "redirect:cart";
 		
-	}// list 종료
+	}// cartDelete 종료
+	
+	// 230831 / 진성 추가
+	// 선택 상품 주문하기
+	@RequestMapping(method=RequestMethod.POST, value="/order")
+	public String order(HttpServletRequest request,
+			@RequestParam List<String> chk, Model model) {
+		
+		System.out.println("orderrrrrr");
+
+		model.addAttribute("request",request);
+		model.addAttribute("chArr",chk);
+		
+		service = new CartToOrderServiceList(session);
+		service.execute(model);
+		
+		return "common/order/order";
+		
+	}// order 종료
 	
 }// class 종료
