@@ -26,6 +26,19 @@ table {
 tr, td {
 	padding: 10px 0px 10px 0px;
 }
+
+
+/* 주문/배송 목록 테이블 스타일 */
+.order-table {
+    width: 100%; /* 테이블 70% 너비로 설정 */
+    float: right;
+}
+
+.content {
+	display:flex;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
 </style>
 
 </head>
@@ -33,6 +46,27 @@ tr, td {
 	<br />
 	<br />
 	<h3>My Review</h3>
+	
+	
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="../myprofile/myprofile.jsp" %>
+        </div>
+
+        <!-- 주문/배송 목록 테이블 -->
+        <table class="order-table">
+            <tr>
+                <th>주문일자</th>
+                <th>상품정보</th>
+                <th>수량</th>
+                <th>가격</th>
+                <th>총 가격</th>
+                <th>배송 상태</th>
+            </tr>
+		</table>
+		
+		
 	<!--  230826 [효슬] 리뷰 목록 페이지 구현 -->
 	<div>
 		<table width="950" border="1">

@@ -64,6 +64,27 @@ tr, td {
 	<br />
 
 	<h3>Review Update</h3>
+	
+	
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="../myprofile/myprofile.jsp" %>
+        </div>
+
+        <!-- 주문/배송 목록 테이블 -->
+        <table class="order-table">
+            <tr>
+                <th>주문일자</th>
+                <th>상품정보</th>
+                <th>수량</th>
+                <th>가격</th>
+                <th>총 가격</th>
+                <th>배송 상태</th>
+            </tr>
+		</table>
+	
+	
 	<form action="reviewupdate" method="post" enctype="multipart/form-data">
 	<br />
 	<table>
