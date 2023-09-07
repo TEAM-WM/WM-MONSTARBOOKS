@@ -22,4 +22,10 @@ public class AdNoticeDto {
 	private String nfilesrc;	// 공지 글의 첨부파일
 	private String deleted;		// 공지 글의 삭제여부
 	private int memberno;		// 회원번호(m_member 테이블에서 참조)(외래키)
+	
+	//이전글다음글
+	private int next;
+	private int last;
+	private String nexttitle;
+	private String lasttitle;
 }

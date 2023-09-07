@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,35 +92,21 @@
                             <col style="width: 124px;">
                         </colgroup>
                         <tbody>
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td class="left">
-                                    <a href="">교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)교보문고 개인정보 처리방침 변경 안내 (9/8)</a>
-                                </td>
-                                <td>2023.09.01</td>
-                            </tr>
-        
-                            <tr>
-                                <td>
-                                    2
-                                </td>
-                                <td class="left">
-                                    <a href="">교보북클럽 회원 개인정보 이용내역 안내</a>
-                                </td>
-                                <td>2023.07.21</td>
-                            </tr>
-        
-                            <tr>
-                                <td>
-                                    3
-                                </td>
-                                <td class="left">
-                                    <a href="">교보문고 개인정보 처리방침 변경 안내 (7/1)</a>
-                                </td>
-                                <td>2023.06.23</td>
-                            </tr>
+                            <c:forEach items="${dto }" var="dto" begin="0" end="2">
+                            	<tr>
+                                    <td>
+										${dto.noticeno }
+                                    </td>
+                                    <td class="left">
+                                        <a href="${pageContext.request.contextPath}/cscenter/notice/detail?no=${dto.noticeno }">
+                                        	${dto.ntitle }
+                                        </a>
+                                    </td>
+                                    <td>
+                                    	<fmt:formatDate value="${dto.nregdate }" pattern="yy-MM-dd" />
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
