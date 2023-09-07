@@ -9,6 +9,38 @@
 <title>샘플페이지</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #ccc;
+}
+
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	text-align: center;
+}
+
+th {
+	background-color: #f2f2f2;
+}
+
+td button {
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+td button:hover {
+	background-color: #2980b9;
+}
+</style>
 <script>
     // 검색 결과가 없을 때 알림창을 표시하는 함수
     function showNoResultsAlert() {
