@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>공지 상세</title>
 <script>
+
 	function updateNotice(){
 		if(confirm("공지를 수정하시겠습니까?")){
 			location.href = "./noticeUpdate?noticeno=${noticeDetail.noticeno }";
