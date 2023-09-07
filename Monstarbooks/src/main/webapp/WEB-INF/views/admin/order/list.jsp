@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,7 +96,7 @@
 
 	<!-- 주문 목록 테이블 컨테이너 -->
 	<div class="order-status-table-container">
-		<table border="1" >
+		<table border="1">
 			<tr>
 				<th>주문 번호</th>
 				<th>주문자</th>
@@ -113,7 +113,8 @@
 					<tr>
 						<td>${order.orderNo}</td>
 						<td>${order.memberName}&nbsp;(${order.memberId})</td>
-						<td><fmt:formatDate value="${order.orderDate}" pattern="yyyy.MM.dd" /></td>
+						<td><fmt:formatDate value="${order.orderDate}"
+								pattern="yyyy.MM.dd" /></td>
 						<td>
 							<!-- productName 및 totalAmount 처리 --> <c:set var="productNames"
 								value="" /> <c:set var="totalAmount" value="0" /> <c:forEach
@@ -187,7 +188,7 @@
 		</c:if>
 	</div>
 
-<!-- <script>
+	<!-- <script>
     // 페이지 로드 시 검색 상태 초기화
     window.onload = function () {
         var selectedDeliveryStatus = "${searchDelivery}";
@@ -216,12 +217,14 @@
     }
 </script> -->
 
-<script>
-  function updateDeliveryStatus() {
-    var selectedDeliveryStatus = document.getElementById("searchDelivery").value;
-    window.location.href = "/books/admin/order/list?searchDelivery=" + selectedDeliveryStatus;
-  }
-</script>
+	<script>
+		function updateDeliveryStatus() {
+			var selectedDeliveryStatus = document
+					.getElementById("searchDelivery").value;
+			window.location.href = "/books/admin/order/list?searchDelivery="
+					+ selectedDeliveryStatus;
+		}
+	</script>
 </body>
 </html>
 

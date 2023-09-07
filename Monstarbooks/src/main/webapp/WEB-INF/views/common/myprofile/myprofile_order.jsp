@@ -47,6 +47,7 @@ th {
 .content {
 	display:flex;
 	justify-content:space-between;
+	text-align: left;
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
 }
 
@@ -128,7 +129,7 @@ th {
         <!-- 이전 페이지 링크 -->
         <c:if test="${searchVo.page > 1}">
             <a
-                href="<c:url value='/common/myprofile/myprofile_order'><c:param name='page' value='${searchVo.page - 1}'/></c:url>">
+                href="<c:url value='/myprofile/myprofile_order'><c:param name='page' value='${searchVo.page - 1}'/></c:url>">
                 <i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-left"></i>
             </a>
         </c:if>
@@ -143,7 +144,7 @@ th {
                 <c:otherwise>
                     <!-- 페이지 번호 링크 -->
                     <a
-                        href="<c:url value='/common/myprofile/myprofile_order'><c:param name='page' value='${i}'/></c:url>"
+                        href="<c:url value='/myprofile/myprofile_order'><c:param name='page' value='${i}'/></c:url>"
                         style="text-decoration: none;">${i}</a>
                 </c:otherwise>
             </c:choose>
@@ -152,7 +153,7 @@ th {
         <!-- 다음 페이지 링크 -->
         <c:if test="${searchVo.page < searchVo.totPage}">
             <a
-                href="<c:url value='/common/myprofile/myprofile_order'><c:param name='page' value='${searchVo.page + 1}'/></c:url>">
+                href="<c:url value='/myprofile/myprofile_order'><c:param name='page' value='${searchVo.page + 1}'/></c:url>">
                 <i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
         </c:if>

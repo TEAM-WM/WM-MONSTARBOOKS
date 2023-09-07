@@ -1,0 +1,80 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.monstar.books.adcoupon.dao.AdCouponDao">
+	<!-- 쿠폰 목록 가져오기 -->
+
+	<select id="getCouponList"
+		resultType="com.monstar.books.adcoupon.dto.AdCouponDto">
+		SELECT cpname, cpdescription, cpprice, cpcreated, cpvalid,
+		cpstatus, cpno
+		FROM (
+		SELECT
+		CPNAME as cpname,
+		CPDESCRIPTION as cpdescription,
+		CPPRICE as cpprice,
+		CPCREATED as cpcreated,
+		CPVALID as cpvalid,
+		CPSTATUS as cpstatus,
+		CPNO as cpno,
+		ROW_NUMBER() OVER (ORDER BY CPNO DESC) AS row_num
+		FROM
+		M_COUPON
+		) N
+		WHERE row_num BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="selectcpname"
+		resultType="com.monstar.books.adcoupon.dto.AdCouponDto">
+		SELECT
+            CPNO as cpno,
+            CPNAME as cpname,
+            CPDESCRIPTION as cpdescription,
+            CPPRICE as cpprice,
+            CPCREATED as cpcreated,
+            CPVALID as cpvalid,
+            CPSTATUS as cpstatus
+        FROM
+            M_COUPON
+        WHERE CPNAME LIKE '%' || #{param3} || '%'
+        ORDER BY cpno DESC	
+	</select>
+	
+	<select id="selectcpdescription"
+		resultType="com.monstar.books.adcoupon.dto.AdCouponDto">
+		SELECT
+            CPNO as cpno,
+            CPNAME as cpname,
+            CPDESCRIPTION as cpdescription,
+            CPPRICE as cpprice,
+            CPCREATED as cpcreated,
+            CPVALID as cpvalid,
+            CPSTATUS as cpstatus
+        FROM
+            M_COUPON
+        WHERE CPDESCRIPTION LIKE '%' || #{param3} || '%'
+        ORDER BY cpno DESC	
+	</select>
+
+	<select id="selectCouponTotCount1" resultType="int">
+		SELECT COUNT(*) FROM M_COUPON WHERE CPNAME LIKE #{param1}
+	</select>
+
+	<select id="selectCouponTotCount2" resultType="int">
+		SELECT COUNT(*) FROM M_COUPON WHERE CPDESCRIPTION LIKE #{param1}
+	</select>
+
+	<select id="selectCouponTotCount3" resultType="int">
+		SELECT COUNT(*) FROM M_COUPON
+	</select>
+	
+	<!-- 쿠폰 상태 변경 -->
+	<update id="adcouponUpdateStatus" parameterType="map">
+		UPDATE M_COUPON
+		SET CPSTATUS = #{param2}
+		WHERE CPNO = #{param1}
+	</update>
+	
+	
+</mapper>
