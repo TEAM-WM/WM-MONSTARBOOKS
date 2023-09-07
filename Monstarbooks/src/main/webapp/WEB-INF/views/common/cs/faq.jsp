@@ -41,18 +41,27 @@
                 </div>
                 <!-- faq-category-list -->
 
-                <section class="accordion-wrap faq-acc">
-                    <ul>
-                    <c:forEach items="${dto }" var="dto">
-                        <li>
-                            <button type="button">${dto.fquestion }</button>
-                            <div class="accordion-item">
-                                <pre>${dto.fanswer }</pre>
-                            </div>
-                        </li>
-                        </c:forEach>
-                    </ul>
-                </section><!--accordion-wrap-->
+                <c:choose>
+                	<c:when test="${not empty dto }">
+                		<section class="accordion-wrap faq-acc">
+	                    <ul>
+	                    <c:forEach items="${dto }" var="dto">
+	                        <li>
+	                            <button type="button">${dto.fquestion }</button>
+	                            <div class="accordion-item">
+	                                <pre>${dto.fanswer }</pre>
+	                            </div>
+	                        </li>
+	                        </c:forEach>
+	                    </ul>
+	                </section><!--accordion-wrap-->
+                	</c:when>
+                	<c:otherwise>
+                		<div class="warning">
+                			검색 내역이 없습니다.
+                		</div>
+                	</c:otherwise>
+                </c:choose>
             </div>
         <!-- customer-wrap -->
         <script src="${pageContext.request.contextPath}/resources/assets/js/common.js"></script>
