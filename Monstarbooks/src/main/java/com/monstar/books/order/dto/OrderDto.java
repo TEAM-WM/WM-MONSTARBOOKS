@@ -1,7 +1,5 @@
 package com.monstar.books.order.dto;
 
-import java.util.Date;
-
 import com.monstar.books.booklist.dto.BookCategoryDto;
 import com.monstar.books.booklist.dto.BookDetailDto;
 import com.monstar.books.booklist.dto.BookListDto;
@@ -25,6 +23,7 @@ public class OrderDto {
 	private OrderDetailDto odetail;
 	private DeliveryDto delivery;
 	private CouponDto coupon;
+	private CouponMemberDto cpMember;
 	private BookListDto list;
 	private BookDetailDto bdetail;
 	private BookCategoryDto category;

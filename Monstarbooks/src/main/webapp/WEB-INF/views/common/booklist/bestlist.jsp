@@ -116,28 +116,39 @@ function checkbox(c){
 	}
 }
 /* 장바구니 담기 */
-function add_cart(bookno){
-	$.ajax({
-		url:'../addCart',
-		type:'post',
-		data : {
-			'memberno' : 1,
-			'bookno' : bookno,
-			'cnt' : 1
-			},
-		success : function(result){
-			if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
-				location.href='../cart';
-			}else{
-				return;
+function add_cart(bookno,memberno){
+	if(memberno != 0){
+		$.ajax({
+			url:'../addCart',
+			type:'post',
+			data : {
+				'memberno' : memberno,
+				'bookno' : bookno,
+				'cnt' : 1
+				},
+			success : function(result){
+				if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
+					location.href='../cart';
+				}else{
+					return;
+				}
 			}
-		}
-	})
+		})
+	}else{
+		alert("로그인이 필요합니다.");
+		location.href="../login";
+	}
+	
 }
 /* 바로 주문 */
-function go_order(bno){
-	$("#bookno").attr("value",bno);
-	$(".order_form").submit();
+function go_order(bno,memberno){
+	if(memberno != 0){
+		$("#bookno").attr("value",bno);
+		$(".order_form").submit();				
+	}else{
+		alert("로그인이 필요합니다.");
+		location.href="../login";
+	}
 }
 </script>
 </head>
@@ -197,10 +208,10 @@ function go_order(bno){
 					
 					<!-- 장바구니, 바로구매 -->
 					<td rowspan="5" id="line" align="center">
-						<button type="button" id="btn2" onclick="add_cart(${list.bookno})">장바구니</button>
+						<button type="button" id="btn2" onclick="add_cart(${list.bookno},${memberno })">장바구니</button>
 						<br /> <br />
 						
-						<button type="button" id="btn3" onclick="go_order(${list.bookno})">바로구매</button>
+						<button type="button" id="btn3" onclick="go_order(${list.bookno},${memberno })">바로구매</button>
 					</td>
 				</tr>
 				<tr>

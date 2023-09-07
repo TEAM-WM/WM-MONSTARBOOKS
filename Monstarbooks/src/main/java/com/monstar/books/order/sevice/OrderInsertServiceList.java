@@ -3,6 +3,7 @@ package com.monstar.books.order.sevice;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import com.monstar.books.order.dao.OrderDao;
 public class OrderInsertServiceList implements OrderService {
 
 	@Autowired
-	private SqlSession session;
+	private SqlSession sqlSession;
 
 	// 생성자
 	public OrderInsertServiceList(SqlSession session) {
-		this.session = session;
+		this.sqlSession = session;
 	}
 
 	@Transactional
@@ -33,9 +34,17 @@ public class OrderInsertServiceList implements OrderService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
-		OrderDao dao = session.getMapper(OrderDao.class);
+		OrderDao dao = sqlSession.getMapper(OrderDao.class);
 		
-		String memberno = request.getParameter("memberno");
+		// 세션에서 회원 ID 가져오기
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("id");
+        System.out.println("id :"+memberId);
+        
+        int memberno = dao.getMemberno(memberId);		
+        System.out.println("memberno :"+memberno);
+		
+//		String memberno = request.getParameter("memberno");
 		String ototalprice = request.getParameter("ototalprice");
 		String opay = request.getParameter("payment");
 			
@@ -54,6 +63,12 @@ public class OrderInsertServiceList implements OrderService {
 		String dtel = request.getParameter("dtel");
 		String dname = request.getParameter("dname");
 		
+		String usedCpno = request.getParameter("usedCpno");
+		System.out.println(usedCpno);
+		if(usedCpno == null) {
+			usedCpno = "0";
+		}
+		
 		System.out.println(daddress1+", "+daddress2+", "+daddress3+", "
 				+dzipcode+", "+dtel+", "+dname);
 		
@@ -61,14 +76,21 @@ public class OrderInsertServiceList implements OrderService {
 			System.out.println(bookno[i] +", "+ opricesell[i] +", "+ ocount[i]);	
 			// 주문 상세 테이블에 추가
 			dao.orderInsetDetail(bookno[i],opricesell[i],ocount[i]);
+			
+			//카트 테이블에서 삭제
+			dao.cartDelete(bookno[i],memberno);
 		}
 		
 		//주문 테이블에 추가
-		dao.orderInsert(memberno,ototalprice,opay);//memberno 추후 수정
+		dao.orderInsert(memberno,usedCpno,ototalprice,opay);//memberno 추후 수정
 		
 		//배송 테이블에 추가
 		dao.deliveryInsert(memberno,daddress1,daddress2,daddress3,dzipcode,dtel,dname);
 
+		// 쿠폰 사용불가로 업데이트
+		dao.couponUse(usedCpno,memberno);
+		
+		
 	}// override method
 
 }// class

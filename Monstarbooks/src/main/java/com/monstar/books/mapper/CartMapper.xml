@@ -47,30 +47,31 @@
 		AND C.BOOKNO=D.BOOKNO
 		AND D.BCATEGORYNO=CT.BCATEGORYNO
 		AND C.MEMBERNO=M.MEMBERNO
-		AND C.MEMBERNO = 1
+		AND C.MEMBERNO = #{param1}
 	</select>
 	
 	<select id="cartCnt" resultType="Integer">
-		SELECT COUNT(CARTNO) FROM M_CART WHERE MEMBERNO=1
+		SELECT COUNT(CARTNO) FROM M_CART WHERE MEMBERNO=#{param1}
 	</select>
 	
 	<select id="cartTotCnt" resultType="Integer">
-		SELECT SUM(CCOUNT) FROM M_CART WHERE MEMBERNO=1
+		SELECT SUM(CCOUNT) FROM M_CART WHERE MEMBERNO=#{param1}
 	</select>
 	
 	<update id="cntUpdate">
-		UPDATE M_CART SET CCOUNT=#{param1} WHERE MEMBERNO=1 AND CARTNO=#{param2}
+		UPDATE M_CART SET CCOUNT=#{param1} 
+			WHERE CARTNO=#{param2} AND MEMBERNO=#{param3}
 	</update>
 	
 	<select id="totPrice" resultType="Integer">
 		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
 		WHERE B.BOOKNO=C.BOOKNO 
 		AND C.MEMBERNO = M.MEMBERNO
-		AND C.MEMBERNO=1
+		AND C.MEMBERNO=#{param1}
 	</select>
 	
 	<delete id="cartDelete">
-		DELETE FROM M_CART WHERE CARTNO=#{param1}
+		DELETE FROM M_CART WHERE CARTNO=#{param1} AND MEMBERNO=#{param2}
 	</delete>
 
 	<select id="cartSelList" parameterType="com.monstar.books.cart.dto.CartDto" resultMap="Cart">
@@ -82,30 +83,67 @@
 		AND C.BOOKNO=D.BOOKNO
 		AND D.BCATEGORYNO=CT.BCATEGORYNO
 		AND C.MEMBERNO=M.MEMBERNO
+		AND C.MEMBERNO = #{param1}
 		AND C.CARTNO IN 
-		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		<foreach collection="param2" item="item" index="index" open="(" close=")" separator=",">
 		#{item}
 		</foreach>
-		AND C.MEMBERNO = 1
 	</select>
 	
 	<select id="seltTotPrice" resultType="Integer">
 		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
 		WHERE B.BOOKNO=C.BOOKNO 
 		AND C.MEMBERNO=M.MEMBERNO 
+        AND C.MEMBERNO = #{param1}
         AND C.CARTNO IN 
-        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="param2" item="item" index="index" open="(" close=")" separator=",">
 		#{item}
 		</foreach>
-		AND C.MEMBERNO = 1
 	</select>
 
 	<select id="cartSelCnt" resultType="Integer">
 		SELECT SUM(CCOUNT) FROM M_CART 
-		WHERE MEMBERNO=1 AND CARTNO IN
-		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		WHERE MEMBERNO=#{param1}
+		AND CARTNO IN
+		<foreach collection="param2" item="item" index="index" open="(" close=")" separator=",">
 		#{item}
-		</foreach>
+		</foreach>  
+	</select>
+	
+	<select id="getMemberno" resultType="Integer">
+		SELECT MEMBERNO FROM M_MEMBER WHERE MID=#{param1}
+	</select>
+	
+	<!--========= 쿠폰 ========== -->
+	
+	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCIPTION" property="cpdesciption"/>
+		<result column="CPPRICE" property="cpprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+		<collection property="cpMember" resultMap="CpMember"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO2" property="cpno2"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVAILD" property="cpvaild"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	</resultMap>
+	
+	<select id="myCouponCheck" parameterType="com.monstar.books.order.dto.CouponDto" resultMap="Coupon">
+		SELECT CM.MEMBERNO,CM.CPNO,CM.CPRDATE,CM.CPVALID,CM.CPSTATUS,
+		C.CPNAME,C.CPDESCIPTION,C.CPPRICE
+		FROM M_COUPON_MEMBER CM, M_COUPON C 
+		WHERE CM.CPNO2 = C.CPNO
+		AND CM.CPSTATUS = 'N'
+		AND CM.CPVALID >= SYSDATE
+		AND CM.MEMBERNO = #{param1}
 	</select>
 	
 </mapper>

@@ -12,16 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.monstar.books.cart.sevice.CartDeleteServiceList;
 import com.monstar.books.cart.sevice.CartService;
 import com.monstar.books.cart.sevice.CartServiceList;
-import com.monstar.books.cart.sevice.CntUpdateServiceList;
-import com.monstar.books.order.controller.OrderController;
 import com.monstar.books.cart.sevice.CartToOrderServiceList;
+import com.monstar.books.cart.sevice.CntUpdateServiceList;
 
 @Controller
 public class CartController {
@@ -30,16 +26,18 @@ public class CartController {
 	CartService service;
 
 	@Autowired
-	private SqlSession session;
+	private SqlSession sqlSession;
 
 	// 230828 / 진성 추가
 	// 장바구니
 	@RequestMapping("/cart")
-	public String cart(Model model) {
+	public String cart(HttpServletRequest request,Model model) {
 
 		System.out.println("cartttttttttt");
 
-		service = new CartServiceList(session);
+		model.addAttribute("request",request);
+		
+		service = new CartServiceList(sqlSession);
 		service.execute(model);
 
 		return "common/cart/cart";
@@ -52,7 +50,7 @@ public class CartController {
 		System.out.println("cnt updateeeeeee");
 		
 		model.addAttribute("request",request);
-		service = new CntUpdateServiceList(session);
+		service = new CntUpdateServiceList(sqlSession);
 		service.execute(model);
 		
 		return "redirect:cart";
@@ -67,7 +65,7 @@ public class CartController {
 		model.addAttribute("request",request);
 		model.addAttribute("chArr",chArr);
 		
-		service = new CartDeleteServiceList(session);
+		service = new CartDeleteServiceList(sqlSession);
 		service.execute(model);
 		
 		return "redirect:cart";
@@ -85,7 +83,7 @@ public class CartController {
 		model.addAttribute("request",request);
 		model.addAttribute("chArr",chk);
 		
-		service = new CartToOrderServiceList(session);
+		service = new CartToOrderServiceList(sqlSession);
 		service.execute(model);
 		
 		return "common/order/order";

@@ -42,6 +42,7 @@ td {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width:1200px;
 }
 input:read-only {
 	background-color: white;
@@ -202,7 +203,7 @@ function go_order_all(cntSum){
 	<form action="./order" method="post" class="order_form">
 		<c:choose>
 			<c:when test="${cartCnt == 0 }">
-				<div style="height: 250px;">
+				<div style="height: 250px; width: 1200px">
 					<h2> <br /> 장바구니가 비었습니다. <br /> <br /> </h2>
 						<i class="fa-regular fa-face-sad-tear fa-5x"></i>
 				</div>
@@ -215,7 +216,7 @@ function go_order_all(cntSum){
 				<br />
 				
 				<!-- 주문 버튼 -->
-				<div align="right">
+				<div align="right" style="width: 1200px" >
 					<input type="button" value="선택상품 주문" onclick="cart_empty_sel()"
 						style="width: 200px; display: inline;" /> 
 						<input type="button" value="전체상품 주문" onclick="cart_empty_all()"

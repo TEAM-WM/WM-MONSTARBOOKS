@@ -6,7 +6,7 @@
 <mapper namespace="com.monstar.books.order.dao.OrderDao">
 	<insert id="orderInsert">
 		INSERT INTO M_ORDER VALUES(M_ORDER_SEQ.NEXTVAL,
-			#{param1},1,#{param2},'결제완료',#{param3})
+			#{param1},#{param2},#{param3},'결제완료',#{param4})
 	</insert>
 	
 	<insert id="orderInsetDetail">
@@ -25,6 +25,10 @@
 			#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
 	</insert>
 	
+	<delete id="cartDelete">
+		DELETE FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=#{param2}
+	</delete>
+	
 	<resultMap type="com.monstar.books.order.dto.OrderDto" id="orderList">
 		<result column="ORDERNO" property="orderno"/>
 		<result column="MEMBERNO" property="memberno"/>
@@ -36,6 +40,7 @@
 		<collection property="odetail" resultMap="Odetail"></collection>
 		<collection property="delivery" resultMap="Delivery"></collection>
 		<collection property="coupon" resultMap="Coupon"></collection>
+		<collection property="cpMember" resultMap="CpMember"></collection>
 		<collection property="list" resultMap="List"></collection>
 		<collection property="bdetail" resultMap="Bdetail"></collection>
 		<collection property="category" resultMap="Category"></collection>
@@ -67,6 +72,11 @@
 		<result column="CPPRICE" property="cpprice"/>
 	</resultMap>
 	
+	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNO2" property="cpno2"/>
+	</resultMap>
+	
 	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Bdetail">
 		<result column="BOOKNO" property="bookno"/>
 		<result column="BCATEGORYNO" property="bcategoryno"/>
@@ -94,20 +104,33 @@
 		AND BD.BCATEGORYNO = BB.BCATEGORYNO
 		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
 		WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
-		AND O.MEMBERNO=1
+		AND O.MEMBERNO=#{param1}
 	</select>
 	
 	<select id="orderList" parameterType="com.monstar.books.order.dto.OrderDto" resultMap="orderList">
 		SELECT O.ORDERNO, OD.OREGDATE,O.OTOTALPRICE,O.OPAY,
-		D.DNAME,D.DTEL,D.DZIPCODE,D.DADDRESS1,D.DADDRESS2,D.DADDRESS3,
-			(SELECT SUM(OCOUNT) FROM M_ORDER_DETAIL WHERE ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
+		D.DNAME,D.DTEL,D.DZIPCODE,D.DADDRESS1,D.DADDRESS2,D.DADDRESS3,C.CPPRICE,
+			(SELECT SUM(OCOUNT) FROM M_ORDER_DETAIL WHERE ORDERNO=(SELECT LAST_NUMBER FROM USER_SEQUENCES
 			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1) COUNT
-		FROM M_ORDER O,M_ORDER_DETAIL OD,M_DELIVERY D
+		FROM M_ORDER O,M_ORDER_DETAIL OD,M_DELIVERY D,M_COUPON C,M_COUPON_MEMBER CM
 		WHERE O.ORDERNO = OD.ORDERNO
+        AND O.ORDERNO = D.ORDERNO
+		AND O.CPNO = CM.CPNO 
+		AND C.CPNO = CM.CPNO2
 		AND O.ORDERNO = D.ORDERNO
 		AND O.ORDERNO=(select LAST_NUMBER FROM USER_SEQUENCES
 			WHERE SEQUENCE_NAME = 'M_ORDER_SEQ')-1
-		AND O.MEMBERNO = 1
+		AND O.MEMBERNO =  #{param1}
 	</select>
 
+	<select id="getMemberno" resultType="Integer">
+		SELECT MEMBERNO FROM M_MEMBER WHERE MID=#{param1}
+	</select>
+	
+	<update id="couponUse">
+		UPDATE M_COUPON_MEMBER SET CPSTATUS = 'Y' 
+		WHERE CPNO=#{param1} 
+		AND MEMBERNO=#{param2}
+	</update>
+	
 </mapper>
