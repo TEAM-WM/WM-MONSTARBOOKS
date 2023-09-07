@@ -19,4 +19,49 @@
 		AND DELETED = 'No'
 		ORDER BY FAQNO DESC
 	</select>
+	<!-- 고객센터 공지사항 불러오기 -->
+	<select id="csNoticeList" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
+		SELECT *
+	    FROM (
+	        SELECT ROWNUM NUM, N.*
+	        FROM (
+	            SELECT NOTICENO, NTITLE, NCONTENT, NREGDATE
+	            FROM M_NOTICE
+	            WHERE (NTITLE LIKE '%' || #{param3} || '%' OR NCONTENT LIKE '%' || #{param3} || '%')
+	            AND DELETED = 'No'
+	            ORDER BY NOTICENO DESC
+	        ) N
+	    )
+	    WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<!-- 고객센터 공지사항 카운트 -->
+	<select id="csNoticeCount" parameterType="string" resultType="java.lang.Integer">
+	  SELECT COUNT(*)
+	  FROM M_NOTICE
+	  WHERE (NTITLE LIKE '%' || #{word} || '%' OR NCONTENT LIKE '%' || #{word} || '%')
+	  AND DELETED = 'No'
+	</select>
+	
+	<!-- 고객센터 디테일 -->
+	<select id="csNoticeDetail" parameterType="int" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
+	  SELECT NOTICENO, NTITLE, NCONTENT, NREGDATE
+	  FROM M_NOTICE
+	  WHERE NOTICENO=#{no} AND DELETED = 'No'
+	</select>
+	
+	<!-- 고객센터 이전글 다음글 -->
+	<select id="csNoticeMove" parameterType="int" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
+		SELECT * FROM(SELECT
+		NOTICENO,
+		LEAD(NOTICENO,1,9999) OVER(ORDER BY NOTICENO) AS NEXT,
+		LAG(NOTICENO,1,9999) OVER(ORDER BY NOTICENO) AS LAST,
+		NTITLE,
+		LEAD(NTITLE,1,9999) OVER(ORDER BY NOTICENO) AS NEXTTITLE,
+		LAG(NTITLE,1,9999) OVER(ORDER BY NOTICENO) AS LASTTITLE
+	
+		FROM M_NOTICE
+		ORDER BY NOTICENO DESC)
+		WHERE NOTICENO = #{no}
+	</select>
 </mapper>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.monstar.books.adfaq.service.AdFaqService;
 import com.monstar.books.cs.service.CsFaqListService;
+import com.monstar.books.cs.service.CsNoticeDetailService;
+import com.monstar.books.cs.service.CsNoticeListService;
 
 //230905 리연 추가
 @Controller
@@ -21,8 +23,11 @@ public class CsController {
 	private SqlSession session;
 
 	@RequestMapping("/cscenter")
-	public String csCenter(Model model) {
+	public String csCenter(Model model,HttpServletRequest request) {
 		System.out.println(">>>고객센터 메인페이지.");
+		faqService= new CsNoticeListService(session);
+		model.addAttribute("request",request);
+		faqService.execute(model);
 		return "common/cs/center";
 	}// list 종료
 	
@@ -33,5 +38,22 @@ public class CsController {
 		model.addAttribute("request",request);
 		faqService.execute(model);
 		return "common/cs/faq";
-	}// list 종료
+	}// faq 종료
+	
+	@RequestMapping("/cscenter/notice")
+	public String csCenterNotice(Model model, HttpServletRequest request) {
+		System.out.println(">>>고객센터 공지사항");
+		faqService= new CsNoticeListService(session);
+		model.addAttribute("request",request);
+		faqService.execute(model);
+		return "common/cs/notice";
+	}// notice 종료
+	@RequestMapping("/cscenter/notice/detail")
+	public String csCenterNoticeDetail(Model model, HttpServletRequest request) {
+		System.out.println(">>>고객센터 공지사항 디테일");
+		faqService= new CsNoticeDetailService(session);
+		model.addAttribute("request",request);
+		faqService.execute(model);
+		return "common/cs/noticeDetail";
+	}// notice 종료
 }// 고객센터
