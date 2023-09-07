@@ -99,8 +99,8 @@
                             <ol>
 								<c:choose>
 									<c:when test="${searchVO.page>1}">
-										<li><a href="notice?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
-										<li><a href="notice?page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+										<li><a href="${pageContext.request.contextPath}/cscenter/notice?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+										<li><a href="${pageContext.request.contextPath}/cscenter/notice?page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
 									</c:when>
 									<c:otherwise>
 										<li class="disabled">
@@ -128,15 +128,15 @@
 										</c:when>
 										<c:otherwise>
 											<li>
-												<a href="notice?page=${i }&word=${searchKey }">${i }</a>
+												<a href="${pageContext.request.contextPath}/cscenter/notice?page=${i }&word=${searchKey }">${i }</a>
 											</li>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:choose>
 									<c:when test="${searchVO.page < searchVO.totPage}">
-										<li><a href="notice?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
-										<li><a href="notice?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+										<li><a href="${pageContext.request.contextPath}/cscenter/notice?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+										<li><a href="${pageContext.request.contextPath}/cscenter/notice?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
 									</c:when>
 									<c:otherwise>
 										<li class="disabled">
