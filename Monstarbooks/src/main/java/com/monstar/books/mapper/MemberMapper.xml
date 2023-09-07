@@ -165,11 +165,10 @@
 	</update>
 	
 	
-	<resultMap id="couponMemberMap" type="com.monstar.books.member.dto.CouponMemberDto">
-		<result property="cpno_member" column="cpno_member" />
+	<resultMap id="couponMemberMap" type="com.monstar.books.order.dto.CouponMemberDto">
+		<result property="cpno" column="cpno_member" />
 	    <result property="cprdate" column="cprdate" />
-	    <result property="cpstatus" column="cpstatus" />
-	    <collection property="couponDto" resultMap="couponMap"></collection>
+	    <result property="cpstatus" column="cpstatus2" />
 	</resultMap>
 	
 	<resultMap id="couponMap" type="com.monstar.books.order.dto.CouponDto">
@@ -180,13 +179,14 @@
 	    <result property="cpcreated" column="cpcreated" />
 	    <result property="cpvalid" column="cpvalid" />
 	    <result property="cpstatus" column="cpstatus" />
+	    <collection property="cpMember" resultMap="couponMemberMap"></collection>
 	</resultMap>
 	
 	<!-- 회원의 쿠폰 가져오기 -->
-	<select id="getDataMemberCoupon" parameterType="int" resultMap="couponMemberMap">
+	<select id="getDataMemberCoupon" parameterType="int" resultMap="couponMap">
 	    SELECT C.CPNO as cpno,CM.CPNO as cpno_member, C.CPNAME as cpname, C.CPDESCRIPTION as cpdescription, C.CPPRICE as cpprice,
 	    C.CPCREATED as cpcreated, C.CPVALID as cpvalid, C.CPSTATUS as cpstatus,
-	    CM.CPRDATE as cprdate, CM.CPSTATUS as cpstatus
+	    CM.CPRDATE as cprdate, CM.CPSTATUS as cpstatus2
 	    FROM M_MEMBER M
 	    INNER JOIN M_COUPON_MEMBER CM ON M.MEMBERNO = CM.MEMBERNO
 	    INNER JOIN M_COUPON C ON CM.CPNO2 = C.CPNO
