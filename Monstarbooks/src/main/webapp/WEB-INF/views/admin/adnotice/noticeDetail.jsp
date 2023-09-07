@@ -33,50 +33,28 @@
 	
 	<table>
 		<tr>
-			<td>번호</td>
 			<td>${noticeDetail.noticeno }</td>
-			<td>제목</td>
-			<td>${noticeDetail.ntitle }</td>
+			<td colspan="3"><h1>${noticeDetail.ntitle }</h1></td>
 		</tr>
 		<tr>
-			<td>작성자</td>
 			<td>${noticeDetail.nwriter }</td>
-			<td>작성날짜</td>
 			<td>${noticeDetail.nregdate }</td>
-		</tr>
-
-		<tr>
-			<td>삭제여부</td>
-			<td>${noticeDetail.deleted }</td>
+			<td><button onclick="updateNotice();">공지 수정</button></td>
+			<td> <button onclick="deleteNotice(${noticeDetail.noticeno});">삭제</button></td>
 		</tr>
 		<tr>
-			<td>공지내용</td>
-			<td>${noticeDetail.ncontent }</td>
+			<td colspan="4">${noticeDetail.ncontent }</td>
 		</tr>
 		<tr>
-			<td rowspan="2">첨부파일</td>
-			<td>
+			<td colspan="4">
 				<c:if test="${noticeDetail.nfilesrc ne null }">
 					<img border="1" width="75" height="75"
 					 src="../../resources/assets/upload/${noticeDetail.nfilesrc }" alt="${noticeDetail.nfilesrc }" />
 				</c:if>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				${noticeDetail.nfilesrc }
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<button onclick="updateNotice();">공지 수정</button>
-				<button><a href="./notice">목록</a></button>
-			</td>
-		</tr>
 	</table>
-	
-	<button onclick="deleteNotice(${noticeDetail.noticeno});">삭제</button>
-	
-		
+	<br/>
+<button><a href="./notice">목록</a></button>
 </body>
 </html>
