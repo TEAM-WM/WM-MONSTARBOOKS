@@ -77,36 +77,46 @@ $().ready(function(){
 		if(cnt > 1){
 			$("#cnt").val(--i);	
 		}
-			//form submit 막기
-			$(".order_form").submit(function(e){
-				e.preventDefault();
-				$(".order_form").unbind();
-			})
+		//form submit 막기
+		$(".order_form").submit(function(e){
+			e.preventDefault();
+			$(".order_form").unbind();
+		})
 	});
 });
 /* 장바구니 담기 */
-function add_cart(bookno){
-	var cnt = $("#cnt").val();
-	$.ajax({
-		url:'../addCart',
-		type:'post',
-		data : {
-			'memberno' : 1,
-			'bookno' : bookno,
-			'cnt' : cnt
-			},
-		success : function(result){
-			if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
-				location.href='../cart';
-			}else{
-				return;
+function add_cart(bookno,memberno){
+	if(memberno != 0){
+		var cnt = $("#cnt").val();
+		$.ajax({
+			url:'../addCart',
+			type:'post',
+			data : {
+				'memberno' : 1,
+				'bookno' : bookno,
+				'cnt' : cnt
+				},
+			success : function(result){
+				if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
+					location.href='../cart';
+				}else{
+					return;
+				}
 			}
-		}
-	})
+		})
+	}else{
+		alert("로그인이 필요합니다.");
+		location.href="../login";
+	}
 }
 /* 바로 주문 */
-function go_order(){
-	$(".order_form").submit();
+function go_order(memberno){
+	if(memberno != 0){
+		$(".order_form").submit();				
+	}else{
+		alert("로그인이 필요합니다.");
+		location.href="../login";
+	}
 }
 /* 리뷰 페이징 */
 function reviewPage(num){
@@ -165,7 +175,7 @@ function reviewPage(num){
 				<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
 			
 			<!-- 장바구니 담기 -->	
-			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno})">
+			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno},${memberno })">
 				<b>ADD TO CART</b>
 			</td>	
 			

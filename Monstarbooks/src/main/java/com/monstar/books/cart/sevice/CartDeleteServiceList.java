@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import com.monstar.books.cart.dao.CartDao;
 public class CartDeleteServiceList implements CartService {
 
 	@Autowired
-	private SqlSession session;
+	private SqlSession sqlSession;
 
 	// 생성자
 	public CartDeleteServiceList(SqlSession session) {
-		this.session = session;
+		this.sqlSession = session;
 	}
 
 	@Override
@@ -35,12 +36,21 @@ public class CartDeleteServiceList implements CartService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		List<String> chArr = (List<String>) map.get("chArr");
 		
+		CartDao dao = sqlSession.getMapper(CartDao.class);
+
+		// 세션에서 회원 ID 가져오기
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("id");
+        System.out.println("id :"+memberId);
+        
+        int memberno = dao.getMemberno(memberId);		
+        System.out.println("memberno :"+memberno);
+		
 		String cnt = request.getParameter("cnt");
 		
-		CartDao dao = session.getMapper(CartDao.class);
 		
 		for (String i : chArr) {
-			dao.cartDelete(i); //memberno 추후 추가
+			dao.cartDelete(i,memberno);
 		}
 
 	}// override method

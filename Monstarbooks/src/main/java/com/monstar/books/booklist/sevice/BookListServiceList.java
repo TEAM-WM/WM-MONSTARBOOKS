@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONArray;
@@ -23,11 +24,11 @@ import com.monstar.books.booklist.vopage.SearchVO;
 public class BookListServiceList implements BookListService {
 
 	@Autowired
-	private SqlSession session;
+	private SqlSession sqlSession;
 
 	// 생성자
 	public BookListServiceList(SqlSession session) {
-		this.session = session;
+		this.sqlSession = session;
 	}
 
 	@Override
@@ -35,12 +36,19 @@ public class BookListServiceList implements BookListService {
 		
 		System.out.println(">>>베스트 리스트 신호");
 		
-		BookListDao dao = session.getMapper(BookListDao.class);
+		BookListDao dao = sqlSession.getMapper(BookListDao.class);
+		
+		//map 변환, request 추출	
+		Map<String, Object> map = model.asMap();
+        HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		// 세션에서 회원 ID 가져오기
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("id");
+        
 		
 		// 230823 진성 추가
 		// paging
-		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		SearchVO searchVO = (SearchVO) map.get("searchVO");
 		
 		String strPage = request.getParameter("page");
@@ -67,8 +75,14 @@ public class BookListServiceList implements BookListService {
 //		model.addAttribute("rdto", rdto);
 		model.addAttribute("totRowCnt",total);
 		model.addAttribute("searchVO",searchVO);
-
-
+		
+//		로그인상태인지 확인
+		if(memberId != null) {
+        	int memberno = dao.getMemberno(memberId);		
+            model.addAttribute("memberno",memberno);					
+		}else {
+			model.addAttribute("memberno",0);
+		}
 	}// override method
 
 }// class
