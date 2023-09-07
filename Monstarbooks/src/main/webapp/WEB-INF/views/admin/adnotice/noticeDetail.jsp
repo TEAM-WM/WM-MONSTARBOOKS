@@ -14,6 +14,14 @@
 			return;
 		}
 	}
+	
+	function deleteNotice(){
+		if(confirm("공지를 삭제하시겠습니까?")){
+			location.href = "./delete?noticeno=${noticenoDetail.noticeno}";
+		}else {
+			return;
+		}
+	}
 </script>
 </head>
 <body>
@@ -64,14 +72,8 @@
 		</tr>
 	</table>
 	
-	<hr />
+	<button onclick="deleteNotice();">삭제</button>
 	
-	<%-- <button>
-		<a href="./noticeDetail?noticeno=${noticeDetail.noticeno -1}">이전 글</a>
-	</button>
-	<button>
-		<a href="./noticeDetail?noticeno=${noticeDetail.noticeno +1}">다음 글</a>
-	</button> --%>
 		
 </body>
 </html>

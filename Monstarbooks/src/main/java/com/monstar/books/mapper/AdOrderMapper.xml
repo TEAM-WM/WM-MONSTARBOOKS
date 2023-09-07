@@ -7,23 +7,30 @@
 	<!--주문목록 가져오기 -->
 	<select id="getOrderList"
 		resultType="com.monstar.books.adorder.dto.AdOrderDto">
+		SELECT * FROM (
 		SELECT
 		mm.mid AS memberId,
 		mm.mname AS memberName,
 		mo.orderno AS orderNo,
 		mod.oregdate AS orderdate,
-		b.btitle AS productName,
-		mod.ocount AS
-		productCount,
+		LISTAGG(b.btitle, ' / ') WITHIN GROUP (ORDER BY b.btitle) AS productName,
+		SUM(mod.ocount) AS productCount,
 		mo.ototalprice AS totalAmount,
-		mo.ostatus AS orderStatus
+		mo.ostatus AS orderStatus,
+		ROW_NUMBER() OVER (ORDER BY mo.orderno DESC) AS row_num
 		FROM m_order mo
 		JOIN m_order_detail mod ON mo.orderno = mod.orderno
 		JOIN m_book b ON mod.bookno = b.bookno
-		JOIN m_member mm ON mo.memberno
-		= mm.memberno
-		ORDER BY mo.orderno DESC
-		<!-- 주문 번호를 기준으로 내림차순 정렬 -->
+		JOIN m_member mm ON mo.memberno = mm.memberno
+		GROUP BY
+		mm.mid,
+		mm.mname,
+		mo.orderno,
+		mod.oregdate,
+		mo.ototalprice,
+		mo.ostatus
+		) N
+		WHERE row_num BETWEEN #{param1} AND #{param2}
 	</select>
 
 	<!-- 주문상태변경 -->
@@ -86,42 +93,115 @@
 		<!-- 주문 번호를 기준으로 내림차순 정렬 -->
 	</select>
 
+	<!-- 전체 검색 -->
+	<select id="getOrderListAll"
+		resultType="com.monstar.books.adorder.dto.AdOrderDto">
+		SELECT
+		mm.mid AS memberId,
+		mm.mname AS memberName,
+		mo.orderno
+		AS orderNo,
+		mod.oregdate AS orderdate,
+		b.btitle AS productName,
+		(
+		SELECT
+		SUM(ocount)
+		FROM m_order_detail
+		WHERE orderno = mo.orderno
+		) AS
+		ProductCount,
+		mo.ototalprice AS totalAmount,
+		mo.ostatus AS orderStatus
+		FROM m_order mo
+		JOIN m_order_detail mod ON mo.orderno = mod.orderno
+		JOIN m_book b ON mod.bookno = b.bookno
+		JOIN m_member mm ON mo.memberno
+		= mm.memberno
+		WHERE (mm.mid LIKE '%' || #{param3} || '%' OR b.btitle
+		LIKE '%' ||
+		#{param3} || '%')
+		ORDER BY mo.orderno DESC;
+	</select>
+
+
 	<!-- 배송상태 검색 -->
 	<select id="getDeliveryStatus"
 		resultType="com.monstar.books.adorder.dto.AdOrderDto">
 		SELECT
 		mm.mid AS memberId,
 		mm.mname AS memberName,
-		mo.orderno AS orderNo,
+		mo.orderno
+		AS orderNo,
 		mod.oregdate AS orderdate,
 		b.btitle AS productName,
 		mod.ocount AS productCount,
 		mo.ototalprice AS totalAmount,
-		mo.ostatus AS orderStatus
+		mo.ostatus AS
+		orderStatus
+		FROM m_order mo
+		JOIN m_order_detail mod ON mo.orderno =
+		mod.orderno
+		JOIN m_book b ON mod.bookno = b.bookno
+		JOIN m_member mm ON
+		mo.memberno = mm.memberno
+		WHERE mo.ostatus LIKE '%'|| #{param4} || '%'
+		ORDER BY mo.orderno DESC
+	</select>
+
+
+	<!-- 페이징 -->
+
+	<!-- 상품에 따라 데이터 갯수구하기 -->
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)
 		FROM m_order mo
 		JOIN m_order_detail mod ON mo.orderno = mod.orderno
 		JOIN m_book b ON mod.bookno = b.bookno
-		JOIN m_member mm ON mo.memberno = mm.memberno
-		WHERE mo.ostatus  LIKE '%'|| #{param4} || '%'
-		ORDER BY mo.orderno DESC
-	</select>
-	
-
-	<!-- 페이징 -->
-	<select id="selectBoardTotCount1" resultType="Integer">
-		SELECT COUNT(*)
-		FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%'
+		WHERE b.btitle LIKE '%'||
+		#{param1} || '%'
 	</select>
 
+	<!-- 주문자에 따라 데이터 갯수구하기 -->
 	<select id="selectBoardTotCount2" resultType="Integer">
 		SELECT COUNT(*)
-		FROM M_MEMBER WHERE MID LIKE '%'|| #{param1} || '%'
+		FROM M_ORDER
+		WHERE MEMBERNO IN (
+		SELECT MEMBERNO
+		FROM M_MEMBER
+		WHERE MID
+		LIKE '%' || #{param1} || '%'
+		)
 	</select>
 
+	<!-- 전체 검색시 데이터 갯수 -->
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)
+		FROM m_order mo
+		JOIN m_order_detail mod ON mo.orderno = mod.orderno
+		JOIN m_book b ON mod.bookno = b.bookno
+		JOIN m_member mm ON mo.memberno
+		= mm.memberno
+		WHERE (b.btitle LIKE '%' || #{param1} || '%' OR mm.mid
+		LIKE '%'
+		|| #{param1}
+		|| '%')
+	</select>
+
+	<!-- 평소 상태 -->
 	<select id="selectBoardTotCount4" resultType="Integer">
 		SELECT COUNT(*)
 		FROM M_ORDER
 	</select>
+
+	<!-- 배송상태에 따른 갯수 구하기 -->
+	<select id="selectBoardTotCountByStatus" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM M_ORDER
+		WHERE OSTATUS LIKE '%' || #{param1} || '%'
+	</select>
+
+
 
 
 
@@ -133,25 +213,31 @@
 		표시가능하게 SQL 문작성 -->
 	<select id="getorderDetail"
 		resultType="com.monstar.books.adorder.dto.AdOrderDto">
-	SELECT
+		SELECT
 		OD.ORDERNO AS orderNo,
 		OD.OREGDATE AS orderDate,
-		D.DADDRESS2 AS daddress2,
+		D.DADDRESS2 AS
+		daddress2,
 		D.DNAME AS dname,
-		D.DTEL AS dtel, -- 추가된 부분 (연락처)
-		B.BTITLE AS productName,
+		D.DTEL AS dtel,
+		B.BTITLE AS
+		productName,
 		OD.OCOUNT AS productCount,
 		B.BOOKNO AS bookNo,
 		(
-		SELECT COUNT(*)
+		SELECT
+		COUNT(*)
 		FROM M_ORDER_DETAIL MOD
 		WHERE MOD.ORDERNO = OD.ORDERNO
-		) AS bookCount
+		) AS
+		bookCount
 		FROM
 		M_ORDER_DETAIL OD
-		JOIN M_DELIVERY D ON OD.ORDERNO = D.ORDERNO
+		JOIN M_DELIVERY D ON OD.ORDERNO =
+		D.ORDERNO
 		JOIN M_BOOK B ON OD.BOOKNO = B.BOOKNO
-		WHERE OD.ORDERNO = #{param1}
+		WHERE OD.ORDERNO =
+		#{param1}
 	</select>
 
 
@@ -168,7 +254,8 @@
 		totalAmount,
 		o.ototalprice,
 		o.opay AS paymentMethod,
-		c.cpname AS couponName,
+		c.cpname AS
+		couponName,
 		CASE
 		WHEN c.cpvalid >= SYSDATE THEN c.cpprice
 		ELSE 0
@@ -198,19 +285,25 @@
 		SELECT
 		OD.BOOKNO AS orderNo,
 		B.BTITLE AS productName,
-		BD.BIMG AS productImage,
+		BD.BIMG
+		AS productImage,
 		B.BPRICESELL AS productPrice,
-		OD.OCOUNT AS productCount,
+		OD.OCOUNT AS
+		productCount,
 		BC.BCATEGORY1 AS category1,
 		BC.BCATEGORY2 AS category2,
 		MO.OSTATUS AS orderStatus,
 		D.DTEL AS dtel
 		FROM M_ORDER_DETAIL OD
-		LEFT JOIN M_BOOK B ON OD.BOOKNO = B.BOOKNO
-		LEFT JOIN M_BOOK_DETAIL BD ON B.BOOKNO = BD.BOOKNO
-		LEFT JOIN M_BOOK_CATEGORY BC ON BD.BCATEGORYNO = BC.BCATEGORYNO
+		LEFT
+		JOIN M_BOOK B ON OD.BOOKNO = B.BOOKNO
+		LEFT JOIN M_BOOK_DETAIL BD ON
+		B.BOOKNO = BD.BOOKNO
+		LEFT JOIN M_BOOK_CATEGORY BC ON BD.BCATEGORYNO =
+		BC.BCATEGORYNO
 		JOIN M_ORDER MO ON OD.ORDERNO = MO.ORDERNO
-		JOIN M_DELIVERY D ON OD.ORDERNO = D.ORDERNO 
+		JOIN
+		M_DELIVERY D ON OD.ORDERNO = D.ORDERNO
 		WHERE OD.ORDERNO = #{param1}
 	</select>
 

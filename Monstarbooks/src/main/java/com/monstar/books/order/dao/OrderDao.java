@@ -1,21 +1,26 @@
 package com.monstar.books.order.dao;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-import com.monstar.books.cart.dto.CartDto;
+import com.monstar.books.order.dto.OrderDto;
 
 public interface OrderDao {
-	
-//	선택상품만 주문
-	public ArrayList<CartDto> cartSelList(List<String> chArr);
-//	Map<String, Object> param
-	
-//	선택상품의 금액 합계
-	public Integer seltTotPrice(List<String> chArr);
-	
-//	주문상품 수량
-	public int cartCnt(List<String> chArr);
+
+//	주문 테이블에 추가
+	public void orderInsert(String memberno, String ototalprice, String opay);
+
+//	주문상세 테이블에 추가
+	public void orderInsetDetail(String bookno, String opricesell, String ocount);
+
+//	배송 테이블에 추가
+	public void deliveryInsert(String memberno, String daddress1, String daddress2, 
+			String daddress3, String dzipcode, String dtel, String dname);
+
+//	주문,주문상세,도서,도서디테일,도서 카테고리 테이블 조회
+//	public ArrayList<OrderDto> orderList(String memberno);
+	public ArrayList<OrderDto> orderDetail();
+
+//	주문,주문상세,배송 테이블 조회
+	public OrderDto orderList();
 	
 }//interface 종료

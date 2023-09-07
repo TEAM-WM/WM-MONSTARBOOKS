@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.monstar.books.myorder.service.MyOrderDetailService;
 import com.monstar.books.myorder.service.MyOrderListService;
 import com.monstar.books.mypage.service.MyPageService;
-import com.monstar.books.vopage.SearchVo;
+import com.monstar.books.mypage.vopage.SearchVO;
+
 
 @Controller
 public class MyOrderController {
@@ -20,8 +21,8 @@ public class MyOrderController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@RequestMapping("common/myprofile/myprofile_order")
-	public String orderlist(HttpServletRequest request, Model model, SearchVo searchvo) {
+	@RequestMapping("myprofile/myprofile_order")
+	public String orderlist(HttpServletRequest request, Model model, SearchVO searchvo) {
 		
 		model.addAttribute("request",request);
 		model.addAttribute("SearchVo",searchvo);
@@ -33,7 +34,7 @@ public class MyOrderController {
 		return "common/myprofile/myprofile_order";
 	}
 	
-	@RequestMapping("common/myprofile/myprofile_orderdetail")
+	@RequestMapping("myprofile/myprofile_orderdetail")
 	public String orderdetail(HttpServletRequest request, Model model) {
 		
 		model.addAttribute("request",request);

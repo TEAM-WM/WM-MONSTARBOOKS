@@ -64,7 +64,7 @@ public class BookDetailServiceList implements BookListService {
 //		별점 평균 조회
 		float starAvg = dao.starAvg(bookno);
 		
-		model.addAttribute("detail",dto);
+		model.addAttribute("list",dto);
 		model.addAttribute("review",rdto);
 		model.addAttribute("avg",starAvg);
 		model.addAttribute("reCnt",reviewCnt);

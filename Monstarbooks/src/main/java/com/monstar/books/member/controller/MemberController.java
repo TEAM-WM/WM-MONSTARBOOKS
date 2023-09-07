@@ -16,13 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.monstar.books.member.dto.MemberDto;
+import com.monstar.books.member.service.AdMemberDeleteService;
+import com.monstar.books.member.service.AdMemberDetailService;
+import com.monstar.books.member.service.AdMemberRestoreService;
+import com.monstar.books.member.service.AdMemberUpdateService;
 import com.monstar.books.member.service.MemberIDCheckService;
 import com.monstar.books.member.service.MemberIDFindService;
 import com.monstar.books.member.service.MemberInsertService;
 import com.monstar.books.member.service.MemberListService;
+import com.monstar.books.member.service.MemberListStatusService;
 import com.monstar.books.member.service.MemberLoginProcessService;
+import com.monstar.books.member.service.MemberPwdFindService;
 import com.monstar.books.member.service.MemberService;
 import com.monstar.books.member.service.MemberServiceMap;
+import com.monstar.books.myorder.service.MyOrderListService;
+import com.monstar.books.mypage.service.MyPageService;
+import com.monstar.books.vopage.SearchVo;
+
 
 //@RequestMapping("/user/*")
 @Controller
@@ -31,7 +41,7 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	MemberServiceMap serviceMap;
-
+	
 	@Autowired
 	private SqlSession session;
 
@@ -140,6 +150,15 @@ public class MemberController {
 		return "common/member/find";
 	}// find 종료
 	
+	@RequestMapping("/find/idEmail")
+	public String idFindEmail(HttpServletRequest request, Model model) {
+		System.out.println(">>>아이디찾기 이메일 요청처리");
+		
+		service = new MemberIDFindService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "common/member/findResult";
+	}// find/idPhone 종료
 	
 	@RequestMapping("/find/idPhone")
 	public String idFindPhone(HttpServletRequest request, Model model) {
@@ -151,24 +170,87 @@ public class MemberController {
 		return "common/member/findResult";
 	}// find/idPhone 종료
 	
-//	@RequestMapping("/find/pwEmail")
-//	public String pwFindEmail() {
-//		System.out.println(">>>비밀번호찾기 이메일 요청처리");
-//		return "common/member/find";
-//	}// find/pwEmail 종료
-//	
-//	@RequestMapping("/find/pwPhone")
-//	public String pwFindPhone() {
-//		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
-//		return "common/member/find";
-//	}// find/pwPhone 종료
+	@RequestMapping("/find/pwEmail")
+	public String pwFindEmail() {
+		System.out.println(">>>비밀번호찾기 이메일 요청처리");
+		return "common/member/findPwdResult";
+	}// find/pwEmail 종료
+
+	@RequestMapping("/find/pwPhone")
+	public String pwFindPhone(HttpServletRequest request, Model model) {
+		System.out.println(">>>비밀번호찾기 전화번호 요청처리");
+		service = new MemberPwdFindService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		
+		return "common/member/findPwdResult";
+	}// find/pwPhone 종료
 
 	//====================관리자====================
 	@RequestMapping("/admin/member/list")
 	public String adminMember(Model model, HttpServletRequest request) {
 		System.out.println(">>>관리자 회원 리스트 요청처리");
 		service = new MemberListService(session);
+		model.addAttribute("request",request);
 		service.execute(model);
 		return "admin/member/list";
+	}
+	@RequestMapping("/admin/member/list/status")
+	public String adminMemberStatus(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 권한 수정 요청처리");
+		service = new MemberListStatusService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "redirect:/admin/member/list";
+	}
+	
+	@RequestMapping("/admin/member/detail")
+	public String adminMemberDetail(Model model, HttpServletRequest request,SearchVo searchvo) {
+		System.out.println(">>>관리자 회원 상세보기 요청처리");
+		service = new AdMemberDetailService(session);
+		model.addAttribute("request",request);
+		model.addAttribute("SearchVo",searchvo);
+
+		service.execute(model);
+		
+		return "admin/member/detail";
+	}
+	
+	@RequestMapping("/admin/member/update")
+	public String adminMemberUpdate(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 수정 뷰페이지 요청처리");
+		service = new AdMemberDetailService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "admin/member/update";
+	}
+	
+	@RequestMapping("/admin/member/update/access")
+	public String adminMemberUpdateAccess(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 수정 요청처리");
+		service = new AdMemberUpdateService(session);
+		model.addAttribute("request",request);
+		service.execute(model);
+		return "redirect:/admin/member/detail?memberNo="+request.getParameter("memberno");
+	}
+	
+	@RequestMapping("/admin/member/delete")
+	public String adminMemberDelete(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 삭제 요청처리");
+		service = new AdMemberDeleteService(session);
+		model.addAttribute("request",request);
+		
+		service.execute(model);
+		return "redirect:/admin/member/detail?memberNo="+request.getParameter("memberNo");
+	}
+	
+	@RequestMapping("/admin/member/restore")
+	public String adminMemberRestore(Model model, HttpServletRequest request) {
+		System.out.println(">>>관리자 회원 복구 요청처리");
+		service = new AdMemberRestoreService(session);
+		model.addAttribute("request",request);
+		
+		service.execute(model);
+		return "redirect:/admin/member/detail?memberNo="+request.getParameter("memberNo");
 	}
 }// class 종료

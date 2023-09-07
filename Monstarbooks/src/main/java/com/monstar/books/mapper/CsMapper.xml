@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 230906 / 리연 추가 -->
+<mapper namespace="com.monstar.books.cs.dao.CsDao">
+	<!-- 고객센터 faq 불러오기 -->
+	<select id="csFaqList" parameterType="string" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+		SELECT FQUESTION, FANSWER FROM M_FAQ
+		WHERE FCATEGORY=#{code} AND DELETED='No'
+		ORDER BY FAQNO DESC
+	</select>
+	<!-- 고객센터 faq 불러오기 -->
+	<select id="csFaqAllList" parameterType="string" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+		SELECT FQUESTION, FANSWER
+		FROM M_FAQ
+		WHERE (FQUESTION LIKE '%' || #{word} || '%' OR FANSWER LIKE '%' || #{word} || '%')
+		AND DELETED = 'No'
+		ORDER BY FAQNO DESC
+	</select>
+</mapper>
