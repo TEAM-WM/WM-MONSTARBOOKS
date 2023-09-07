@@ -79,10 +79,12 @@
 	<!-- 도서 상세 테이블 -->
 		<label for="" style="font-size: 20px;">도서 디테일 테이블</label>
 		<label for="bimg">도서썸네일</label>
-		<input type="file" name="bimg" />
+		<input type="file" name="bimg" id="bimgInput" />
+		
 		
 		<label for="bimgdetail">도서상세이미지</label>
-		<input type="file" name="bimgdetail" />
+		<input type="file" name="bimgdetail" id="bimgdetailInput" />
+		
 		
 		<label for="bdescription">도서설명</label>
 		<input type="text" name="bdescription" />
@@ -164,7 +166,7 @@
 	document.title = "상품등록";
 	
 	
-	
+	/* 할인률 계산 */
 	$(document).ready(function(){
 	   $("#calDiscount").click(function(){
 	      var price = Number($(".bprice").val());
@@ -180,6 +182,32 @@
 		   })
 	   });
 	});
+	
+ 	/* 파일추가 경고 */
+ 	
+	
+  // 파일 선택란(change 이벤트)에 이벤트 리스너를 추가합니다.
+  document.getElementById("bimgInput").addEventListener("change", function () {
+    // 파일이 선택되었는지 확인합니다.
+    if (this.files.length === 0) {
+      // 파일이 선택되지 않았을 때 경고창을 표시합니다.
+      alert("파일을 선택해주세요!");
+      // 선택한 파일을 초기화합니다. (선택된 파일을 제거합니다.)
+      this.value = "";
+    }
+  });
+
+  document.getElementById("bimgdetailInput").addEventListener("change", function () {
+    if (this.files.length === 0) {
+      alert("파일을 선택해주세요!");
+      this.value = "";
+    }
+  });
+
+
+
+
+		
 	</script>
 </body>
 </html>

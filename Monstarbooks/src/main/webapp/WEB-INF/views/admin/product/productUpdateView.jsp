@@ -167,23 +167,21 @@
 	
 				
 	<script>
-		document.title = "상품수정";
-		
-		$(document).ready(function(){
-		   $("#upcalDiscount").click(function(){
-		      var price = Number($(".bprice").val());
-		      var discount = Number($(".bdiscount").val());
-		      
-		      // 할인율 계산 후 결과를 #bpricesell 입력란에 표시
-		      $("#bpricesell").val(price - (price * discount * 0.01));
-		      
-		    //form submit 막기
-			   $(".updateForm").submit(function(e){
-			      e.preventDefault();
-			      $(".updateForm").unbind();
-			   })
-		   });
-		});
+	// "수정하기" 버튼 클릭 시 폼을 제출하기 전에 파일 필드를 검사
+	  document.querySelector(".updateForm").addEventListener("submit", function (event) {
+	    
+	    var bimgInput = document.querySelector('input[name="bimg"]');
+	    var bimgValue = bimgInput.value;
+	    
+	    var bimgdetailInput = document.querySelector('input[name="bimgdetail"]');
+	    var bimgdetailValue = bimgdetailInput.value;
+
+	    // 파일 필드 값이 둘 다 비어있는 경우 경고창 표시하고 폼 제출 취소
+	    if (bimgValue === "" && bimgdetailValue === "") {
+	      alert("도서썸네일과 도서상세이미지를 선택하세요.");
+	      event.preventDefault(); // 폼 제출 취소
+	    }
+	  });
 	</script>
 </body>
 </html>

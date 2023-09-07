@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.monstar.books.ex.dao.ExDao;
@@ -49,7 +50,7 @@ public class ProductInsertService implements ProductService {
 
 		MultipartRequest req = null;
 		try {
-			req = new MultipartRequest(request, path, 1024 * 1024 * 20, "utf-8", new DefaultFileRenamePolicy());
+			req = new MultipartRequest(request, path, 1024 * 1024 * 20, "utf-8", new MyFileRenamePolicy());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

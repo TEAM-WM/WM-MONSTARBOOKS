@@ -110,19 +110,36 @@
 		SELECT BCATEGORYNO FROM M_BOOK_CATEGORY
 	</select>
 		
-	<insert id="insertBook">
+	<!-- <insert id="insertBook">
 		INSERT INTO M_BOOK(BOOKNO, BISBN, BTITLE, BSUBTITLE, BPUBLISHER, BWRITER, BTRANSLATOR,
-		BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
+			BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
 		VALUES(M_BOOK_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
 		#{param7}, #{param8}, #{param9}, #{param10}, #{param11}, SYSDATE, NULL, #{param12})
-	</insert>	
-		
- 	<insert id="insertBookDetail">
-		INSERT INTO M_BOOK_DETAIL(BOOKNO, BCATEGORYNO, BIMG, BIMGDETAIL, BDESCRIPTION,
-        BPAGE, BSIZE, BADGE)
+	</insert> -->	
+	
+	<insert id="insertBook">
+		INSERT INTO M_BOOK(BOOKNO, BISBN, BTITLE, BSUBTITLE, BPUBLISHER, BWRITER, BTRANSLATOR,
+			BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
+		VALUES(M_BOOK_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
+		#{param7}, #{param8}, #{param9}, #{param10}, #{param11}, SYSDATE, NULL, #{param12})
+	</insert>
+	
+	<insert id="insertBookDetail">
+ 		INSERT INTO M_BOOK_DETAIL(BOOKNO, BCATEGORYNO, BIMG, BIMGDETAIL, BDESCRIPTION,
+        	BPAGE, BSIZE, BADGE)
    	 	VALUES(M_BOOK_DETAIL_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, 
    	 	#{param5}, #{param6}, #{param7})
 	</insert>
+		
+<!--  	<insert id="insertBookDetail">
+ 		<selectKey keyProperty="BOOKNO" order="BEFORE" resultType="Integer">
+ 			SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_BOOK_SEQ'
+ 		</selectKey>
+		INSERT INTO M_BOOK_DETAIL(BOOKNO, BCATEGORYNO, BIMG, BIMGDETAIL, BDESCRIPTION,
+        	BPAGE, BSIZE, BADGE)
+   	 	VALUES(#{BOOKNO}, #{param1}, #{param2}, #{param3}, #{param4}, 
+   	 	#{param5}, #{param6}, #{param7})
+	</insert> -->
 	
 	<update id="updateBook">
 		UPDATE M_BOOK
