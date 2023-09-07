@@ -10,11 +10,11 @@
 		var frm = document.insertFaq;
 		
 		if(frm.fquestion.value == ""){
-			alert("질문을 작성해주세요");
+			alert("질문을 입력해주세요");
 			frm.fquestion.focus();
 			return false;
 		}else if(frm.fanswer.value == ""){
-			alert("답변을 작성해주세요");
+			alert("답변을 입력해주세요");
 			frm.fanswer.focus();
 			return false;
 		}else if(confirm("FAQ를 등록하시겠습니까?")){

@@ -23,7 +23,24 @@ public class AdFaqDetailServiceList implements AdFaqService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
 		String faqno = request.getParameter("faqno");
+		String fcategory = request.getParameter("fcategory");
 		AdFaqDao dao = sqlSession.getMapper(AdFaqDao.class);
+		
+		
+		if(fcategory != null) {
+			if(fcategory.equals("반품/교환/환불")) {
+				String fcategory1 = fcategory;
+//				System.out.println("fcategory1 : " + fcategory1);		// 반품/교환/환불
+				model.addAttribute("fcategory1","true");
+			}else if(fcategory.equals("주문취소/변경")) {
+				String fcategory2 = fcategory;
+				model.addAttribute("fcategory2","true");
+			}else if(fcategory.equals("배송/수령일 안내")) {
+				String fcategory3 = fcategory;
+				model.addAttribute("fcategory3","true");
+			}
+		}
+		
 		
 		AdFaqDto dto = dao.faqDetail(faqno);
 		model.addAttribute("faqDetail",dto);
