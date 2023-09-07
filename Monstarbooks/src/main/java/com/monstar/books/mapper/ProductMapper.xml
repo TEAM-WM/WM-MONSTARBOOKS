@@ -70,11 +70,24 @@
 		<collection property="bookCategoryDto" resultMap="BookCategoryDto" ></collection>
 	</resultMap>
 	
-	<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+	<!-- <select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
 		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
 		ON B.BOOKNO = BD.BOOKNO
 		ORDER BY BOOKNO DESC
+	</select> -->
+	
+	<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+		SELECT * 
+		FROM
+		    (SELECT ROWNUM NUM, N.* 
+		    FROM 
+		        (SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, 
+		            B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK 
+		        FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+		        ON B.BOOKNO = BD.BOOKNO
+		        ORDER BY BOOKNO DESC) N)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 		
 	<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
@@ -140,7 +153,9 @@
 		WHERE BOOKNO=#{param1}
 	</update>
 	
-	
+	<select id="selectBoardTotCount" resultType="Integer">
+    	SELECT COUNT(*) FROM M_BOOK
+    </select>
 	
 	
 	

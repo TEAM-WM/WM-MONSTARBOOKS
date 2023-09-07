@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
---µµ¼­
+--ë„ì„œ
 --------------------------------------------------------------------------------
 create table m_book(
     bookno number,
@@ -27,12 +27,12 @@ select bookno, btitle, bpublisher, bwriter, bprice, bstatus, bstock from m_book;
 delete from m_book;
 commit;
 
-insert into m_book values(m_book_seq.nextval, '1234', 'Á¦¸ñ1', 'ºÎÁ¦¸ñ1', 'ÃâÆÇ»ç1', 'ÀúÀÚ1', '¹ø¿ª1', '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '5');
-insert into m_book values(m_book_seq.nextval, '1235', 'Á¦¸ñ2', 'ºÎÁ¦¸ñ2', 'ÃâÆÇ»ç2', 'ÀúÀÚ2', '¹ø¿ª3', '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '4');
-insert into m_book values(m_book_seq.nextval, '1236', 'Á¦¸ñ3', 'ºÎÁ¦¸ñ3', 'ÃâÆÇ»ç3', 'ÀúÀÚ2', '¹ø¿ª3', '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '3');
+insert into m_book values(m_book_seq.nextval, '1234', 'ì œëª©1', 'ë¶€ì œëª©1', 'ì¶œíŒì‚¬1', 'ì €ì1', 'ë²ˆì—­1', '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '5');
+insert into m_book values(m_book_seq.nextval, '1235', 'ì œëª©2', 'ë¶€ì œëª©2', 'ì¶œíŒì‚¬2', 'ì €ì2', 'ë²ˆì—­3', '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '4');
+insert into m_book values(m_book_seq.nextval, '1236', 'ì œëª©3', 'ë¶€ì œëª©3', 'ì¶œíŒì‚¬3', 'ì €ì2', 'ë²ˆì—­3', '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '3');
 
 --------------------------------------------------------------------------------
---µµ¼­Ä«Å×°í¸®
+--ë„ì„œì¹´í…Œê³ ë¦¬
 --------------------------------------------------------------------------------
 create table m_book_category(
     bcategoryno number,
@@ -49,21 +49,21 @@ drop table m_book_category purge;
 commit;
 
 
-insert into m_book_category values(1, '±¹³»µµ¼­', '¼Ò¼³');
-insert into m_book_category values(2, '±¹³»µµ¼­', '½Ã');
-insert into m_book_category values(3, '±¹³»µµ¼­', '°æÁ¦');
-insert into m_book_category values(4, '±¹³»µµ¼­', '¿¡¼¼ÀÌ');
-insert into m_book_category values(5, '±¹³»µµ¼­', '¿ä¸®');
-insert into m_book_category values(6, '±¹³»µµ¼­', '¹®È­');
-insert into m_book_category values(7, '¿Ü±¹µµ¼­', '¼Ò¼³');
-insert into m_book_category values(8, '¿Ü±¹µµ¼­', '½Ã');
-insert into m_book_category values(9, '¿Ü±¹µµ¼­', '°æÁ¦');
-insert into m_book_category values(10, '¿Ü±¹µµ¼­', '¿¡¼¼ÀÌ');
-insert into m_book_category values(11, '¿Ü±¹µµ¼­', '¿ä¸®');
-insert into m_book_category values(12, '¿Ü±¹µµ¼­', '¹®È­');
+insert into m_book_category values(1, 'êµ­ë‚´ë„ì„œ', 'ì†Œì„¤');
+insert into m_book_category values(2, 'êµ­ë‚´ë„ì„œ', 'ì‹œ');
+insert into m_book_category values(3, 'êµ­ë‚´ë„ì„œ', 'ê²½ì œ');
+insert into m_book_category values(4, 'êµ­ë‚´ë„ì„œ', 'ì—ì„¸ì´');
+insert into m_book_category values(5, 'êµ­ë‚´ë„ì„œ', 'ìš”ë¦¬');
+insert into m_book_category values(6, 'êµ­ë‚´ë„ì„œ', 'ë¬¸í™”');
+insert into m_book_category values(7, 'ì™¸êµ­ë„ì„œ', 'ì†Œì„¤');
+insert into m_book_category values(8, 'ì™¸êµ­ë„ì„œ', 'ì‹œ');
+insert into m_book_category values(9, 'ì™¸êµ­ë„ì„œ', 'ê²½ì œ');
+insert into m_book_category values(10, 'ì™¸êµ­ë„ì„œ', 'ì—ì„¸ì´');
+insert into m_book_category values(11, 'ì™¸êµ­ë„ì„œ', 'ìš”ë¦¬');
+insert into m_book_category values(12, 'ì™¸êµ­ë„ì„œ', 'ë¬¸í™”');
 
 --------------------------------------------------------------------------------
---µµ¼­»ó¼¼
+--ë„ì„œìƒì„¸
 --------------------------------------------------------------------------------
 create table m_book_detail(
     bookno number,
@@ -91,9 +91,9 @@ select M_BOOK_SEQ.nextval from dual;
 select M_BOOK_SEQ.CURRVAL from dual;
 commit;
 
-insert into m_book_detail values('1', '1', 'book01.jpg', 'book01detail.jpg', '±¹³» ¼Ò¼³ÀÔ´Ï´Ù.', '99', '133*200*30mm', '½Å»óÇ°');
-insert into m_book_detail values('2', '2', 'book02.jpg', 'book02detail.jpg', '¿Ü±¹ ½ÃÀÔ´Ï´Ù.', '100', '133*300*31mm', 'º£½ºÆ®´Ù');
-insert into m_book_detail values('3', '1', 'book03.jpg', 'book03detail.jpg', '±¹³» °æÁ¦ÁöÀÔ´Ï´Ù.', '101', '133*400*32mm', 'ÁÖ¹®ÆøÁÖ');
+insert into m_book_detail values('1', '1', 'book01.jpg', 'book01detail.jpg', 'êµ­ë‚´ ì†Œì„¤ì…ë‹ˆë‹¤.', '99', '133*200*30mm', 'ì‹ ìƒí’ˆ');
+insert into m_book_detail values('2', '2', 'book02.jpg', 'book02detail.jpg', 'ì™¸êµ­ ì‹œì…ë‹ˆë‹¤.', '100', '133*300*31mm', 'ë² ìŠ¤íŠ¸ë‹¤');
+insert into m_book_detail values('3', '1', 'book03.jpg', 'book03detail.jpg', 'êµ­ë‚´ ê²½ì œì§€ì…ë‹ˆë‹¤.', '101', '133*400*32mm', 'ì£¼ë¬¸í­ì£¼');
 commit;
 
 
@@ -101,13 +101,29 @@ commit;
 
 
 --------------------------------------------------------------------------------
---ProductMapper.xml(¾÷´ñÁß)
+--ProductMapper.xml(ì—…ëŒ“ì¤‘)
 --------------------------------------------------------------------------------
 --<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
     SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
     FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
     ON B.BOOKNO = BD.BOOKNO;
 --</select>
+
+
+--í˜ì´ì§• ver.
+--<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+select * 
+from
+    (select rownum num, n.* 
+    from 
+        (select b.bookno, bd.bimg, b.btitle, b.bpublisher, b.bwriter, b.bprice, 
+            b.bstatus, b.bcdate, b.bmdate, b.bstock 
+        from m_book b inner join m_book_detail bd
+        on b.bookno = bd.bookno
+        order by bookno desc) n)
+where num between 1 and 10;
+--</select>
+
 
 --<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
     SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
@@ -121,18 +137,18 @@ commit;
 		--WHERE B.BOOKNO = #{param1}
 --</select>
 
---product insert() ¿©·¯Å×ÀÌºí µ¿½Ã¿¡ ÀÎ¼­Æ®
+--product insert() ì—¬ëŸ¬í…Œì´ë¸” ë™ì‹œì— ì¸ì„œíŠ¸
 insert all
     into m_book(bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator, 
             bpdate, bprice, bpricesell, bdiscount, bstatus, bcdate, bmdate, bstock) 
-        values('4321', 'Á¦¸ñ11', 'ºÎÁ¦¸ñ11', 'ÃâÆÇ»ç11', 'ÀúÀÚ11', '¹ø¿ª11',
-            '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '5')
+        values('4321', 'ì œëª©11', 'ë¶€ì œëª©11', 'ì¶œíŒì‚¬11', 'ì €ì11', 'ë²ˆì—­11',
+            '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '5')
     into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription, 
         bpage, bsize, bpdate, badge) 
-        values('1', '1', 'book01.jpg', 'book01detail.jpg', '±¹³» ¼Ò¼³ÀÔ´Ï´Ù.11',
-            '99', '133*200*30mm', '23-8-24', '½Å»óÇ°')
+        values('1', '1', 'book01.jpg', 'book01detail.jpg', 'êµ­ë‚´ ì†Œì„¤ì…ë‹ˆë‹¤.11',
+            '99', '133*200*30mm', '23-8-24', 'ì‹ ìƒí’ˆ')
     into m_book_category(bcategoryno, bcategory1, bcategory2) 
-        values('1', '±¹³»µµ¼­11', '¼Ò¼³11')
+        values('1', 'êµ­ë‚´ë„ì„œ11', 'ì†Œì„¤11')
     select *
     from m_book b left join m_book_detail bd
     on b.bookno = bd.bookno
@@ -142,13 +158,13 @@ insert all
 insert all
     into m_book(bookno, bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator, 
             bpdate, bprice, bpricesell, bdiscount, bstatus, bcdate, bmdate, bstock) 
-        values(m_book_seq.nextval, '4321', 'Á¦¸ñ4', 'ºÎÁ¦¸ñ4', 'ÃâÆÇ»ç4', 'ÀúÀÚ4', '¹ø¿ª4',
-            '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '5')
+        values(m_book_seq.nextval, '4321', 'ì œëª©4', 'ë¶€ì œëª©4', 'ì¶œíŒì‚¬4', 'ì €ì4', 'ë²ˆì—­4',
+            '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '5')
     into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription, bpage, bsize, bpdate, badge) 
         values(m_book_seq.nextval, m_book_category_seq.nextval, 'book04.jpg', 
-            'book04detail.jpg', '±¹³» ¼Ò¼³ÀÔ´Ï´Ù.4', '99', '133*200*30mm', '23-8-24', '½Å»óÇ°')
+            'book04detail.jpg', 'êµ­ë‚´ ì†Œì„¤ì…ë‹ˆë‹¤.4', '99', '133*200*30mm', '23-8-24', 'ì‹ ìƒí’ˆ')
     into m_book_category(bcategoryno, bcategory1, bcategory2) 
-        values(m_book_category_seq.nextval, '±¹³»µµ¼­4', '¼Ò¼³4')
+        values(m_book_category_seq.nextval, 'êµ­ë‚´ë„ì„œ4', 'ì†Œì„¤4')
     select * from dual;
     
     
@@ -156,11 +172,11 @@ insert all
 --insertBook()
 insert into m_book(bookno, bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator, 
         bpdate, bprice, bpricesell, bdiscount, bstatus, bcdate, bmdate, bstock)
-    values(m_book_seq.nextval, '1234', 'Á¦¸ñ4', 'ºÎÁ¦¸ñ4', 'ÃâÆÇ»ç4', 'ÀúÀÚ4', '¹ø¿ª4',
-        '23-8-23', '1000', '900', '10', 'ÆÇ¸ÅÁß', '23-8-23', null, '4');
+    values(m_book_seq.nextval, '1234', 'ì œëª©4', 'ë¶€ì œëª©4', 'ì¶œíŒì‚¬4', 'ì €ì4', 'ë²ˆì—­4',
+        '23-8-23', '1000', '900', '10', 'íŒë§¤ì¤‘', '23-8-23', null, '4');
         
 --insertBookDetail()
 insert into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
         bpage, bsize, bpdate, badge)
-    values('4', '1', '±â¿©¾î.png', '±â¿©¾î.png', 'ÀÌÃ¥Àº±â¿©¾îÀÔ´Ï´Ù', '88', '133*200*30mm',
-        '½Å»óÇ°');
+    values('4', '1', 'ê¸°ì—¬ì–´.png', 'ê¸°ì—¬ì–´.png', 'ì´ì±…ì€ê¸°ì—¬ì–´ì…ë‹ˆë‹¤', '88', '133*200*30mm',
+        'ì‹ ìƒí’ˆ');
