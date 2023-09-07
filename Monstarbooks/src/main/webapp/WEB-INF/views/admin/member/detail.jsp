@@ -36,7 +36,9 @@
 			</tr>
 			<tr>
 				<th>생일</th>
-				<td>${dto.mbirth }</td>
+				<td>
+					<fmt:formatDate value="${dto.mbirth }" pattern="yy-MM-dd" />
+				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
@@ -55,7 +57,7 @@
 					가입일
 				</th>
 				<td>
-					${dto.mregdate }
+					<fmt:formatDate value="${dto.mregdate }" pattern="yy-MM-dd" />
 				</td>
 			</tr>
 			<tr>
@@ -249,56 +251,87 @@
             </div>
             <div class="modal-content">
                 <div class="modal-content-text left">
-                    <table>
-                    	<tr>
-                    		<th>
-                    			보유쿠폰번호
-                    		</th>
-                    		<th>
-                    			쿠폰이름
-                    		</th>
-                    		<th>
-                    			쿠폰설명
-                    		</th>
-                    		<th>
-                    			할인률
-                    		</th>
-                    		<th>
-                    			생성일
-                    		</th>
-                    		<th>
-                    			유효기간
-                    		</th>
-                    		<th>
-                    			쿠폰상태
-                    		</th>
-                    	</tr>
-                    	<c:forEach items="${couponList }" var="dto">
-							<tr>
-								<td>
-									${dto.cpno }
-								</td>
-								<td>
-									${dto.cpname }
-								</td>
-								<td>
-									${dto.cpdescription }								
-								</td>
-								<td>
-									${dto.cpprice }
-								</td>
-								<td>
-									<fmt:formatDate value="${dto.cpcreated }" pattern="yy-MM-dd" />
-								</td>
-								<td>
-									<fmt:formatDate value="${dto.cpvalid }" pattern="yy-MM-dd" />
-								</td>
-								<td>
-									${dto.cpstatus }
-								</td>
-							</tr>
-						</c:forEach>
-                    </table>
+                    <c:choose>
+                    	<c:when test="${empty couponList }">
+                    		쿠폰내역이 없습니다.
+                    	</c:when>
+                    	<c:otherwise>
+                    		<table>
+			                    <colgroup>
+							        <col width="50px">
+							        <col width="auto">
+							        <col width="auto">
+							        <col width="80px"/>
+							        <col width="90px"/>
+							        <col width="90px"/>
+							        <col width="90px"/>
+							        <col width="80px"/>
+							        <col width="80px"/>
+							        
+							    </colgroup>
+			                    	<tr>
+			                    		<th>
+			                    			번호
+			                    		</th>
+			                    		<th>
+			                    			쿠폰이름
+			                    		</th>
+			                    		<th>
+			                    			쿠폰설명
+			                    		</th>
+			                    		<th>
+			                    			할인률
+			                    		</th>
+			                    		<th>
+			                    			생성일
+			                    		</th>
+			                    		<th>
+			                    			유효기간
+			                    		</th>
+			                    		<th>
+			                    			다운날짜
+			                    		</th>
+			                    		<th>
+			                    			쿠폰상태
+			                    		</th>
+			                    		<th>
+			                    			사용유무
+			                    		</th>
+			                    	</tr>
+			                    	<c:forEach items="${couponList }" var="dto">
+										<tr>
+											<td>
+												${dto.cpno }
+											</td>
+											<td>
+												${dto.cpname }
+											</td>
+											<td>
+												${dto.cpdescription }								
+											</td>
+											<td>
+												${dto.cpprice }%
+											</td>
+											<td>
+												<fmt:formatDate value="${dto.cpcreated }" pattern="yy-MM-dd" />
+											</td>
+											<td>
+												<fmt:formatDate value="${dto.cpvalid }" pattern="yy-MM-dd" />
+											</td>
+											<td>
+												<fmt:formatDate value="${dto.cpMember.cprdate }" pattern="yy-MM-dd" />
+											</td>
+											<td>
+												${dto.cpstatus }
+											</td>
+											<td>
+												${dto.cpMember.cpstatus }
+											</td>
+										</tr>
+									</c:forEach>
+			                    </table>
+                    	</c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </section>

@@ -8,11 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div>
-		전체 회원 : 
-		${totRowcnt }
+	<div class="admin-count">
+		<strong>${totRowcnt }</strong>건 
 	</div>
 	<table>
+		<colgroup>
+			<col width="80px">
+		</colgroup>
 		<thead>
 			<tr>
 				<th>회원번호</th>
@@ -50,58 +52,81 @@
 	</table>
 	
 	
-	<form action="list" method="post" style="width:1000px;">
+	<form action="list" method="post" class="admin">
 		<div class="search-wrap">
-			<p>
-				전체글 : ${totRowcnt }<br />
-				현재페이지/토탈페이지 : ${searchVO.page } / ${searchVO.totPage }
-			</p>
-			<div>
+			<div class="search-box">
 				<select name="searchType" id="searchType">
 					<option value="mid" <c:if test="${mid eq true }">selected</c:if>>아이디</option>
 					<option value="mname" <c:if test="${mname eq true }">selected</c:if>>이름</option>
 				</select>
-				<input type="text" name="sk" style="width:150px;" maxlength="50" value="${searchKey }"/>
+				<input type="text" name="sk" maxlength="50" value="${searchKey }" placeholder="검색어를 입력해주세요."/>
 				<button type="submit" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
 			</div>
 		</div>
-		
-		<ul class="paging">
-			<c:choose>
-				<c:when test="${searchVO.page>1}">
-					<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
-					<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li><i class="fa-solid fa-angles-left" style="color:#cecece"></i></li>
-					<li><i class="fa-solid fa-circle-chevron-left" style="color:#cecece"></i></li>
-				</c:otherwise>
-			</c:choose>
-			<!-- 14 -->
-			<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+		<!-- pagination-wrap -->
+        <div class="pagination-wrap">
+            <!-- pagination -->
+            <div class="pagination">
+                <ol>
 				<c:choose>
-					<c:when test="${i eq searchVO.page }">
-						<!-- 내가 클릭한 페이지의 숫자랑 같냐 -->
-						<li><span >${i }</span></li>
+					<c:when test="${searchVO.page>1}">
+						<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+						<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
 					</c:when>
 					<c:otherwise>
-						<li>
-							<a href="list?page=${i }&sk=${searchKey }&mid=${mid==true?'mid':''}&mname=${mname==true?'mname':''}">${i }</a>
+						<li class="disabled">
+							<a>
+								<i class="fa-solid fa-angles-left"></i>
+							</a>
+						</li>
+						<li class="disabled">
+							<a>
+								<i class="fa-solid fa-angle-left"></i>
+							</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
-			</c:forEach>
-			<c:choose>
-				<c:when test="${searchVO.page < searchVO.totPage}">
-					<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a></li>
-					<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li><i class="fa-solid fa-circle-chevron-right" style="color:#cecece"></i></li>
-					<li><i class="fa-solid fa-angles-right" style="color:#cecece"></i></li>
-				</c:otherwise>
-			</c:choose>
-		</ul>
+				<!-- 14 -->
+				<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+					<c:choose>
+						<c:when test="${i eq searchVO.page }">
+							<!-- 내가 클릭한 페이지의 숫자랑 같냐 -->
+							<li class="current-page">
+								<a>
+									${i }
+								</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li>
+								<a href="list?page=${i }&sk=${searchKey }&mid=${mid==true?'mid':''}&mname=${mname==true?'mname':''}">${i }</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:choose>
+					<c:when test="${searchVO.page < searchVO.totPage}">
+						<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+						<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="disabled">
+							<a>
+								<i class="fa-solid fa-angle-right"></i>
+							</a>
+						</li>
+						<li class="disabled">
+							<a>
+								<i class="fa-solid fa-angles-right"></i>
+							</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+               </ol>
+            </div>
+            <!-- pagination -->
+        </div>
+        <!-- pagination-wrap -->
 	</form>
 </body>
 </html>
