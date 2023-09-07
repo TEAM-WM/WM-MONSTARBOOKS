@@ -153,15 +153,45 @@
 
 	<!-- 전체 회원정보 수정 -->
 	<update id="updateUser" parameterType="com.monstar.books.member.dto.MemberDto">
-	UPDATE M_MEMBER
-	SET
-	MBIRTH=#{mbirth},
-	MNAME=#{mname},
-	MEMAIL=#{memail},
-	MTEL=#{mtel},
-	MFAVORITE=#{mfavorite},
-	MAUTHORITY=#{mauthority}
-	WHERE MEMBERNO=#{memberno}
+		UPDATE M_MEMBER
+		SET
+		MBIRTH=#{mbirth},
+		MNAME=#{mname},
+		MEMAIL=#{memail},
+		MTEL=#{mtel},
+		MFAVORITE=#{mfavorite},
+		MAUTHORITY=#{mauthority}
+		WHERE MEMBERNO=#{memberno}
 	</update>
+	
+	
+	<resultMap id="couponMemberMap" type="com.monstar.books.member.dto.CouponMemberDto">
+		<result property="cpno_member" column="cpno_member" />
+	    <result property="cprdate" column="cprdate" />
+	    <result property="cpstatus" column="cpstatus" />
+	    <collection property="couponDto" resultMap="couponMap"></collection>
+	</resultMap>
+	
+	<resultMap id="couponMap" type="com.monstar.books.order.dto.CouponDto">
+	    <id property="cpno" column="cpno" />
+	    <result property="cpname" column="cpname" />
+	    <result property="cpdescription" column="cpdescription" />
+	    <result property="cpprice" column="cpprice" />
+	    <result property="cpcreated" column="cpcreated" />
+	    <result property="cpvalid" column="cpvalid" />
+	    <result property="cpstatus" column="cpstatus" />
+	</resultMap>
+	
+	<!-- 회원의 쿠폰 가져오기 -->
+	<select id="getDataMemberCoupon" parameterType="int" resultMap="couponMemberMap">
+	    SELECT C.CPNO as cpno,CM.CPNO as cpno_member, C.CPNAME as cpname, C.CPDESCRIPTION as cpdescription, C.CPPRICE as cpprice,
+	    C.CPCREATED as cpcreated, C.CPVALID as cpvalid, C.CPSTATUS as cpstatus,
+	    CM.CPRDATE as cprdate, CM.CPSTATUS as cpstatus
+	    FROM M_MEMBER M
+	    INNER JOIN M_COUPON_MEMBER CM ON M.MEMBERNO = CM.MEMBERNO
+	    INNER JOIN M_COUPON C ON CM.CPNO2 = C.CPNO
+	    WHERE M.MEMBERNO = #{memberno}
+	    ORDER BY CM.CPNO DESC
+	</select>
 
 </mapper>

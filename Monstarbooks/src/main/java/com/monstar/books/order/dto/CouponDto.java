@@ -15,7 +15,7 @@ public class CouponDto {
 //	쿠폰 테이블
 	private int cpno;
 	private String cpname;
-	private String cpdesciption;
+	private String cpdescription;
 	private int cpprice;
 	private Date cpcreated;
 	private Date cpvalid;

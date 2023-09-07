@@ -182,3 +182,15 @@ td img{
 .admin-table .favorite-box {
 	overflow-x: auto;
 }
+
+.admin-btn-wrap{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.admin-btn-wrap .btn-wrap:first-child{
+	width:200px;
+}
+.admin-btn-wrap .btn-wrap:last-child{
+	width:100px;
+}
