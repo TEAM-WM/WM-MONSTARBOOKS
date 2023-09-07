@@ -3,7 +3,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 230818 / 리연 추가 -->
 <mapper namespace="com.monstar.books.adqna.dao.QnaDao">
-	<resultMap type="com.monstar.books.adqna.dto.MemberDto" id="Member">
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="MID" property="mid"/>
 		<result column="MNAME" property="mname"/>

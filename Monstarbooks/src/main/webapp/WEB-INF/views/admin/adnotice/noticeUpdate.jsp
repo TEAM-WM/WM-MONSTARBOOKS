@@ -43,50 +43,31 @@
 	<input type="hidden" name="noticeno" value="${noticeDetail.noticeno }" />
 	<table>
 		<tr>
-			<td>번호</td>
 			<td>${noticeDetail.noticeno }</td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td>${noticeDetail.nwriter }</td>
-		</tr>
-		<tr>
-			<td>작성날짜</td>
-			<td>${noticeDetail.nregdate }</td>
-		</tr>
-		<tr>
-			<td>삭제여부</td>
-			<td>${noticeDetail.deleted }</td>
-		</tr>
-		<tr>
-			<td>제목</td>
 			<td>
 				<input type="text" name="ntitle" size="30" maxlength="225" value="${noticeDetail.ntitle }" />
 			</td>
 		</tr>
 		<tr>
-			<td>공지내용</td>
-			<td>
+			<td>${noticeDetail.nwriter }</td>
+			<td>${noticeDetail.nregdate }</td>
+		</tr>
+		<tr>
+			<td colspan="2">
 				<textarea type="text" name="ncontent" rows="10" cols="40"
 				maxlength="1000" style="resize: none">${noticeDetail.ncontent }</textarea>
 			</td>
 		</tr>
 		<tr>
-			<td rowspan="2">첨부파일</td>
-			<td>
-				<input type="file" name="nfilesrc" />
+			<td colspan="2">
+            	<label for="nfilesrc">첨부 파일:</label>
+    			<input type="file" id="nfilesrc" name="nfilesrc"><br>
 			</td>
 		</tr>
-		<tr> </tr>
-		<tr>
-			<td>
-				<input type="button" value="수정" onclick="check_update();" />
-				<input type="button" value="취소" onclick="cancel_update();" />
-			</td>
-		</tr>
+
 	</table>
+		<input type="button" value="수정" onclick="check_update();" />
+		<input type="button" value="취소" onclick="cancel_update();" />
 	</form>
-	
-	
 </body>
 </html>
