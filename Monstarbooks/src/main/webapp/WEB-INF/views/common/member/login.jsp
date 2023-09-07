@@ -27,7 +27,7 @@
 			<div class="login-save">
 				<input type="checkbox" name="remember" id="remember">
 				<label for="remember"></label>
-				<span>아이디 저장</span>
+				<span>자동로그인</span>
 			</div>
 			<div>
 				<a href="${pageContext.request.contextPath}/find/">아이디 / 비밀번호 찾기</a>
