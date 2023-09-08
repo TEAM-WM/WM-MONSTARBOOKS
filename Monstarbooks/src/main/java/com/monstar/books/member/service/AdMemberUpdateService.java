@@ -89,8 +89,11 @@ public class AdMemberUpdateService implements MemberService {
 			dto.setMnewpwd(encodedPwd);
 			dao.updatePwd(dto);
 		}
-//		System.out.println(">> 회원가입 성공여부 : "+ flag);
-
+		// 현재 페이지 정보 가져오기
+	    String currentPage = "/admin/member"; // 페이지 이름이나 식별자로 표시할 수 있습니다.
+	    System.out.println(currentPage);
+		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
 		model.addAttribute("dto", dto);
 	}// override method
 

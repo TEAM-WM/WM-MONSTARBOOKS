@@ -91,7 +91,13 @@ public class AdMemberDetailService implements MemberService {
 //            System.out.println("CPDESCRIPTION: " + coupon.getCpdescription());
 //        }
         
-        // 조회된 쿠폰 내역 모델에 추가
+        
+        // 현재 페이지 정보 가져오기
+	    String currentPage = "/admin/member"; // 페이지 이름이나 식별자로 표시할 수 있습니다.
+	    System.out.println(currentPage);
+		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
+        // 조회된 쿠폰 내역 모델에 추가        
         model.addAttribute("couponList",couponList);
         // 조회된 주문 내역을 모델에 추가
         model.addAttribute("orderList", orderList);
