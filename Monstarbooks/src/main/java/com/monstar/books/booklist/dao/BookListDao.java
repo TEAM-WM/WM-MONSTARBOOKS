@@ -14,9 +14,6 @@ public interface BookListDao {
 	//리스트 불러오기,페이징 후
 	public ArrayList<BookListDto> list(int rowStart, int rowEnd);
 	
-	// 상품리스트의 별점 평균, 리뷰수
-//	public ArrayList<BookReviewDto> starAvgReCnt(int bookno);
-	
 	//리스트 총갯수 구하기
 	public int TotCount();
 	

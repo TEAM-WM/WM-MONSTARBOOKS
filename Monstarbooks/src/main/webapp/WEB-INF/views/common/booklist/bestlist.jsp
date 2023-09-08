@@ -78,33 +78,37 @@ $().ready(function(){
 	});
 });
 /* 체크박스 선택 장바구니 담기 */
-function cart_add_check(){
-	var cnt = $("input[name=chk]:checked").length;
-	var arr = new Array();
-	$("input[name=chk]:checked").each(function(){
-		arr.push($(this).attr('id'));
-	});
-
-	 if(cnt == 0){
-		alert("선택된 상품이 없습니다.");
-	}
-	 else{
-		$.ajax({
-			url : '../addCartCheck',
-			type: 'post',
-			data: {
-				'memberno' : 1,
-				'chbox' : arr,
-				'cnt' : cnt
-				},
-			success:function(result){
-				if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
-					location.href='../cart';
-				}else{
-					return;
-				}
-			}
+function cart_add_check(memberno){
+	if(memberno != 0){
+		var cnt = $("input[name=chk]:checked").length;
+		var arr = new Array();
+		$("input[name=chk]:checked").each(function(){
+			arr.push($(this).attr('id'));
 		});
+		if(cnt == 0){
+			alert("선택된 상품이 없습니다.");
+		}
+		 else{
+			$.ajax({
+				url : '../addCartCheck',
+				type: 'post',
+				data: {
+					'memberno' : 1,
+					'chbox' : arr,
+					'cnt' : cnt
+					},
+				success:function(result){
+					if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
+						location.href='../cart';
+					}else{
+						return;
+					}
+				}
+			});
+		}
+	}else{
+		alert("로그인이 필요합니다.");
+		location.href="../login";
 	}
 }
 /* 하나라도 체크해제되면 전체체크박스도 해제 */
@@ -170,7 +174,7 @@ function go_order(bno,memberno){
 		<div align="right">
 			<input type="checkbox" id="all_select" name="all_select" />
 			<label for="all_select"></label> <span>전체선택</span>
-			<button type="button" id="btn1" onclick="cart_add_check()">
+			<button type="button" id="btn1" onclick="cart_add_check(${memberno })">
 			<img width="25px" 
 				src="${pageContext.request.contextPath}/resources/assets/imgs/icon_cart.svg" alt="장바구니" />
 				<b>장바구니</b></button>
@@ -187,6 +191,15 @@ function go_order(bno,memberno){
 						alt="책 썸네일 이미지" /></td>
 					<td>순위</td>
 					
+				<!-- 재고가 0일때 -->
+				<c:choose>
+					<c:when test="${list.bstock == 0 }">
+						<td rowspan="5">일시품절</td>
+						<td rowspan="5"></td>
+					</c:when>
+					<c:otherwise>
+					
+				<!-- 재고가 0이 아닐때 -->	
 					<!-- 배송예정일 -->
 					<td rowspan="5" id="line" align="center">
 						<jsp:useBean id="now" class="java.util.Date" />
@@ -202,10 +215,8 @@ function go_order(bno,memberno){
 							<span style="background-color: pink; border-radius: 5px; padding:2px;">배송일정</span> <br />
 							<b><fmt:formatDate value="${twoDayAfter}" pattern="MM월 dd일 (E)"/></b> <br />
 							도착예정 		
-						</c:if>
-					
+						</c:if>			
 					</td>
-					
 					<!-- 장바구니, 바로구매 -->
 					<td rowspan="5" id="line" align="center">
 						<button type="button" id="btn2" onclick="add_cart(${list.bookno},${memberno })">장바구니</button>
@@ -213,6 +224,9 @@ function go_order(bno,memberno){
 						
 						<button type="button" id="btn3" onclick="go_order(${list.bookno},${memberno })">바로구매</button>
 					</td>
+					</c:otherwise>
+				</c:choose>
+					
 				</tr>
 				<tr>
 					<td><h3>
@@ -226,7 +240,7 @@ function go_order(bno,memberno){
 					<td><span style="text-decoration: line-through;">
 					<fmt:formatNumber value="${list.bprice }" pattern="#,###"/>원 </span> 
 					<b><fmt:formatNumber value="${list.bpricesell }" pattern="#,###"/>원</b>
-						(${list.bdiscount }%)</td>
+						<b style="color:orange">${list.bdiscount }%</b></td>
 				</tr>
 				<tr>
 					<td id="line">
@@ -244,7 +258,12 @@ function go_order(bno,memberno){
 	<br />
 	
 	<!-- 페이징 -->
-	<a href=""><i class="fa-solid fa-circle-chevron-left"></i></a>
+	<c:if test="${searchVO.page==1}">
+		<i class="fa-solid fa-circle-chevron-left"></i>
+	</c:if>
+	<c:if test="${searchVO.page>1}">
+		<a href="bestlist?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a>
+	</c:if>
 	
 	<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i"> 
 		<c:choose>
@@ -252,13 +271,18 @@ function go_order(bno,memberno){
 				<span style="font-weight:bold;">${i }</span>
 			</c:when>
 			<c:otherwise>
-				<a href="list?page=${i }" style="text-decoration: none;">${i }</a>
+				<a href="bestlist?page=${i }" style="text-decoration: none;">${i }</a>
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>	
 	
-	<a href=""><i class="fa-solid fa-circle-chevron-right"></i></a>
-
+	<c:if test="${searchVO.page < searchVO.totPage}">
+		<a href="bestlist?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a>
+	</c:if>
+	<c:if test="${searchVO.page == searchVO.totPage}">
+		<i class="fa-solid fa-circle-chevron-right"></i>
+	</c:if>
+	
 	<script>
 	document.title = "몬스타북스 :: 베스트셀러";  
 	</script>
