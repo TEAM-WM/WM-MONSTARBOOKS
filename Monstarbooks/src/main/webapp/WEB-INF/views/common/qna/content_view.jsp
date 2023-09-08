@@ -129,7 +129,7 @@ input[type="button"] {
 			
 		<input type="button" style="width:350px;" value="목록" onclick="location.href='./list'">
 			
-		<input type="button"  style="width:350px;" value="삭제" onclick="location.href='elete?qnano=${qna.qnano }'">
+		<input type="button"  style="width:350px;" value="삭제" onclick="location.href='delete?qnano=${qna.qnano }'">
 			
 
 		</c:otherwise>

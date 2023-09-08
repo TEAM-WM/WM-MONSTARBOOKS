@@ -59,8 +59,9 @@ form {
 </style>
 
 </head>
-
+<br><br>
 <h1>1:1문의</h1>
+<br>
  <c:if test="${param.iResult eq 1 }">
 <script>
 	alert('등록 되었습니다');
@@ -76,6 +77,17 @@ form {
 	alert('삭제 되었습니다');
 </script>
 </c:if>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<style>
+.faq_question:hover{
+cursor:pointer;
+}
+.faq_answer{
+display:none;
+}
+</style>
 <table class="toClass" >
 	<tr style="background-color:#f4f6f9">
 		<td>번호</td> <!-- 1 -->

@@ -80,7 +80,7 @@ WHERE NUM BETWEEN #{param1} AND #{param2}
     	SELECT MEMBERNO,MID,MBIRTH,MNAME,MEMAIL,MTEL,
     	MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY,DELETED
     	
-		FROM m2_member WHERE MID= #{param1}
+		FROM m_member WHERE MID= #{param1}
     </select>
     
 <!--     <update id="upHit">
@@ -88,7 +88,7 @@ WHERE NUM BETWEEN #{param1} AND #{param2}
     </update>-->
 <!-- mid, mbirth, mname,memail,mtel,mprofileimg,mfavorite -->
     <update id="modify"> <!--  MNAME=#{param3} , MPROFILEIMG=#{param6}, -->
-    	UPDATE m2_member SET 
+    	UPDATE m_member SET 
     	MBIRTH=#{param2} ,
     	MEMAIL=#{param3}, 
     	MTEL=#{param4} ,
@@ -97,16 +97,21 @@ WHERE NUM BETWEEN #{param1} AND #{param2}
     	 WHERE mid=#{param1}
     </update>
 	<select id="login" resultType="com.monstar.books.m3pop.dto.MemberDto">
-    	SELECT MID,MPW FROM M2_MEMBER WHERE MID=#{param1} AND MPW=#{param2}
+    	SELECT MID,MPW FROM M_MEMBER WHERE MID=#{param1} AND MPW=#{param2}
     </select> 
     <select id="pwCheck" resultType="String">
-    	SELECT MPW FROM M2_MEMBER WHERE MID=#{param1} AND MPW=#{param2}
+    	SELECT MPW FROM M_MEMBER WHERE MID=#{param1} AND MPW=#{param2}
     </select>     
 <!--     <delete id="delete">
     	DELETE m2_member  WHERE MEMBERNO = #{param1}
     </delete> -->
     
-  
+	<!-- 회원정보 가져오기 -->
+	<select id="getData" parameterType="string" resultType="com.monstar.books.m3pop.dto.MemberDto">
+		SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY
+		FROM M_MEMBER
+		WHERE mid=#{mid}
+	</select>  
 	
 
 	
