@@ -24,4 +24,6 @@ public class MemberDto {
 	private String mfavorite; // 선호장르
 	private String mauthority;// 관리자 / 사용자 권한 여부
 	private String deleted;// 회원 탈퇴 여부 -- 탈퇴시 yes 가입시 no
+	
+
 }

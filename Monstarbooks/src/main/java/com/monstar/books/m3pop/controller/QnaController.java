@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.monstar.books.m3pop.service.BServiceInter;
 import com.monstar.books.m3pop.service.QnaContentViewService;
-import com.monstar.books.m3pop.service.QnaDeleteService2;
+import com.monstar.books.m3pop.service.QnaDeleteService3;
 import com.monstar.books.m3pop.service.QnaListService;
 import com.monstar.books.m3pop.service.QnaModifyService;
 import com.monstar.books.m3pop.service.QnaWriteService;
@@ -25,7 +25,7 @@ import com.monstar.books.m3pop.vopage.SearchVO;
 
 
 @Controller
-public class QnaController2 {
+public class QnaController {
 	
 	BServiceInter bServiceInter;
 	
@@ -179,7 +179,7 @@ public class QnaController2 {
 		//글삭제
 		//model에 담아서 toss. 이 모델이 BDeleteService로 전달.
 		model.addAttribute("request", request);
-		bServiceInter = new QnaDeleteService2(sqlSession);
+		bServiceInter = new QnaDeleteService3(sqlSession);
 		bServiceInter.execute(model);
 
 				

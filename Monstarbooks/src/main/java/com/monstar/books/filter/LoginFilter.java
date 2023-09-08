@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 //web.xml에 필터 정의와 필터 맵핑을 어노테이션을 이용해서 할 수 있다.
 //필터링할 요청 경로를 배열로 여러개 지정 할 수 있다.
-//@WebFilter({"/myprofile/*","/myreview/*","/cart","/goOrder"})
+@WebFilter({"/myprofile/*","/myreview/*","/cart","/goOrder","/qna/*"})
 public class LoginFilter implements Filter{
 	@Override
 	public void destroy() {}
@@ -52,8 +52,8 @@ public class LoginFilter implements Filter{
 				encodedUrl=URLEncoder.encode(url+"?"+query);
 			}
 			// 이전에 읽어온 경로를 세션에 저장
-		    session.setAttribute("requestedUrl", encodedUrl);
-		    
+			session.setAttribute("requestedUrl", encodedUrl);
+
 			//로그인 폼으로 리다이렉트 이동하라고 응답
 			HttpServletResponse res = (HttpServletResponse)response;
 			String cPath = req.getContextPath();
