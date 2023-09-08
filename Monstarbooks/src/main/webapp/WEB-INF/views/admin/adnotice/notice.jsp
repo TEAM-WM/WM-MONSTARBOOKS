@@ -19,8 +19,31 @@
 </head>
 <body>
 <h2>공지사항 관리</h2>
+<!-- 검색 -->
+<div>
+	<c:choose>
+		<c:when test="${ntitle }">
+			<input type="checkbox" name="searchType" value="ntitle" checked />
+		</c:when>
+		<c:otherwise>
+			<input type="checkbox" name="searchType" value="ntitle" />
+		</c:otherwise>
+	</c:choose>
+	제목
+	<c:choose>
+		<c:when test="${ncontent }">
+			<input type="checkbox" name="searchType" value="ncontent" checked />
+		</c:when>
+		<c:otherwise>
+			<input type="checkbox" name="searchType" value="ncontent" />
+		</c:otherwise>
+	</c:choose>
+	내용
+	<input type="text" name="sk" value="${sk }" style="width:150px;" maxlength="100" />
+	<input type="submit" value="검색" />
+	
+</div>
 <button onclick="insertNotice();">공지등록</button> <br />
-총 ${total } 건
 <table width="700" border="1">
 	<tr>
 		<td>번호</td>
@@ -88,50 +111,7 @@
 	<c:if test="${searchVo.page==searchVo.totPage }">
 		<button disabled>다음으로</button>
 		<button disabled>끝으로</button>
-	</c:if> <br />
-	
-	<!-- 현재페이지 / 전체페이지 -->
-	${searchVo.page } / ${searchVo.totPage }
-	
-	<!-- 검색 -->
-	<div>
-		<c:choose>
-			<c:when test="${ntitle }">
-				<input type="checkbox" name="searchType" value="ntitle" checked />
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" name="searchType" value="ntitle" />
-			</c:otherwise>
-		</c:choose>
-		제목
-		<c:choose>
-			<c:when test="${ncontent }">
-				<input type="checkbox" name="searchType" value="ncontent" checked />
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" name="searchType" value="ncontent" />
-			</c:otherwise>
-		</c:choose>
-		내용
-		<input type="text" name="sk" value="${sk }" style="width:150px;" maxlength="100" />
-		<input type="submit" value="검색" />
-		
-	</div>
-	
-	<!-- 검색결과가 없을 때 -->
-	<!-- <c:if test="">
-		
-	</c:if> -->
-		
+	</c:if> <br />		
 </form>
-
-<!-- 검색타입 버튼 -> 드롭다운 -->
-<!-- <form action="#">
-	<select name="Type">
-		<option value="both">제목 + 내용</option>
-		<option value="title">제목</option>
-		<option value="content">내용</option>
-	</select>
-</form> -->
 </body>
 </html>
