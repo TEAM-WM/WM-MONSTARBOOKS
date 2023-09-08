@@ -128,8 +128,13 @@ public class MemberListService implements MemberService {
 		}
 		/* 계산 결과 출력하기 */
 		System.out.println("total row: " + total);
-
+		
+		
+//		// 현재 페이지 정보 가져오기
+	    String currentPage = "/admin/member"; // 페이지 이름이나 식별자로 표시할 수 있습니다.
+	    System.out.println(currentPage);
 		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
 		model.addAttribute("searchKey", searchKeyword);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVO", searchVO);		

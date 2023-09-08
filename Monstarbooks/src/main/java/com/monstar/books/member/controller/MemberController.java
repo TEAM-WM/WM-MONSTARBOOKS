@@ -29,8 +29,6 @@ import com.monstar.books.member.service.MemberLoginProcessService;
 import com.monstar.books.member.service.MemberPwdFindService;
 import com.monstar.books.member.service.MemberService;
 import com.monstar.books.member.service.MemberServiceMap;
-import com.monstar.books.myorder.service.MyOrderListService;
-import com.monstar.books.mypage.service.MyPageService;
 import com.monstar.books.vopage.SearchVo;
 
 
@@ -186,7 +184,7 @@ public class MemberController {
 		return "common/member/findPwdResult";
 	}// find/pwPhone 종료
 
-	//====================관리자====================
+	//====================관리자===================
 	@RequestMapping("/admin/member/list")
 	public String adminMember(Model model, HttpServletRequest request) {
 		System.out.println(">>>관리자 회원 리스트 요청처리");
