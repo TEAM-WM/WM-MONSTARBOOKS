@@ -15,18 +15,15 @@
             </div>
             <nav>
                 <ul class="admin-menu-list">
-                    <li class="${pageContext.request.requestURI == '/admin/' ? 'active' : ''}">
+                    <li class="${currentPage == '/admin/' ? 'active' : ''}">
                         <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-cube"></i>
                             <span>
                                 대시보드
                             </span>
                         </a>
-                    </li>
-                    <c:set var="currentPage" value="${pageContext.request.requestURI}" />
-					<c:set var="targetPage" value="/admin/member/list" />
-
-					<li class="${currentPage eq targetPage ? 'active' : ''}">
+                    </li> 
+					<li class="${currentPage == '/admin/member' ? 'active' : ''}">
     					<a href="${pageContext.request.contextPath}/admin/member/list">
                             <i class="fa-solid fa-user-astronaut"></i>
                             <span>
@@ -34,7 +31,7 @@
                             </span>
                         </a>
                     </li>
-                    <li>
+                    <li class="${currentPage == '/admin/product' ? 'active' : ''}">
                         <a href="${pageContext.request.contextPath}/admin/product/productlist">
                             <i class="fa-solid fa-book-open"></i>
                             <span>
@@ -99,5 +96,14 @@
 
             </nav>
         </aside>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        /* $(document).ready(function() {
+            var pageName = "<c:out value="${param.pageName}"/>";
+            alert(pageName);
+		 });
+        */    
+
+        </script>
 </body>
 </html>

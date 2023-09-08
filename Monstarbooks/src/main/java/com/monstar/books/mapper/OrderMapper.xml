@@ -133,4 +133,11 @@
 		AND MEMBERNO=#{param2}
 	</update>
 	
+	<select id="zeroCpno" resultType="String">
+		SELECT CPNO FROM M_COUPON_MEMBER 
+		WHERE CPNO2 = 0 
+		AND MEMBERNO = #{param1}
+	</select>
+	
+	
 </mapper>

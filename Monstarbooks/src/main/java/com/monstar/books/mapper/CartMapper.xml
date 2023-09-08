@@ -119,7 +119,7 @@
 	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
 		<result column="CPNO" property="cpno"/>
 		<result column="CPNAME" property="cpname"/>
-		<result column="CPDESCIPTION" property="cpdesciption"/>
+		<result column="CPDESCRIPTION" property="cpdescription"/>
 		<result column="CPPRICE" property="cpprice"/>
 		<result column="CPCREATED" property="cpcreated"/>
 		<result column="CPVALID" property="cpvalid"/>
@@ -142,7 +142,7 @@
 		FROM M_COUPON_MEMBER CM, M_COUPON C 
 		WHERE CM.CPNO2 = C.CPNO
 		AND CM.CPSTATUS = 'N'
-		AND CM.CPVALID >= SYSDATE
+		AND CM.CPVALID >= SYSDATE-1
 		AND CM.MEMBERNO = #{param1}
 	</select>
 	
