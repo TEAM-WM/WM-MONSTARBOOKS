@@ -12,11 +12,11 @@ import com.monstar.books.m3pop.dao.QnaDao;
 
 
 @Service
-public class QnaDeleteService2 implements BServiceInter {
+public class QnaDeleteService3 implements BServiceInter {
 
 	private SqlSession sqlSession;
 	
-	public QnaDeleteService2(SqlSession sqlSession) {
+	public QnaDeleteService3(SqlSession sqlSession) {
 		// TODO Auto-generated constructor stub
 		this.sqlSession=sqlSession;
 	}
@@ -37,6 +37,8 @@ public class QnaDeleteService2 implements BServiceInter {
 		QnaDao dao = sqlSession.getMapper(QnaDao.class);
 		String qnano = request.getParameter("qnano");
 		dao.delete(qnano);
+		int dResult=1;
+		model.addAttribute("dResult", dResult);
 
 		
 	}

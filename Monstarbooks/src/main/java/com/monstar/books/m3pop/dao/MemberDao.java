@@ -10,6 +10,8 @@ public interface MemberDao {
 //	// String quserID,
 //	public void write(String qcategory, String qtitle,String qcontent ,String fname);
 //	
+	
+	public MemberDto getData(String mid); // 아이디로 회원정보 얻어오기
 	public MemberDto contentView(String member);
 	public MemberDto login(String mid,String mpw);
 	public String pwCheck(String mid,String mpw);
