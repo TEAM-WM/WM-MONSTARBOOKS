@@ -105,7 +105,7 @@ th {
                             <br>
                             <tr>
                                 <td colspan="6" style="text-align: right;"><strong>
-                                        <a href="/write_review?bookNo=${order.bookNo}"> 책 리뷰 쓰러가기</a>
+                                         <a href="../myreview/insertview?bookno=${order.bookNo}"> 책 리뷰 쓰러가기</a>
                                 </strong></td>
                             </tr>
                         </c:when>
