@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.mypage.service.MyPageService;
 import com.monstar.books.mypage.service.MyReviewContentViewService;
 import com.monstar.books.mypage.service.MyReviewDeleteService;
@@ -36,8 +37,8 @@ public class MyReviewController {
 	public String reviewList(HttpServletRequest request, SearchVO searchVO, Model model) {
 		// 로그인 체크, (기존 로그인 로직에서는 MID가 세션에 담겨있는데, 리뷰 테이블은 MEMBERNO와 참조가 되어있음. MID를 가지고 다시
 		// 회원 정보를 조회해 MEMBERNO를 얻는 것은 낭비이므로 로그인 쪽 로직에서 MemberDTO를 세션에 담도록 수정)
-//		MemberDto member = (MemberDto) request.getSession().getAttribute("user");
 //		MemberDto member = (MemberDto) request.getSession().getAttribute("memberNumber");
+//		MemberDto mid = (MemberDto) request.getSession().getAttribute("id");
 
 //		if (member == null) {
 //			return "redirect:/";
@@ -168,12 +169,19 @@ public class MyReviewController {
 		// 글수정update // Model에 HttpServletRequest 추가
 		model.addAttribute("request", request);
 
+		
+		System.out.println("rstar:받아줘 "+request.getParameter("rstar"));
+		System.out.println("rcontent:받아줘 "+request.getParameter("rcontent"));
+		System.out.println("reviewno:받아줘 "+request.getParameter("reviewno"));
+		System.out.println("refilesrc:받아줘 "+request.getParameter("refilesrc"));
+		
+		
 		// BModifyService 인스턴스 생성 및 실행
 		myPageService = new MyReviewUpdateService(sqlSession);
 		myPageService.execute(model);
 
 		// 수정 후 목록 페이지로 리다이렉트
-		String reviewNo = request.getParameter("reviewno");
+//		String reviewNo = request.getParameter("reviewno");
 //		return "redirect:/myreview/view?reviewno=" + reviewNo;
 		return "redirect:list";
 

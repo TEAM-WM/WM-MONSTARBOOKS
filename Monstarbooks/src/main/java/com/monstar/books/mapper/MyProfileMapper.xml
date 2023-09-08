@@ -24,7 +24,7 @@
 
 	<!-- 프로필 메인 -->
 	<select id="list" parameterType="com.monstar.books.member.dto.MemberDto" resultMap="Member">
-		SELECT MEMBERNO,MID,MNAME,MPROFILEIMG FROM M_MEMBER
+		SELECT MEMBERNO,MID,MNAME,MPROFILEIMG FROM M_MEMBER WHERE MID = #{param1}
 	</select>
 	
 	<!-- 프로필 뷰 -->

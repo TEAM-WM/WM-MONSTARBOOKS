@@ -20,12 +20,11 @@
 		</choose>
 	</sql>
 
-
 	<!-- includeList라는 SQL 조각을 정의하는 부분입니다. 이 조각은 조건에 따라 다른 WHERE 절을 생성합니다. <choose>는 
 		SQL 조건문의 선택 블록을 나타냅니다. <when>은 조건이 참인 경우 실행됩니다. 여기서 param4 값에 따라 다른 조건절을 
 		생성합니다. <otherwise>는 <when> 조건이 모두 거짓인 경우 실행됩니다. -->
 
-	<!-- 230822 / [효슬] 마이페이지 추가 -->
+	<!-- [효슬] 마이페이지 추가 -->
 
 	<!-- 230824 [효슬] MyReviewDto에 대한 resultMap 정의 -->
 	<resultMap type="com.monstar.books.mypage.dto.MyReviewDto"
@@ -106,10 +105,6 @@
 		<result column="OREFUND_CHECK" property="orefund_check" />
 		<result column="OREGDATE" property="oregdate" />
 
-		<!-- <collection property="member" resultMap="Member"></collection> <collection 
-			property="book" resultMap="Book"></collection> <collection property="bookdetail" 
-			resultMap="Bookdetail"></collection> <collection property="myreview" resultMap="MyReview"></collection> 
-			<collection property="bookcategory" resultMap="Bookcategory"></collection> -->
 	</resultMap>
 
 	<resultMap
@@ -126,167 +121,269 @@
 	</resultMap>
 
 	<!-- ############################################# 수정 S ############################################# -->
-	<!-- reviewlist 마이페이지 리뷰목록 -->
+		<!-- 마이페이지 리뷰목록 : 로그인세션 및 페이징 처리로 인해 쿼리 수정 -->
 	<select id="reviewList"
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
 		resultMap="MyReview">
-		SELECT
-		R.REVIEWNO, R.BOOKNO, R.MEMBERNO, R.RCONTENT, R.REGDATE,
-		R.RSTAR,
-		R.REFILESRC, R.DELETED, M.MID, BC.BCATEGORYNO, BC.BCATEGORY1,
-		BC.BCATEGORY2, B.BTITLE
-		FROM M_REVIEW R, M_MEMBER M, M_BOOK_CATEGORY BC, M_BOOK B
-		WHERE R.MEMBERNO
-		= M.MEMBERNO
-		ORDER BY R.REVIEWNO DESC
+		SELECT *
+FROM (
+    SELECT A.*, ROWNUM AS RNUM
+    FROM (
+        SELECT
+            R.REVIEWNO,
+            R.BOOKNO,
+            R.MEMBERNO,
+            R.RTITLE,
+            R.RCONTENT,
+            R.REGDATE,
+            R.RSTAR,
+            R.REFILESRC,
+            R.DELETED,
+            M.MID AS MID,
+            B.BTITLE AS BTITLE,
+            (
+                SELECT C.BCATEGORY1 
+                FROM M_BOOK_CATEGORY C 
+                WHERE C.BCATEGORYNO = D.BCATEGORYNO
+                AND ROWNUM = 1
+            ) AS BCATEGORY1,
+            (
+                SELECT C.BCATEGORY2 
+                FROM M_BOOK_CATEGORY C 
+                WHERE C.BCATEGORYNO = D.BCATEGORYNO
+                AND ROWNUM = 1
+            ) AS BCATEGORY2
+        FROM M_REVIEW R
+        LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
+        LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+        LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+        WHERE M.MID = #{param3} AND R.DELETED = 'NO'
+        ORDER BY R.REVIEWNO DESC
+    ) A
+) WHERE RNUM >= #{param1} AND #{param2} >= RNUM
 
-		<!-- reviewlist 마이페이지 리뷰목록 (로그인 처리 ) -->
-		<!-- SELECT * FROM ( SELECT A.*, ROWNUM as RNUM FROM ( SELECT R.REVIEWNO, 
-			R.BOOKNO, R.MEMBERNO, R.RTITLE, R.RCONTENT, R.REGDATE, R.RSTAR, R.REFILESRC, 
-			R.DELETED, (SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = #{param3}) AS 
-			MID, (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) 
-			AS BCATEGORY1, (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO 
-			= D.BCATEGORYNO) AS BCATEGORY2 FROM M_REVIEW R LEFT JOIN M_BOOK_DETAIL D 
-			ON D.BOOKNO = R.BOOKNO WHERE R.MEMBERNO = #{param3} AND R.DELETED = 'NO' 
-			ORDER BY R.REVIEWNO DESC) A) WHERE RNUM >= #{param1} AND #{param2} >= RNUM -->
+<!-- 		    <include refid="includeList" /> 적용 시, param4로 변경 -->
+
+		<!-- 마이페이지 리뷰목록 : 로그인세션 처리 전 더미데이터 강제 삽입 -->
+<!-- 	SELECT R.REVIEWNO, R.BOOKNO, R.MEMBERNO, R.RCONTENT, R.REGDATE, R.RSTAR, 
+		R.REFILESRC, R.DELETED, M.MID, BC.BCATEGORYNO, BC.BCATEGORY1, BC.BCATEGORY2, 
+		B.BTITLE FROM M_REVIEW R, M_MEMBER M, M_BOOK_CATEGORY BC, M_BOOK B WHERE 
+		R.MEMBERNO = M.MEMBERNO ORDER BY R.REVIEWNO DESC -->
 
 	</select>
 
-	<!-- 리뷰 전체 수 조회 -->
-	<!-- <select id="reviewCnt" resultType="Integer"> SELECT COUNT(REVIEWNO) 
-		FROM M_REVIEW WHERE MEMBERNO=#{param1} </select> -->
-
-	<!-- reviewlist 마이페이지 리뷰 삭제 -->
-	<!-- <update id="deleteReview" parameterType="com.monstar.books.mypage.dto.MyReviewDto"> 
-		UPDATE M_REVIEW SET DELETED = 'YES' WHERE REVIEWNO = #{param1} </update> -->
+	<!-- reviewlist 마이페이지 리뷰 삭제 (완료) -->
 	<delete id="reviewdelete">
 		DELETE FROM M_REVIEW WHERE REVIEWNO=#{param1}
 	</delete>
 
-	<!-- reviewlist 마이페이지 리뷰 상세글 -->
+
+	<!-- reviewlist 마이페이지 리뷰 상세글 (완료) 리뷰넘버+회원아이디 -->	
 	<select id="myReviewView"
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
 		resultMap="MyReview">
 		SELECT
-		R.REVIEWNO,
-		R.MEMBERNO,
-		R.RTITLE,
-		R.RCONTENT,
-		R.RSTAR,
-		R.REFILESRC,
-		R.DELETED,
-		(SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO =
-		R.MEMBERNO) AS MID,
-		(SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE
-		C.BCATEGORYNO =
-		D.BCATEGORYNO) AS BCATEGORY1,
-		(SELECT C.BCATEGORY2 FROM
-		M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
-		D.BCATEGORYNO) AS BCATEGORY2,
-		(SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE
-		FROM M_REVIEW R
+			R.REVIEWNO,
+			R.MEMBERNO,
+			R.RTITLE,
+			R.RCONTENT,
+			R.RSTAR,
+			R.REFILESRC,
+			R.DELETED,
+			(SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = R.MEMBERNO) AS MID,
+			(SELECT B.BOOKNO FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BOOKNO,
+			(SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE,
+			(SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
+			D.BCATEGORYNO AND ROWNUM = 1) AS BCATEGORY1,
+			(SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY
+			C WHERE C.BCATEGORYNO =
+			D.BCATEGORYNO AND ROWNUM = 1) AS BCATEGORY2
+		FROM
+			M_REVIEW R
+		LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+		LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
 		LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
-		LEFT
-		JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
 		WHERE
-		R.REVIEWNO = #{param1}
-		AND
-		R.DELETED = 'NO'
+			R.REVIEWNO = #{param1}
+		AND M.MID = #{param2} AND R.DELETED = 'NO'
+
 	</select>
 
-	<!-- 230826,27 [효슬] 리뷰 상세글 수정 기능 -->
-	<update id="reviewUpdate">
-		UPDATE M_REVIEW
-		SET
-		RSTAR = #{param1},
-		RCONTENT =
-		#{param2}
-		<if test="param4 != null and param4 != ''">
-			,REFILESRC = #{param4}
-		</if>
-		WHERE REVIEWNO = #{param3}
-	</update>
+	<!-- 마이페이지 리뷰 상세보기 수정(UPDATE) 기능 (완료) -->
+
+<update id="reviewUpdate">
+    UPDATE M_REVIEW
+    SET 
+    RSTAR = #{param1},
+    RCONTENT = #{param2},
+<if test="param4 != null and param4 != ''">
+    REFILESRC = #{param4}
+</if>
+    WHERE REVIEWNO = #{param3} AND MEMBERNO = #{param5}
+</update>
+
+<!-- 	<update id="reviewUpdate">
+    UPDATE M_REVIEW R 
+    SET 
+    R.RSTAR = #{param1},
+    R.RCONTENT = #{param2},
+    <if test="param4 != null and param4 != ''">
+    R.REFILESRC = #{param4}
+    </if> 
+    WHERE R.REVIEWNO = #{param3} AND R.MEMBERNO = 
+    (SELECT M.MEMBERNO FROM M_MEMBER M WHERE M.MID = #{param5}) -->
+    
+    
+
 
 	<!-- 230905 [효슬] 리뷰 글쓰기폼 불러오기: 사용자, 책, 책 상세정보, 북카테고리, 주문정보 -->
 	<select id="bcategories"
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
-		resultMap="MyReview">
-		SELECT
-		R.REVIEWNO,
-		R.MEMBERNO,
-		R.RSTAR,
-		R.RCONTENT,
-		R.REFILESRC,
-		(SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = R.MEMBERNO) AS MID,
-		(SELECT B.BOOKNO FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BOOKNO,
-		(SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE,
-		(SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
-		D.BCATEGORYNO) AS BCATEGORY1,
-		(SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO =
-		D.BCATEGORYNO) AS BCATEGORY2,
-		(SELECT O.ORDERNO FROM M_ORDER_DETAIL O WHERE O.BOOKNO = R.BOOKNO) AS ORDERNO
-		FROM M_REVIEW R
-		LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
-		LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
-		LEFT JOIN M_ORDER_DETAIL O ON O.BOOKNO = R.BOOKNO
-		LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
-		LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
+		resultMap="MyReview">	        
+			<!-- WHERE 회원세션 MID * BOOKNO 검색 (완료) -->
+			SELECT
+			    R.REVIEWNO,
+			    R.MEMBERNO,
+			    R.RSTAR,
+			    R.RCONTENT,
+			    R.REFILESRC,
+			    M.MID,
+			    B.BOOKNO,
+			    B.BTITLE,
+			    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY1,
+			    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY2,
+			    (SELECT O.ORDERNO FROM M_ORDER_DETAIL O WHERE O.BOOKNO = R.BOOKNO) AS ORDERNO
+			FROM
+			    M_REVIEW R
+			    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+			    LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+			    LEFT JOIN M_ORDER_DETAIL O ON O.BOOKNO = R.BOOKNO
+			    LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = R.BOOKNO
+			    LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
+			WHERE
+			    M.MID = #{param2}
+			    AND R.DELETED = 'NO'
+			    AND R.BOOKNO = #{param1}
+			  
+			        
+		<!-- 로그인세션 적용 후 WHERE MID * ORDERNO 검색 
+		M_ORDER_DETAIL 테이블과 M_BOOK_DETAIL 결합 -->
+<!-- 		SELECT
+		    R.REVIEWNO,
+		    R.MEMBERNO,
+		    R.RSTAR,
+		    R.RCONTENT,
+		    R.REFILESRC,
+		    M.MID,
+		    B.BOOKNO,
+		    B.BTITLE,
+		    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY1,
+		    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY2,
+		    (SELECT OD.ORDERNO FROM M_ORDER_DETAIL OD WHERE OD.BOOKNO = R.BOOKNO) AS ORDERNO
+		FROM
+		    M_REVIEW R
+		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+		    LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		    LEFT JOIN M_ORDER_DETAIL OD ON OD.BOOKNO = R.BOOKNO
+		    LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = OD.BOOKNO
+		    LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
 		WHERE
-		R.MEMBERNO = #{param1} AND R.BOOKNO = #{param2}
-		AND R.DELETED = 'NO'
+		    M.MID = #{param2} 
+		    AND OD.ORDERNO = #{param1} 
+		    AND R.DELETED = 'NO' -->
+		
+			        
+		<!-- 로그인세션 적용 후 WHERE MID * ORDERNO 검색
+		M_ORDER 테이블과 M_ORDER_DETAIL 테이블을 사용하여 주문 정보를 가져와 결합 -->		        
+<!-- 		SELECT
+		    R.REVIEWNO,
+		    R.MEMBERNO,
+		    R.RSTAR,
+		    R.RCONTENT,
+		    R.REFILESRC,
+		    (SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = R.MEMBERNO) AS MID,
+		    (SELECT B.BOOKNO FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BOOKNO,
+		    (SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE,
+		    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY1,
+		    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY2,
+		    (SELECT OD.ORDERNO FROM M_ORDER_DETAIL OD WHERE OD.BOOKNO = R.BOOKNO) AS ORDERNO
+		FROM
+		    M_REVIEW R
+		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+		    LEFT JOIN M_ORDER O ON O.MEMBERNO = M.MEMBERNO
+		    LEFT JOIN M_ORDER_DETAIL OD ON OD.ORDERNO = O.ORDERNO
+		    LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		    LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = OD.BOOKNO
+		    LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
+		WHERE
+		    M.MID = #{param2} 
+		    AND R.DELETED = 'NO' 
+		    AND EXISTS (
+		        SELECT *
+		        FROM M_ORDER O
+		        WHERE O.MEMBERNO = M.MEMBERNO 
+		        AND O.ORDERNO = #{param1}) -->
+		
+
+		    
 	</select>
 
 	<!-- 230906 [효슬] 리뷰 글쓰기 기능 -->
 	<insert id="reviewInsert">
-		INSERT INTO M_REVIEW(REVIEWNO, BOOKNO, MEMBERNO, RTITLE, RCONTENT,
+		INSERT INTO M_REVIEW(REVIEWNO, BOOKNO, MEMBERNO,
+		RTITLE, RCONTENT,
 		REGDATE, RSTAR, REFILESRC, DELETED)
 		VALUES(M_REVIEW_SEQ.NEXTVAL,
 		#{param1}, #{param2}, #{param3},
 		#{param4}, SYSDATE, #{param5},
 		#{param6}, 'NO')
-		
+
 	</insert>
 	<!-- ############################################# 수정 E ############################################# -->
 
 
 	<!-- 230825 [효슬] 리뷰 페이징 카운트, 조회 기능 -->
 	<select id="selectReviewListTotCount1" resultType="Integer">
-		SELECT COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%'
+		SELECT
+		COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%'
 	</select>
 
 	<select id="selectReviewListTotCount2" resultType="Integer">
-		SELECT COUNT(*) FROM M_REVIEW WHERE MEMBERNO LIKE '%'|| #{param1} || '%'
+		SELECT
+		COUNT(*) FROM M_REVIEW WHERE MEMBERNO LIKE '%'|| #{param1} || '%'
 	</select>
 
 	<select id="selectReviewListTotCount3" resultType="Integer">
-		SELECT COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%' OR
+		SELECT
+		COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%' OR
 		MEMBERNO LIKE '%'|| #{param1} || '%'
 	</select>
 
 	<select id="selectReviewListTotCount4" resultType="Integer">
-		SELECT COUNT(*) FROM M_REVIEW
+		SELECT
+		COUNT(*) FROM M_REVIEW
 	</select>
 	<!-- BTITLE,BCONTENT 각 컬럼에 특정 문자열이 포함된 게시물의 수를 세어 반환 -->
 
-
-	<!-- <update id="update"> UPDATE M_MEMBER SET MID=#{param2},MNAME=#{param3}, 
-		MPROFILEIMG=#{param4} WHERE MEMBERNO=#{param1} UPDATE M_MEMBER SET MID=#{param2},MNAME=#{param3},MPROFILEIMG=#{param4} 
-		WHERE MEMBERNO=(SELECT M_MEBER_SEQ.CURRVAL FROM DUAL) UPDATE M_MEMBER SET 
-		MPROFILEIMG=#{param2} WHERE MEMBERNO=#{param1} </update> -->
 
 	<!-- <select id="detail"> </select> <insert id="insert"> </insert> <update 
 		id="update"> </update> 삭제는 업데이트로 deleted 칼럼 안의 내용을 no-> yes로 바꾸기 <update 
 		id="delete" parameterType="int"> UPDATE EX SET deleted='yes' WHERE num=#{param1} 
 		</update> -->
 
-
-	<!-- 230901 [효슬] 멤버 테이블 회원번호, 아이디 조회 -->
-	<select id="selectId"
+	<!-- 멤버 테이블 회원번호, 아이디 조회 -->
+	<!-- <select id="selectId"
 		parameterType="com.monstar.books.member.dto.MemberDto"
 		resultMap="Member">
 		SELECT MEMBERNO,MID FROM M_MEMBER WHERE MID=#{param1}
-	</select>
-
-
+	</select> -->
+	
+	<!-- reviewlist 마이페이지 리뷰 삭제 -->
+	<!-- <update id="deleteReview" parameterType="com.monstar.books.mypage.dto.MyReviewDto"> 
+		UPDATE M_REVIEW SET DELETED = 'YES' WHERE REVIEWNO = #{param1} </update> -->
+	<!-- 리뷰 전체 수 조회 -->
+	<!-- <select id="reviewCnt" resultType="Integer"> SELECT COUNT(REVIEWNO) 
+		FROM M_REVIEW WHERE MEMBERNO=#{param1} </select> -->
 
 </mapper>

@@ -62,31 +62,23 @@
         <div id="myprofile-sidebar">
             <%@ include file="../myprofile/myprofile.jsp" %>
         </div>
-</div>
 
-        <!-- 주문/배송 목록 테이블 -->
-        <table class="order-table">
-            <tr>
-                <th>주문일자</th>
-                <th>상품정보</th>
-                <th>수량</th>
-                <th>가격</th>
-                <th>총 가격</th>
-                <th>배송 상태</th>
-            </tr>
-		</table>
-		
-<br /><br />
+
 <form action="myprofile_list" method="post">
+			<br /><br />
+		<h2>My Coupon List</h2>
+	<br />
+	<br />
 	<div align="center" class="card" style="height: 700px;">
-	
-	
-<br />
-<br />
-<br />
+		<table>
+		
+		
+		
+		
+		</table>	
 	</div>
-	
 </form>
+</div>
 <br />
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 마이쿠폰";
