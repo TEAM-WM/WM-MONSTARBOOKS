@@ -44,31 +44,20 @@ public class OrderInsertServiceList implements OrderService {
         int memberno = dao.getMemberno(memberId);		
         System.out.println("memberno :"+memberno);
 		
-//		String memberno = request.getParameter("memberno");
 		String ototalprice = request.getParameter("ototalprice");
 		String opay = request.getParameter("payment");
 			
 		String[] bookno = request.getParameterValues("bookno");
 		String[] opricesell = request.getParameterValues("opricesell");
 		String[] ocount = request.getParameterValues("ocount");
-		
-//		System.out.println("memberno : "+ memberno);
-//		System.out.println(ototalprice);
-//		System.out.println(opay);
-		
+
 		String daddress1 = request.getParameter("daddress1");
 		String daddress2 = request.getParameter("daddress2");
 		String daddress3 = request.getParameter("daddress3");
 		String dzipcode = request.getParameter("dzipcode");
 		String dtel = request.getParameter("dtel");
 		String dname = request.getParameter("dname");
-		
-		String usedCpno = request.getParameter("usedCpno");
-		System.out.println(usedCpno);
-		if(usedCpno == null) {
-			usedCpno = "0";
-		}
-		
+
 		System.out.println(daddress1+", "+daddress2+", "+daddress3+", "
 				+dzipcode+", "+dtel+", "+dname);
 		
@@ -81,10 +70,19 @@ public class OrderInsertServiceList implements OrderService {
 			dao.cartDelete(bookno[i],memberno);
 		}
 		
-		//주문 테이블에 추가
-		dao.orderInsert(memberno,usedCpno,ototalprice,opay);//memberno 추후 수정
+		// 사용한 coupon_member 테이블의 cpno
+		String usedCpno = request.getParameter("usedCpno");
+		System.out.println("usedCpo : " + usedCpno);
 		
-		//배송 테이블에 추가
+		// 쿠폰사용하지 않으면 자동으로 0원 할인쿠폰 적용
+		if(usedCpno == "") {
+			System.out.println("쿠폰사용안함");
+			usedCpno = dao.zeroCpno(memberno);
+		}
+		// 주문 테이블에 추가
+		dao.orderInsert(memberno,usedCpno,ototalprice,opay);
+		
+		// 배송 테이블에 추가
 		dao.deliveryInsert(memberno,daddress1,daddress2,daddress3,dzipcode,dtel,dname);
 
 		// 쿠폰 사용불가로 업데이트

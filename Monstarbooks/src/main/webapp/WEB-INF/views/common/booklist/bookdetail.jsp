@@ -164,23 +164,37 @@ function reviewPage(num){
 			 </td>
 		</tr>
 		<form action="../goOrder" method="post" class="order_form">
-		<tr>
-			<td class="right_line" align="center" height="70px">	
-				<!-- 수량조절버튼 -->
-				<b><button class="minus_btn"><i class="fa-solid fa-minus"></i></button>
+		<tr>	
+			<!-- 재고가 0일때 -->
+			<c:choose>
+				<c:when test="${list.bstock == 0 }">
+					<td colspan="3"><i class="fa-solid fa-quote-left" style="color:gray"></i> 
+						<span style="color:gray">품절되었습니다.</span>
+						<i class="fa-solid fa-quote-right" style="color:gray"></i></td>
+				</c:when>
+				<c:otherwise>
+	
+			<!-- 재고가 0이 아닐때 -->		
+					<!-- 수량조절버튼 -->
+					<td class="right_line" align="center" height="70px">	
+						<b><button class="minus_btn"><i class="fa-solid fa-minus"></i></button>
+					
+						<input type="text" id="cnt" name="ccount" value="1" readonly/>
+						<input type="hidden" name="bookno" value="${list.bookno }"/>
+						
+						<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
+					
+					<!-- 장바구니 담기 -->	
+					<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno},${memberno })">
+						<b>ADD TO CART</b>
+					</td>	
+					
+					<!-- 주문하기 -->
+					<td align="center" id="order_btn" onclick="go_order(${memberno })"><b style="color:#fefefe;">ORDER</b></td>
+				</c:otherwise>
+			</c:choose>
+
 			
-				<input type="text" id="cnt" name="ccount" value="1" readonly/>
-				<input type="hidden" name="bookno" value="${list.bookno }"/>
-				
-				<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
-			
-			<!-- 장바구니 담기 -->	
-			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno},${memberno })">
-				<b>ADD TO CART</b>
-			</td>	
-			
-			<!-- 주문하기 -->
-			<td align="center" id="order_btn" onclick="go_order()"><b style="color:#fefefe;">ORDER</b></td>
 		</tr>
 		 </form>
 		<tr>
@@ -313,11 +327,11 @@ function reviewPage(num){
 						datasets : [{
 							label : '구매자 별점',
 							data : [
-								jArray[0].starCnt,
-								jArray[1].starCnt,
-								jArray[2].starCnt,
-								jArray[3].starCnt,
-								jArray[4].starCnt
+								jArray[0].starCnt === 0 ? undefined : jArray[0].starCnt,
+								jArray[1].starCnt === 0 ? undefined : jArray[1].starCnt,
+								jArray[2].starCnt === 0 ? undefined : jArray[2].starCnt,
+								jArray[3].starCnt === 0 ? undefined : jArray[3].starCnt,
+								jArray[4].starCnt === 0 ? undefined : jArray[4].starCnt
 								],
 							backgroundColor : [
 								'rgba(255, 99, 132, 0.2)',

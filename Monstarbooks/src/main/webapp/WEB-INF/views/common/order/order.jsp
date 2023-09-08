@@ -132,10 +132,9 @@ function coupon_select(cpprice,totPrice,cpno){
 /* 결제하기 */
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
-/* function requestPay(pay){
+function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
-	alert(totPay);
 
 	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
 		alert("배송지를 입력해주세요.");
@@ -156,7 +155,7 @@ IMP.init('imp30831436');//가맹점 식별코드
 						if(rsp.success){
 							//결제 성공 시
 							alert("결제가 완료되었습니다.");
-							location.href="orderComplete";
+							$(".payment_form").submit();
 						}else{
 							//결제 실패 시
 							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
@@ -208,13 +207,12 @@ IMP.init('imp30831436');//가맹점 식별코드
 			}
 		}
 	}	
-}  */
-function requestPay(pay){
+}
+/* function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
-	alert(totPay);
 	$(".payment_form").submit();
-}
+} */
 </script>
 </head>
 <body>
@@ -397,7 +395,7 @@ function requestPay(pay){
 		<tr>
 			<th>결제 방법</th>
 			<td align="left">
-				<input type="hidden" id="ototalprice" name="ototalprice" value=""/>
+				<input type="hidden" id="ototalprice" name="ototalprice" value="${totPrice + 2500}"/>
 				<!-- <input type="hidden" name="ostatus" value="결제완료"/> -->
 				<label for="pay_1"><input type="radio" name="payment" value="계좌이체" id="pay_1" onclick="return(false);"/> 
 					계좌이체</label>

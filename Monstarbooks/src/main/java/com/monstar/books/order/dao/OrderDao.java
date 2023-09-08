@@ -34,5 +34,8 @@ public interface OrderDao {
 
 //	쿠폰 사용함으로 업데이트
 	public void couponUse(String usedCpno, int memberno);
+
+//	쿠폰사용하지 않으면 자동으로 0원할인쿠폰 적용
+	public String zeroCpno(int memberno);
 	
 }//interface 종료
