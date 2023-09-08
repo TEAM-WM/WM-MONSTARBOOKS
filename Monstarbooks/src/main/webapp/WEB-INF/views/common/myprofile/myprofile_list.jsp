@@ -49,6 +49,7 @@
 .content {
 	display:flex;
 	justify-content:space-between;
+	text-align: left;
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
 }
 
@@ -74,10 +75,11 @@
                 <th>배송 상태</th>
             </tr>
 		</table>
+		</div>
 		
 <br /><br />
 <form action="myprofile_list" method="post">
-	<div align="center" class="card" style="height: 700px;">
+	<div align="left" class="card" style="height: 700px;">
 	
 		<c:forEach items="${list }" var="mem">
 			
@@ -89,7 +91,7 @@
 				<c:when test="${not empty mem.mprofileimg}">
 					<tr>
 						<td>
-							<div align="center" class="image-container">
+							<div align="left" class="image-container">
 							<a href="download?p=resources/assets/upload/&f=${mem.mprofileimg }&mid=
 							${mem.mid }">
 								<img src="${pageContext.request.contextPath}/resources/assets/upload/${mem.mprofileimg }"
@@ -116,7 +118,7 @@
 			</td>
 			</tr>
 			<tr>
-			<td class="center">
+			<td class="left">
 			<a class="relist" href="view?mid=${mem.mid }" type="button">프로필변경</a> &nbsp;&nbsp;&nbsp;
 			</td>
 			</tr>

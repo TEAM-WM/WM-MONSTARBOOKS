@@ -69,7 +69,7 @@
 
 	<div class="couponregister">
 		<button class="btn"
-			onclick="location.href='/books/admin/coupon/register';">
+			onclick="location.href='/books/admin/coupon/register_view';">
 			쿠폰 등록하기</button>
 	</div>
 	</div>
