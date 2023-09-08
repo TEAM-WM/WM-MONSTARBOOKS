@@ -28,7 +28,7 @@
 			<tr>
 				<td colspan="3">
 					<c:if test="${not empty qnadetail.qfilesrc }">
-	 	                <img alt="${qnadetail.qfilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/qna/${qnadetail.qfilesrc }">
+	 	                <img alt="${qnadetail.qfilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/upload/${qnadetail.qfilesrc }">
 	            	</c:if>
 				</td>
 			</tr>

@@ -90,19 +90,19 @@ td {
 		</tr>
 		<tr>
 			<th>상품 금액</th>
-			<td align="left"><fmt:formatNumber value="${dtos.ototalprice}" pattern="#,###"/>원</td>
+			<td align="left"><fmt:formatNumber value="${dtos.ototalprice -2500 + dtos.coupon.cpprice}" pattern="#,###"/>원</td>
 		</tr>
 		<tr>
 			<th>쿠폰할인</th>
-			<td align="left">쿠폰할인</td>
+			<td align="left">- <fmt:formatNumber value="${dtos.coupon.cpprice }" pattern="#,###"/>원</td>
 		</tr>
 		<tr>
 			<th>배송비</th>
-			<td align="left">2,500원</td>
+			<td align="left">+ 2,500원</td>
 		</tr>
 		<tr>
 			<th>총 결제금액</th>
-			<td align="left"><fmt:formatNumber value="${dtos.ototalprice + 2500}" pattern="#,###"/>원</td>
+			<td align="left"><b><fmt:formatNumber value="${dtos.ototalprice }" pattern="#,###"/>원</b></td>
 		</tr>
 		<tr>
 			<th>결제 방법</th>

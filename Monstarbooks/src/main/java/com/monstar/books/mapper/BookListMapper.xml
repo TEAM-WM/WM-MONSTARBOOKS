@@ -148,21 +148,16 @@
 		GROUP BY RSTAR ORDER BY RSTAR
 	</select>
 	
-	<!-- 사용자 번호가져오기 -->
-	<!-- <select id="memberno" resultType="int">
-		
-	</select> -->
-	
 	<insert id="cartInsert">
 		INSERT INTO M_CART VALUES(M_CART_SEQ.NEXTVAL,#{param1},#{param2},#{param3})
 	</insert>
 		
 	<select id="booknoCheck" resultType="Integer">
-		SELECT BOOKNO FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=1
+		SELECT BOOKNO FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=#{param2}
 	</select>
 	
 	<update id="cartAddUpdate">
-		UPDATE M_CART SET CCOUNT=CCOUNT+#{param3} WHERE BOOKNO=#{param2} AND MEMBERNO=1
+		UPDATE M_CART SET CCOUNT=CCOUNT+#{param3} WHERE BOOKNO=#{param2} AND MEMBERNO=#{param1}
 	</update>
 
 	<select id="goOrder" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
@@ -174,4 +169,40 @@
 		AND B.BOOKNO=#{param1}
 	</select>
 	
+	<select id="getMemberno" resultType="Integer">
+		SELECT MEMBERNO FROM M_MEMBER WHERE MID=#{param1}
+	</select>
+	
+	<!--========= 쿠폰 ========== -->
+	
+	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCIPTION" property="cpdesciption"/>
+		<result column="CPPRICE" property="cpprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+		<collection property="cpMember" resultMap="CpMember"></collection>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO2" property="cpno2"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVAILD" property="cpvaild"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	</resultMap>
+	
+	<select id="myCouponCheck" parameterType="com.monstar.books.order.dto.CouponDto" resultMap="Coupon">
+		SELECT C.CPNAME,C.CPPRICE,CM.CPNO,CM.CPVALID
+		FROM M_MEMBER M, M_COUPON_MEMBER CM, M_COUPON C
+		WHERE M.MEMBERNO=CM.MEMBERNO
+		AND CM.CPNO2 = C.CPNO
+		AND CM.CPSTATUS = 'N'
+		AND CM.CPVALID >= SYSDATE
+		AND M.MEMBERNO = #{param1}
+	</select>
 </mapper>

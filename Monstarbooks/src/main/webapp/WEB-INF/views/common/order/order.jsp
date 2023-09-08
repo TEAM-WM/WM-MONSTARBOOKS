@@ -32,7 +32,7 @@ td {
 	border : 2px solid #ccc;
 	border-radius: 5px;
 }
-#coupon{
+#coupon_btn{
 	width : 100%;
 	height: 50px;
 	border : 2px solid #ccc;
@@ -116,15 +116,27 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 /* 보유 쿠폰 확인 */
-function coupon_check(){
-	let popOption = "width=600px, height=600px, top=300px, left=300px,scrollbars=yes";
-	let openUrl = 'mycoupon'
-	window.open(openUrl,'pop',popOption);
+function coupon_select(cpprice,totPrice,cpno){
+	//form submit 막기
+	$(".payment_form").submit(function(e){
+		e.preventDefault();
+		$(".payment_form").unbind();
+		
+	$(".cpdiscount").text(cpprice); // 쿠폰할인 값 변경
+	$("#ototalprice").val(totPrice-cpprice);
+	$(".final_totPrice").text((totPrice-cpprice).toLocaleString()); //총 결제금액 변경
+	$("#usedCpno").val(cpno);//사용한 쿠폰번호 전달
+	closeModal("myCouponModal"); // 모달 닫기
+	});
 }
 /* 결제하기 */
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
 /* function requestPay(pay){
+	var couponPrice = $(".cpdiscount").text();
+	var totPay = pay - couponPrice;
+	alert(totPay);
+
 	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
 		alert("배송지를 입력해주세요.");
 	}else{
@@ -138,7 +150,7 @@ IMP.init('imp30831436');//가맹점 식별코드
 				        pay_method : 'card',
 				        merchant_uid: new Date().getTime(), 
 				        name : '도서',
-				        amount : pay,
+				        amount : totPay,
 						buyer_name : '구매자'
 					},function (rsp){
 						if(rsp.success){
@@ -157,7 +169,7 @@ IMP.init('imp30831436');//가맹점 식별코드
 				        pay_method : 'phone',
 				        merchant_uid: new Date().getTime(), 
 				        name : '도서',
-				        amount : pay,
+				        amount : totPay,
 						buyer_name : '구매자'
 					},function (rsp){
 						if(rsp.success){
@@ -176,7 +188,7 @@ IMP.init('imp30831436');//가맹점 식별코드
 				        pay_method : 'card',
 				        merchant_uid: new Date().getTime(), 
 				        name : '도서',
-				        amount : pay,
+				        amount : totPay,
 						buyer_name : '구매자'
 					},function (rsp){
 						if(rsp.success){
@@ -197,9 +209,12 @@ IMP.init('imp30831436');//가맹점 식별코드
 		}
 	}	
 }  */
-function requestPay(){
+function requestPay(pay){
+	var couponPrice = $(".cpdiscount").text();
+	var totPay = pay - couponPrice;
+	alert(totPay);
 	$(".payment_form").submit();
-} 
+}
 </script>
 </head>
 <body>
@@ -287,7 +302,7 @@ function requestPay(){
 				<fmt:formatNumber value="${list.bprice }" pattern="#,###" />원</b></td>
 			<td>${ccount }개</td>
 			<td><fmt:formatNumber value="${list.bpricesell * ccount}"
-				pattern="#,###,###" />원</td>	
+				pattern="#,###,###" />원</td>
 			<input type="hidden" name="opricesell" value="${list.bpricesell }" />
 			<input type="hidden" name="ocount" value="${ccount }" />
 		</c:if> 
@@ -302,10 +317,48 @@ function requestPay(){
 	<table>
 		<tr>
 			<th width="30%" height="150px">할인쿠폰</th>
-			<td><button id="coupon" onclick="coupon_check()">
+			<td><button id="coupon_btn" onclick="openModal('myCouponModal')">
 				<i class="fa-solid fa-money-check-dollar"></i>&nbsp;보유 쿠폰 확인</button></td>
 		</tr>
 	</table>
+	
+	<!-- modal -->
+	<div id="myCouponModal" class="modal terms-modal">
+        <section class="modal-content-wrap">
+            <div class="modal-title left">
+                <h3>
+					나의 보유쿠폰
+                </h3>
+            </div>
+            <div class="modal-content">              
+               		<table style="width: 430px">
+						<tr>
+							<th>쿠폰이름</th>
+							<th>할인금액</th>
+							<th>유효기간</th>
+							<th>선택</th>
+						</tr>
+						 	<c:forEach items="${cpdto }" var="list">
+						<c:choose>
+							 <c:when test="${list.cpname eq null }">
+							 	<tr><td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td></tr>	
+							</c:when>
+						 <c:otherwise>
+							<tr height="30px">
+								<td>${list.cpname }</td>
+								<td>${list.cpprice }</td>
+								<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
+								<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
+							</tr>
+							<input type="hidden" id="usedCpno" name="usedCpno" value=""  />
+						 </c:otherwise>
+						</c:choose>
+							</c:forEach>
+					</table> 
+                <button class="closeModalBtn" onclick="closeModal('myCouponModal')">닫기</button>
+            </div>
+        </section>
+    </div>
 	
 	<br /><br /><br />
 	
@@ -328,7 +381,7 @@ function requestPay(){
 		</tr>
 		<tr height="40px">
 			<th>쿠폰할인</th>
-			<td align="left">- ###,###원</td>
+			<td align="left">- <span class="cpdiscount">0</span>원</td>
 		</tr>
 		<tr height="40px">
 			<th>배송비</th>
@@ -336,16 +389,15 @@ function requestPay(){
 		</tr>
 		<tr height="40px">
 			<th>총 결제금액</th>
-			<td align="left"><b><fmt:formatNumber value="${totPrice + 2500}" 
-				pattern="#,###,###" />원</b></td>
+			<td align="left"><b class="final_totPrice">
+				<fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" /></b>
+				<b>원</b></td>
 		</tr>		
 		
 		<tr>
 			<th>결제 방법</th>
 			<td align="left">
-				
-				<input type="hidden" name="memberno" value="1"/>
-				<input type="hidden" name="ototalprice" value="${totPrice + 2500}"/>
+				<input type="hidden" id="ototalprice" name="ototalprice" value=""/>
 				<!-- <input type="hidden" name="ostatus" value="결제완료"/> -->
 				<label for="pay_1"><input type="radio" name="payment" value="계좌이체" id="pay_1" onclick="return(false);"/> 
 					계좌이체</label>
@@ -364,12 +416,12 @@ function requestPay(){
 	
 	<br /><br /><br />
 	
-	<!-- 할인쿠폰 -->
+	<!-- 주문 상품 정보 동의 -->
 	<table>
 		<tr>
 			<th width="30%" height="150px">주문 상품 정보 동의</th>
 			<td align="left"> 주문할 상품의 상품명, 가격, 배송정보 등을 최종 확인하였으며, 구매에 동의합니다. <br />
-			(전자상거래법 제 8조 2항)</td>
+				(전자상거래법 제 8조 2항)</td>
 			<td width="20%"><input type="checkbox" id="order_agree" name="order_agree" />
 				<label for="order_agree"></label></td>
 		</tr>
@@ -382,6 +434,28 @@ function requestPay(){
 		<input type="button" value="결제하기" id="pay_btn" onclick="requestPay(${totPrice + 2500})"/>
 	</div>
 	
+	
+	<!-- modal.js -->
+	<script src="${pageContext.request.contextPath}/resources/assets/js/modal.js"></script>
+	<!-- 스크립트 구역 -->
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		const couponButton = document.querySelector('#coupon_btn')	
+		const closeButton = document.querySelector('.closeModalBtn')	
+		
+		 
+	    couponButton.addEventListener("click", function(event) {
+            event.preventDefault(); // 폼 제출 방지
+            openModal("myCouponModal"); // 모달 띄우기
+	    });
+		
+		closeButton.addEventListener("click", function(event) {
+            event.preventDefault(); // 폼 제출 방지
+            closeModal("myCouponModal"); // 모달 닫기
+	    });
+	});	
+	</script>
+
 	<script>
 	document.title = "몬스타북스 :: 주문하기"; 
 </script>

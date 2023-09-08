@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,11 @@ import com.monstar.books.order.dto.OrderDto;
 public class OrderServiceList implements OrderService {
 
 	@Autowired
-	private SqlSession session;
+	private SqlSession sqlSession;
 
 	// 생성자
 	public OrderServiceList(SqlSession session) {
-		this.session = session;
+		this.sqlSession = session;
 	}
 
 	@Override
@@ -35,17 +36,21 @@ public class OrderServiceList implements OrderService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
-		OrderDao dao = session.getMapper(OrderDao.class);
+		OrderDao dao = sqlSession.getMapper(OrderDao.class);
 		
-//		String memberno = request.getParameter("memberno");
-//		System.out.println("memberno" + memberno);
+		// 세션에서 회원 ID 가져오기
+        HttpSession session = request.getSession();
+        String memberId = (String) session.getAttribute("id");
+        System.out.println("id :"+memberId);
+        
+        int memberno = dao.getMemberno(memberId);		
+        System.out.println("memberno :"+memberno);
 
-//		주문,주문상세,배송 테이블 조회
-//		ArrayList<OrderDto> dto = dao.orderList(memberno);
-		ArrayList<OrderDto> dto = dao.orderDetail();//memberno 추후 추가
+//		주문,주문상세,도서,도서디테일,도서 카테고리 테이블 조회
+		ArrayList<OrderDto> dto = dao.orderDetail(memberno);
 		
-//		OrderDto dtos = dao.orderList(memberno);//memberno 추후 추가
-		OrderDto dtos = dao.orderList();
+//		주문,주문상세,배송 테이블 조회
+		OrderDto dtos = dao.orderList(memberno);
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("dtos",dtos);

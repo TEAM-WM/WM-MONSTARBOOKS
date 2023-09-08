@@ -470,6 +470,7 @@ input[type="file"] {
     justify-content: space-between;
     gap: 5px;
 }
+
 .btn-wrap button{
     width: 100%;
     height: 50px;
@@ -479,12 +480,18 @@ input[type="file"] {
     border: 1px solid var(--color-main);
     transition: border 300ms ease-in-out;
 }
+
+
 .btn-wrap button:first-child{
     background-color: var(--color-main);
     color: var(--color-white);
     border: none;
 }
-
+.btn-wrap .btn-gray{
+	background:#767676!important;
+	color:#fff;
+	border:none;
+}
 /* .table-wrap{} */
 
 table {
