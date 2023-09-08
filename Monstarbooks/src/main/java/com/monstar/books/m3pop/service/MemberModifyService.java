@@ -50,6 +50,7 @@ public class MemberModifyService implements BServiceInter{
 			String mtel4 = request.getParameter("mtel4"); //
 			
 			String mtel = mtel2+mtel3+mtel4; //
+			System.out.println(mtel);
 			//String mprofileimg = req.getFilesystemName("mprofileimg"); //
 
 			String[] mfavorite = request.getParameterValues("mfavorite");
