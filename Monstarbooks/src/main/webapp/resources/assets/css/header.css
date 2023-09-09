@@ -288,7 +288,7 @@ a.global-user-menu-profile::before {
 }
 /* 전체 메뉴 더보기 */
 .global-all-menu{
-    width: var(--desktop-size);
+    width: 600px;
     display: none;
     position: absolute;
     /* border: 1px solid var(--color-main-dark); */
@@ -296,18 +296,17 @@ a.global-user-menu-profile::before {
     padding: 40px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.13);
     background-color: var(--color-white);
-    
 }
 .global-all-menu.active{
     display: block;
 }
 .global-book-list-wrap{
     display: flex;
-    justify-content: space-evenly;
-    gap: 15%;
+    justify-content: space-around;
+    gap: 20px;
 }
 .global-book-list{
-    margin-right: 20px;
+    /* margin-ri≈ßght: 20px; */
 }
 .global-book-list h4{
     font-size: var(--font-regular);
@@ -315,11 +314,10 @@ a.global-user-menu-profile::before {
 }
 .global-book-list h4 i {
     color: #cecece;
+    margin-left: 5px;
 }
 .global-book-list ul{
     display: flex;
-    width: 350px;
-    height: 200px;
     flex-direction: column;
     flex-wrap: wrap;
 }
@@ -327,7 +325,7 @@ a.global-user-menu-profile::before {
     margin-top: 8px;
     margin-right: 30px;
     font-size: var(--font-small);
-    width: 130px;
+    width: 100px;
     position: relative;
 }
 

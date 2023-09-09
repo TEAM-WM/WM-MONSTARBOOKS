@@ -3,7 +3,7 @@
 @import url(./footer.css);
 @import url(./main.css);
 @import url(./common.css);
-
+@import url(./list.css);
 @import url(./admin.css);
 /* Global*/
 :root {
@@ -86,7 +86,12 @@ body{
 	font-weight: var(--weight-bold);
 	line-height:2em;
 }
-
+.aqua{
+    background: rgb(181, 227, 242)!important;
+}
+.red{
+    color: #c30202;
+}
 /* 화살표 */
 .arrow-up {
     width: 50px;

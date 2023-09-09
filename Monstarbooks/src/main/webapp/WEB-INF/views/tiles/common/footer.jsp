@@ -9,33 +9,10 @@
 <body>
 	<footer class="global-footer footer">
             <div class="global-footer-container">
-                <div class="global-footer-notice">
-                    <h3>
-                        <a href="#">공지사항</a>
-                    </h3>
-                    <ul>
-                        <li>
-                            <a href="#">
-                                시스템 점검으로 인한 서비스 일시 중지 안내(07/02(일) 새벽) 2023-06-28
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                도서앱 다운받으면 상품권 1천원 2023-07-01
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                7월 상품권+쿠폰+결제+추천 혜택모음 2023-07-01
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
                 <div class="global-footer-bootom">
                     <div class="global-footer-left">
                         <h4 class="global-footer-title">
-                            <a href="">
+                            <a href="${pageContext.request.contextPath }/cscenter">
                                 고객센터
                                 <i class="fa-solid fa-angle-right"></i>
                             </a>
