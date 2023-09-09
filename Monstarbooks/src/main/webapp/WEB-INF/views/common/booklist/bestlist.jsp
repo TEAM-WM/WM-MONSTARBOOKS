@@ -102,7 +102,7 @@ function go_order(bno,memberno){
         <section class="breadcrumb-wrap">
             <ul>
                 <li>
-                    <a href="/books">
+                    <a href="../">
                         <i class="fa-solid fa-house"></i>
                     </a>
                 </li>

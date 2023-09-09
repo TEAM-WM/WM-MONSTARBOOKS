@@ -29,6 +29,7 @@ public class BookDetailServiceList implements BookListService {
 		this.sqlSession = session;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void execute(Model model) {
 		
@@ -69,8 +70,12 @@ public class BookDetailServiceList implements BookListService {
 		ArrayList<BookReviewDto> rdto = dao.bookReivew(bookno,rowStart,rowEnd);
 		
 //		별점 평균 조회
-		float starAvg = dao.starAvg(bookno);
-		
+		//리연 null 값 처리 추가 
+//		float starAvg = dao.starAvg(bookno);
+		Float starAvg = dao.starAvg(bookno);
+		if (starAvg == null) {
+		    starAvg = 0.0f; // 기본값 설정
+		}
 		model.addAttribute("list",dto);
 		model.addAttribute("review",rdto);
 		model.addAttribute("avg",starAvg);
