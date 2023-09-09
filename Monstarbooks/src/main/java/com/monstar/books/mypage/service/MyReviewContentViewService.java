@@ -43,14 +43,15 @@ public class MyReviewContentViewService implements MyPageService {
 		String mid = (String) session.getAttribute("id");
 //		Integer no = (Integer) session.getAttribute("memberNumber");
 
-
 		System.out.println("id받아줘 :" + mid);
 //		System.out.println("memberno받아줘 :" + no);
 
 		int reviewno = Integer.parseInt(request.getParameter("reviewno"));
-		System.out.println("reviewno받아줘 :" + reviewno);
+//		String reviewno = request.getParameter("reviewno");
+		System.out.println("reviewno받아줘 서비스 :" + reviewno);
 		
-		MyReviewDto viewDto = dao.myReviewView(reviewno, mid);
+		MyReviewDto viewDto = dao.myReviewView(reviewno, mid); //int값
+//		MyReviewDto viewDto = dao.myReviewView(reviewno, mid); //string
 
 		// 데이터를 모델에 추가
 		model.addAttribute("myreview_view", viewDto);// 뷰로 데이터 전달

@@ -41,9 +41,10 @@ public class MyReviewUpdateService implements MyPageService {
 		HttpSession session = request.getSession();
 		String mid = (String) session.getAttribute("id");
 		Integer no = (Integer) session.getAttribute("memberNumber");
+		
 		System.out.println("id받아줘 :" + mid);
 		System.out.println("memberno받아줘 :" + no);
-
+		
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
 		
 		// 파일 업로드를 위한 경로 설정
@@ -58,22 +59,24 @@ public class MyReviewUpdateService implements MyPageService {
 			req = new MultipartRequest(request, path, 1024 * 1024 * 20, "utf-8", new DefaultFileRenamePolicy());
 			// 같은 파일명 존재 시, 1, 2, 3 붙여줌
 
+			System.out.println("리뷰넘버 파라미터 "+request.getParameter("reviewno"));
 			// 요청 파라미터로부터 데이터 추출
 			String refilesrc = req.getFilesystemName("refilesrc"); // TODO : 파일 업로드
-			int rstar = Integer.parseInt(request.getParameter("rstar"));
+			int rstar = Integer.parseInt(req.getParameter("rstar"));
 //			String rstar = request.getParameter("rstar");
-//         String rtitle = request.getParameter("rtitle");
-			String rcontent = request.getParameter("rcontent");
-			int reviewno = Integer.parseInt(request.getParameter("reviewno"));
-
-			System.out.println("값 받아줘:" + rstar + rcontent + reviewno + refilesrc);
+			String rcontent = req.getParameter("rcontent");
+			int reviewno = Integer.parseInt(req.getParameter("reviewno"));
+//			String reviewno = request.getParameter("reviewno");
+			
+			
+			System.out.println("값 받아줘: " + rstar + rcontent + reviewno + refilesrc);
 
 			if(refilesrc==null) {
 				refilesrc="";
 			}	
 			
 			MyReviewDto viewDto = dao.myReviewView(reviewno, mid);
-			System.out.println("reviewno받아줘 :" + reviewno + mid + no);
+			System.out.println("reviewno받아줘 :" + reviewno + mid);
 
 			// 잘못된 reviewNo
 //			if (viewDto == null) {
@@ -87,12 +90,12 @@ public class MyReviewUpdateService implements MyPageService {
 //            }
 
 			dao.reviewUpdate(rstar, rcontent, reviewno, refilesrc, no);
-//			dao.reviewUpdate(rstar, rcontent, reviewno, refilesrc, mid);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return; // 예외 처리를 제대로 수행하고, 처리를 중단합니다.
-		}
+////		dao.reviewUpdate(rstar, rcontent, reviewno, refilesrc, mid);
+//
+			} catch (Exception e) {
+				e.printStackTrace();
+				return; // 예외 처리를 제대로 수행하고, 처리를 중단합니다.
+			}
 
 	}
 }

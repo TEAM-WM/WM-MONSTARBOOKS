@@ -126,10 +126,10 @@
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
 		resultMap="MyReview">
 		SELECT *
-FROM (
-    SELECT A.*, ROWNUM AS RNUM
-    FROM (
-        SELECT
+		FROM (
+		    SELECT A.*, ROWNUM AS RNUM
+		    FROM (
+		        SELECT
             R.REVIEWNO,
             R.BOOKNO,
             R.MEMBERNO,
@@ -212,16 +212,16 @@ FROM (
 
 	<!-- 마이페이지 리뷰 상세보기 수정(UPDATE) 기능 (완료) -->
 
-<update id="reviewUpdate">
-    UPDATE M_REVIEW
-    SET 
-    RSTAR = #{param1},
-    RCONTENT = #{param2},
-<if test="param4 != null and param4 != ''">
-    REFILESRC = #{param4}
-</if>
-    WHERE REVIEWNO = #{param3} AND MEMBERNO = #{param5}
-</update>
+		<update id="reviewUpdate">
+		    UPDATE M_REVIEW
+		    SET 
+		    RSTAR = #{param1},
+		    RCONTENT = #{param2},
+		<if test="param4 != null and param4 != ''">
+		    REFILESRC = #{param4}
+		</if>
+		    WHERE REVIEWNO = #{param3} AND MEMBERNO = #{param5}
+		</update>
 
 <!-- 	<update id="reviewUpdate">
     UPDATE M_REVIEW R 

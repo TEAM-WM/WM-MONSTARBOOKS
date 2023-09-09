@@ -129,7 +129,7 @@ a:hover {
 						</c:choose> &nbsp;&nbsp;&nbsp;<fmt:formatDate value="${dto.regdate}"
 							pattern="yyyy.MM.dd" /></td>
 							
-					<td class="right"><a href="view?reviewno=${dto.reviewno }">수정</a>
+					<td class="right"><a href="update?reviewno=${dto.reviewno }">수정</a>
 						&nbsp; l &nbsp;<a href="reviewdelete?reviewno=${dto.reviewno }">삭제</a></td>
 				</tr>
 				<tr>

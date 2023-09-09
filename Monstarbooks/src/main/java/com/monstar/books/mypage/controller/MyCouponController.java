@@ -19,7 +19,7 @@ public class MyCouponController {
 	@Autowired
 	private SqlSession sqlSession;
 
-	@RequestMapping("/mycoupon/mycouponbox")
+	@RequestMapping("/mycoupon/couponbox")
 	public String list(HttpServletRequest request, Model model) {
 		System.out.println("마이페이지 쿠폰 메인화면입니다.");
 //		데이터 가져오기 작업
@@ -28,9 +28,9 @@ public class MyCouponController {
 		service = new MyCouponListService(sqlSession);
 		service.execute(model);
 
-		return "common/mycoupon/mycouponbox";
+		return "common/mycoupon/couponbox";
 
-	}// 프로필뷰 메인 종료
+	}// 쿠폰함 메인 종료
 
 	
 }// class 종료

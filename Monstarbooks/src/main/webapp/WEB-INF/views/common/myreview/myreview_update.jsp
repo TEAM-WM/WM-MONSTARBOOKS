@@ -103,7 +103,7 @@ tr, td {
 
 		<tr>
 			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px;">별점&nbsp;&nbsp;</td>
-				<td class="left">
+				<td class="left" >
 					<select name="rstar" style="color:#ffe100; font-weight: bold; font-size: 20px; ">
 						<option value="1" <c:if test="${myreview_view.rstar == 1}">selected</c:if>>★</option>
 						<option value="2" <c:if test="${myreview_view.rstar == 2}">selected</c:if>>★★</option>
