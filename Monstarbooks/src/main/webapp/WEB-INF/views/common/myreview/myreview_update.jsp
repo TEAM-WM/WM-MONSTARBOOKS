@@ -13,21 +13,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Document</title>
-
-
 <style>
-div {
-width:550px;
+
+h2 {
+    text-align: center;
 }
 
 form {
-width: 550px;
-align: center;
-padding: 0 0 0 10px;
+	width: 800px;
+	align: center;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
 }
 
+/* 테이블 가운데 정렬 */
 table {
-width: 550px;
+width: 600px;
 align: center;
 margin-left: auto;
 margin-right: auto;
@@ -53,59 +55,55 @@ tr, td {
 	background-color: var(- -color-white);
 	font-weight: var(- -weight-bold);
 	color: var(- -color-main);
-	
-</style>
+	}
 
+.content {
+	display:flex;
+	text-align: left;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}	
+
+</style>
 </head>
 <!-- 	리뷰번호,회원번호,회원아이디,도서명,후기내용,별점,사진첨부,카테고리1,2 -->
 <!--  230830 [효슬] 리뷰 상세페이지 수정폼 구현 -->
 <body>
-	<br />
-	<br />
-
-	<h3>Review Update</h3>
+	<br /><br />
 	
-	
-    <div class="content">
+	 <div class="content">
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
             <%@ include file="../myprofile/myprofile.jsp" %>
         </div>
 
-        <!-- 주문/배송 목록 테이블 -->
-        <table class="order-table">
-            <tr>
-                <th>주문일자</th>
-                <th>상품정보</th>
-                <th>수량</th>
-                <th>가격</th>
-                <th>총 가격</th>
-                <th>배송 상태</th>
-            </tr>
-		</table>
-	
-	
+			<!-- hidden값 잘 넘어옴 확인완료  -->
 	<form action="reviewupdate" method="post" enctype="multipart/form-data">
-	<br />
+		<div>
+			<br />
+		<h2>Review Update</h2>
+	<br /><br />
 	<table>
 		<tr>
-			<td colspan="2">
+			<td colspan="3">
 			<input type="hidden" name="reviewno" value="${myreview_view.reviewno }" />
-			<input type="hidden" name="memberno" value="${myreview_view.memberno }" /></td>
+			<input type="hidden" name="memberno" value="${myreview_view.memberno }" />
+			<input type="hidden" name="mid" value="${myreview_view.member.mid }" />
+			<input type="hidden" name="rtitle" value="${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }
+				&nbsp;&nbsp; ${myreview_view.book.btitle } " /></td>
 		</tr>
 	
-	<tr>
-			<td colspan="2" style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold;"
-				class="left">[${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }]
-			<%-- 	&nbsp;&nbsp; <input type="text" name="btitle" value="${myreview_view.book.btitle }"> <br /> --%>
-				&nbsp; ${myreview_view.book.btitle } <br />
+		<tr>
+			<td colspan="3" style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold;"
+				class="left"><br />[${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }]
+				&nbsp;&nbsp; ${myreview_view.book.btitle } <br />
 			<br />
 			</td>
 		</tr>
 
 		<tr>
-			<td class="left">별점&nbsp;&nbsp;</td>
-				<td class="left">
+			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px;">별점&nbsp;&nbsp;</td>
+				<td class="left" >
 					<select name="rstar" style="color:#ffe100; font-weight: bold; font-size: 20px; ">
 						<option value="1" <c:if test="${myreview_view.rstar == 1}">selected</c:if>>★</option>
 						<option value="2" <c:if test="${myreview_view.rstar == 2}">selected</c:if>>★★</option>
@@ -116,89 +114,26 @@ tr, td {
 			 </td>
 			</tr>
 		<tr>
-			<td class="left">후기&nbsp;&nbsp;</td>
-			<%-- <td class="left"><textarea name="rcontent" rows="10" style="font-size: 15px; height: 300px;">${myreview_view.rcontent}</textarea></td> --%>
-			<td class="left"><input type="text" name="rcontent" style="height: 300px;" value="${myreview_view.rcontent}"></td>
+			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px; ">후기&nbsp;&nbsp;</td>
+			<td class="left"><input type="text" name="rcontent" style="height: 350px;" value="${myreview_view.rcontent}"></td>
 		</tr>
 		 <tr>
-			<td class="left">첨부&nbsp;</td>
-			<td><input type="file" name="refilesrc" value="${myreview_view.refilesrc}" /></td>
+			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px; ">첨부&nbsp;</td>
+			<td><input type="file" name="refilesrc" accept=".jpg, .png, .gif" onchange="imageChoose(this)" value="${myreview_view.refilesrc}" /></td>
 		</tr>
 		
 		<tr>			
-			<td colspan="2">
-				<input type="submit" value="save" />
+			<td colspan="3">
+				<input type="submit" value="update" />
 				<a href="list" class="relist">list</a>
 			</td>
 		</tr>
 	</table>
-	<br />
-	<br />
-	
+	</div>
 	</form>
-
+</div>
 
 </body>
 </html>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	<!--  별점 수정할 것 -->
-	<%-- 	<c:forEach items="${reviewupdate }" var="star">
-		<tr>
-			<td class="star">별점 ${star.reviewno } | ${star.memberno }</td>
-			<td><input type="range" onclick="redeptlist(this);"
-				oninput="drawStar(this)" value="1" step="1" min="0" max="5">
-			</td>
-			<td align="center">
-					<span class="star">
-				      	  ★★★★★
-				        <span id="star2" style="width:${star.rstar*20}%">★★★★★</span>
-				        <input type="range" value="1" step="1" min="0" max="5">
-					</span>
-				</td>
-		</tr>
-		</c:forEach> --%>
-		<%-- 			<td><input type="text" name="rstar"
-					value="${myreview_list.rstar }" /></td> --%>
-					
-		<!-- <tr>					
-					<td class="left">첨부</td>
-					<td><input type="file" name="refilesrc" accept=".jpg, .png, .gif" onchange="imageChoose(this)" /></td>
-				</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="update" />
-					<a href="myreview_list" class="relist">list</a></td>
-			</tr> -->
-	
+

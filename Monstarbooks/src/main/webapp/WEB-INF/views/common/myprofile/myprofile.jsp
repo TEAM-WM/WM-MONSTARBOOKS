@@ -87,13 +87,13 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="<%=request.getContextPath()%>/myreview/myreview_list">
+                    <a href="<%=request.getContextPath()%>/myreview/list">
                         <i class="fa-solid fa-pen"></i>
                         <span>리뷰</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="<%=request.getContextPath()%>/mycoupon/couponbox">
                         <i class="fa-solid fa-ticket-simple"></i>
                         <span>쿠폰함</span>
                     </a>
