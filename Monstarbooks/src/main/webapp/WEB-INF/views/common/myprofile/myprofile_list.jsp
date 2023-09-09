@@ -76,20 +76,19 @@ table {
 </head>
 <!-- 로그인 시 회원이 등록한 이미지 출력/ 없을 경우 기본 이미지 -->
 <body>
+    		<c:forEach items="${list }" var="mem">
 
     <div class="content">
+
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
-            <%@ include file="myprofile.jsp" %>
+            <%@ include file="myprofile_list_side.jsp" %>
         </div>
-	<br />
-	<br />
 
 <form action="myprofile_list" method="post">
 	<div align="left" class="card" style="height: 1000px;">
-	<br /><br />	<br />
-		<c:forEach items="${list }" var="mem">
-
+	<br />
+	<br /><br />
 		<table>
 			<c:choose>
 				<c:when test="${not empty mem.mprofileimg}">
@@ -133,14 +132,15 @@ table {
 
 			
 				</table>
-			</c:forEach>
+
 <br />
 <br />
 <br />
 	</div>
 
 </form>
-</div>	
+</div>
+			</c:forEach>	
 <br />
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 프로필메인";
