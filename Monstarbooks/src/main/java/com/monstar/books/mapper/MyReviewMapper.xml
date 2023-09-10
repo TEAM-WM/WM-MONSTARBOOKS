@@ -216,26 +216,12 @@
 		    UPDATE M_REVIEW
 		    SET 
 		    RSTAR = #{param1},
-		    RCONTENT = #{param2},
-		<if test="param4 != null and param4 != ''">
-		    REFILESRC = #{param4}
-		</if>
+		    RCONTENT = #{param2}
+		    <if test="param4 != null and param4 != ''">
+		        , REFILESRC = #{param4}
+		    </if>
 		    WHERE REVIEWNO = #{param3} AND MEMBERNO = #{param5}
 		</update>
-
-<!-- 	<update id="reviewUpdate">
-    UPDATE M_REVIEW R 
-    SET 
-    R.RSTAR = #{param1},
-    R.RCONTENT = #{param2},
-    <if test="param4 != null and param4 != ''">
-    R.REFILESRC = #{param4}
-    </if> 
-    WHERE R.REVIEWNO = #{param3} AND R.MEMBERNO = 
-    (SELECT M.MEMBERNO FROM M_MEMBER M WHERE M.MID = #{param5}) -->
-    
-    
-
 
 	<!-- 230905 [효슬] 리뷰 글쓰기폼 불러오기: 사용자, 책, 책 상세정보, 북카테고리, 주문정보 -->
 	<select id="bcategories"
