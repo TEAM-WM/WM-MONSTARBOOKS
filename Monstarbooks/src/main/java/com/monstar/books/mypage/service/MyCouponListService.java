@@ -1,5 +1,6 @@
 package com.monstar.books.mypage.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.monstar.books.member.dto.MemberDto;
-import com.monstar.books.mypage.dao.MyReviewDao;
-import com.monstar.books.mypage.vopage.SearchVO;
+import com.monstar.books.mypage.vopage.*;
+import com.monstar.books.mypage.dao.MyCouponDao;
+import com.monstar.books.order.dto.CouponMemberDto;
 
 @Service
 @Primary
@@ -26,7 +27,7 @@ public class MyCouponListService implements MyPageService {
 	public MyCouponListService(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
-
+	//[효슬] 마이페이지 쿠폰함 목록
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>>마이쿠폰리스트 신호");
@@ -35,14 +36,37 @@ public class MyCouponListService implements MyPageService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
-//     로그인 사용자 ID 세션에서 받아오기
+		MyCouponDao dao = sqlSession.getMapper(MyCouponDao.class);
+		
+//     로그인 사용자 회원번호 세션에서 받아오기
 		HttpSession session = request.getSession();
-		String mid = (String) session.getAttribute("id");		
-		System.out.println("id받아줘 :" + mid);
-		
-		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
+		Integer no = (Integer) session.getAttribute("memberNumber");
 
+		System.out.println("member :" + no);
+
+		// paging
+		SearchVO searchVO = (SearchVO) map.get("searchVO");
 		
+		String strPage = request.getParameter("page");
+//		처음 null 처리
+		if(strPage == null) 
+			strPage = "1";
+		int page = Integer.parseInt(strPage);
+		searchVO.setPage(page);
+		
+//		글의 총갯수 구하기
+		int total = dao.TotCount();
+		searchVO.pageCalculate(total);
+		
+//		페이징 글 번호 전달
+		int rowStart = searchVO.getRowStart();
+		int rowEnd = searchVO.getRowEnd();
+		
+//		int cpno = Integer.parseInt(request.getParameter("cpno"));
+//		System.out.println("cpno :" + cpno);
+		
+		List<CouponMemberDto> couponMember = dao.myCoupon(rowStart,rowEnd,no);		
+		model.addAttribute("mcoupon", couponMember);
 		
 	}// execute method
 

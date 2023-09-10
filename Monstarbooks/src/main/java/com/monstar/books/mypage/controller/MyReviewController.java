@@ -130,7 +130,6 @@ public class MyReviewController {
 
 	// [효슬] 리뷰 상세글 수정 기능
 	@RequestMapping(method = RequestMethod.POST, value = "/myreview/reviewupdate")
-//	@PostMapping(value = "/myreview/reviewupdate")
 	public String reviewUpdate(HttpServletRequest request, Model model) {
 
 //		System.out.println("request 업데이트 진행" + request.getParameter("reviewno"));

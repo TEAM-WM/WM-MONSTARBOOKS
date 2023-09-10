@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.monstar.books.mypage.service.MyCouponListService;
 import com.monstar.books.mypage.service.MyPageService;
+import com.monstar.books.mypage.vopage.SearchVO;
 
 @Controller
 public class MyCouponController {
@@ -20,10 +21,11 @@ public class MyCouponController {
 	private SqlSession sqlSession;
 
 	@RequestMapping("/mycoupon/couponbox")
-	public String list(HttpServletRequest request, Model model) {
+	public String list(HttpServletRequest request, SearchVO searchVO, Model model) {
 		System.out.println("마이페이지 쿠폰 메인화면입니다.");
 //		데이터 가져오기 작업
 		model.addAttribute("request", request);
+		model.addAttribute("searchVO", searchVO);
 
 		service = new MyCouponListService(sqlSession);
 		service.execute(model);
@@ -32,5 +34,4 @@ public class MyCouponController {
 
 	}// 쿠폰함 메인 종료
 
-	
 }// class 종료
