@@ -41,7 +41,7 @@ td button:hover {
 	background-color: #2980b9;
 }
 </style>
-<script>
+<!-- <script>
     // 검색 결과가 없을 때 알림창을 표시하는 함수
     function showNoResultsAlert() {
         alert("검색 결과가 없습니다.");
@@ -54,16 +54,20 @@ td button:hover {
             showNoResultsAlert();
         }
     }
-</script>
+</script> -->
 <body>
 <h1>1:1문의</h1>
 <form action="list" method="post">
-    <div>
+    <div style="display: inline-block; margin-right: 10px;">
         <select name="searchType" id="searchType">
             <option value="qtitle" ${qtitle ? 'selected' : ''}>제목</option>
             <option value="mname" ${mname ? 'selected' : ''}>작성자</option>
         </select>
-        <input type="text" name="sk" value="${resk }" style="width: 150px;" maxlength="50"/>
+    </div>
+    <div style="display: inline-block; margin-right: 10px;">
+        <input type="text" name="sk" value="${resk}" style="width: 150px;" maxlength="50"/>
+    </div>
+    <div style="display: inline-block;">
         <input type="submit" value="검색"/>
     </div>
 </form>
@@ -99,27 +103,26 @@ td button:hover {
 	</table>
 </div>
 	<hr />
-	<c:if test="${searchVO.page>1 }">
-		<a href="list?page=1" style="text-decoration: none;">처음</a>
-		<a href="list?page=${searchVO.page-1 }" style="text-decoration: none;">이전</a>
-	</c:if>
-	<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }"
-		var="i">
-		<c:choose>
-			<c:when test="${i eq searchVO.page }">
-				<span style="color: red; font-weight: bold;">${i }</span>
-			</c:when>
-			<c:otherwise>
-				<a href="list?page=${i }" style="text-decoration: none;">${i }</a>
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
-	<c:if test="${searchVO.page < searchVO.totPage }">
-		<a href="list?page=${searchVO.page+1 }" style="text-decoration: none;">다음</a>
-		<a href="list?page=${searchVO.totPage }"
-			style="text-decoration: none;">마지막</a>
-	</c:if>
-
+<div style="display: inline-block; margin-top: 10px;">
+    <c:if test="${searchVO.page > 1 }">
+        <a href="list?page=1" style="text-decoration: none;">처음</a>
+        <a href="list?page=${searchVO.page - 1 }" style="text-decoration: none;">이전</a>
+    </c:if>
+    <c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+        <c:choose>
+            <c:when test="${i eq searchVO.page }">
+                <span style="color: red; font-weight: bold;">${i }</span>
+            </c:when>
+            <c:otherwise>
+                <a href="list?page=${i }" style="text-decoration: none;">${i }</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${searchVO.page < searchVO.totPage }">
+        <a href="list?page=${searchVO.page + 1 }" style="text-decoration: none;">다음</a>
+        <a href="list?page=${searchVO.totPage }" style="text-decoration: none;">마지막</a>
+    </c:if>
+</div>
 	<script>
 		document.title = "몬스타북스' 관리자";
 	</script>

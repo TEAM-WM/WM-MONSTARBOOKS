@@ -25,12 +25,16 @@
 <body>
 <h1>배너목록</h1>
 <form action="list" method="post">
-    <div>
+    <div style="display: inline-block; margin-right: 10px;">
         <select name="searchType" id="searchType">
             <option value="etitle" ${etitle ? 'selected' : ''}>제목</option>
             <option value="efilesrc" ${efilesrc ? 'selected' : ''}>파일명</option>
         </select>
-        <input type="text" name="sk" value="${resk }" style="width: 150px;" maxlength="50"/>
+    </div>
+    <div style="display: inline-block; margin-right: 10px;">
+        <input type="text" name="sk" value="${resk}" style="width: 150px;" maxlength="50"/>
+    </div>
+    <div style="display: inline-block;">
         <input type="submit" value="검색"/>
     </div>
 </form>

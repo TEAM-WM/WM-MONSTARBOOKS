@@ -15,34 +15,22 @@
 			return;
 		}
 	}
+	
 </script>
 </head>
 <body>
 <h2>공지사항 관리</h2>
 <!-- 검색 -->
-<div>
-	<c:choose>
-		<c:when test="${ntitle }">
-			<input type="checkbox" name="searchType" value="ntitle" checked />
-		</c:when>
-		<c:otherwise>
-			<input type="checkbox" name="searchType" value="ntitle" />
-		</c:otherwise>
-	</c:choose>
-	제목
-	<c:choose>
-		<c:when test="${ncontent }">
-			<input type="checkbox" name="searchType" value="ncontent" checked />
-		</c:when>
-		<c:otherwise>
-			<input type="checkbox" name="searchType" value="ncontent" />
-		</c:otherwise>
-	</c:choose>
-	내용
-	<input type="text" name="sk" value="${sk }" style="width:150px;" maxlength="100" />
-	<input type="submit" value="검색" />
-	
-</div>
+<form action="notice" method="post">
+    <div>
+        <select name="searchType" id="searchType">
+            <option value="ntitle" ${ntitle ? 'selected' : ''}>제목</option>
+            <option value="ncontent" ${ncontent ? 'selected' : ''}>내용</option>
+        </select>
+        <input type="text" name="sk" value="${resk }" style="width: 150px;" maxlength="50"/>
+        <input type="submit" value="검색"/>
+    </div>
+</form>
 <button onclick="insertNotice();">공지등록</button> <br />
 <table width="700" border="1">
 	<tr>
