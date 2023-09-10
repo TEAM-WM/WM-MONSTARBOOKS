@@ -99,11 +99,11 @@ tr, td {
 	<table>
 		<tr>
 			<td colspan="3">
-			<input type="text" name="reviewno" value="${bcate.reviewno }" />
-			<input type="text" name="memberno" value="${bcate.memberno }" />
-			<input type="text" name="bookno" value="${bcate.bookno }" />
-			<input type="text" name="mid" value="${bcate.member.mid }" />
-			<input type="text" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
+			<input type="hidden" name="reviewno" value="${bcate.reviewno }" />
+			<input type="hidden" name="memberno" value="${bcate.memberno }" />
+			<input type="hidden" name="bookno" value="${bcate.bookno }" />
+			<input type="hidden" name="mid" value="${bcate.member.mid }" />
+			<input type="hidden" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
 				&nbsp;&nbsp; ${bcate.book.btitle } " /></td>
 			   <!-- Use hidden fields to submit data to the server / bookno 제외하고 잘들어옴 -->
 				  

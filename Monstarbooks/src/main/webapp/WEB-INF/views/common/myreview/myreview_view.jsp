@@ -144,7 +144,7 @@ tr, td {
 		<tr>
 				<!-- dto.refilesrc가 비어있지 않으면 -->
 			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px;">첨부&nbsp;&nbsp;</td>
-					<td class="left">&nbsp;<img border="1" style="width:50px; height=auto;" 
+					<td class="left">&nbsp;<img border="1" style="width:100px; height=auto;" 
 						src="${pageContext.request.contextPath}/resources/assets/upload/${myreview_view.refilesrc }"
 						alt="이미지첨부" />
 			</td></tr></c:if>
