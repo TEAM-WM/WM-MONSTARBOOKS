@@ -120,7 +120,7 @@ article{
     transform: scale(1.05);
 }
 
-.main-product-list .rank{
+.rank{
     font-weight: var(--weight-bold);
     font-size: var(--font-small);
     color: var(--color-white);
@@ -136,6 +136,7 @@ article{
     border: 1px solid #cecece;
     overflow: hidden;
     margin-top: 10px;
+    background: #bdbaba url(../imgs/thumbnail.png) no-repeat center center / 50%;
 }
 .product-card-image img{
     width: 100%;

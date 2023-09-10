@@ -26,7 +26,7 @@ public interface BookListDao {
 	public ArrayList<BookReviewDto> bookReivew(String bookno, int rowStart, int rowEnd);
 	
 	// 별점 평균
-	public float starAvg(String bookno);
+	public Float starAvg(String bookno);
 
 	// 리뷰 전체 수 조회
 	public int reviewCnt(String bookno);
