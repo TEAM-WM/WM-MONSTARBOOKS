@@ -59,24 +59,29 @@ $().ready(function(){
 
 /* 수량조절 */
 function count_up(n,p){
-	var cnt = $(".cnt_"+n).val();
-	$(".cnt_"+n).attr("value",++cnt);
-	$.ajax({
-		url:'cntUpdate',
-		type:'post',
-		data : {
-			'ccount': $(".cnt_"+n).val(),
-			'cartno' : n	
-		},success : function(result){
-			$(".totPrice_"+n).text(cnt*p);
-			check_sel();
-		}
-	});
+	var cnt = Number($(".cnt_"+n).val()); //수량
+	var stock = Number($("#bstock").val()); //재고
+	if(cnt < stock){//수량이 재고보다 적을때
+		$(".cnt_"+n).attr("value",++cnt);
+		$.ajax({
+			url:'cntUpdate',
+			type:'post',
+			data : {
+				'ccount': $(".cnt_"+n).val(),
+				'cartno' : n	
+			},success : function(result){
+				$(".totPrice_"+n).text((cnt*p).toLocaleString());
+				check_sel();
+			}
+		}); 
+	}else{//수량이 재고보다 많을때
+		alert("재고를 초과하는 주문은 처리할 수 없습니다. 주문 수량을 확인해주세요.");
+	}
 	//form submit 막기
 	$(".order_form").submit(function(e){
 		e.preventDefault();
 		$(".order_form").unbind();
-	})
+	});
 } 
 function count_down(n,p){
 	var cnt = $(".cnt_"+n).val();
@@ -89,7 +94,7 @@ function count_down(n,p){
 				'ccount': $(".cnt_"+n).val(),
 				'cartno' : n
 			},success : function(result){
-				$(".totPrice_"+n).text(cnt*p);
+				$(".totPrice_"+n).text((cnt*p).toLocaleString());
 				check_sel();
 			}
 		});
@@ -101,7 +106,7 @@ function count_down(n,p){
 	})
 }
 /* 체크항목의 가격 합계 */
-function check_sel(c){
+function check_sel(amount){
 	var cnt = $("input[name=chk]:checked").length;
 	var arr = new Array(); 
 	var priceSum = 0;
@@ -110,7 +115,7 @@ function check_sel(c){
 		arr.push($(this).val());
 	});
 	for ( var i in arr) {
-		priceSum += Number($(".totPrice_"+arr[i]).text());
+		priceSum += Number($(".cnt_"+arr[i]).val())*Number($("#bpricesell_"+arr[i]).val());
 		cntSum += Number($(".cnt_"+arr[i]).val());
 	}
 	$(".product_price").text(priceSum.toLocaleString());
@@ -118,7 +123,7 @@ function check_sel(c){
 	$("#product_cnt").text(cntSum);
 	
 	// 하나라도 체크해제되면 전체체크박스도 해제
-	if($("input[name=chk]:checked").length == c){
+	if($("input[name=chk]:checked").length == amount){
 		$('#all_select').prop('checked',true); 
 	}else{
 		$('#all_select').prop('checked',false); 
@@ -126,9 +131,9 @@ function check_sel(c){
 }
 /* 선택상품 삭제 */
 function cart_delete(){
-	var cnt = $("input[name=chk]:checked").length;
+	var cnt = $("input[type='checkbox']:checked").length;
 	var arr = new Array();
-	$("input[name=chk]:checked").each(function(){
+	$("input[type='checkbox']:checked").each(function(){
 		arr.push($(this).attr('id'));
 	});
 
@@ -241,7 +246,29 @@ function go_order_all(cntSum){
 						<th>가격</th>
 					</tr>
 					
-					<c:forEach items="${dto }" var="list">
+				<!-- 재고가 0일때 -->
+				<c:forEach items="${dto }" var="list">
+					<c:choose>
+							<c:when test="${list.list.bstock eq 0}">
+								<tr>
+									<td><input type="checkbox" id="${list.cartno }" name="soldout" value="${list.cartno }"/>
+										<label for="${list.cartno }"></label></td>
+									
+									<!-- 상품 정보 -->
+									<td><img
+										src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
+										alt="책 썸네일 이미지" /></td>
+									<td align="left"><b style="font-size: large">[${list.category.bcategory1}도서]
+											${list.list.btitle }</b> <br /> <br /> <b><span
+											style="color: orange">${list.list.bdiscount }%</span> 
+											<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
+		
+									<!-- 품절 안내 -->
+									<td colspan="2">일시품절</td>
+								</tr>
+						</c:when>
+
+						<c:otherwise>						
 						<tr>
 							<!-- 체크박스 -->
 							<td><input type="checkbox" id="${list.cartno }" name="chk" value="${list.cartno }"
@@ -252,11 +279,12 @@ function go_order_all(cntSum){
 							<td><img
 								src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
 								alt="책 썸네일 이미지" /></td>
-							<td align="left"><b style="font-size: large">[${list.category.bcategory1}도서]
-									${list.list.btitle }</b> <br /> <br /> <b><span
-									style="color: orange">${list.list.bdiscount }%</span> 
+							<td align="left"><b style="font-size: large"><a href="booklist/bookdetail?bookno=${list.bookno }">
+									[${list.category.bcategory1}도서] ${list.list.btitle }</a></b> <br /> <br /> 
+									<b> <span style="color: orange">${list.list.bdiscount }%</span> 
 									<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
-
+									
+									
 							<!-- 수량조절 -->
 							<td><b><button class="minus_btn_${list.cartno}"
 										onclick="count_down(${list.cartno},${list.list.bpricesell })">
@@ -264,17 +292,22 @@ function go_order_all(cntSum){
 									</button> <input type="text" class="cnt_${list.cartno}" id="cnt"
 									name="ccount" value="${list.ccount }" readonly/>
 
+									<input type="hidden" id="bstock" value="${list.list.bstock }"/>
+									<input type="hidden" id="bpricesell_${list.cartno}" value="${list.list.bpricesell }"/>
+									
 									<button class="plus_btn_${list.cartno}"
 										onclick="count_up(${list.cartno},${list.list.bpricesell })">
 										<i class="fa-solid fa-plus"></i>
 									</button></b></td>
-
+									
 							<!-- 가격 -->
 							<td>
-							<span class="totPrice_${list.cartno }"><fmt:parseNumber
-										value="${list.list.bpricesell * list.ccount}"/></span>원</td>
+							<span class="totPrice_${list.cartno }"><fmt:formatNumber value="${list.list.bpricesell * list.ccount }" 
+								pattern="#,###" /></span>원</td>
 						</tr>
-					</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 				</table>
 			</form>
 	</div>
@@ -282,7 +315,7 @@ function go_order_all(cntSum){
 
 	<!-- 쇼핑계속하기, 선택상품 삭제 -->
 	<div align="right">
-		<button type="button" id="btn2" onclick="location.href='./'"
+		<button type="button" id="btn2" onclick="history.back()"
 			style="background-color: #f7f7f7; color: gray;">
 			<i class="fa-solid fa-chevron-left" style="color: gray;"></i> 쇼핑 계속하기
 		</button>

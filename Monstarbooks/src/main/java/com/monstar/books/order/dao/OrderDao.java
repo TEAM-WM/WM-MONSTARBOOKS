@@ -20,6 +20,9 @@ public interface OrderDao {
 //	결제완료되면 장바구니에서 삭제
 	public void cartDelete(String bookno, int memberno);
 	
+//	재고 수량 감소
+	public void stockDecrease(String bookno, String ocount);
+	
 //	주문,주문상세,도서,도서디테일,도서 카테고리 테이블 조회
 	public ArrayList<OrderDto> orderDetail(int memberno);
 
@@ -28,9 +31,6 @@ public interface OrderDao {
 
 //	id로 memberno 조회
 	public int getMemberno(String memberId);
-
-//	보유 쿠폰 조회
-	public ArrayList<CouponDto> myCouponCheck(int memberno);
 
 //	쿠폰 사용함으로 업데이트
 	public void couponUse(String usedCpno, int memberno);
