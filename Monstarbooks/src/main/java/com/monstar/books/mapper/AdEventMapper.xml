@@ -1,0 +1,75 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230818 / 리연 추가 -->
+<mapper namespace="com.monstar.books.adevent.dao.AdEventDao">
+	<resultMap type="com.monstar.books.adbanner.dto.EventDto" id="Event">
+		<result column="EVENTNO" property="eventno"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="ECONTENT" property="econtent"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adbanner.dto.BannerDto" id="Banner">
+		<result column="BANNERNO" property="bannerno"/>
+		<result column="EVENTNO" property="eventno"/>
+		<result column="QCATEGORY" property="qcategory"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<collection property="event" resultMap="Event"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adevent.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCRIPTION" property="cpdescription"/>
+		<result column="CAPRICE" property="caprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	</resultMap>
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+		<result column="MNAME" property="mname"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adevent.dto.CouponMemberDto" id="CouponMember">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO" property="cpno"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+		<collection property="coupon" resultMap="Coupon"></collection>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	
+	<select id="list" resultType="com.monstar.books.adbanner.dto.EventDto">
+		SELECT*FROM M_EVENT
+	</select>
+	
+	<insert id="eventcoupondwon1">
+		INSERT INTO M_COUPON_MEMBER VALUES(1,1,1,SYSDATE,SYSDATE+7,'n')
+	</insert>
+	<insert id="eventcoupondwon2">
+		INSERT INTO M_COUPON_MEMBER VALUES(2,1,1,SYSDATE,SYSDATE+7,'n')
+	</insert>
+	<insert id="eventcoupondwon3">
+		INSERT INTO M_COUPON_MEMBER VALUES(3,1,1,SYSDATE,SYSDATE+7,'n')
+	</insert>
+	
+	<select id="eventdetail" resultType="com.monstar.books.adbanner.dto.EventDto">
+		SELECT*FROM M_EVENT
+		WHERE EVENTNO=#{param1}
+	</select>
+	<update id="eventdelete">
+		UPDATE M_EVENT SET DELETED='yes' WHERE EVENTNO=#{param1}
+	</update>
+	
+	
+	
+</mapper>

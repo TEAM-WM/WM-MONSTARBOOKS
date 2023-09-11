@@ -80,6 +80,7 @@ public class AdNoticeController {
 	// noticeUpdate
 	@RequestMapping("admin/adnotice/noticeUpdate")
 	public String NoticeUpdate(HttpServletRequest request, Model model) {
+		System.out.println("NoticeUpdate");
 		
 		// 공지사항 조회
 		model.addAttribute("request",request);
@@ -95,7 +96,7 @@ public class AdNoticeController {
 	public String NoticeUpdate2(HttpServletRequest request, Model model) {
 		
 		model.addAttribute("request",request);
-		String path = "C:\\MonstarBook\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
+		String path = "/Users/chajong-geon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/upload";
 		MultipartRequest req = null;
 		try {
 			req = new MultipartRequest(request, path, 1024*1024*20,

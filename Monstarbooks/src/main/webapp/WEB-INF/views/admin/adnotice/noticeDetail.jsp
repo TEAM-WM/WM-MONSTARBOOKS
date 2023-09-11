@@ -49,7 +49,7 @@
 			<td colspan="4">
 				<c:if test="${noticeDetail.nfilesrc ne null }">
 					<img border="1" width="75" height="75"
-					 src="../../resources/assets/upload/${noticeDetail.nfilesrc }" alt="${noticeDetail.nfilesrc }" />
+					 src="${pageContext.request.contextPath}/resources/assets/upload/${noticeDetail.nfilesrc }" alt="${noticeDetail.nfilesrc }" />
 				</c:if>
 			</td>
 		</tr>
