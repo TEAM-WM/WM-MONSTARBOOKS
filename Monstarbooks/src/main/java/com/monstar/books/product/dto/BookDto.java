@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookDto {
 	private int bookno; //도서번호
-	private int bisbn; //ISBN
+	private Long bisbn; //ISBN
 	private String btitle; //도서제목
 	private String bsubtitle; //도서부제목
 	private String bpublisher; //출판사

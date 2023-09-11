@@ -1,17 +1,19 @@
--- °øÁö»çÇ×(m_notice) Å×ÀÌºí SQL Äõ¸®
+-- ê³µì§€ì‚¬í•­(m_notice) í…Œì´ë¸” SQL ì¿¼ë¦¬
 create table m_notice(
 noticeno number primary key,
 ntitle varchar2(225) not null,
-ncontent varchar2(1000) not null,
+ncontent CLOB not null,
 nwriter varchar2(100) not null,
 nregdate DATE default sysdate not null,
-nfilesrc varchar2(100) default 'x',
-deleted char(3) default 'No' check(deleted in ('No','Yes')),
+nfilesrc varchar2(100),
+deleted char(3) default 'no' check(deleted in ('no','yes')),
 memberno number not null
 );
 
--- noticenoÀÇ °ªÀ¸·Î µé¾î°¥ ½ÃÄö½º »ı¼º
+commit;
+
+-- noticenoì˜ ê°’ìœ¼ë¡œ ë“¤ì–´ê°ˆ ì‹œí€€ìŠ¤ ìƒì„±
 create sequence m_notice_seq;
 
--- °øÁö»çÇ×(m_notice) Å×ÀÌºíÀÇ memberno ÇÊµå¸¦ »ç¿ëÀÚ(m_member) Å×ÀÌºíÀÇ memberno ÇÊµå¸¦ ÂüÁ¶ÇÏ¿© ¿Ü·¡Å°·Î ¼³Á¤(¾ÆÁ÷ ¿Ü·¡Å° ¼³Á¤ÇÏÁö ¾ÊÀ½)
+-- ê³µì§€ì‚¬í•­(m_notice) í…Œì´ë¸”ì˜ memberno í•„ë“œë¥¼ ì‚¬ìš©ì(m_member) í…Œì´ë¸”ì˜ memberno í•„ë“œë¥¼ ì°¸ì¡°í•˜ì—¬ ì™¸ë˜í‚¤ë¡œ ì„¤ì •(ì•„ì§ ì™¸ë˜í‚¤ ì„¤ì •í•˜ì§€ ì•ŠìŒ)
 alter table m_notice add constraint fk_m_notice_memberno foreign key(memberno) references m_member(memberno);

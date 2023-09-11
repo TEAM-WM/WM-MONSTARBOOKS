@@ -19,14 +19,14 @@ public interface ProductDao {
 	public ArrayList<BookCategoryDto> selectCategory();//도서카테고리 정보 리스트 불러오기
 	
 	
-	public void insertBook(int bisbn, String btitle, String bsubtitle, 
+	public void insertBook(long bisbn, String btitle, String bsubtitle, 
 			String bpublisher, String bwriter, String btranslator, String bpdate,
 			int bprice, int bpricesell, int bdiscount, String bstatus, int bstock);//테이블 "도서" 인서트
 	public void insertBookDetail(int bcategoryno, String bimg, String bimgdetail, 
 			String bdescription, int bpage, String bsize, String badge);//테이블 "도서디테일" 인서트
 	
 	
-	public void updateBook(int bookno, int bisbn, String btitle, String bsubtitle, String bpublisher,
+	public void updateBook(int bookno, long bisbn, String btitle, String bsubtitle, String bpublisher,
 			String bwriter, String btranslator, String bpdate, int bprice, int bpricesell,
 			int bdiscount, String bstatus, int bstock);
 //	public void updateBookDetail(int bookno, int bcategoryno, String bimg, String bimgdetail, 

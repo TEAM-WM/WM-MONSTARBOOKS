@@ -1,28 +1,35 @@
 /* form hidden */
-.order_form{
+.hidden{
     display: none;
 }
 /* 별점 */
-.star {
+.star-rating {
 	position: relative;
 	font-size: 2rem;
+}
+
+.star-rating>div{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.star-back{
+    z-index: 1;
+}
+.star-back > i {
 	color: #ddd;
+    display: inline-block;
 }
-.star input {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	opacity: 0;
-	cursor: auto;
-}
-.star span {
+.star-front {
+    display: block;
 	width: 0;
-	position: absolute; 
-	left: 0;
-	color: var(--color-sub);
 	overflow: hidden;
-	
+    white-space:nowrap;
+    z-index: 2;
+}
+.star-front> i{
+    display: inline-block;
+    color: rgb(255, 0, 115);
 }
 
 /* book-list-wrap */
