@@ -182,3 +182,57 @@ td img{
 .admin-table .favorite-box {
 	overflow-x: auto;
 }
+
+.admin-btn-wrap{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.admin-btn-wrap .btn-wrap:first-child{
+	width:200px;
+}
+.admin-btn-wrap .btn-wrap:last-child{
+	width:100px;
+}
+
+
+/* 카운트 */
+.admin-count{
+	width:100%;
+	text-align:left;
+	padding:10px;
+	letter-spacing: -1px;
+}
+.admin-count strong{
+	color:var(--color-main);
+}
+/*검색창*/
+form.admin{
+	width:100%;
+	position: relative;
+}
+.search-wrap{
+	position:absolute;
+	left:0;
+	top:15px;
+	width: 350px;
+}
+.search-box{
+	display: flex;
+	width:100%;
+	border-radius: 50px;
+	background: #fff;
+	justify-content: space-between;
+	align-content: center;
+	padding:0px 20px;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
+	
+}
+.search-box input[type="text"]{
+	border:none;
+	margin:0;
+	font-size: var(--font-small);
+}
+.search-box .search-icon{
+	background:transparent;
+}

@@ -8,7 +8,7 @@
 	<!-- 고객센터 faq 불러오기 -->
 	<select id="csFaqList" parameterType="string" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
 		SELECT FQUESTION, FANSWER FROM M_FAQ
-		WHERE FCATEGORY=#{code} AND DELETED='No'
+		WHERE FCATEGORY=#{code} AND DELETED='no'
 		ORDER BY FAQNO DESC
 	</select>
 	<!-- 고객센터 faq 불러오기 -->
@@ -16,7 +16,7 @@
 		SELECT FQUESTION, FANSWER
 		FROM M_FAQ
 		WHERE (FQUESTION LIKE '%' || #{word} || '%' OR FANSWER LIKE '%' || #{word} || '%')
-		AND DELETED = 'No'
+		AND DELETED = 'no'
 		ORDER BY FAQNO DESC
 	</select>
 	<!-- 고객센터 공지사항 불러오기 -->
@@ -28,7 +28,7 @@
 	            SELECT NOTICENO, NTITLE, NCONTENT, NREGDATE
 	            FROM M_NOTICE
 	            WHERE (NTITLE LIKE '%' || #{param3} || '%' OR NCONTENT LIKE '%' || #{param3} || '%')
-	            AND DELETED = 'No'
+	            AND DELETED = 'no'
 	            ORDER BY NOTICENO DESC
 	        ) N
 	    )
@@ -40,14 +40,14 @@
 	  SELECT COUNT(*)
 	  FROM M_NOTICE
 	  WHERE (NTITLE LIKE '%' || #{word} || '%' OR NCONTENT LIKE '%' || #{word} || '%')
-	  AND DELETED = 'No'
+	  AND DELETED = 'no'
 	</select>
 	
 	<!-- 고객센터 디테일 -->
 	<select id="csNoticeDetail" parameterType="int" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
 	  SELECT NOTICENO, NTITLE, NCONTENT, NREGDATE
 	  FROM M_NOTICE
-	  WHERE NOTICENO=#{no} AND DELETED = 'No'
+	  WHERE NOTICENO=#{no} AND DELETED = 'no'
 	</select>
 	
 	<!-- 고객센터 이전글 다음글 -->

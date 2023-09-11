@@ -15,6 +15,7 @@
 		<result column="BPRICESELL" property="bpricesell"/>
 		<result column="BPRICE" property="bprice"/>
 		<result column="BDISCOUNT" property="bdiscount"/>
+		<result column="BSTOCK" property="bstock"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.booklist.dto.BookCategoryDto" id="Category">
@@ -22,7 +23,7 @@
 		<result column="category" property="Category"/>
 	</resultMap>
 	
-	<resultMap type="com.monstar.books.booklist.dto.MemberDto" id="Member">
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
 		<result column="MEMBERNO" property="memberno"/>
 	</resultMap>
 	
@@ -40,9 +41,9 @@
 
 	<select id="cartList" parameterType="com.monstar.books.cart.dto.CartDto" resultMap="Cart">
 		SELECT C.CARTNO,C.MEMBERNO,C.BOOKNO,C.CCOUNT,
-		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,
+		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,B.BSTOCK,
 		D.BIMG,CT.BCATEGORY1, M.MEMBERNO
-		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY CT, M_MEMBER M
+		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY CT, M_MEMBER M
 		WHERE C.BOOKNO=B.BOOKNO 
 		AND C.BOOKNO=D.BOOKNO
 		AND D.BCATEGORYNO=CT.BCATEGORYNO
@@ -51,11 +52,19 @@
 	</select>
 	
 	<select id="cartCnt" resultType="Integer">
-		SELECT COUNT(CARTNO) FROM M_CART WHERE MEMBERNO=#{param1}
+		SELECT COUNT(CARTNO)
+		FROM M_CART C, M_BOOK B 
+		WHERE C.BOOKNO = B.BOOKNO
+		AND MEMBERNO=#{param1}
+		AND B.BSTOCK > 0
 	</select>
 	
 	<select id="cartTotCnt" resultType="Integer">
-		SELECT SUM(CCOUNT) FROM M_CART WHERE MEMBERNO=#{param1}
+		SELECT SUM(CCOUNT) 
+		FROM M_CART C, M_BOOK B  
+		WHERE C.BOOKNO = B.BOOKNO
+		AND MEMBERNO=#{param1}
+		AND B.BSTOCK > 0
 	</select>
 	
 	<update id="cntUpdate">
@@ -64,10 +73,12 @@
 	</update>
 	
 	<select id="totPrice" resultType="Integer">
-		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
+		SELECT SUM(B.BPRICESELL*C.CCOUNT) 
+		FROM M_BOOK B,M_CART C,M_MEMBER M
 		WHERE B.BOOKNO=C.BOOKNO 
 		AND C.MEMBERNO = M.MEMBERNO
 		AND C.MEMBERNO=#{param1}
+		AND B.BSTOCK > 0
 	</select>
 	
 	<delete id="cartDelete">
@@ -78,7 +89,7 @@
 		SELECT C.CARTNO,C.MEMBERNO,C.BOOKNO,C.CCOUNT,
 		B.BTITLE,B.BPRICESELL,B.BDISCOUNT,B.BPRICE,
 		D.BIMG,CT.BCATEGORY1, M.MEMBERNO
-		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY CT, M_MEMBER M
+		FROM M_CART C, M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY CT, M_MEMBER M
 		WHERE C.BOOKNO=B.BOOKNO 
 		AND C.BOOKNO=D.BOOKNO
 		AND D.BCATEGORYNO=CT.BCATEGORYNO
@@ -91,7 +102,8 @@
 	</select>
 	
 	<select id="seltTotPrice" resultType="Integer">
-		SELECT SUM(B.BPRICESELL*C.CCOUNT) FROM M_BOOK B,M_CART C,M_MEMBER M
+		SELECT SUM(B.BPRICESELL*C.CCOUNT) 
+		FROM M_BOOK B,M_CART C,M_MEMBER M
 		WHERE B.BOOKNO=C.BOOKNO 
 		AND C.MEMBERNO=M.MEMBERNO 
         AND C.MEMBERNO = #{param1}
@@ -119,11 +131,12 @@
 	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
 		<result column="CPNO" property="cpno"/>
 		<result column="CPNAME" property="cpname"/>
-		<result column="CPDESCIPTION" property="cpdesciption"/>
+		<result column="CPDESCRIPTION" property="cpdescription"/>
 		<result column="CPPRICE" property="cpprice"/>
 		<result column="CPCREATED" property="cpcreated"/>
 		<result column="CPVALID" property="cpvalid"/>
 		<result column="CPSTATUS" property="cpstatus"/>
+		<result column="CPCNT" property="cpCnt"/>
 		<collection property="cpMember" resultMap="CpMember"></collection>
 	</resultMap>
 	
@@ -138,12 +151,18 @@
 	
 	<select id="myCouponCheck" parameterType="com.monstar.books.order.dto.CouponDto" resultMap="Coupon">
 		SELECT CM.MEMBERNO,CM.CPNO,CM.CPRDATE,CM.CPVALID,CM.CPSTATUS,
-		C.CPNAME,C.CPDESCIPTION,C.CPPRICE
+			C.CPNAME,C.CPDESCRIPTION,C.CPPRICE
 		FROM M_COUPON_MEMBER CM, M_COUPON C 
 		WHERE CM.CPNO2 = C.CPNO
 		AND CM.CPSTATUS = 'N'
-		AND CM.CPVALID >= SYSDATE
+		AND CM.CPVALID >= SYSDATE-1
 		AND CM.MEMBERNO = #{param1}
 	</select>
 	
+	<select id="cpCnt" resultType="Integer">
+		SELECT COUNT(CPNO) FROM M_COUPON_MEMBER 
+		WHERE MEMBERNO = #{param1} 
+		AND CPSTATUS = 'N' 
+		AND CPVALID >= SYSDATE
+	</select>
 </mapper>

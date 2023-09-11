@@ -64,8 +64,13 @@ input:read-only {
 /* 수량조절 */
 $().ready(function(){
 	var i = 1;
+	var stock = Number($("#bstock").val()); 
 	$(".plus_btn").click(function(){
-		$("#cnt").val(++i);
+		if(Number($("#cnt").val()) < stock){//수량이 재고보다 적을때
+			$("#cnt").val(++i);		
+		}else{//수량이 재고보다 많을때
+			alert("재고를 초과하는 주문은 처리할 수 없습니다. 주문 수량을 확인해주세요.");
+		}
 		//form submit 막기
 		$(".order_form").submit(function(e){
 			e.preventDefault();
@@ -145,7 +150,7 @@ function reviewPage(num){
 	
 		<tr>
 			<td rowspan="7" class="right_line" width="300px">
-			<img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
+			<img src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }"
 				alt="책 썸네일 이미지" /></td>
 			<td colspan="3"><i class="fa-solid fa-crown" style="color:orange"></i> ${list.detail.badge }</td>
 		</tr>
@@ -163,26 +168,41 @@ function reviewPage(num){
 			</span>
 			 </td>
 		</tr>
-		<form action="../goOrder" method="post" class="order_form">
-		<tr>
-			<td class="right_line" align="center" height="70px">	
-				<!-- 수량조절버튼 -->
-				<b><button class="minus_btn"><i class="fa-solid fa-minus"></i></button>
+	<form action="../goOrder" method="post" class="order_form">
+		<tr>	
+			<!-- 재고가 0일때 -->
+			<c:choose>
+				<c:when test="${list.bstock == 0 }">
+					<td colspan="3"><i class="fa-solid fa-quote-left" style="color:gray"></i> 
+						<span style="color:gray">품절되었습니다.</span>
+						<i class="fa-solid fa-quote-right" style="color:gray"></i></td>
+				</c:when>
+				<c:otherwise>
+	
+			<!-- 재고가 0이 아닐때 -->		
+					<!-- 수량조절버튼 -->
+					<td class="right_line" align="center" height="70px">	
+						<b><button class="minus_btn"><i class="fa-solid fa-minus"></i></button>
+					
+						<input type="text" id="cnt" name="ccount" value="1" readonly/>
+						<input type="hidden" name="bookno" value="${list.bookno }"/>
+						<input type="hidden" id="bstock" value="${list.bstock }"/>
+						
+						<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
+					
+					<!-- 장바구니 담기 -->	
+					<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno},${memberno })">
+						<b>ADD TO CART</b>
+					</td>	
+					
+					<!-- 주문하기 -->
+					<td align="center" id="order_btn" onclick="go_order(${memberno })"><b style="color:#fefefe;">ORDER</b></td>
+				</c:otherwise>
+			</c:choose>
+
 			
-				<input type="text" id="cnt" name="ccount" value="1" readonly/>
-				<input type="hidden" name="bookno" value="${list.bookno }"/>
-				
-				<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
-			
-			<!-- 장바구니 담기 -->	
-			<td class="right_line" id="cart_btn" align="center" onclick="add_cart(${list.bookno},${memberno })">
-				<b>ADD TO CART</b>
-			</td>	
-			
-			<!-- 주문하기 -->
-			<td align="center" id="order_btn" onclick="go_order()"><b style="color:#fefefe;">ORDER</b></td>
 		</tr>
-		 </form>
+	</form>
 		<tr>
 			<td colspan="3">
 			<b style="font-size: 17px; color:orange;">${list.bdiscount }% </b> 
@@ -278,7 +298,7 @@ function reviewPage(num){
 		<!-- 도서상세 이미지 -->
 		<tr>
 			<td colspan="4"><img width="800px"
-				src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimgdetail }"
+				src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimgdetail }"
 				alt="도서 상세 이미지" /></td>
 		</tr>
 		
@@ -293,6 +313,7 @@ function reviewPage(num){
 				<div style="width:300px; height:200px">		
 					<canvas id="starChart"></canvas>
 				</div>
+				${arr }
 				<script>
 				var jArray = new Array();
 				jArray = '${arr}';
@@ -313,11 +334,11 @@ function reviewPage(num){
 						datasets : [{
 							label : '구매자 별점',
 							data : [
-								jArray[0].starCnt,
-								jArray[1].starCnt,
-								jArray[2].starCnt,
-								jArray[3].starCnt,
-								jArray[4].starCnt
+								jArray[0].starCnt === 0 ? undefined : jArray[0].starCnt,
+								jArray[1].starCnt === 0 ? undefined : jArray[1].starCnt,
+								jArray[2].starCnt === 0 ? undefined : jArray[2].starCnt,
+								jArray[3].starCnt === 0 ? undefined : jArray[3].starCnt,
+								jArray[4].starCnt === 0 ? undefined : jArray[4].starCnt
 								],
 							backgroundColor : [
 								'rgba(255, 99, 132, 0.2)',

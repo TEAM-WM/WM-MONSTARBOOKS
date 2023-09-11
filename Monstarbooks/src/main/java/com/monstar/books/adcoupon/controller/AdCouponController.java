@@ -48,6 +48,12 @@ public class AdCouponController {
 		return "redirect:/admin/coupon/list";
 	}
 	
+	@RequestMapping("admin/coupon/register_view")
+	public String adcouponRegister_view() {
+		System.out.println("register_view호출");
+		return "admin/coupon/register_view";
+	}
+	
 	@RequestMapping("admin/coupon/register")
 	public String adcouponRegister(HttpServletRequest request, Model model) {
 		System.out.println("adcouponRegister 호출");
@@ -57,7 +63,7 @@ public class AdCouponController {
 		adcouponservice = new AdCouponRegisterService(sqlSession);
 		adcouponservice.execute(model);
 		
-		return "admin/coupon/register";
+		return "redirect:/admin/coupon/list";
 		
 	}
 

@@ -10,29 +10,30 @@
 	<select id="getDeliverStatus"
 		resultType="com.monstar.books.mypage.dto.MyOrderDto">
 		SELECT *
-		FROM (
-		SELECT
-		od.oregdate AS orderDate,
-		o.ostatus AS orderStatus,
-		bc.bcategory1 AS category1,
-		od.ocount AS productCount,
-		od.opricesell AS productPrice,
-		(od.opricesell * od.ocount) AS totalAmount,
-		b.btitle AS productName,
-		m.mid AS memberId,
-		m.mname AS memberName,
-		o.orderno AS orderNO,
-		bd.bimg AS productImage,
-		ROW_NUMBER() OVER (ORDER BY od.oregdate DESC) AS row_num
-		FROM m_order o
-		JOIN m_order_detail od ON o.orderno = od.orderno
-		JOIN m_book b ON od.bookno = b.bookno
-		JOIN m_member m ON o.memberno = m.memberno
-		JOIN m_book_detail bd ON od.bookno = bd.bookno
-		JOIN m_book_category bc ON bd.bcategoryno = bc.bcategoryno
-		WHERE m.mid = #{param3}
-		) N
-		WHERE row_num BETWEEN #{param1} AND #{param2}
+		      FROM (
+		      SELECT
+		      od.oregdate AS orderDate,
+		      o.ostatus AS orderStatus,
+		      bc.bcategory1 AS category1,
+		      od.ocount AS productCount,
+		      od.opricesell AS productPrice,
+		      (od.opricesell * od.ocount) AS totalAmount,
+		      b.btitle AS productName,
+		      m.mid AS memberId,
+		      m.mname AS memberName,
+		      o.orderno AS OrderNO,
+		      bd.bimg AS productImage,
+		      b.bookno AS bookno, -- bookno 추가
+		      ROW_NUMBER() OVER (ORDER BY od.oregdate DESC) AS row_num
+		      FROM m_order o
+		      JOIN m_order_detail od ON o.orderno = od.orderno
+		      JOIN m_book b ON od.bookno = b.bookno
+		      JOIN m_member m ON o.memberno = m.memberno
+		      JOIN m_book_detail bd ON od.bookno = bd.bookno
+		      JOIN m_book_category bc ON bd.bcategoryno = bc.bcategoryno
+		      WHERE m.mid = #{param3}
+		      ) N
+		      WHERE row_num BETWEEN #{param1} AND #{param2}
 	</select>
 
 	<!-- 마이 페이지 주문/배송목록 페이징 -->

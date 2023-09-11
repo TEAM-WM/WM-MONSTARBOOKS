@@ -12,7 +12,7 @@ tr, td {
 }
 
 form {
-	width: 550px;
+	width: 500px;
 	align: center;
 	text-align: left;
 	margin-left: auto;
@@ -20,7 +20,7 @@ form {
 }
 
 table {
-	width: 550px;
+	width: 500px;
 	align: center;
 	text-align: left;
 	margin-left: auto;
@@ -68,6 +68,7 @@ table {
 
 .content {
 	display:flex;
+	text-align: left;
 	justify-content:space-between;
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
 }
@@ -75,32 +76,21 @@ table {
 </style>
 </head>
 <body>
-	<br />
-	<br />
-	<br />
-	<h2>My Profile View</h2>
-	<br />
-	<br />
-	
+
     <div class="content">
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
             <%@ include file="myprofile.jsp" %>
         </div>
+	<br />
+	<br />
 
-        <!-- 주문/배송 목록 테이블 -->
-        <table class="order-table">
-            <tr>
-                <th>주문일자</th>
-                <th>상품정보</th>
-                <th>수량</th>
-                <th>가격</th>
-                <th>총 가격</th>
-                <th>배송 상태</th>
-            </tr>
-			</table>
-
+<form action="" method="">
 	<div align="center" class="card" style="height: 700px;">
+		<br /><br />
+		<h2>My Profile View</h2>
+	<br />
+	<br />
 	<table>
 			<c:choose>
 			<c:when test="${not empty myprofile_view.mprofileimg}">
@@ -155,7 +145,8 @@ table {
 		</tr>
 			</table>
 	</div>
-
+	</form>
+</div>
 
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";

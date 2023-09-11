@@ -170,7 +170,11 @@ public class ProductListService implements ProductService {
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("searchType", searchType);
-
+		//=====230908 리연 추가
+		String currentPage = "/admin/product"; 
+	    System.out.println(currentPage);
+		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
 	}// override method
 
 }// class

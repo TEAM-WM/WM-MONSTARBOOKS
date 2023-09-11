@@ -3,6 +3,7 @@ package com.monstar.books.mypage.service;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,15 @@ public class MyProfileViewService implements MyPageService {
 		HttpServletRequest request=
 				(HttpServletRequest) map.get("request");
 		
-		String mid = request.getParameter("mid");	
+//      로그인 사용자 ID 세션에서 받아오기
+		HttpSession session = request.getSession();
+		String mid = (String) session.getAttribute("id");
+		System.out.println("id받아줘 :" + mid);
+		//로그인프로세스 서비스 참조
+//		httpSession.setAttribute("id", dto.getMid());
+		
+		
+//		String mid = request.getParameter("mid");	
         MyProfileDao dao = sqlSession.getMapper(MyProfileDao.class);
         System.out.println("mid:"+mid);
         

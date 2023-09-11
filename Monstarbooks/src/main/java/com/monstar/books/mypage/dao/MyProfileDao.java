@@ -8,8 +8,9 @@ import com.monstar.books.member.dto.MemberDto;
 public interface MyProfileDao {
 	
 	//프로필 메인 (조회)
-	public ArrayList<MemberDto> list();
-
+//	public ArrayList<MemberDto> list();	
+	public ArrayList<MemberDto> list(String mid);
+	
 	//프로필 이미지 삭제
 	public void delete(String smid);
 

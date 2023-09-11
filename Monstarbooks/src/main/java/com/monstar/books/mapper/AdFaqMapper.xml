@@ -28,7 +28,7 @@
     <!-- FAQ를 등록하는 쿼리 -->
     <insert id="faqInsert">
     	INSERT INTO M_FAQ VALUES(M_FAQ_SEQ.NEXTVAL,#{param1},#{param2},
-    	#{param3},SYSDATE,'No')
+    	#{param3},SYSDATE,'no')
     </insert>
     
     <!-- 선택한 FAQ의 질문과 답변,카테고리를 가져오는 쿼리  -->
@@ -44,8 +44,8 @@
     </update>
     
     <!-- 선택한 FAQ를 삭제하는 쿼리 -->
-    <delete id="faqDelete">
-    	DELETE FROM M_FAQ WHERE FAQNO = #{param1}
-    </delete>
+    <update id="faqDelete">
+    	UPDATE M_FAQ SET DELETED='yes' WHERE FAQNO=#{param1}
+    </update>
     
     </mapper>

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,8 +28,13 @@ public class HomeController {
 	}//home
 	
 	@RequestMapping("/admin")
-	public String admin(HttpServletRequest request) {
-
-		return "admin/admin";
+	public String admin(Model model,HttpServletRequest request) {
+		
+	    String currentPage = request.getServletPath();; 
+	    System.out.println(currentPage);
+		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
+		model.addAttribute("");
+		return "admin/dashboard/admin";
 	}//home
 }//class

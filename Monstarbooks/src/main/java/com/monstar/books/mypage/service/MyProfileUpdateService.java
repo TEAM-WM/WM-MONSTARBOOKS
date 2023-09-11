@@ -3,6 +3,7 @@ package com.monstar.books.mypage.service;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,14 @@ public class MyProfileUpdateService implements MyPageService {
 		// Map에서 HttpServletRequest 추출
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
+//      로그인 사용자 ID 세션에서 받아오기
+		HttpSession session = request.getSession();
+		String mid = (String) session.getAttribute("id");
+		System.out.println("id받아줘 :" + mid);
+		//로그인프로세스 서비스 참조
+//		httpSession.setAttribute("id", dto.getMid());
+		
+		
 		// 파일 업로드를 위한 경로 설정
 		String path = "C:\\javabigsetspring2023\\spring_work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\Monstarbooks\\resources\\assets\\upload";	
 //		해당 톰캣의 server.xml을 수정? <Context path="/상대경로" docBase="/절대경로" />
@@ -50,8 +59,7 @@ public class MyProfileUpdateService implements MyPageService {
 			// 같은 파일명 존재 시,1,2,3을 붙여줌.
 
 			// 요청 파라미터로부터 데이터 추출
-			String mid = req.getParameter("mid");
-//       String mname = req.getParameter("mname");
+//			String mid = req.getParameter("mid");
 			String mprofileimg = req.getFilesystemName("mprofileimg");
 
 			if (mprofileimg == null) {
@@ -59,11 +67,9 @@ public class MyProfileUpdateService implements MyPageService {
 			}
 
 			System.out.println("mid:" + mid);
-//          System.out.println("mname:"+mname);
 			System.out.println("mprofileimg:" + mprofileimg);
 
 			dao.profileupdate(mid, mprofileimg);
-//       	dao.profileupdate(mid,mname,mprofileimg);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

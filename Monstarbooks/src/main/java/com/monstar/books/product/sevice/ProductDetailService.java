@@ -43,7 +43,11 @@ public class ProductDetailService implements ProductService {
 		BookDto dto = dao.detail(bookno);
 		model.addAttribute("dto", dto);
 		
-
+		//=====230908 리연 추가
+		String currentPage = "/admin/product"; 
+	    System.out.println(currentPage);
+		// 모델에 전달하기
+	    model.addAttribute("currentPage",currentPage);
 	}// override method
 
 }// class

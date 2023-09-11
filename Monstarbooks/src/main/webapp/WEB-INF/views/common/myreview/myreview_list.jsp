@@ -15,29 +15,42 @@
 <title>Insert title here</title>
 
 <style>
-table {
+
+h2 {
+    text-align: center;
+}
+tr, td {
+	padding: 10px 0px 5px 0px;
+}
+
+form {
+	width: 800px;
+	align: center;
+	text-align: left;
 	margin-left: auto;
 	margin-right: auto;
+}
+  /* 테이블 가운데 정렬 */
+table {
+    margin: 0 auto;
+    width: 800px;
+	align: center;
 	text-align: left;
 	vertical-align: top;
 	padding: 20px 50px 40px 80px;
 }
 
-tr, td {
-	padding: 10px 0px 10px 0px;
-}
-
-
-/* 주문/배송 목록 테이블 스타일 */
-.order-table {
-    width: 100%; /* 테이블 70% 너비로 설정 */
-    float: right;
-}
-
 .content {
 	display:flex;
+	text-align: left;
 	justify-content:space-between;
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
+
+/* "수정" 링크에 커서를 갖다 대면 색상 변경 */
+a:hover {
+  color: navy; /* 색상을 변경하고자 하는 색상으로 설정 */
+  text-decoration: none; /* 밑줄을 제거하려면 이 줄을 추가 */
 }
 </style>
 
@@ -45,54 +58,51 @@ tr, td {
 <body>
 	<br />
 	<br />
-	<h3>My Review</h3>
-	
-	
+
     <div class="content">
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
             <%@ include file="../myprofile/myprofile.jsp" %>
         </div>
 
-        <!-- 주문/배송 목록 테이블 -->
-        <table class="order-table">
-            <tr>
-                <th>주문일자</th>
-                <th>상품정보</th>
-                <th>수량</th>
-                <th>가격</th>
-                <th>총 가격</th>
-                <th>배송 상태</th>
-            </tr>
-		</table>
-		
-		
+<form action="">	
 	<!--  230826 [효슬] 리뷰 목록 페이지 구현 -->
 	<div>
-		<table width="950" border="1">
+	<br />
+		<h2>My Review</h2>
+		<br/>	<br/>
+		<table border="1">
 			<c:forEach items="${reviewList }" var="dto">
 				<tr>
 					<td class="left" hidden>로그인,이미지,제목,별점,날짜,내용</td>
-					<td></td>
+			<!-- hidden값 잘 넘어옴 확인완료  -->
+						<tr>
+						<td>
+					<input type="hidden" name="mid" value="${dto.member.mid}" />
+					<input type="hidden" name="bookno" value="${dto.book.bookno }" />
+					<input type="hidden" name="memberno" value="${dto.memberno }" />
+					<input type="hidden" name="rtitle" value="${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }&nbsp;${dto.book.btitle }" />
+					</td>
 				</tr>
 				<c:if test="${empty dto.refilesrc}">
+					<!-- dto.refilesrc가 비어있으면 -->
 					<tr>
 						<td colspan=3 style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold; vertical-align: top; "
 							class="left"><img style="max-width: 40px; height: 40px;"
 							src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/bookdefault.png"
-							alt="" />&nbsp;&nbsp;&nbsp;[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
-						&nbsp;${dto.book.btitle }</td>
+							alt="기본썸네일" />&nbsp;&nbsp;&nbsp;<a href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
+						&nbsp;${dto.book.btitle }</a></td>
 					</tr>
 				</c:if>
 
 				<tr>
-					<c:if test="${not empty dto.refilesrc}">
-						<!-- myList가 비어있지 않으면 -->
+					<c:if test="${dto.refilesrc ne null }">
+						<!-- dto.refilesrc가 비어있지 않으면 -->
 						<td colspan=3 style="border-bottom: 1px solid; border-color: darkgray;  font-weight: bold; vertical-align: top;" class="left">
 						<img style="max-width: 40px; height: 40px;"
 							src="${pageContext.request.contextPath}/resources/assets/upload/${dto.refilesrc }"
-							alt="" /> &nbsp;&nbsp;&nbsp;[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
-							&nbsp;${dto.book.btitle }</td>
+							alt="이미지첨부" /> &nbsp;&nbsp;&nbsp;<a href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
+						&nbsp;${dto.book.btitle }</a></td>
 					</c:if>
 					
 			
@@ -117,26 +127,28 @@ tr, td {
                 ★★★★★
               </c:when>
 						</c:choose> &nbsp;&nbsp;&nbsp;<fmt:formatDate value="${dto.regdate}"
-							pattern="yyyy-MM-dd" /></td>
+							pattern="yyyy.MM.dd" /></td>
 							
-					<td class="right"><a href="view?reviewno=${dto.reviewno }">수정</a>
+					<td class="right"><a href="update?reviewno=${dto.reviewno }">수정</a>
 						&nbsp; l &nbsp;<a href="reviewdelete?reviewno=${dto.reviewno }">삭제</a></td>
 				</tr>
 				<tr>
 					<td style="vertical-align: top;" class="left" colspan="3"
 						height="100px">${dto.rcontent }</td>
 				</tr>
+				
 			</c:forEach>
+			
+			
+			
 		</table>
-		<br /> 
-		<input type="hidden" name="reviewno" value="${myreview_list.reviewno }" />
-			<input type="hidden" name="bookno" value="${myreview_list.bookno }" />
-			<input type="hidden" name="memberno" value="${myreview_list.memberno }" />
 
-		<br />
 		
-		<!-- 페이징 -->
+		<br /> 
+		<br />
 
+		<!-- 페이징 -->
+<div class="center">
 		<a href=""><i class="fa-solid fa-circle-chevron-left"></i></a>
 
 		<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }"
@@ -152,8 +164,12 @@ tr, td {
 		</c:forEach>
 
 		<a href=""><i class="fa-solid fa-circle-chevron-right"></i></a>
+</div>
+		
+	        </div>
+			</form>
+        </div>
 
-	</div>
 
 
 

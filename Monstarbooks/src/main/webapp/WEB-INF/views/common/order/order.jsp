@@ -121,12 +121,16 @@ function coupon_select(cpprice,totPrice,cpno){
 	$(".payment_form").submit(function(e){
 		e.preventDefault();
 		$(".payment_form").unbind();
-		
-	$(".cpdiscount").text(cpprice); // 쿠폰할인 값 변경
-	$("#ototalprice").val(totPrice-cpprice);
-	$(".final_totPrice").text((totPrice-cpprice).toLocaleString()); //총 결제금액 변경
-	$("#usedCpno").val(cpno);//사용한 쿠폰번호 전달
-	closeModal("myCouponModal"); // 모달 닫기
+		if(cpprice > $("#ototalprice").val()){ //쿠폰금액이 결제금액보다 클때
+			alert("쿠폰 금액이 결제 금액을 초과하였습니다. 쿠폰을 다시 선택해주세요.");
+		}else{
+			alert("쿠폰이 적용되었습니다.");
+			$(".cpdiscount").text(cpprice.toLocaleString()); // 쿠폰할인 값 변경
+			$("#ototalprice").val(totPrice-cpprice);
+			$(".final_totPrice").text((totPrice-cpprice).toLocaleString()); //총 결제금액 변경
+			$("#usedCpno").val(cpno);//사용한 쿠폰번호 전달
+			closeModal("myCouponModal"); // 모달 닫기
+		}
 	});
 }
 /* 결제하기 */
@@ -135,7 +139,6 @@ IMP.init('imp30831436');//가맹점 식별코드
 /* function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
-	alert(totPay);
 
 	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
 		alert("배송지를 입력해주세요.");
@@ -156,7 +159,7 @@ IMP.init('imp30831436');//가맹점 식별코드
 						if(rsp.success){
 							//결제 성공 시
 							alert("결제가 완료되었습니다.");
-							location.href="orderComplete";
+							$(".payment_form").submit();
 						}else{
 							//결제 실패 시
 							alert("결제에 실패하였습니다. 에러 내용:" +rsp.error_msg);
@@ -208,11 +211,10 @@ IMP.init('imp30831436');//가맹점 식별코드
 			}
 		}
 	}	
-}  */
+} */
 function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
-	alert(totPay);
 	$(".payment_form").submit();
 }
 </script>
@@ -338,22 +340,22 @@ function requestPay(pay){
 							<th>유효기간</th>
 							<th>선택</th>
 						</tr>
-						 	<c:forEach items="${cpdto }" var="list">
 						<c:choose>
-							 <c:when test="${list.cpname eq null }">
+							 <c:when test="${cpCnt eq 0 }">
 							 	<tr><td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td></tr>	
 							</c:when>
 						 <c:otherwise>
-							<tr height="30px">
-								<td>${list.cpname }</td>
-								<td>${list.cpprice }</td>
-								<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
-								<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
-							</tr>
-							<input type="hidden" id="usedCpno" name="usedCpno" value=""  />
+						 	<c:forEach items="${cpdto }" var="list">
+								<tr height="30px">
+									<td>${list.cpname }</td>
+									<td>${list.cpprice }</td>
+									<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
+									<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
+								</tr>
+							</c:forEach>
+							<input type="hidden" id="usedCpno" name="usedCpno" value="" />
 						 </c:otherwise>
 						</c:choose>
-							</c:forEach>
 					</table> 
                 <button class="closeModalBtn" onclick="closeModal('myCouponModal')">닫기</button>
             </div>
@@ -397,7 +399,7 @@ function requestPay(pay){
 		<tr>
 			<th>결제 방법</th>
 			<td align="left">
-				<input type="hidden" id="ototalprice" name="ototalprice" value=""/>
+				<input type="hidden" id="ototalprice" name="ototalprice" value="${totPrice + 2500}"/>
 				<!-- <input type="hidden" name="ostatus" value="결제완료"/> -->
 				<label for="pay_1"><input type="radio" name="payment" value="계좌이체" id="pay_1" onclick="return(false);"/> 
 					계좌이체</label>

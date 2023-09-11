@@ -14,9 +14,6 @@ public interface BookListDao {
 	//리스트 불러오기,페이징 후
 	public ArrayList<BookListDto> list(int rowStart, int rowEnd);
 	
-	// 상품리스트의 별점 평균, 리뷰수
-//	public ArrayList<BookReviewDto> starAvgReCnt(int bookno);
-	
 	//리스트 총갯수 구하기
 	public int TotCount();
 	
@@ -29,7 +26,7 @@ public interface BookListDao {
 	public ArrayList<BookReviewDto> bookReivew(String bookno, int rowStart, int rowEnd);
 	
 	// 별점 평균
-	public float starAvg(String bookno);
+	public Float starAvg(String bookno);
 
 	// 리뷰 전체 수 조회
 	public int reviewCnt(String bookno);
@@ -57,6 +54,9 @@ public interface BookListDao {
 	
 	//보유쿠폰 조회
 	public ArrayList<CouponDto> myCouponCheck(int memberno);
+
+	//보유쿠폰 수량 조회
+	public int cpCnt(int memberno);
 	
 	
 }//interface 종료

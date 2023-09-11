@@ -3,6 +3,7 @@ package com.monstar.books.mypage.service;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.monstar.books.member.dto.MemberDto;
 import com.monstar.books.mypage.dao.MyReviewDao;
 import com.monstar.books.mypage.vopage.SearchVO;
 
@@ -36,10 +38,13 @@ public class MyReviewListService implements MyPageService {
 		SearchVO searchVO = (SearchVO) map.get("searchVO");
 
 //------------
-
-//		MemberDto member = (MemberDto) request.getSession().getAttribute("memberNumber");
+//     로그인 사용자 ID 세션에서 받아오기
+		HttpSession session = request.getSession();
+		String mid = (String) session.getAttribute("id");
 //		MemberDto member = (MemberDto) request.getSession().getAttribute("user");
-
+		
+		System.out.println("id받아줘 :" + mid);
+		
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
 //		dao.reviewlist()
 //		searching
@@ -131,12 +136,13 @@ public class MyReviewListService implements MyPageService {
 		System.out.println("rowStart:" + searchVO.getRowStart());
 		System.out.println("rowEnd:" + searchVO.getRowEnd());
 
-		// 패이징 글 번호전달
+		// 페이징 글 번호전달
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
 
-		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd));
-//		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd, member.getMemberno()));
+		
+//		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd, mid, no));
+		model.addAttribute("reviewList", dao.reviewList(rowStart, rowEnd, mid));
 		model.addAttribute("totRowCnt", total);
 		model.addAttribute("searchVO", searchVO);
 

@@ -12,7 +12,7 @@ public interface CartDao {
 //	장바구니 목록
 	public ArrayList<CartDto> cartList(int memberno);
 
-//	장바구니 전체 수
+//	품절을 제외한 장바구니 전체 수
 	public int cartCnt(int memberno);
 	
 //	장바구니 전체 수 * 한권당 수량
@@ -42,5 +42,7 @@ public interface CartDao {
 //	보유 쿠폰 조회
 	public ArrayList<CouponDto> myCouponCheck(int memberno);
 
+//	보유쿠폰 수량 조회
+	public int cpCnt(int memberno);
 
 }//interface 종료
