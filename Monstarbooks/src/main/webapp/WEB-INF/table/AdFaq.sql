@@ -1,14 +1,16 @@
--- FAQ Å×ÀÌºí(m_faq) »ı¼º Äõ¸®
+-- FAQ í…Œì´ë¸”(m_faq) ìƒì„± ì¿¼ë¦¬
 create table m_faq(
 faqno number primary key,
 fquestion varchar2(500) not null,
-fanswer varchar2(500) not null,
+fanswer CLOB not null,
 fcategory varchar2(225) not null,
 fregdate date default sysdate not null,
-deleted char(3) default 'No' check(deleted in ('No','Yes'))
+deleted char(3) default 'no' check(deleted in ('no','yes'))
 );
 
--- FAQ ±Û ¹øÈ£¿¡ µé¾î°¥ ½ÃÄö½º(m_faq_seq) »ı¼º Äõ¸®
+drop table m_faq;
+
+-- FAQ ê¸€ ë²ˆí˜¸ì— ë“¤ì–´ê°ˆ ì‹œí€€ìŠ¤(m_faq_seq) ìƒì„± ì¿¼ë¦¬
 create sequence m_faq_seq;
 
 

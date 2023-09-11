@@ -58,7 +58,9 @@ public class ProductInsertService implements ProductService {
 		
 		//"도서"테이블에 넣을 정보
 //		int bookno = Integer.parseInt(request.getParameter("bookno"));
-		int bisbn = Integer.parseInt(req.getParameter("bisbn"));
+		long bisbn = Long.parseLong(req.getParameter("bisbn"));
+
+//		int bisbn = Integer.parseInt(req.getParameter("bisbn"));
 		String btitle = req.getParameter("btitle");
 		String bsubtitle = req.getParameter("bsubtitle");
 		String bpublisher = req.getParameter("bpublisher");
