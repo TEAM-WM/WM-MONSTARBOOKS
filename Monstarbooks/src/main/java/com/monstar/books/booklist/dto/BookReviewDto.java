@@ -2,6 +2,8 @@ package com.monstar.books.booklist.dto;
 
 import java.sql.Date;
 
+import com.monstar.books.member.dto.MemberDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

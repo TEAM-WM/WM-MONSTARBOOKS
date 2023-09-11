@@ -68,6 +68,9 @@ public class OrderInsertServiceList implements OrderService {
 			
 			//카트 테이블에서 삭제
 			dao.cartDelete(bookno[i],memberno);
+			
+			// 재고 수량 감소
+			dao.stockDecrease(bookno[i],ocount[i]);
 		}
 		
 		// 사용한 coupon_member 테이블의 cpno
@@ -75,7 +78,7 @@ public class OrderInsertServiceList implements OrderService {
 		System.out.println("usedCpo : " + usedCpno);
 		
 		// 쿠폰사용하지 않으면 자동으로 0원 할인쿠폰 적용
-		if(usedCpno == "") {
+		if(usedCpno == "" || usedCpno == null) {
 			System.out.println("쿠폰사용안함");
 			usedCpno = dao.zeroCpno(memberno);
 		}
@@ -88,7 +91,7 @@ public class OrderInsertServiceList implements OrderService {
 		// 쿠폰 사용불가로 업데이트
 		dao.couponUse(usedCpno,memberno);
 		
-		
+
 	}// override method
 
 }// class

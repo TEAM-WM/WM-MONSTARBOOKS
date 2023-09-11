@@ -63,10 +63,14 @@ public class CartToOrderServiceList implements CartService {
 		model.addAttribute("dto", dto);
 		model.addAttribute("cnt", cnt);
 		
-		//쿠폰
+		//쿠폰 조회
 		ArrayList<CouponDto> cpdto = dao.myCouponCheck(memberno);
+		
+		//보유쿠폰 수량 조회
+		int cpCnt = dao.cpCnt(memberno);
         
         model.addAttribute("cpdto",cpdto);
+        model.addAttribute("cpCnt",cpCnt);
 
 
 	}// override method

@@ -64,8 +64,13 @@ input:read-only {
 /* 수량조절 */
 $().ready(function(){
 	var i = 1;
+	var stock = Number($("#bstock").val()); 
 	$(".plus_btn").click(function(){
-		$("#cnt").val(++i);
+		if(Number($("#cnt").val()) < stock){//수량이 재고보다 적을때
+			$("#cnt").val(++i);		
+		}else{//수량이 재고보다 많을때
+			alert("재고를 초과하는 주문은 처리할 수 없습니다. 주문 수량을 확인해주세요.");
+		}
 		//form submit 막기
 		$(".order_form").submit(function(e){
 			e.preventDefault();
@@ -163,7 +168,7 @@ function reviewPage(num){
 			</span>
 			 </td>
 		</tr>
-		<form action="../goOrder" method="post" class="order_form">
+	<form action="../goOrder" method="post" class="order_form">
 		<tr>	
 			<!-- 재고가 0일때 -->
 			<c:choose>
@@ -181,6 +186,7 @@ function reviewPage(num){
 					
 						<input type="text" id="cnt" name="ccount" value="1" readonly/>
 						<input type="hidden" name="bookno" value="${list.bookno }"/>
+						<input type="hidden" id="bstock" value="${list.bstock }"/>
 						
 						<button class="plus_btn"><i class="fa-solid fa-plus"></i></button></b></td>		
 					
@@ -196,7 +202,7 @@ function reviewPage(num){
 
 			
 		</tr>
-		 </form>
+	</form>
 		<tr>
 			<td colspan="3">
 			<b style="font-size: 17px; color:orange;">${list.bdiscount }% </b> 

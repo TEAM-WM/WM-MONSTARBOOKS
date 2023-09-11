@@ -21,6 +21,8 @@ public class CouponDto {
 	private Date cpvalid;
 	private String cpstatus;
 	
+	private int cpCnt;
+	
 	private CouponMemberDto cpMember;
 	private MemberDto member;
 }

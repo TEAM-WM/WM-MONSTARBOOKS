@@ -54,6 +54,9 @@ public interface BookListDao {
 	
 	//보유쿠폰 조회
 	public ArrayList<CouponDto> myCouponCheck(int memberno);
+
+	//보유쿠폰 수량 조회
+	public int cpCnt(int memberno);
 	
 	
 }//interface 종료
