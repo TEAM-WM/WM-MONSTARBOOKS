@@ -1,6 +1,7 @@
 package com.monstar.books.product.sevice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,65 @@ public class ProductListService implements ProductService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		SearchVO searchVO = (SearchVO) map.get("searchVO");
+		String searchType = request.getParameter("searchType");
+					
 		
+		// 검색
+		// 저장할 변수 선언
+		String bisbn = "";
+		String btitle = "";
+		
+		String[] brdtitle = request.getParameterValues("searchType");
+		System.out.println("mtitle : " + Arrays.toString(brdtitle));
+		
+		// 출력되는지 테스트
+		if (brdtitle != null) {
+			for (int i = 0; i < brdtitle.length; i++) {
+				System.out.println("mtitle : " + brdtitle[i]);
+			}
+		}
+		
+		// 선택 검색조건 변수에 저장
+		if (brdtitle != null) {// null 이 아닐때만 돌아주세용
+			for (String var : brdtitle) {
+				if (var.equals("bisbn")) {
+					bisbn = "bisbn";
+					model.addAttribute("bisbn","true");
+				} else if (var.equals("btitle")) {
+					btitle = "btitle";
+					model.addAttribute("btitle","true");
+				}
+			}
+		}
+		
+		//검색결과 유지
+		String bis = request.getParameter("bisbn");
+		String bti = request.getParameter("btitle");
+		
+		//변수에 저장 
+		if (bis != null) {
+			if(bis.equals("btitle")) {
+				bisbn = bis;
+				model.addAttribute("bisbn", "true");
+			}
+		}
+		if (bti != null) {
+			if(bti.equals("bcontent")) {
+				btitle = bti;
+				model.addAttribute("btitle", "true");
+			}
+		}
+		
+		//sk값(검색어) 가져오기
+		String searchKeyword = request.getParameter("sk");
+		if (searchKeyword == null) {
+			searchKeyword = "";
+		}
+		
+		//검색창에 방금 입력한 조건과 검색어가 남아있도록.
+		model.addAttribute("resk", searchKeyword);
+		//model에 검색조건 선택된거는 트루 넣어둠.
+				
 		//paging 시작
 		String strPage = request.getParameter("page");
 		
@@ -47,11 +106,24 @@ public class ProductListService implements ProductService {
 		if(strPage==null) {
 			strPage = "1";
 		}
+		
 		System.out.println("pagggggg:"+strPage);
 		int page = Integer.parseInt(strPage);
 		searchVO.setPage(page); //페이지 전달
 		
-		int total = dao.selectBoardTotCount();
+//		검색에 따른 총갯수 변형
+		int total=0;
+//		4개의 경우의 수로 총갯수 구하기
+		if(bisbn.equals("bisbn")&& btitle.equals("")) {
+			total=dao.selectBoardTotCount1(searchKeyword);
+		}else if(bisbn.equals("")&& btitle.equals("btitle")) {
+			total=dao.selectBoardTotCount2(searchKeyword);
+		}else if(bisbn.equals("bisbn")&& btitle.equals("btitle")) {
+			total=dao.selectBoardTotCount3(searchKeyword);
+		}else if(bisbn.equals("")&& btitle.equals("")) {
+			total=dao.selectBoardTotCount4(searchKeyword);
+		}
+		
 		System.out.println("totcnt: "+total);
 		searchVO.pageCalculate(total);
 		
@@ -68,12 +140,36 @@ public class ProductListService implements ProductService {
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
 		
+		
 //		ArrayList<BookDto> dto = dao.list();
-		ArrayList<BookDto> dto = dao.list(rowStart, rowEnd);
+//		ArrayList<BookDto> dto = dao.list(rowStart, rowEnd);
+		ArrayList<BookDto> dto = null;
+		
+//		if("bookno".equals(searchType)) {
+//			dto = dao.searchByBookNo(Integer.parseInt(searchKeyword), rowStart, rowEnd);
+//		} else if("btitle".equals(searchType)) {
+//			dto = dao.searchByBookTitle(searchKeyword, rowStart, rowEnd);			
+//		} else if(searchKeyword.isEmpty()){
+//			dto = dao.searchNoType(searchKeyword, rowStart, rowEnd);
+//		} 
+		
+		if(bisbn.equals("bisbn") && btitle.equals("")) {
+			model.addAttribute("dto",dao.list(rowStart,rowEnd,searchKeyword,"1"));
+		}else if(bisbn.equals("")&& btitle.equals("btitle")) {
+			model.addAttribute("dto",dao.list(rowStart,rowEnd,searchKeyword,"2"));
+		}else if(bisbn.equals("bisbn")&& btitle.equals("btitle")) {
+			model.addAttribute("dto",dao.list(rowStart,rowEnd,searchKeyword,"3"));
+		}else if(bisbn.equals("")&& btitle.equals("")) {
+			model.addAttribute("dto",dao.list(rowStart,rowEnd,searchKeyword,"4"));
+		}
+		
+		
+	
 				
-		model.addAttribute("dto", dto);
+//		model.addAttribute("dto", dto);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVO", searchVO);
+		model.addAttribute("searchType", searchType);
 
 	}// override method
 
