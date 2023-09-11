@@ -145,7 +145,7 @@ function reviewPage(num){
 	
 		<tr>
 			<td rowspan="7" class="right_line" width="300px">
-			<img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
+			<img src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }"
 				alt="책 썸네일 이미지" /></td>
 			<td colspan="3"><i class="fa-solid fa-crown" style="color:orange"></i> ${list.detail.badge }</td>
 		</tr>
@@ -292,7 +292,7 @@ function reviewPage(num){
 		<!-- 도서상세 이미지 -->
 		<tr>
 			<td colspan="4"><img width="800px"
-				src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimgdetail }"
+				src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimgdetail }"
 				alt="도서 상세 이미지" /></td>
 		</tr>
 		
@@ -307,6 +307,7 @@ function reviewPage(num){
 				<div style="width:300px; height:200px">		
 					<canvas id="starChart"></canvas>
 				</div>
+				${arr }
 				<script>
 				var jArray = new Array();
 				jArray = '${arr}';
