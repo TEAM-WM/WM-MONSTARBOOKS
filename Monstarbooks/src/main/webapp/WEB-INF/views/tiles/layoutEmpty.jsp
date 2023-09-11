@@ -9,8 +9,6 @@
 <title>몬스타북스</title>
 </head>
 <body>
-	<main class="main">
-		<tiles:insertAttribute name="main" />
-	</main>
+	<tiles:insertAttribute name="main" />
 </body>
 </html>

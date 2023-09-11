@@ -1,6 +1,8 @@
 package com.monstar.books.booklist.sevice;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,17 +84,48 @@ public class BookDetailServiceList implements BookListService {
 		model.addAttribute("reCnt",reviewCnt);
 		
 //		차트
+		HashSet<Integer> addedStars = new HashSet<>();//리연추가 ===  별값 중복 추가 방지
+		
 		JSONArray arr = new JSONArray();
 		ArrayList<BookReviewDto> starCnt = dao.starChart(bookno); 
+		
+		ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>(); // JSON 객체를 담을 리스트
+
 		for (BookReviewDto re : starCnt) {
-			JSONObject obj = new JSONObject();
-			obj.put("star",re.getRstar());
-			obj.put("starCnt", re.getStarCnt());
-			if (obj != null) {
-				arr.add(obj);
-			}
+		    JSONObject obj = new JSONObject();
+		    obj.put("star", re.getRstar());
+		    obj.put("starCnt", re.getStarCnt());
+		    
+//		    ==== 리연 추가=== 
+		    if (obj != null && re.getStarCnt() != 0) {
+		        // star 값이 이미 추가되었는지 확인하고 추가되지 않았다면 추가
+		        if (!addedStars.contains(re.getRstar())) {
+		        	jsonList.add(obj);
+		            // 추가된 star 값을 set 에 추가
+		            addedStars.add(re.getRstar());
+		        }//if
+		    }//if//==리연 추가 종료
+		}//for 
+
+		//====  리연 추가 ==== 나머지 별점에 대한 0 추가 + 별점 역정렬
+		for (int star = 1; star <= 5; star++) {
+		    JSONObject obj = new JSONObject();
+		    obj.put("star", star);
+		    obj.put("starCnt", 0);
+
+		    if (!addedStars.contains(star)) {
+		    	jsonList.add(obj);
+		    }
 		}
-		model.addAttribute("arr",arr);
+		// 별점(star)을 기준으로 정렬
+		Collections.sort(jsonList, (a, b) -> Integer.compare((int)b.get("star"), (int)a.get("star")));
+
+		// JSON 배열로 변환
+		for (JSONObject obj : jsonList) {
+		    arr.add(obj);
+		}//리연 추가 종료
+		
+		model.addAttribute("arr", arr);
 		
 //		로그인상태인지 확인
 		if(memberId != null) {
