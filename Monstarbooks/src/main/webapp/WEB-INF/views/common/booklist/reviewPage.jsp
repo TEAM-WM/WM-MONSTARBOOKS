@@ -38,7 +38,7 @@
 			</header>
 
 			<div class="review-card-body">
-				<c:if test="${re.refilesrc ne null }">
+				<c:if test="${not empty re.refilesrc }">
 				<div class="review-image">
 					<img
 						src="${pageContext.request.contextPath}/resources/assets/upload/${re.refilesrc }"
@@ -50,6 +50,7 @@
 			</li>
 			</c:forEach>
 	</ol>
+	<c:if test="${not empty review }">
 	<!-- pagination-wrap -->
     <div class="pagination-wrap">
         <!-- pagination -->
@@ -110,10 +111,9 @@
 				</c:otherwise>
 			</c:choose>
             </ol>
-        </div>
-        <!-- pagination -->
-    </div>
-    <!-- pagination-wrap -->
+        </div><!-- pagination -->
+    </div><!-- pagination-wrap -->
+	</c:if>
 	<%-- <div align="center">
 		<!-- 댓글 목록 -->
 		<div id="reviewPage">
