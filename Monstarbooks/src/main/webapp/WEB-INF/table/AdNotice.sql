@@ -6,7 +6,7 @@ ncontent CLOB not null,
 nwriter varchar2(100) not null,
 nregdate DATE default sysdate not null,
 nfilesrc varchar2(100),
-deleted char(3) default 'no' check(deleted in ('no','yes')),
+deleted char(3) default 'no',
 memberno number not null
 );
 
