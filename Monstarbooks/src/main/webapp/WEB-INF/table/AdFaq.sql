@@ -5,7 +5,7 @@ fquestion varchar2(500) not null,
 fanswer CLOB not null,
 fcategory varchar2(225) not null,
 fregdate date default sysdate not null,
-deleted char(3) default 'no' check(deleted in ('no','yes'))
+deleted char(3) default 'no'
 );
 
 drop table m_faq;
