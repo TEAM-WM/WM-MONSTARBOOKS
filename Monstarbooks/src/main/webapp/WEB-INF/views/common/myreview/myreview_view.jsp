@@ -101,13 +101,13 @@ tr, td {
 			<input type="hidden" name="memberno" value="${myreview_view.memberno }" />
 			<input type="hidden" name="mid" value="${myreview_view.member.mid }" />
 			<input type="hidden" name="rtitle" value="${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }
-				&nbsp;&nbsp; ${myreview_view.book.btitle } " /></td>
+				&nbsp; ${myreview_view.book.btitle } " /></td>
 		</tr>
 
 		<tr>
 			<td colspan="3" style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold;"
 				class="left"><br />[${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }]
-				&nbsp;&nbsp; ${myreview_view.book.btitle } <br />
+				&nbsp; ${myreview_view.book.btitle } <br />
 			<br />
 			</td>
 		</tr>
