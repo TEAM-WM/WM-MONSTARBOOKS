@@ -54,7 +54,7 @@ public class ProductUpdateService implements ProductService {
 		
 		//"도서"테이블에 넣을 정보
 		int bookno = Integer.parseInt(req.getParameter("bookno"));
-		int bisbn = Integer.parseInt(req.getParameter("bisbn"));
+		Long bisbn = Long.parseLong(req.getParameter("bisbn"));
 		String btitle = req.getParameter("btitle");
 		String bsubtitle = req.getParameter("bsubtitle");
 		String bpublisher = req.getParameter("bpublisher");

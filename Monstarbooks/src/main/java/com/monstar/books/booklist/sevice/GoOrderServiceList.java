@@ -62,11 +62,16 @@ public class GoOrderServiceList implements BookListService {
 		
 //		보유쿠폰 조회
 		ArrayList<CouponDto> cpdto = dao.myCouponCheck(memberno);
+		
+//		보유쿠폰 수량 조회
+		int cpCnt = dao.cpCnt(memberno);
+		
 		System.out.println(cpdto);
 		model.addAttribute("dto",dto);
 		model.addAttribute("ccount",ccount);
 		model.addAttribute("totPrice",totPrice);
 		model.addAttribute("cpdto",cpdto);
+		model.addAttribute("cpCnt",cpCnt);
 		
 	}// override method
 

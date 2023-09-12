@@ -46,7 +46,7 @@ public class CartServiceList implements CartService {
         System.out.println("memberno :"+memberno);
         
 		ArrayList<CartDto> dto = dao.cartList(memberno);
-		int cnt = dao.cartCnt(memberno); //장바구니 전체 수 
+		int cnt = dao.cartCnt(memberno); //품절을 제외한 장바구니 전체 수 
 		
 		Integer cartCnt = dao.cartTotCnt(memberno); //장바구니 전체 수 *한권당 수량
 		Integer totPrice = dao.totPrice(memberno); 

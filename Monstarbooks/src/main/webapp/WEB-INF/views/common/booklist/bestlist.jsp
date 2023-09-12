@@ -82,7 +82,6 @@ function add_cart(bookno,memberno){
 		alert("로그인이 필요합니다.");
 		location.href="../login";
 	}
-	
 }
 /* 바로 주문 */
 function go_order(bno,memberno){
@@ -118,7 +117,7 @@ function go_order(bno,memberno){
 		<jsp:include page="/WEB-INF/views/tiles/include/listMenu.jsp">
 			<jsp:param name="asideTitle" value="베스트셀러" />
 		</jsp:include>
-		<form action="../goOrder" class="order_form" method="post">
+		<form action="../goOrder" class="order_form hidden" method="post">
 			<input type="hidden" name="bookno" id="bookno" value="0" />
 			<input type="hidden" name="ccount" value="1" />
 		</form>
@@ -147,7 +146,7 @@ function go_order(bno,memberno){
                     </div><!-- 체크박스 -->
                     <div class="product-card-image">
                     	<img
-						src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg }"
+						src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }"
 						alt="책 썸네일 이미지" />
                     </div><!-- 책이미지 -->
                     <div class="book-info">

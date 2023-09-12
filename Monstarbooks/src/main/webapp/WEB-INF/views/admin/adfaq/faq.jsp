@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +42,7 @@
 
 </head>
 <body>
-<h2>FAQ</h2>
+	<h2>FAQ</h2>
 
 	<div class="category">
 		<input type="button" value="반품/교환/환불" onclick="select_fcategory1();">
@@ -50,30 +50,29 @@
 		<input type="button" value="배송/수령일 안내" onclick="select_fcategory3();">
 	</div>
 
-<button onclick="check_faqInsert();">등록</button>
-
-	<!-- 아코디언 메뉴 -->
-	<div>
+	<button onclick="check_faqInsert();">등록</button>
+	<section class="accordion-wrap faq-acc">
 		<ul>
-			<c:forEach items="${faq }" var="faq">
-				<li>
-					<!-- 질문 -->
-					<div>
-						<h3>Q. ${faq.fquestion }</h3>
-						<a href="faqUpdate?faqno=${faq.faqno }&fcategory=${faq.fcategory}">수정</a>
-						<button onclick="check_faqDelete(${faq.faqno});">삭제</button>
-						<button type="button">펼치기</button>
-					</div>
-				
-					<!-- 답변 -->
-					<div>
-						<p>A. ${faq.fanswer }</p>
-					</div>
-				</li>
-			</c:forEach>			
+			<c:forEach items="${faq}" var="dto">
+				<c:if test="${empty dto.deleted or dto.deleted ne 'yes'}">
+					<li>
+						<button type="button">${dto.fquestion}</button>
+						<div class="accordion-item">
+							<pre>${dto.fanswer}</pre>
+						</div>
+						<div>
+							<a href="faqUpdate?faqno=${dto.faqno}">수정</a> 
+							<a href="deleteFAQ?faqno=${dto.faqno}" onclick="check_faqDelete(${dto.faqno}); return false;">삭제</a>
+						</div>
+					</li>
+				</c:if>
+			</c:forEach>
+
 		</ul>
-	</div>
-	
+	</section>
+	<!--accordion-wrap-->
+
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/js/common.js"></script>
 </body>
 </html>
-
