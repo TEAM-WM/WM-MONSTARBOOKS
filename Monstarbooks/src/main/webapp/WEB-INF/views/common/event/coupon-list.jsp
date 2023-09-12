@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,33 +29,22 @@
 
     }
 </script>
-
 </head>
 <body>
-	<h1>쿠폰 리스트</h1>
-<br>
-	<div class="coupon-container">
-		<div class="coupon">
-			<img
-				src="/books/resources/assets/imgs/coupon/img_cuppon_discount.png"
-				alt="쿠폰 1" width="150"><br /> <a href="eventcoupondwon1"
-				onclick="showCouponMessage(10000);">10000원 쿠폰</a>
-		</div>
+<h1>쿠폰 리스트</h1>
+<form action="eventcoupondwon" method="post">
+<c:forEach items="${couponlist}" var="coupon">
+    <div class="coupon-container">
+        <div class="coupon">
+            <img src="/books/resources/assets/imgs/coupon/img_cuppon_discount.png" alt="쿠폰 ${coupon.cpno}" width="150"><br />
+            <button type="submit" name="cpno" value="${coupon.cpno }" onclick="showCouponMessage(${coupon.caprice});">${coupon.cpname}</button>
+            <input type="hidden" name="cpcreated" value="${coupon.cpcreated }">
+            <input type="hidden" name="cpvalid" value="${coupon.cpvalid }">
+        </div>
+    </div>
+</c:forEach>
+</form>
 
-		<div class="coupon">
-			<img
-				src="/books/resources/assets/imgs/coupon/img_cuppon_discount.png"
-				alt="쿠폰 2" width="150"><br /> <a href="eventcoupondwon2"
-				onclick="showCouponMessage(5000);">5000원 쿠폰</a>
-		</div>
-
-		<div class="coupon">
-			<img
-				src="/books/resources/assets/imgs/coupon/img_cuppon_discount.png"
-				alt="쿠폰 3" width="150"><br /> <a href="eventcoupondwon3"
-				onclick="showCouponMessage(2000);">2000원 쿠폰</a>
-		</div>
-	</div>
 </body>
 </html>
 
