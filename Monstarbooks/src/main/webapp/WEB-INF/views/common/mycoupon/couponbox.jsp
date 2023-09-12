@@ -127,8 +127,8 @@ tr, td {
 			${searchVO.page }/${searchVO.totPage } --%>
 					<hr />
 					<c:if test="${searchVO.page>1}">
-						<a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a>
-						<a href="list?page=${searchVO.page-1 }"><i
+						<a href="couponbox?page=1"><i class="fa-solid fa-angles-left"></i></a>
+						<a href="couponbox?page=${searchVO.page-1 }"><i
 							class="fa-solid fa-circle-chevron-left"></i></a>
 					</c:if>
 					<c:forEach begin="${searchVO.pageStart }"
@@ -138,14 +138,14 @@ tr, td {
 								<span style="color: red; font-weight: bold;">${i }</span>
 							</c:when>
 							<c:otherwise>
-								<a href="list?page=${i }" style="text-decoration: none;">${i }</a>
+								<a href="couponbox?page=${i }" style="text-decoration: none;">${i }</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${searchVO.page < searchVO.totPage}">
-						<a href="list?page=${searchVO.page+1 }"><i
+						<a href="couponbox?page=${searchVO.page+1 }"><i
 							class="fa-solid fa-circle-chevron-right"></i></a>
-						<a href="list?page=${searchVO.totPage }"><i
+						<a href="couponbox?page=${searchVO.totPage }"><i
 							class="fa-solid fa-angles-right"></i></a>
 					</c:if>
 				</div>
