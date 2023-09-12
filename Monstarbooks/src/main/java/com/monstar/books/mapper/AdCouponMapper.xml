@@ -60,6 +60,18 @@
 		WHERE CPDESCRIPTION LIKE '%' || #{param3} || '%'
 		ORDER BY cpno DESC
 	</select>
+	
+	<select id="couponlist"
+	resultType="com.monstar.books.adcoupon.dto.AdCouponDto">
+	SELECT CPNO as cpno,
+            CPNAME as cpname,
+            CPDESCRIPTION as cpdescription,
+            CPPRICE as cpprice,
+            CPCREATED as cpcreated,
+            CPVALID as cpvalid,
+            CPSTATUS as cpstatus
+            *FROM M_COUPON
+	</select>
 
 	<select id="selectCouponTotCount1" resultType="int">
 		SELECT COUNT(*)
