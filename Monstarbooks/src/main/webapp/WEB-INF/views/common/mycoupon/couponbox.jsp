@@ -93,7 +93,7 @@ tr, td {
 						<tr>
 							<c:choose>
 								<c:when
-									test="${mcoupon.cpstatus eq 'N' and mcoupon.coupon.cpstatus eq 'TRUE'}">
+									test="${mcoupon.cpstatus eq 'N' and mcoupon.coupon.cpstatus eq 'FALSE'}">
 									<td colspan="2" style="width: 300px;"><c:set
 											var="imageFileName" value="coupon${loop.index}.png" /> <img
 										class="coupon-image"

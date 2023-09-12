@@ -39,17 +39,14 @@ public class MyProfileViewService implements MyPageService {
 		HttpSession session = request.getSession();
 		String mid = (String) session.getAttribute("id");
 		System.out.println("id받아줘 :" + mid);
-		//로그인프로세스 서비스 참조
+		//로그인 프로세스 서비스 참조
 //		httpSession.setAttribute("id", dto.getMid());
 		
-		
-//		String mid = request.getParameter("mid");	
         MyProfileDao dao = sqlSession.getMapper(MyProfileDao.class);
         System.out.println("mid:"+mid);
         
 		MemberDto dto = dao.myprofileview(mid);
 		model.addAttribute("myprofile_view", dto);
-
 
 	}// execute method
 

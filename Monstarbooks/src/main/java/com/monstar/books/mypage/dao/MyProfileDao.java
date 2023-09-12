@@ -22,6 +22,6 @@ public interface MyProfileDao {
 
 	//리뷰 쓰기 서비스 / 멤버 테이블 아이디 조회
 	public ArrayList<MemberDto> selectId(String mid);
-
+	
 
 }//interface 종료
