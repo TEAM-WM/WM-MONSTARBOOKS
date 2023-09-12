@@ -13,10 +13,6 @@ public interface MyCouponDao {
 // 쿠폰함 리스트 총갯수 구하기
 	public int TotCount();
 
-	
-	
-
-
 }
 		
 	

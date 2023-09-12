@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.monstar.books.mypage.vopage.*;
 import com.monstar.books.mypage.dao.MyCouponDao;
+import com.monstar.books.mypage.vopage.SearchVO;
 import com.monstar.books.order.dto.CouponMemberDto;
 
 @Service
@@ -41,7 +41,6 @@ public class MyCouponListService implements MyPageService {
 //     로그인 사용자 회원번호 세션에서 받아오기
 		HttpSession session = request.getSession();
 		Integer no = (Integer) session.getAttribute("memberNumber");
-
 		System.out.println("member :" + no);
 
 		// paging
@@ -67,6 +66,7 @@ public class MyCouponListService implements MyPageService {
 		
 		List<CouponMemberDto> couponMember = dao.myCoupon(rowStart,rowEnd,no);		
 		model.addAttribute("mcoupon", couponMember);
+		
 		
 	}// execute method
 
