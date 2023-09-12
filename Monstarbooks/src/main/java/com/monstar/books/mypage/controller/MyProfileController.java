@@ -32,7 +32,9 @@ public class MyProfileController {
 		System.out.println("프로필 이미지 메인화면입니다.");
 //		데이터 가져오기 작업
 		model.addAttribute("request", request);
-
+		// 페이지 이름을 모델에 추가
+		model.addAttribute("pageName", "list");
+		
 		service = new MyProfileListService(sqlSession);
 		service.execute(model);
 
@@ -46,6 +48,9 @@ public class MyProfileController {
 		System.out.println("====myprofile_view() 프로필 이미지 조회 화면입니다.====");
 //		글수정form toss
 		model.addAttribute("request",request);
+        // 페이지 이름을 모델에 추가
+        model.addAttribute("pageName", "myprofile_view");
+        
 		service=new MyProfileViewService(sqlSession);
 		service.execute(model);
 		
@@ -58,7 +63,9 @@ public class MyProfileController {
 		System.out.println("myprofile_update 프로필 이미지 수정폼입니다.");
 
 		model.addAttribute("request", request);
-
+		// 페이지 이름을 모델에 추가
+		model.addAttribute("pageName", "myprofile_update");
+		
 		service = new MyProfileViewService(sqlSession);
 		service.execute(model);
 
@@ -110,5 +117,6 @@ public class MyProfileController {
 //		return null;
 		
 	}// 이미지download 종료
+
 	
 }// class 종료

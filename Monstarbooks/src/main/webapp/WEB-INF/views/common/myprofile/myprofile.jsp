@@ -18,7 +18,7 @@
         .profile-image img {
             max-width: 100%;
             border-radius: 50%;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0. 2);
          }
 
         .mypofile-menu-list {
@@ -52,13 +52,35 @@
         </div>
         <nav>
             <ul class="mypofile-menu-list">
-                <c:choose>
-                    <c:when test="${not empty myprofile_view.mprofileimg}">
+                 <c:choose>
+                    <c:when test="${pageName == 'myprofile_view' and not empty myprofile_view.mprofileimg}">
                         <tr>
                             <td class="center" colspan=2>
                                 <div align="left" class="image-container">
                                     <a href="download?p=resources/assets/upload/&f=${myprofile_view.mprofileimg }&mid=${myprofile_view.mid }">
                                         <img src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }" alt="프로필사진" style="width: 60%; height: auto;" />
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:when>
+                        <c:when test="${pageName == 'myprofile_update' and not empty myprofile_view.mprofileimg}">
+                        <tr>
+                            <td class="center" colspan=2>
+                                <div align="left" class="image-container">
+                                    <a href="download?p=resources/assets/upload/&f=${myprofile_view.mprofileimg }&mid=${myprofile_view.mid }">
+                                        <img src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }" alt="프로필사진" style="width: 60%; height: auto;" />
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${pageName == 'list' and not empty mem.mprofileimg}">
+                        <tr>
+                            <td class="center" colspan=2>
+                                <div align="left" class="image-container">
+                                    <a href="download?p=resources/assets/upload/&f=${mem.mprofileimg }&mid=${mem.mid }">
+                                        <img src="${pageContext.request.contextPath}/resources/assets/upload/${mem.mprofileimg }" alt="프로필사진" style="width: 60%; height: auto;" />
                                     </a>
                                 </div>
                             </td>
