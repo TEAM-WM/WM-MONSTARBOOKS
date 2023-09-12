@@ -34,4 +34,6 @@ public interface AdOrderDao {
 	public List<AdOrderDto> getproductDetail(int orderNo); // 주문 상세페이지 상품정보
 
 	public void adupdateOrderStatus(@Param("orderNo") int orderNo, @Param("newStatus") String newStatus);
+	
+	public List<AdOrderDto> couponlist();
 }

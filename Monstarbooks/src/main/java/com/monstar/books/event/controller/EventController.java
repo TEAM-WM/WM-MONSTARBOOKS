@@ -8,12 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.monstar.books.event.sevice.CouponlistService;
 import com.monstar.books.event.sevice.EventDetailService;
 import com.monstar.books.event.sevice.EventService;
 import com.monstar.books.event.sevice.EventServiceList;
-import com.monstar.books.event.sevice.EventcoupondwonService1;
-import com.monstar.books.event.sevice.EventcoupondwonService2;
-import com.monstar.books.event.sevice.EventcoupondwonService3;
+import com.monstar.books.event.sevice.EventcoupondwonService;
 
 @Controller
 public class EventController {
@@ -48,40 +47,29 @@ public class EventController {
 		return "common/event/eventdetail";
 	}// eventdetail 종료
 	@RequestMapping("common/event/coupon-list")
-	public String couponlist(Model model) {
+	public String couponlist(HttpServletRequest request,Model model) {
 		System.out.println("coupon-list");
 
+		model.addAttribute("request", request);
+		
+		service = new CouponlistService(session);
+		service.execute(model);
+		
 		
 		return "common/event/coupon-list";
 	}// coupon-list 종료
 	
-	@RequestMapping("/common/event/eventcoupondwon1")
-	public String eventcoupondwon1(Model model) {
-		System.out.println("eventcoupondwon1");
+	@RequestMapping("/common/event/eventcoupondwon")
+	public String eventcoupondwon(HttpServletRequest request,Model model) {
+		System.out.println("eventcoupondwon");
 
-		service = new EventcoupondwonService1(session);
+		model.addAttribute("request",request);
+		
+		service = new EventcoupondwonService(session);
 		service.execute(model);
 		
 		return "redirect:/common/event/coupon-list";
 	}// eventcoupondwon1 종료
 	
-	@RequestMapping("common/event/eventcoupondwon2")
-	public String eventcoupondwon2(Model model) {
-		System.out.println("eventcoupondwon2");
-
-		service = new EventcoupondwonService2(session);
-		service.execute(model);
-		
-		return "common/event/coupon-list";
-	}//	eventcoupondwon2 종료
-	@RequestMapping("common/event/eventcoupondwon3")
-	public String eventcoupondwon3(Model model) {
-		System.out.println("eventcoupondwon3");
-
-		service = new EventcoupondwonService3(session);
-		service.execute(model);
-		
-		return "common/event/coupon-list";
-	}//	eventcoupondwon3 종료
 }
 
