@@ -80,15 +80,14 @@ tr, td {
 				<br />
 				<!-- 쿠폰함 테이블 -->
 				<table class="coupon-table">
-					<tr>
-						<th colspan="2" style="width: 300px;"></th>
-						<th style="width: 170px;">쿠폰명</th>
-						<th style="width: 110px;">할인금액</th>
-						<th style="width: 120px;">유효기간</th>
-						<th style="width: 100px;">사용유무</th>
-						<th style="width: 100px;" hidden>사용가능(관리자)</th>
-					</tr>
-
+						<tr>
+							<th colspan="2" style="width: 300px;"></th>
+							<th style="width: 170px;">쿠폰명</th>
+							<th style="width: 110px;">할인금액</th>
+							<th style="width: 120px;">유효기간</th>
+							<th style="width: 100px;">사용유무</th>
+							<th style="width: 100px;" hidden>사용가능(관리자)</th>
+						</tr>
 					<c:forEach var="mcoupon" items="${mcoupon}" varStatus="loop">
 						<tr>
 							<c:choose>
@@ -120,29 +119,35 @@ tr, td {
 
 					</c:forEach>
 
-					<tr>
-						<td colspan="6">
-					</tr>
-
 				</table>
 				<br />
 				<!-- 페이징 -->
 				<div class="center">
-					<a href=""><i class="fa-solid fa-circle-chevron-left"></i></a>
-
+					<%-- ${totRowcnt } <br />
+			${searchVO.page }/${searchVO.totPage } --%>
+					<hr />
+					<c:if test="${searchVO.page>1}">
+						<a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a>
+						<a href="list?page=${searchVO.page-1 }"><i
+							class="fa-solid fa-circle-chevron-left"></i></a>
+					</c:if>
 					<c:forEach begin="${searchVO.pageStart }"
 						end="${searchVO.pageEnd }" var="i">
 						<c:choose>
 							<c:when test="${i eq searchVO.page }">
-								<span style="font-weight: bold;">${i }</span>
+								<span style="color: red; font-weight: bold;">${i }</span>
 							</c:when>
 							<c:otherwise>
 								<a href="list?page=${i }" style="text-decoration: none;">${i }</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
-
-					<a href=""><i class="fa-solid fa-circle-chevron-right"></i></a>
+					<c:if test="${searchVO.page < searchVO.totPage}">
+						<a href="list?page=${searchVO.page+1 }"><i
+							class="fa-solid fa-circle-chevron-right"></i></a>
+						<a href="list?page=${searchVO.totPage }"><i
+							class="fa-solid fa-angles-right"></i></a>
+					</c:if>
 				</div>
 			</div>
 		</form>

@@ -148,27 +148,33 @@ a:hover {
 		<br />
 
 		<!-- 페이징 -->
-<div class="center">
-		<a href=""><i class="fa-solid fa-circle-chevron-left"></i></a>
-
-		<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }"
-			var="i">
-			<c:choose>
-				<c:when test="${i eq searchVO.page }">
-					<span style="font-weight: bold;">${i }</span>
-				</c:when>
-				<c:otherwise>
-					<a href="list?page=${i }" style="text-decoration: none;">${i }</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-		<a href=""><i class="fa-solid fa-circle-chevron-right"></i></a>
-</div>
-		
+	<div class="center">
+	<%-- ${totRowcnt } <br />
+	${searchVO.page }/${searchVO.totPage } --%>
+	<hr />
+	<c:if test="${searchVO.page>1}">
+		<a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a>
+		<a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a>
+	</c:if>
+	<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+		<c:choose>
+			<c:when test="${i eq searchVO.page }">
+				<span style="color:red; font-weight:bold;">${i }</span>
+			</c:when>
+			<c:otherwise>
+				<a href="list?page=${i }" style="text-decoration:none;">${i }</a> 
+			</c:otherwise>
+		</c:choose>	
+	</c:forEach>
+	<c:if test="${searchVO.page < searchVO.totPage}">
+		<a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a>
+		<a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a>
+	</c:if>
+	</div>
+			
+		        </div>
+				</form>
 	        </div>
-			</form>
-        </div>
 
 
 

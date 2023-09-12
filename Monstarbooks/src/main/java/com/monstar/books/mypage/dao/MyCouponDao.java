@@ -11,7 +11,7 @@ public interface MyCouponDao {
 	public List<CouponMemberDto> myCoupon(int rowStart, int rowEnd, Integer no);
 	
 // 쿠폰함 리스트 총갯수 구하기
-	public int TotCount();
+	public int couponboxTotCount(String mid);
 
 }
 		

@@ -25,8 +25,27 @@
 		<result column="CPVAILD" property="cpvaild"/>
 		<result column="CPSTATUS" property="cpstatus"/>
 	<collection property="coupon" resultMap="Coupon"></collection>
+	<collection property="member" resultMap="Member"></collection>
 	</resultMap>
 	
+	<resultMap type="com.monstar.books.member.dto.MemberDto"
+		id="Member">
+		<result column="MEMBERNO" property="memberno" />
+		<result column="MID" property="mid" />
+		<result column="MPW" property="mpw" />
+		<result column="MBIRTH" property="mbirth" />
+		<result column="MNAME" property="mname" />
+		<result column="MEMAIL" property="memail" />
+		<result column="MTEL" property="mtel" />
+		<result column="MREGDATE" property="mregdate" />
+		<result column="MPROFILEIMG" property="mprofileimg" />
+		<result column="MFAVORITE" property="mfavorite" />
+		<result column="MAUTHORITY" property="mauthority" />
+		<result column="MDELETED" property="mdeleted" />
+		<result column="member" property="Member" />
+	</resultMap>
+	
+	  <!-- 사용자 마이페이지 쿠폰함 목록 -->
 	<select id="myCoupon" parameterType="com.monstar.books.order.dto.CouponMemberDto" resultMap="CpMember">
 		<!-- 페이징 처리 전 -->
 <!-- SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
@@ -56,8 +75,11 @@
  	</select>
  	
   		<!-- 리스트 총 갯수 -->
-		<select id="TotCount" resultType="Integer">
-			SELECT COUNT(*) FROM M_COUPON_MEMBER
+		<select id="couponboxTotCount" resultType="int">
+    	SELECT COUNT(*)
+		FROM M_COUPON_MEMBER C
+		LEFT JOIN M_MEMBER M ON M.MEMBERNO = C.MEMBERNO
+		WHERE M.MID = #{param1}
 		</select>
 
 

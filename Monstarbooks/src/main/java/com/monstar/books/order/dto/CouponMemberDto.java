@@ -2,6 +2,8 @@ package com.monstar.books.order.dto;
 
 import java.util.Date;
 
+import com.monstar.books.member.dto.MemberDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,5 @@ public class CouponMemberDto {
 	private String cpstatus;      // 쿠폰 사용유무
 	
 	private CouponDto coupon;
+	private MemberDto member;
 }
