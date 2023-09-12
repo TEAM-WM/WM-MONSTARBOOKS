@@ -3,37 +3,6 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.monstar.books.product.dao.ProductDao">
-
-<!-- 	<resultMap type="com.monstar.books.product.dto.BookDetailDto" id="BookDetailDto">
-		<result column = "BOOKNO" property="bookno" />
-		<result column = "BCATEGORYNO" property="bcategoryno" />
-		<result column = "BIMG" property="bimg" />
-		<result column = "BIMGDETAIL" property="bimgdetail" />
-		<result column = "BDESCRIPTION" property="bdescription" />
-		<result column = "BPAGE" property="bpage" />
-		<result column = "BSIZE" property="bsize" />
-		<result column = "BADGE" property="badge" />
-		<result column = "BPDATE" property="bpdate" />
-	</resultMap>
-	<resultMap type="com.monstar.books.product.dto.BookDto" id="BookDto">
-		<result column = "BOOKNO" property="bookno" />
-		<result column = "BTITLE" property="btitle" />
-		<result column = "BSUBTITLE" property="bsubtitle" />
-		<result column = "BWRITER" property="bwriter" />
-		<result column = "BTRANSLATOR" property="btranslator" />
-		<result column = "BPUBLISHER" property="bpublisher" />
-		<result column = "BPDATE" property="bpdate" />
-		<result column = "BPRICE" property="bprice" />
-		<result column = "BPRICESELL" property="bpricesell" />
-		<result column = "BDISCOUNT" property="bdiscount" />
-		<result column = "BISBN" property="bisbn" />
-		<result column = "BSTATUS" property="bstatus" />
-		<result column = "BCDATE" property="bcdate" />
-		<result column = "BMDATE" property="bmdate" />
-		<result column = "BSTOCK" property="bstock" />
-		<collection property="bookDetailDto" resultMap="BookDetailDto" ></collection>
-	</resultMap> -->
-		
 	
 	<resultMap type="com.monstar.books.product.dto.BookCategoryDto" id="BookCategoryDto">
 		<result column = "BCATEGORYNO" property="bcategoryno" />
@@ -70,6 +39,7 @@
 		<collection property="bookCategoryDto" resultMap="BookCategoryDto" ></collection>
 	</resultMap>
 	
+	<!-- 페이징 전 -->
 	<!-- <select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
 		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
@@ -77,19 +47,104 @@
 		ORDER BY BOOKNO DESC
 	</select> -->
 	
+		<!-- 검색을 위한 준비 -->
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE BISBN LIKE '%'|| #{param3} || '%'
+			</when>
+			<when test="param4==2">
+				WHERE BTITLE LIKE '%'|| #{param3} || '%'
+			</when>
+			<when test="param4==3">
+				WHERE BISBN LIKE '%'|| #{param3} || '%' OR BTITLE LIKE '%'|| #{param3} || '%'
+			</when>
+			<otherwise>
+			
+			</otherwise>
+		</choose>
+	</sql>
+	
+	
+	
+	<!-- 페이징 후 + 검색쿼리 -->
 	<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
-		SELECT * 
+		SELECT *
+    	FROM
+        	(SELECT ROWNUM NUM, N.*
+        	FROM
+            	(SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE,
+                	B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, B.BISBN
+           		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+            	ON B.BOOKNO = BD.BOOKNO
+            	<include refid="includeList" />
+            	ORDER BY BOOKNO DESC) N)
+    	WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	
+
+	
+	<!-- 검색 조건에 따른 목록의 총 갯수 -->
+	<select id="selectBoardTotCount1" resultType="Integer">
+    	SELECT COUNT(*) FROM M_BOOK WHERE BISBN LIKE '%'|| #{param1} || '%'
+    </select>
+    <select id="selectBoardTotCount2" resultType="Integer">
+    	SELECT COUNT(*) FROM M_BOOK WHERE BTITLE LIKE '%'|| #{param1} || '%'
+    </select>
+    <select id="selectBoardTotCount3" resultType="Integer">
+    	SELECT COUNT(*) FROM M_BOOK WHERE BISBN LIKE '%'|| #{param1} || '%' OR BTITLE LIKE '%'|| #{param1} || '%'
+    </select>
+    <select id="selectBoardTotCount4" resultType="Integer">
+    	SELECT COUNT(*) FROM M_BOOK
+    </select>
+	
+	<!-- "도서번호" 검색 + 리스트 -->
+	<!-- <select id="searchByBookNo" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+		SELECT *
 		FROM
-		    (SELECT ROWNUM NUM, N.* 
-		    FROM 
-		        (SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, 
-		            B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK 
+    		(SELECT ROWNUM NUM, N.*
+    		FROM
+       		 (SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE,
+           		 B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
 		        FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
 		        ON B.BOOKNO = BD.BOOKNO
+		        WHERE (B.BOOKNO LIKE '%' || #{param1} || '%')
 		        ORDER BY BOOKNO DESC) N)
-		WHERE NUM BETWEEN #{param1} AND #{param2}
-	</select>
+		WHERE NUM BETWEEN #{param2} AND #{param3}
+	</select> -->
+	<!-- "도서제목" 검색 + 리스트 -->
+	<!-- <select id="searchByBookTitle" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+		SELECT *
+		FROM
+    		(SELECT ROWNUM NUM, N.*
+    		FROM
+       		 (SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE,
+           		 B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
+		        FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+		        ON B.BOOKNO = BD.BOOKNO
+		        WHERE (B.BTITLE LIKE '%' || #{param1} || '%')
+		        ORDER BY BOOKNO DESC) N)
+		WHERE NUM BETWEEN #{param2} AND #{param3}
+	</select> -->
+	
+	<!-- "조건없이" 검색 + 리스트 -->
+	<!-- <select id="searchByBookTitle" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
+		SELECT *
+		FROM
+    		(SELECT ROWNUM NUM, N.*
+    		FROM
+       		 (SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE,
+           		 B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
+		        FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
+		        ON B.BOOKNO = BD.BOOKNO
+		        WHERE (B.BTITLE LIKE '%' || #{param1} || '%')
+		        ORDER BY BOOKNO DESC) N)
+		WHERE NUM BETWEEN #{param2} AND #{param3}
+	</select> -->
 		
+	
+	<!-- 도서상세 진입 -->
 	<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
 			B.BPRICE, B.BPRICESELL, B.BDISCOUNT, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, 
@@ -102,6 +157,7 @@
 		WHERE B.BOOKNO = #{param1}
 	</select>
 	
+	<!-- 도서카테고리 정보 리스트 불러오기 -->
 	<select id="selectCategory" resultType="com.monstar.books.product.dto.BookCategoryDto">
 		SELECT * FROM M_BOOK_CATEGORY
 	</select>
