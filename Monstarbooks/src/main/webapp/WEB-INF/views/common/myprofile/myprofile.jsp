@@ -90,7 +90,7 @@
                         <tr>
                             <td class="left" colspan=2>
                                 <div align="left" class="image-container">
-                                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png" alt="기본이미지" style="max-width: 60%; height: auto;">
+                                    <img src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png" alt="기본이미지" style="max-width: 60%; height: auto;">
                                 </div>
                             </td>
                         </tr>

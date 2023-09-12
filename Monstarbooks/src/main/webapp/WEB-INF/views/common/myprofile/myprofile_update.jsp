@@ -86,7 +86,7 @@ table {
 					<td class="left" colspan=2>
 						<div align="center" class="image-container">
 							<img
-								src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
+								src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png"
 								alt="기본이미지" style="max-width: 40%; height: auto;">
 						</div>
 					</td>

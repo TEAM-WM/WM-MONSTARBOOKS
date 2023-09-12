@@ -97,7 +97,7 @@ tr, td {
 									<td colspan="2" style="width: 300px;"><c:set
 											var="imageFileName" value="coupon${loop.index}.png" /> <img
 										class="coupon-image"
-										src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/${imageFileName}"
+										src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/${imageFileName}"
 										alt="쿠폰이미지" align="left"></td>
 									<!-- 3회 반복까지만 설정 -->
 									<c:if test="${loop.index == 3}">

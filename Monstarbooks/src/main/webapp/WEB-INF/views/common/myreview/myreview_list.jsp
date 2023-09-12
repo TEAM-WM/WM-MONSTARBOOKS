@@ -89,7 +89,7 @@ a:hover {
 					<tr>
 						<td colspan=3 style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold; vertical-align: top; "
 							class="left"><img style="max-width: 40px; height: 40px;"
-							src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/bookdefault.png"
+							src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/bookdefault.png"
 							alt="기본썸네일" />&nbsp;&nbsp;&nbsp;<a href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
 						&nbsp;${dto.book.btitle }</a></td>
 					</tr>
