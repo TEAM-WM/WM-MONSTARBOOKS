@@ -63,13 +63,8 @@
 	</resultMap>
 	
 	
-	<!-- 리스트 -->
+	<!-- 베스트셀러 리스트 -->
 	<select id="list" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
-		<!-- 페이징 전
-		SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,
-		B.BPRICESELL,B.BDISCOUNT FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO -->
-		
-		<!-- 페이징 후 -->
 		SELECT * FROM
 		(SELECT ROWNUM NUM, N.* FROM
 		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
@@ -80,21 +75,88 @@
 		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
 		FROM M_BOOK B, M_BOOK_DETAIL D 
 		WHERE B.BOOKNO = D.BOOKNO
+		AND (D.BADGE = '베스트' OR D.BADGE = '주문폭주')
 		ORDER BY REVIEWCNT DESC) N)
 		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 	
-	<!-- 리스트 총 갯수 -->
-	<select id="TotCount" resultType="Integer">
-		SELECT COUNT(*) FROM M_BOOK
+	<!-- 베스트 리스트 총 갯수 -->
+	<select id="BestTotCount" resultType="Integer">
+		<!-- SELECT COUNT(*) FROM M_BOOK -->
+		SELECT COUNT(B.BOOKNO) FROM M_BOOK B, M_BOOK_DETAIL D
+		WHERE B.BOOKNO = D.BOOKNO
+		AND (D.BADGE = '베스트' OR D.BADGE = '주문폭주')
 	</select>
+	
+	<!-- 새로나온책 리스트 -->
+	<select id="newList" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
+		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
+		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) STARAVG,
+		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+		FROM M_BOOK B, M_BOOK_DETAIL D 
+		WHERE B.BOOKNO = D.BOOKNO
+        AND (B.BPDATE > SYSDATE-30 OR D.BADGE = '신상품')
+		ORDER BY BPDATE DESC) N)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<!-- 새로나온책 리스트 총 갯수 -->
+	<select id="NewTotCount" resultType="Integer">
+		SELECT COUNT(B.BOOKNO) FROM M_BOOK B, M_BOOK_DETAIL D
+		WHERE B.BOOKNO = D.BOOKNO
+		AND (B.BPDATE > SYSDATE-30 OR D.BADGE='신상품')
+	</select>
+	
+	<!-- 국내 or 국외 카테고리별 리스트 -->
+	<select id="categoryList" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
+		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
+        C.BCATEGORY1,
+		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) STARAVG,
+		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+        AND D.BCATEGORYNO = C.BCATEGORYNO
+        AND C.BCATEGORY1=#{param1}
+        <include refid="includeList"/>
+		ORDER BY BPDATE DESC) N)
+		WHERE NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	
+	<!-- 국내 or 국외 카테고리별 리스트 총 갯수 -->
+	<select id="categoryTotCount" resultType="Integer">
+		SELECT COUNT(B.BOOKNO) 
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+		AND D.BCATEGORYNO = C.BCATEGORYNO
+		AND C.BCATEGORY1=#{param1}
+		<include refid="includeList"/>
+	</select>
+	
+	<sql id="includeList">
+		<choose>
+			<when test="param2=='전체'">
+				
+			</when>
+			<otherwise>
+				AND C.BCATEGORY2=#{param2}
+			</otherwise>
+		</choose>
+	</sql>
+	
+	
 	
 	<!-- 도서 상세페이지 -->
 	<select id="bookDetail" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
-		<!-- SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,
-		B.BPDATE,B.BPRICE,B.BPRICESELL,B.BDISCOUNT,B.BISBN,
-		D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE
-		FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO AND B.BOOKNO = #{param1} -->
 		SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,B.BPDATE,B.BPRICE,B.BSTOCK,
 			B.BPRICESELL,B.BDISCOUNT,B.BISBN,B.BSTOCK,
 			D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE,
@@ -107,15 +169,6 @@
 	
 	<!-- 리뷰 조회 -->		
 	<select id="bookReivew" parameterType="com.monstar.books.booklist.dto.BookReviewDto" resultMap="Review">
-		<!-- 페이징 전 
-		SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
-		M.MID
-		FROM M_REVIEW R,M_MEMBER M
-		WHERE R.MEMBERNO = M.MEMBERNO
-		AND BOOKNO= #{param1}
-		ORDER BY R.REGDATE DESC -->
-		
-		<!-- 페이징 후 -->
 		SELECT * FROM 
 		(SELECT ROWNUM NUM, N.* FROM
 		(SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,

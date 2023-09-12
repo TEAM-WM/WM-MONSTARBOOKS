@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.monstar.books.booklist.sevice.BookDetailServiceList;
 import com.monstar.books.booklist.sevice.BookListService;
 import com.monstar.books.booklist.sevice.BookListServiceList;
+import com.monstar.books.booklist.sevice.CategoryBookListServiceList;
 import com.monstar.books.booklist.sevice.GoOrderServiceList;
+import com.monstar.books.booklist.sevice.NewBookListServiceList;
 import com.monstar.books.booklist.sevice.addCartCheckServiceList;
 import com.monstar.books.booklist.sevice.addCartServiceList;
 import com.monstar.books.booklist.vopage.SearchVO;
@@ -45,7 +47,36 @@ public class BookListController {
 		service.execute(model);
 
 		return "common/booklist/bestlist";
+	}// bestlist 종료
+	
+	// 새로나온책 리스트
+	@RequestMapping("/booklist/new")
+	public String list(HttpServletRequest request,SearchVO searchVO, Model model) {
 		
+		System.out.println("새로나온책 리스트");
+		
+		model.addAttribute("request",request);
+		model.addAttribute("searchVO",searchVO);
+		
+		service = new NewBookListServiceList(session);
+		service.execute(model);
+		
+		return "common/booklist/bestlist";	
+	}// bestlist 종료
+	
+	// 국내 국외 리스트
+	@RequestMapping("/booklist/category")
+	public String category(HttpServletRequest request,SearchVO searchVO, Model model) {
+		
+		System.out.println("국내 or 국외 리스트");
+		
+		model.addAttribute("request",request);
+		model.addAttribute("searchVO",searchVO);
+		
+		service = new CategoryBookListServiceList(session);
+		service.execute(model);
+		
+		return "common/booklist/bestlist";	
 	}// bestlist 종료
 	
 	// 230823 진성 추가

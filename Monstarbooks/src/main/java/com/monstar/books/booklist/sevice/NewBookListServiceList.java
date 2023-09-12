@@ -7,34 +7,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.booklist.dao.BookListDao;
 import com.monstar.books.booklist.dto.BookListDto;
-import com.monstar.books.booklist.dto.BookReviewDto;
 import com.monstar.books.booklist.vopage.SearchVO;
 
 @Service
-@Primary
-public class BookListServiceList implements BookListService {
+public class NewBookListServiceList implements BookListService {
 
 	@Autowired
 	private SqlSession sqlSession;
 
 	// 생성자
-	public BookListServiceList(SqlSession session) {
+	public NewBookListServiceList(SqlSession session) {
 		this.sqlSession = session;
 	}
 
 	@Override
 	public void execute(Model model) {
 		
-		System.out.println(">>>베스트 리스트 신호");
+		System.out.println(">>>새로나온책 리스트 신호");
 		
 		BookListDao dao = sqlSession.getMapper(BookListDao.class);
 		
@@ -46,8 +41,6 @@ public class BookListServiceList implements BookListService {
         HttpSession session = request.getSession();
         String memberId = (String) session.getAttribute("id");
         
-		
-		// 230823 진성 추가
 		// paging
 		SearchVO searchVO = (SearchVO) map.get("searchVO");
 		
@@ -59,23 +52,23 @@ public class BookListServiceList implements BookListService {
 		searchVO.setPage(page);
 		
 //		글의 총갯수 구하기
-		int total = dao.BestTotCount();
+		int total = dao.NewTotCount();
 		searchVO.pageCalculate(total);
 		
 //		페이징 글 번호 전달
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
-		ArrayList<BookListDto> dto = dao.list(rowStart,rowEnd);	
+		
+		ArrayList<BookListDto> dto = dao.newList(rowStart,rowEnd);	
 		
 //		별점, 리뷰 수
 //		ArrayList<BookReviewDto> rdto = dao.starAvgReCnt(dto.get(0).getBookno());
-
 
 		model.addAttribute("dto", dto);
 //		model.addAttribute("rdto", rdto);
 		model.addAttribute("totRowCnt",total);
 		model.addAttribute("searchVO",searchVO);
-		model.addAttribute("pageName","bestlist");
+		model.addAttribute("pageName","new");
 		
 //		로그인상태인지 확인
 		if(memberId != null) {
