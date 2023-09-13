@@ -3,26 +3,6 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.monstar.books.mypage.dao.MyReviewDao">
-	<sql id="includeList">
-		<choose>
-			<when test="param4==1">
-				WHERE RTITLE LIKE '%'|| #{param3} || '%'
-			</when>
-			<when test="param4==2">
-				WHERE RCONTENT LIKE '%'|| #{param3} || '%'
-			</when>
-			<when test="param4==3">
-				WHERE RTITLE LIKE '%'|| #{param3} || '%' OR RCONTENT
-				LIKE '%'|| #{param3} || '%'
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</sql>
-
-	<!-- includeList라는 SQL 조각을 정의하는 부분입니다. 이 조각은 조건에 따라 다른 WHERE 절을 생성합니다. <choose>는 
-		SQL 조건문의 선택 블록을 나타냅니다. <when>은 조건이 참인 경우 실행됩니다. 여기서 param4 값에 따라 다른 조건절을 
-		생성합니다. <otherwise>는 <when> 조건이 모두 거짓인 경우 실행됩니다. -->
 
 	<!-- [효슬] 마이페이지 추가 -->
 
@@ -120,7 +100,6 @@
 		<result column="BPDATE" property="bpdate" />
 	</resultMap>
 
-	<!-- ############################################# 수정 S ############################################# -->
 		<!-- 마이페이지 리뷰목록 : 로그인세션 및 페이징 처리로 인해 쿼리 수정 -->
 	<select id="reviewList"
 		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
@@ -237,9 +216,12 @@
 			    M.MID,
 			    B.BOOKNO,
 			    B.BTITLE,
-			    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY1,
-			    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY2,
-			    (SELECT O.ORDERNO FROM M_ORDER_DETAIL O WHERE O.BOOKNO = R.BOOKNO) AS ORDERNO
+			    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C 
+			    WHERE C.BCATEGORYNO = D.BCATEGORYNO AND ROWNUM = 1) AS BCATEGORY1,
+			    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C 
+			    WHERE C.BCATEGORYNO = D.BCATEGORYNO AND ROWNUM = 1) AS BCATEGORY2,
+			    (SELECT O.ORDERNO FROM M_ORDER_DETAIL O 
+			    WHERE O.BOOKNO = R.BOOKNO) AS ORDERNO
 			FROM
 			    M_REVIEW R
 			    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
@@ -251,7 +233,6 @@
 			    M.MID = #{param2}
 			    AND R.DELETED = 'NO'
 			    AND R.BOOKNO = #{param1}
-			  
 			        
 		<!-- 로그인세션 적용 후 WHERE MID * ORDERNO 검색 
 		M_ORDER_DETAIL 테이블과 M_BOOK_DETAIL 결합 -->
@@ -278,39 +259,6 @@
 		    M.MID = #{param2} 
 		    AND OD.ORDERNO = #{param1} 
 		    AND R.DELETED = 'NO' -->
-		
-			        
-		<!-- 로그인세션 적용 후 WHERE MID * ORDERNO 검색
-		M_ORDER 테이블과 M_ORDER_DETAIL 테이블을 사용하여 주문 정보를 가져와 결합 -->
-<!-- 		SELECT
-		    R.REVIEWNO,
-		    R.MEMBERNO,
-		    R.RSTAR,
-		    R.RCONTENT,
-		    R.REFILESRC,
-		    (SELECT M.MID FROM M_MEMBER M WHERE M.MEMBERNO = R.MEMBERNO) AS MID,
-		    (SELECT B.BOOKNO FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BOOKNO,
-		    (SELECT B.BTITLE FROM M_BOOK B WHERE B.BOOKNO = R.BOOKNO) AS BTITLE,
-		    (SELECT C.BCATEGORY1 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY1,
-		    (SELECT C.BCATEGORY2 FROM M_BOOK_CATEGORY C WHERE C.BCATEGORYNO = D.BCATEGORYNO) AS BCATEGORY2,
-		    (SELECT OD.ORDERNO FROM M_ORDER_DETAIL OD WHERE OD.BOOKNO = R.BOOKNO) AS ORDERNO
-		FROM
-		    M_REVIEW R
-		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
-		    LEFT JOIN M_ORDER O ON O.MEMBERNO = M.MEMBERNO
-		    LEFT JOIN M_ORDER_DETAIL OD ON OD.ORDERNO = O.ORDERNO
-		    LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
-		    LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = OD.BOOKNO
-		    LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
-		WHERE
-		    M.MID = #{param2} 
-		    AND R.DELETED = 'NO' 
-		    AND EXISTS (
-		        SELECT *
-		        FROM M_ORDER O
-		        WHERE O.MEMBERNO = M.MEMBERNO 
-		        AND O.ORDERNO = #{param1}) -->
-		    
 	</select>
 
 	<!-- 230906 [효슬] 리뷰 글쓰기 기능 -->
@@ -322,32 +270,15 @@
 		#{param1}, #{param2}, #{param3},
 		#{param4}, SYSDATE, #{param5},
 		#{param6}, 'NO')
-
 	</insert>
-	<!-- ############################################# 수정 E ############################################# -->
 
-	<!-- 230825 [효슬] 리뷰 페이징 카운트, 조회 기능 -->
-	<select id="selectReviewListTotCount1" resultType="Integer">
-		SELECT
-		COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%'
-	</select>
-
-	<select id="selectReviewListTotCount2" resultType="Integer">
-		SELECT
-		COUNT(*) FROM M_REVIEW WHERE MEMBERNO LIKE '%'|| #{param1} || '%'
-	</select>
-
-	<select id="selectReviewListTotCount3" resultType="Integer">
-		SELECT
-		COUNT(*) FROM M_REVIEW WHERE RTITLE LIKE '%'|| #{param1} || '%' OR
-		MEMBERNO LIKE '%'|| #{param1} || '%'
-	</select>
-
-	<select id="selectReviewListTotCount4" resultType="Integer">
-		SELECT
-		COUNT(*) FROM M_REVIEW
-	</select>
-	<!-- BTITLE,BCONTENT 각 컬럼에 특정 문자열이 포함된 게시물의 수를 세어 반환 -->
+	<!-- 리뷰글 총갯수 구하기 -->
+    <select id="reviewTotCount" resultType="int">
+    	SELECT COUNT(*) FROM M_REVIEW 
+    	WHERE MEMBERNO = 
+    	(SELECT MEMBERNO FROM M_MEMBER 
+    	WHERE MID = #{param1})
+    </select>
 
 
 	<!-- <select id="detail"> </select> <insert id="insert"> </insert> <update 

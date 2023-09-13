@@ -110,7 +110,7 @@ table {
 					<tr>
 						<td>
 							<div align="center" class="image-container">
-									<img src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
+									<img src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png"
 									 alt="기본이미지" style=" max-width: 200px;  height: auto;">
 							
 							</div>

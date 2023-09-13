@@ -13,11 +13,17 @@
 /* 전체체크박스 */
 $().ready(function(){
 	$("#all_select").click(function(){
-		if($("#all_select").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
+		if($("#all_select").is(":checked")){
+			$("input[type='checkbox']").prop("checked", true);
+		}
+		else {
+			$("input[type='checkbox']").prop("checked", false);
+			$(".product_price").text(0);
+			$(".tot_price").text(0);
+			$("#product_cnt").text(0);
+		}
 	});
 });
-
 /* 수량조절 */
 function count_up(n,p){
 	var cnt = Number($(".cnt_"+n).val()); //수량
@@ -100,8 +106,7 @@ function cart_delete(){
 
 	 if(cnt == 0){
 		alert("선택된 상품이 없습니다.");
-	}
-	 else{
+	}else {
 		$.ajax({
 			url : 'cartDelete',
 			type: 'post',
@@ -115,22 +120,13 @@ function cart_delete(){
 		});
 	}
 }
-
-/* 장바구니가 비었을 시 선택상품 주문버튼 누를때 */
-function cart_empty_sel(){
-	alert('선택된 상품이 없습니다.')
-}
-/* 장바구니가 비었을 시 전체상품 주문버튼 누를때 */
-function cart_empty_all(){
-	alert('장바구니에 담긴 상품이 없습니다.')
-}
 /* 선택상품 주문 */
 function go_order_sel(){
+	var cnt = $("input[type='checkbox']:checked").length;
 	var cntSum = $("#product_cnt").text();
 	if(cnt == 0){
 		alert("선택된 상품이 없습니다.");
-	}
-	 else{
+	}else {
 		 if(confirm(cntSum+"개의 상품을 주문하시겠습니까?")){
 			 $(".order_form").submit();
 		}else{
@@ -148,6 +144,14 @@ function go_order_all(cntSum){
 		return;
 	} 
 } 
+/* 장바구니가 비었을 시 선택상품 주문버튼 누를때 */
+function cart_empty_sel(){
+	alert('선택된 상품이 없습니다.')
+}
+/* 장바구니가 비었을 시 전체상품 주문버튼 누를때 */
+function cart_empty_all(){
+	alert('장바구니에 담긴 상품이 없습니다.')
+}
 </script>
 </head>
 <body>

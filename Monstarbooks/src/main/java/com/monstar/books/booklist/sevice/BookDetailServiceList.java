@@ -84,7 +84,7 @@ public class BookDetailServiceList implements BookListService {
 		model.addAttribute("reCnt",reviewCnt);
 		
 //		차트
-		HashSet<Integer> addedStars = new HashSet<>();//리연추가 ===  별값 중복 추가 방지
+		HashSet<Integer> addedStars = new HashSet<Integer>();//리연추가 ===  별값 중복 추가 방지
 		
 		JSONArray arr = new JSONArray();
 		ArrayList<BookReviewDto> starCnt = dao.starChart(bookno); 
