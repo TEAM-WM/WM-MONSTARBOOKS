@@ -40,28 +40,16 @@
 		<div class="favorite-box">
 			<input type="checkbox" name="favorite" id="favorite01" value="소설" <c:if test="${fn:contains(favorite, '소설')}" >checked</c:if>/>
 			<label for="favorite01">소설</label>
-			<input type="checkbox" name="favorite" id="favorite02" value="시/에세이"<c:if test="${fn:contains(favorite, '시/에세이')}" >checked</c:if>/>
-			<label for="favorite02">시/에세이</label>
-			<input type="checkbox" name="favorite" id="favorite03" value="인문"<c:if test="${fn:contains(favorite, '인문')}" >checked</c:if>/>
-			<label for="favorite03">인문</label>
-			<input type="checkbox" name="favorite" id="favorite04" value="가정/육아"<c:if test="${fn:contains(favorite, '가정/육아')}" >checked</c:if>/>
-			<label for="favorite04">가정/육아</label>
-			<input type="checkbox" name="favorite" id="favorite05" value="요리"<c:if test="${fn:contains(favorite, '요리')}" >checked</c:if>/>
+			<input type="checkbox" name="favorite" id="favorite02" value="시" <c:if test="${fn:contains(favorite, '시')}" >checked</c:if>/>
+			<label for="favorite02">시</label>
+			<input type="checkbox" name="favorite" id="favorite03" value="경제" <c:if test="${fn:contains(favorite, '경제')}" >checked</c:if>/>
+			<label for="favorite03">경제</label>
+			<input type="checkbox" name="favorite" id="favorite04" value="에세이 <c:if test="${fn:contains(favorite, '에세이')}" >checked</c:if>"/>
+			<label for="favorite04">에세이</label>
+			<input type="checkbox" name="favorite" id="favorite05" value="요리" <c:if test="${fn:contains(favorite, '요리')}" >checked</c:if>/>
 			<label for="favorite05">요리</label>
-			<input type="checkbox" name="favorite" id="favorite06" value="정치/사회"<c:if test="${fn:contains(favorite, '정치/사회')}" >checked</c:if>/>
-			<label for="favorite06">정치/사회</label>
-			<input type="checkbox" name="favorite" id="favorite07" value="경제/경영"<c:if test="${fn:contains(favorite, '경제/경영')}" >checked</c:if>/>
-			<label for="favorite07">경제/경영</label>
-			<input type="checkbox" name="favorite" id="favorite08" value="역사/문화"<c:if test="${fn:contains(favorite, '역사/문화')}" >checked</c:if>/>
-			<label for="favorite08">역사/문화</label>
-			<input type="checkbox" name="favorite" id="favorite09" value="컴퓨터/IT"<c:if test="${fn:contains(favorite, '컴퓨터/IT')}" >checked</c:if>/>
-			<label for="favorite09">컴퓨터/IT</label>
-			<input type="checkbox" name="favorite" id="favorite10" value="건강"<c:if test="${fn:contains(favorite, '건강')}" >checked</c:if>/>
-			<label for="favorite10">건강</label>
-			<input type="checkbox" name="favorite" id="favorite11" value="스포츠"<c:if test="${fn:contains(favorite, '스포츠')}" >checked</c:if>/>
-			<label for="favorite11">스포츠</label>
-			<input type="checkbox" name="favorite" id="favorite12" value="자기계발"<c:if test="${fn:contains(favorite, '자기계발')}" >checked</c:if>/>
-			<label for="favorite12">자기계발</label>
+			<input type="checkbox" name="favorite" id="favorite06" value="문화" <c:if test="${fn:contains(favorite, '문화')}" >checked</c:if>/>
+			<label for="favorite06">문화</label>
 		</div>
 		
 		<input type="submit" value="수정" id="submit">

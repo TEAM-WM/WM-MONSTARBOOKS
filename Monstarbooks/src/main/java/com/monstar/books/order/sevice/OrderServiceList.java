@@ -43,15 +43,16 @@ public class OrderServiceList implements OrderService {
         String memberId = (String) session.getAttribute("id");
         System.out.println("id :"+memberId);
         
-        int memberno = dao.getMemberno(memberId);		
+        int memberno = dao.getMemberno(memberId);	
         System.out.println("memberno :"+memberno);
 
 //		주문,주문상세,도서,도서디테일,도서 카테고리 테이블 조회
 		ArrayList<OrderDto> dto = dao.orderDetail(memberno);
-		
+		System.out.println("dto 받아오는지");
+		dto.forEach(System.out::println);
 //		주문,주문상세,배송 테이블 조회
 		OrderDto dtos = dao.orderList(memberno);
-		
+		System.out.println(dtos.getOrderno());
 		model.addAttribute("dto",dto);
 		model.addAttribute("dtos",dtos);
 
