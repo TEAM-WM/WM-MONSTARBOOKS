@@ -357,6 +357,47 @@ function requestPay(pay){
 	            </button>
 	        </div>
 	    </section>
+	    	
+	
+		<!-- modal -->
+		<div id="myCouponModal" class="modal coupon-modal">
+	        <section class="modal-content-wrap">
+	            <div class="modal-title left">
+	            	<button class="closeModalBtn" onclick="closeModal('myCouponModal')"><i class="fa-solid fa-xmark"></i></button>
+	                <h3>
+						나의 보유쿠폰
+	                </h3>
+	            </div>
+	            <div class="modal-content">
+	               		<table>
+							<tr>
+								<th>쿠폰이름</th>
+								<th>할인금액</th>
+								<th>유효기간</th>
+								<th>선택</th>
+							</tr>
+							<c:choose>
+								 <c:when test="${cpCnt eq 0 }">
+								 	<tr>
+								 		<td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td>
+								 	</tr>	
+								</c:when>
+							 <c:otherwise>
+							 	<c:forEach items="${cpdto }" var="list">
+									<tr height="30px">
+										<td>${list.cpname }</td>
+										<td>${list.cpprice }</td>
+										<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
+										<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
+									</tr>
+								</c:forEach>
+								<input type="hidden" id="usedCpno" name="usedCpno" value="" />
+							 </c:otherwise>
+							</c:choose>
+						</table> 
+	            </div>
+	        </section>
+	    </div>
 	    <section class="order-box order-payment-info">
 	        <div class="order-item">
 	            <h3>
@@ -440,47 +481,6 @@ function requestPay(pay){
 	    </section>
 		</form><!-- orderinsert -->
 	</article>
-		
-	
-	<!-- modal -->
-	<div id="myCouponModal" class="modal coupon-modal">
-        <section class="modal-content-wrap">
-            <div class="modal-title left">
-            	<button class="closeModalBtn" onclick="closeModal('myCouponModal')"><i class="fa-solid fa-xmark"></i></button>
-                <h3>
-					나의 보유쿠폰
-                </h3>
-            </div>
-            <div class="modal-content">
-               		<table>
-						<tr>
-							<th>쿠폰이름</th>
-							<th>할인금액</th>
-							<th>유효기간</th>
-							<th>선택</th>
-						</tr>
-						<c:choose>
-							 <c:when test="${cpCnt eq 0 }">
-							 	<tr>
-							 		<td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td>
-							 	</tr>	
-							</c:when>
-						 <c:otherwise>
-						 	<c:forEach items="${cpdto }" var="list">
-								<tr height="30px">
-									<td>${list.cpname }</td>
-									<td>${list.cpprice }</td>
-									<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
-									<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
-								</tr>
-							</c:forEach>
-							<input type="hidden" id="usedCpno" name="usedCpno" value="" />
-						 </c:otherwise>
-						</c:choose>
-					</table> 
-            </div>
-        </section>
-    </div>
 	
 	<%-- <!-- 결제 정보 -->
 	<table>
