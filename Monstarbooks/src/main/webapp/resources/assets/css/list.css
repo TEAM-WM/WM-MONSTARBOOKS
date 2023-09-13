@@ -44,6 +44,7 @@
 .breadcrumb-wrap ul{
     display: flex;
     justify-content: flex-start;
+    align-items:flex-end;
     gap: 7px;
 }
 .breadcrumb-wrap ul li{
