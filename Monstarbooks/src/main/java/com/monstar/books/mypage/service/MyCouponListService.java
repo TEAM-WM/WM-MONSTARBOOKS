@@ -35,31 +35,42 @@ public class MyCouponListService implements MyPageService {
 		// map 변환, request 추출
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-
+		SearchVO searchVO = (SearchVO) map.get("searchVO");
+		
 		MyCouponDao dao = sqlSession.getMapper(MyCouponDao.class);
 		
 //     로그인 사용자 회원번호 세션에서 받아오기
 		HttpSession session = request.getSession();
+		String mid = (String) session.getAttribute("id");
 		Integer no = (Integer) session.getAttribute("memberNumber");
 		System.out.println("member :" + no);
+		System.out.println("id :" + mid);
 
-		// paging
-		SearchVO searchVO = (SearchVO) map.get("searchVO");
-		
-		String strPage = request.getParameter("page");
-//		처음 null 처리
-		if(strPage == null) 
-			strPage = "1";
-		int page = Integer.parseInt(strPage);
+//		페이징 paging
+		String strPage=request.getParameter("page");
+//		처음 null처리
+		if(strPage==null)
+			strPage="1";
+		System.out.println("pagggg:"+strPage);
+		int page=Integer.parseInt(strPage);
 		searchVO.setPage(page);
 		
 //		글의 총갯수 구하기
-		int total = dao.TotCount();
+		int total=dao.couponboxTotCount(mid);
+		System.out.println("totcnt : "+total);
 		searchVO.pageCalculate(total);
+		//계산결과들 출력
+		System.out.println("totrow:"+total);
+		System.out.println("clickpage:"+searchVO.getPage());
+		System.out.println("pageStart:"+searchVO.getPageStart());
+		System.out.println("pageEnd:"+searchVO.getPageEnd());
+		System.out.println("pageTot:"+searchVO.getTotPage());
+		System.out.println("rowStart:"+searchVO.getRowStart());
+		System.out.println("rowEnd:"+searchVO.getRowEnd());
 		
-//		페이징 글 번호 전달
-		int rowStart = searchVO.getRowStart();
-		int rowEnd = searchVO.getRowEnd();
+		//패이징 글 번호전달
+		int rowStart=searchVO.getRowStart();
+		int rowEnd=searchVO.getRowEnd();
 		
 //		int cpno = Integer.parseInt(request.getParameter("cpno"));
 //		System.out.println("cpno :" + cpno);

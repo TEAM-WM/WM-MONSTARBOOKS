@@ -29,8 +29,6 @@ public class MyCouponController {
 //		데이터 가져오기 작업
 		model.addAttribute("request", request);
 		model.addAttribute("searchVO", searchVO);
-        // 페이지 이름을 모델에 추가
-//		model.addAttribute("pageName", "/mycoupon/couponbox");
 		
 		service = new MyCouponListService(sqlSession);
 		service.execute(model);

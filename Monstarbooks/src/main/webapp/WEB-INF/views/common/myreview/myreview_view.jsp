@@ -153,7 +153,7 @@ tr, td {
 				<!-- dto.refilesrc가 비어있으면 -->
 			<td class="left" colspan="2" style="border-spacing: 10px; width: 65px;">첨부&nbsp;&nbsp;</td>
 					<td class="left">&nbsp;<img border="1" style="width:50px; height=auto;" 
-					src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/bookdefault.png"
+					src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/bookdefault.png"
 					alt="기본썸네일" />
 			</td></tr></c:if>
 				

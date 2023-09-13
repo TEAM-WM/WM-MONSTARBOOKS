@@ -36,8 +36,7 @@ public interface MyReviewDao {
 	
 //		리뷰 글 수정
 //		public void reviewUpdate(int rstar, String rcontent, int reviewno, String refilesrc);
-		public void reviewUpdate(int rstar, String rcontent, int reviewno, String refilesrc, Integer no);
-//		public void reviewUpdate(int rstar, String rcontent, String reviewno, String refilesrc, Integer no);		
+		public void reviewUpdate(int rstar, String rcontent, int reviewno, String refilesrc, Integer no);	
 
 		//멤버 테이블(회원 아이디)
 		public List<MemberDto> selectId(String mid);
@@ -45,9 +44,9 @@ public interface MyReviewDao {
 //		리뷰 글 삭제
 		public void reviewdelete(int reviewno);
 
+//		회원별 리뷰 리스트 글 총 개수 조회
+		int reviewTotCount(String mid);
 
-//		리뷰 리스트 글 총 개수 조회	
-//		public int reviewCnt(int memberno);
 
 
 
