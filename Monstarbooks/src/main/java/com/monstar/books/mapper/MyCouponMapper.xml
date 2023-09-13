@@ -75,12 +75,16 @@
  	</select>
  	
   		<!-- 리스트 총 갯수 -->
-		<select id="couponboxTotCount" resultType="int">
+<!-- 		<select id="couponboxTotCount" resultType="int">
+    	SELECT COUNT(*)
+		FROM M_COUPON_MEMBER C
+		</select> -->
+		
+		<select id="couponboxTotCount" resultType="Integer">
     	SELECT COUNT(*)
 		FROM M_COUPON_MEMBER C
 		LEFT JOIN M_MEMBER M ON M.MEMBERNO = C.MEMBERNO
-		WHERE M.MID = #{param1}
+		WHERE M.MEMBERNO = #{param1}
 		</select>
-
 
 </mapper>

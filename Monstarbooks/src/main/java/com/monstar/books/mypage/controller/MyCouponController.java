@@ -23,7 +23,7 @@ public class MyCouponController {
 	@Autowired
 	private SqlSession sqlSession;
 
-	@RequestMapping("/mycoupon/couponbox")
+	@RequestMapping("mycoupon/couponbox")
 	public String couponbox(HttpServletRequest request, SearchVO searchVO, Model model) {
 		System.out.println("마이페이지 쿠폰 메인화면입니다.");
 //		데이터 가져오기 작업
