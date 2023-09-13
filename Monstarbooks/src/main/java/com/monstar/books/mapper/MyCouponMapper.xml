@@ -49,7 +49,7 @@
 		WHERE CM.MEMBERNO = #{param1}
   			AND CM.CPVALID >= SYSDATE - 1
   			AND CM.CPSTATUS = 'N'
-  			AND C.CPSTATUS = 'TRUE'
+  			AND C.CPSTATUS = 'FALSE'
   		ORDER BY CM.CPVALID ASC) N)
   		WHERE NUM BETWEEN #{param1} AND #{param2}
 

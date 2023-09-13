@@ -481,8 +481,7 @@ input[type="file"] {
     transition: border 300ms ease-in-out;
 }
 
-
-.btn-wrap button:first-child{
+.btn-wrap input[type="button"]:first-child,.btn-wrap button:first-child{
     background-color: var(--color-main);
     color: var(--color-white);
     border: none;

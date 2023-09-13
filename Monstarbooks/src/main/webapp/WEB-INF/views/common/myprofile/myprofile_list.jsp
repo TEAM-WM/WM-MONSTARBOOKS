@@ -77,13 +77,13 @@ table {
 <!-- 로그인 시 회원이 등록한 이미지 출력/ 없을 경우 기본 이미지 -->
 <body>
     		<c:forEach items="${list }" var="mem">
-
+	<br /><br />
     <div class="content">
 
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
-        <div id="myprofile-sidebar">
-            <%@ include file="myprofile_list_side.jsp" %>
-        </div>
+      <div id="myprofile-sidebar">
+            <%@ include file="myprofile.jsp" %>
+        </div> 
 
 <form action="myprofile_list" method="post">
 	<div align="left" class="card" style="height: 1000px;">
@@ -101,7 +101,7 @@ table {
 							${mem.mid }">
 								<img src="${pageContext.request.contextPath}/resources/assets/upload/${mem.mprofileimg }"
 									alt="회원 프로필이미지" style="width: 200px; height: auto;" />
-							</a>									
+							</a>
 							</div>
 						</td>
 					</tr>

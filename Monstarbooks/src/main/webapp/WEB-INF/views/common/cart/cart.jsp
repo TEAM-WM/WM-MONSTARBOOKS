@@ -9,45 +9,6 @@
 <title>샘플페이지</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<style>
-table, tr {
-	width: 1200px;
-	border-top: 2px solid #ccc;
-	border-bottom: 2px solid #ccc;
-	border-collapse: collapse;
-	text-align: center;
-}
-td {
-	padding: 10px;
-}
-#cnt {
-	margin: 0 30px;
-	width: 30px;
-	padding: 0;
-	text-align: center;
-	display: inline;
-}
-#btn2 {
-	width: 100px;
-	height: 40px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	background-color: #e7e7e7;
-	font-weight: bold;
-}
-.cart_price {
-	border: 2px solid #000d82;
-	border-radius: 10px;
-	height: 100px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width:1200px;
-}
-input:read-only {
-	background-color: white;
-} 
-</style>
 <script>
 /* 전체체크박스 */
 $().ready(function(){
@@ -194,167 +155,193 @@ function cart_empty_all(){
 </script>
 </head>
 <body>
-	<h1 align="left" style="margin: 30px;">장바구니(${cnt })</h1>
-
-	<!-- 주문 단계 -->
-	<div align="right">
-		<b>장바구니</b> <i class="fa-solid fa-circle-chevron-right"></i> <span
-			style="color: lightgray;">주문/결제 <i
-			class="fa-solid fa-circle-chevron-right" style="color: lightgray;"></i>
-			결제완료
-		</span>
-	</div>
-
-	<br />
-	<br />
-	<!-- 장바구니 테이블 -->
-	<div align="left">
-	<form action="./order" method="post" class="order_form">
+	<article class="cart-wrap">
+		<section class="cart-title">
+			<h2>장바구니(${cnt })</h2>
+			<!-- 주문 단계 -->
+			<div class="step-list">
+				<ul>
+					<li class="active">장바구니</li>
+					<li>주문/결제</li>
+					<li>결제완료</li>
+				</ul>
+			</div>
+		</section>
+		<!-- 장바구니 테이블 -->
+		
 		<c:choose>
 			<c:when test="${cartCnt == 0 }">
-				<div style="height: 250px; width: 1200px">
-					<h2> <br /> 장바구니가 비었습니다. <br /> <br /> </h2>
-						<i class="fa-regular fa-face-sad-tear fa-5x"></i>
+				<div class="warning">장바구니가 비었습니다.</div>
+				<div class="cart-price">
+					<p>
+						총 <strong id="product_cnt">0</strong>개의 상품금액 <strong>0</strong>원
+					</p>
+					<i class="fa-solid fa-plus"></i>
+					<p>
+						배송비 <strong>0</strong>원
+					</p>
+					<i class="fa-solid fa-equals"></i>
+					<p>
+						결제 예정 금액 <strong>0</strong>원
+					</p>
 				</div>
-				<div align="center" class="cart_price">
-					<h3>
-						총 0개의 상품금액 0원 &nbsp;<i class="fa-solid fa-plus"></i> &nbsp; 배송비 0원
-						&nbsp; <i class="fa-solid fa-equals"></i> &nbsp; 결제 예정 금액 0원
-					</h3>
-				</div>
-				<br />
-				
+
 				<!-- 주문 버튼 -->
-				<div align="right" style="width: 1200px" >
-					<input type="button" value="선택상품 주문" onclick="cart_empty_sel()"
-						style="width: 200px; display: inline;" /> 
-						<input type="button" value="전체상품 주문" onclick="cart_empty_all()"
-						style="width: 200px; display: inline; color: white; background-color: #00084f" />
+				<div class="cart-btn-box">
+					<div class="btn-wrap">
+						<input type="button" value="선택상품 주문" onclick="cart_empty_sel()" />
+						<input type="button" value="전체상품 주문" onclick="cart_empty_all()" />
+					</div>
 				</div>
 			</c:when>
-
 			<c:otherwise>
-				<table>
-					<colgroup>
-						<col width="10%">
-						<col width="10%">
-						<col width="50%">
-						<col width="15%">
-						<col width="15%">
-					</colgroup>
-					<tr height="50px">
-						<th><input type="checkbox" id="all_select" name="all_select" onclick="all_select()" checked />
-							<label for="all_select"></label></th>
-						<th colspan="2">상품 정보</th>
-						<th>수량</th>
-						<th>가격</th>
-					</tr>
-					
-				<!-- 재고가 0일때 -->
-				<c:forEach items="${dto }" var="list">
+			<form action="./order" method="post" class="order_form">
+				<section class="cart-table-wrap">
+					<table>
+						<tr>
+							<th class="left" colspan="5"><input type="checkbox"
+								id="all_select" name="all_select" checked /> <label
+								for="all_select"></label> <span>전체선택</span></th>
+						</tr>
+					<c:forEach items="${dto }" var="list">
 					<c:choose>
 						<c:when test="${list.list.bstock eq 0}">
-								<tr>
-									<td><input type="checkbox" id="${list.cartno }" name="soldout" value="${list.cartno }" />
-										<label for="${list.cartno }"></label></td>
-									
-									<!-- 상품 정보 -->
-									<td><img
-										src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
-										alt="책 썸네일 이미지" /></td>
-									<td align="left"><b style="font-size: large">[${list.category.bcategory1}도서]
-											${list.list.btitle }</b> <br /> <br /> <b><span
-											style="color: orange">${list.list.bdiscount }%</span> 
-											<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
-		
-									<!-- 품절 안내 -->
-									<td colspan="2">일시품절</td>
-								</tr>
+							<tr>
+								<!-- 체크박스 -->
+								<td class="cart-table-checkbox"><input type="checkbox"
+									id="${list.cartno }" name="soldout" value="${list.cartno }"/>
+									<label for="${list.cartno }"></label>
+								</td>
+								<!-- 상품 정보 -->
+								<td class="cart-table-image">
+									<div class="product-card-image">
+										<!-- <img
+											src="https://contents.kyobobook.co.kr/sih/fit-in/pdt/9788954699075.jpg"
+											alt="책 썸네일 이미지" /> -->
+										<img
+											src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg}"
+											alt="책 썸네일 이미지" />
+									</div> 
+								</td>
+								<!-- 상품 정보 -->
+								<td class="left">
+									<div class="book-info">
+										<div class="product-card-title">
+											<h3>
+												[${list.category.bcategory1}] 
+												<a href="booklist/bookdetail?bookno=${list.bookno }">${list.list.btitle }</a>
+											</h3>
+										</div>
+										<div class="book-price">
+											<strong class="discount"> ${list.list.bdiscount }% </strong>
+											<span class="price"><fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원 </span>
+										</div>
+									</div>
+								</td>
+								
+								<!-- 품절 안내 -->
+								<td colspan="2" class="cart-table-price">
+									<span class="red">일시품절</span>
+								</td>
+							</tr>
 						</c:when>
-
-						<c:otherwise>						
+						<c:otherwise>
 						<tr>
 							<!-- 체크박스 -->
-							<td><input type="checkbox" id="${list.cartno }" name="chk" value="${list.cartno }"
-								checked onclick="check_sel(${cnt})"/>
-								<label for="${list.cartno }"></label></td>
-
+							<td class="cart-table-checkbox">
+							<input type="checkbox"
+									id="${list.cartno }" 
+									name="chk" 
+									value="${list.cartno }" 
+									checked
+									onclick="check_sel(${cnt})" /> 
+									<label for="${list.cartno }"></label>
+							</td>
 							<!-- 상품 정보 -->
-							<td><img
-								src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
-								alt="책 썸네일 이미지" /></td>
-							<td align="left"><b style="font-size: large"><a href="booklist/bookdetail?bookno=${list.bookno }">
-									[${list.category.bcategory1}도서] ${list.list.btitle }</a></b> <br /> <br /> 
-									<b> <span style="color: orange">${list.list.bdiscount }%</span> 
-									<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
-									
-									
+							<td class="cart-table-image">
+								<div class="product-card-image">
+									<!-- <img
+										src="https://contents.kyobobook.co.kr/sih/fit-in/pdt/9788954699075.jpg"
+										alt="책 썸네일 이미지" /> -->
+									<img
+										src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg}"
+										alt="책 썸네일 이미지" />
+								</div> 
+							</td>
+							<td class="left">
+								<div class="book-info">
+									<div class="product-card-title">
+										<h3>
+											[${list.category.bcategory1}] <a href="booklist/bookdetail?bookno=${list.bookno }">${list.list.btitle }</a>
+										</h3>
+									</div>
+									<div class="book-price">
+										<strong class="discount"> ${list.list.bdiscount }% </strong>
+										<span class="price"><fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원 </span>
+									</div>
+								</div>
+							</td>
 							<!-- 수량조절 -->
-							<td><b><button class="minus_btn_${list.cartno}"
+							<td class="cart-table-count">
+								<div class="book-count">
+									<button class="minus_btn_${list.cartno}"
 										onclick="count_down(${list.cartno},${list.list.bpricesell })">
 										<i class="fa-solid fa-minus"></i>
-									</button> <input type="text" class="cnt_${list.cartno}" id="cnt"
-									name="ccount" value="${list.ccount }" readonly/>
-
-									<input type="hidden" id="bstock" value="${list.list.bstock }"/>
-									<input type="hidden" id="bpricesell_${list.cartno}" value="${list.list.bpricesell }"/>
-									
+									</button>
+									<input type="text" class="cnt_${list.cartno}" id="cnt"
+										name="ccount" value="${list.ccount }" readonly /> <input
+										type="hidden" name="bookno" value="${list.bookno }" />
 									<button class="plus_btn_${list.cartno}"
 										onclick="count_up(${list.cartno},${list.list.bpricesell })">
 										<i class="fa-solid fa-plus"></i>
-									</button></b></td>
-									
+									</button>
+								</div>
+							</td>
 							<!-- 가격 -->
-							<td>
-							<span class="totPrice_${list.cartno }"><fmt:formatNumber value="${list.list.bpricesell * list.ccount }" 
-								pattern="#,###" /></span>원</td>
+							<td class="cart-table-price">
+								<span class="totPrice_${list.cartno }">
+									<fmt:parseNumber value="${list.list.bpricesell * list.ccount}"/>
+								</span>원
+							</td>
 						</tr>
 						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				</table>
+						</c:choose>
+					</c:forEach>
+					</table>
+				</section>
 			</form>
-	</div>
-	<br />
-
-	<!-- 쇼핑계속하기, 선택상품 삭제 -->
-	<div align="right">
-		<button type="button" id="btn2" onclick="history.back()"
-			style="background-color: #f7f7f7; color: gray;">
-			<i class="fa-solid fa-chevron-left" style="color: gray;"></i> 쇼핑 계속하기
-		</button>
-		<button type="button" id="btn2" onclick="cart_delete()">선택상품
-			삭제</button>
-	</div>
-
-	<br />
-	<br />
-
-	<!-- 총 결제 정보 -->
-	<div align="center" class="cart_price">
-		<h3>
-			총 <span id="product_cnt">${cartCnt }</span>개의 상품금액 
-			<span class="product_price"><fmt:formatNumber value="${totPrice}" pattern="#,###,###" /></span>
-			원 &nbsp;	<i class="fa-solid fa-plus"></i> &nbsp; 배송비 2,500원 &nbsp; 
-			<i class="fa-solid fa-equals"></i> &nbsp; 결제 예정 금액 
-			<span class="tot_price"><fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" /></span>원
-		</h3>
-
-	</div>
-	
-	<br />
-
-	<!-- 주문 버튼 -->
-	<div align="right">
-		<input type="button" value="선택상품 주문" onclick="go_order_sel()" class="go_order_sel"
-			style="width: 200px; display: inline;" /> <input type="button"
-			value="전체상품 주문" onclick="go_order_all(${cartCnt })"
-			style="width: 200px; display: inline; color: white; background-color: #00084f" />
-	</div>
-
-	</c:otherwise>
-	</c:choose>
-	
+		<!-- 쇼핑계속하기, 선택상품 삭제 -->
+		<div class="cart-btn-wrap">
+			<button type="button" onclick="location.href='./'">쇼핑 계속하기</button>
+			<button type="button" onclick="cart_delete()">선택상품 삭제</button>
+		</div>
+		
+		<!-- 총 결제 정보 -->
+		<div class="cart-price">
+			<p>
+				총 <strong id="product_cnt">${cartCnt }</strong>
+				개의 상품금액 <strong class="product_price"><fmt:formatNumber value="${totPrice}" pattern="#,###,###" /></strong>원
+			</p>
+			<i class="fa-solid fa-plus"></i>
+			<p>
+				배송비 <strong>2,500</strong>원
+			</p>
+			<i class="fa-solid fa-equals"></i>
+			<p>
+				결제 예정 금액 <strong><fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" /></strong>원
+			</p>
+		</div>
+		
+		<!-- 주문 버튼 -->
+		<div class="cart-btn-box">
+			<div class="btn-wrap">
+				<input type="button" value="선택상품 주문" onclick="go_order_sel()" class="go_order_sel"/>
+				<input type="button" value="전체상품 주문" onclick="go_order_all(${cartCnt })" />
+			</div>
+		</div>
+		</c:otherwise>
+		</c:choose>
+	</article>
 	<script>
 	document.title = "몬스타북스 :: 장바구니"; 
 </script>

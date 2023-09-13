@@ -76,7 +76,7 @@ table {
 </style>
 </head>
 <body>
-
+	<br /><br />
     <div class="content">
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
