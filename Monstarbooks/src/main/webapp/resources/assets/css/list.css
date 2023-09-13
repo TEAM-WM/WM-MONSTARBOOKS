@@ -919,3 +919,135 @@
     background-color: #f5f5f5;
     color: #a3a3a3;
 }
+
+/* 결제 창 */
+.order-box{
+    margin-top: 24px;
+    border: solid 1px #d5d5d5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.order-box table tr td{
+    padding: 40px;
+}
+.order-box table tr{
+    border-bottom: 0;
+    border-top: 1px solid #ddd;
+}
+.order-box table td.cart-table-price{
+    width:160px
+}
+.order-box table td.left{
+    padding-left: 20px;
+}
+.order-box .cart-table-image{
+    padding-right: 0;
+}
+.order-item{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 80px;
+    padding: 40px;
+}
+.order-item strong{
+    font-weight: var(--weight-bold);
+}
+
+.order-addr{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: -10px;
+    gap: 20px;
+}
+.order-addr > p>i{
+    padding-right: 10px;
+}
+.order-box button{
+    border: 1px solid var(--color-main);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.order-addr-info{
+	width:80%;
+}
+.addr-zipcode{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #767676;
+    gap: 5px;
+}
+.addr-readonly{
+	width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items:center;
+    gap: 5px;
+    margin: 20px 0;
+}
+#addr{
+	display: none;
+}
+#addr .form-small input{
+    margin-bottom: 0;
+}
+
+#sample6_address,
+#sample6_extraAddress{
+    background-color: transparent;
+    cursor:default;
+	text-align:left;
+}
+#sample6_postcode{
+	background-color: transparent;
+    padding: 0;
+    border: none;
+    text-align: center;
+    margin: 0;
+    width:100px;
+    height: min-content;
+}
+.order-coupon .order-item{
+    align-items: center;
+}
+.order-payment{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.order-box.order-payment-info .order-item h3{
+    flex-basis: 150px;
+    text-align: left;
+}
+.order-box.order-payment-info .order-item{
+    gap: 0;
+    padding-bottom: 0;
+}
+.order-box.order-payment-info .order-item:last-child{
+    padding-bottom: 40px;
+}
+
+/* 방침 */
+.policy-box{
+    margin-bottom: 30px;
+}
+.policy-box .policy-chk label{
+    margin: 0;
+    margin-top: 4px;
+}
+.policy-box .order-item{
+    gap: 10px;
+    align-items: center;
+}
+.policy-box .order-item > p{
+    margin-left: 80px;
+}
+.order-btn-box .btn-wrap{
+    width: 200px;
+}
