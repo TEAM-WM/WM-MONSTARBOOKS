@@ -96,9 +96,9 @@
 				<button type="button" class="btn_menu"></button>
 				<ul class="global-main-menu-list">
 					<li><a href="${pageContext.request.contextPath }/booklist/bestlist">베스트</a></li>
-					<li><a href="">새로나온책</a></li>
-					<li><a href="">국내도서</a></li>
-					<li><a href="">외국도서</a></li>
+					<li><a href="${pageContext.request.contextPath }/booklist/new">새로나온책</a></li>
+					<li><a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=0">국내도서</a></li>
+					<li><a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=0">외국도서</a></li>
 					<li><a href="">이벤트</a></li>
 				</ul>
 			</nav>
@@ -106,55 +106,55 @@
 				<div class="global-book-list-wrap">
 					<div class="global-book-list">
 						<h4>
-							<a href=""> 국내도서 전체 
+							<a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=0"> 국내도서 전체 
 							<span><i class="fa-solid fa-circle-chevron-right"></i></span>
 							</a>
 						</h4>
 						<ul>
 							<li>
-					             <a href="">소설</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=1">소설</a>
 					         </li>
 					         <li>
-					             <a href="">시</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=2">시</a>
 					         </li>
 					         <li>
-					             <a href="">경제</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=3">경제</a>
 					         </li>
 					         <li>
-					             <a href="">에세이</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=4">에세이</a>
 					         </li>
 					         <li>
-					             <a href="">요리</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=5">요리</a>
 					         </li>
 					         <li>
-					             <a href="">문화</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=6">문화</a>
 					         </li>
 						</ul>
 					</div>
 					<div class="global-book-list">
 						<h4>
-							<a href=""> 외국도서 전체 <span><i
+							<a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=0"> 외국도서 전체 <span><i
 									class="fa-solid fa-circle-chevron-right"></i></span>
 							</a>
 						</h4>
 						<ul>
 							<li>
-					             <a href="">소설</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=1">소설</a>
 					         </li>
 					         <li>
-					             <a href="">시</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=2">시</a>
 					         </li>
 					         <li>
-					             <a href="">경제</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=3">경제</a>
 					         </li>
 					         <li>
-					             <a href="">에세이</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=4">에세이</a>
 					         </li>
 					         <li>
-					             <a href="">요리</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=5">요리</a>
 					         </li>
 					         <li>
-					             <a href="">문화</a>
+					             <a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=6">문화</a>
 					         </li>
 						</ul>
 					</div>
@@ -164,7 +164,7 @@
 						<li>
 							<a href="${pageContext.request.contextPath }/booklist/bestlist"> <i class="fa-solid fa-thumbs-up"></i>
 						</a> <span> 베스트 </span></li>
-						<li><a href=""> N </a> <span> 새로나온책 </span></li>
+						<li><a href="${pageContext.request.contextPath }/booklist/new"> N </a> <span> 새로나온책 </span></li>
 						<li><a href=""> <i class="fa-solid fa-gift"></i>
 						</a> <span>이벤트</span></li>
 						<li>
