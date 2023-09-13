@@ -43,8 +43,8 @@ public class MemberController3 {
 		//인터페이스 타입으로
 		HttpSession session = request.getSession();
 		//인터페이스 타입으로
-		String mid=(String) session.getAttribute("mid");
-		
+		String mid=(String) session.getAttribute("id");
+		System.out.println(mid);
 		MemberDao dao=sqlSession.getMapper(MemberDao.class);
 		//dao.upHit(bid);
 		//contentView

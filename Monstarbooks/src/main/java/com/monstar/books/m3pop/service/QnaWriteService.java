@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.m3pop.dao.QnaDao;
+import com.monstar.books.m3pop.dto.MemberDto;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -30,9 +32,10 @@ public class QnaWriteService implements BServiceInter {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request= (HttpServletRequest) map.get("request");
 
-		
-		String path="C:\\javabjgsetspring2023\\spring_work"
-				+ "\\book3\\src\\main\\webapp\\resources\\upload";
+		 String attachPath = "resources\\assets\\upload\\";
+		    // 실제 파일 경로를 구성합니다. 현재 세션의 서블릿 컨텍스트의 실제 경로와 파일 이름을 합쳐서 만듭니다.
+		 String path = request.getSession().getServletContext().getRealPath(attachPath);
+		//String path="C:\\Users\\goott4\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
 				//uploadPath+attachPath;
 		System.out.println("path :"+path);
 		MultipartRequest req;
@@ -41,19 +44,20 @@ public class QnaWriteService implements BServiceInter {
 					path, 1024*1024*20, "utf-8",new DefaultFileRenamePolicy());
 		
 			String qcategory = req.getParameter("qcategory"); //
-			String mid = req.getParameter("mid"); //
+			int memberno = Integer.parseInt(req.getParameter("memberno")) ; //
 			String qtitle = req.getParameter("qtitle"); //
 			String qcontent = req.getParameter("qcontent"); //
 			String fname=req.getFilesystemName("qfilesrc"); //
-			System.out.println("qcontent :"+qcategory+mid+qtitle+qcontent);
-			System.out.println("fname :"+fname);
+			//System.out.println("qcontent :"+qcategory+qtitle+qcontent);
+			//System.out.println("fname :"+fname);
 			
 			if(fname==null) {
 				fname="";
 			}
-	
+
+			
 			QnaDao dao = sqlSession.getMapper(QnaDao.class);
-			dao.write(qcategory,qtitle, qcontent,fname,mid);
+			dao.write(qcategory,qtitle, qcontent,fname,memberno);
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
