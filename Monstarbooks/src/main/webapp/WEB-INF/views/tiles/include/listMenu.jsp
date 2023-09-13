@@ -36,25 +36,25 @@
                 <a href="${pageContext.request.contextPath}/booklist/category?list=kor&code=6">문화</a>
             </li>
             <li class="aside-sub">
-                <a href="">외국도서</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=0">외국도서</a>
             </li>
             <li>
-                <a href="">소설</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=1">소설</a>
             </li>
             <li>
-                <a href="">시</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=2">시</a>
             </li>
             <li>
-                <a href="">경제</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=3">경제</a>
             </li>
             <li>
-                <a href="">에세이</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=4">에세이</a>
             </li>
             <li>
-                <a href="">요리</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=5">요리</a>
             </li>
             <li>
-                <a href="">문화</a>
+                <a href="${pageContext.request.contextPath}/booklist/category?list=eng&code=6">문화</a>
             </li>
         </ul>
     </nav>
