@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>productDetail</title>
+<title>상품상세</title>
 </head>
 <body>
 <h3>productDetail.jsp</h3>
