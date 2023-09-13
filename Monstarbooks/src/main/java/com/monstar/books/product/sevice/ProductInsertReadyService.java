@@ -1,6 +1,9 @@
 package com.monstar.books.product.sevice;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ public class ProductInsertReadyService implements ProductService {
 	public ProductInsertReadyService(SqlSession session) {
 		this.session = session;
 	}
-
+	
 	@Override
 	public void execute(Model model) {
 		
@@ -35,8 +38,15 @@ public class ProductInsertReadyService implements ProductService {
 //		selectCategory에서 카테고리를 불러와둠
 		ArrayList<BookCategoryDto> dto = dao.selectCategory();
 		model.addAttribute("dto", dto);
+
 		
-//		System.out.println(dto);
+//		int bookno = Integer.parseInt(request.getParameter("bookno"));
+//		BookDto dtos = dao.detail(bookno);
+//		model.addAttribute("dtos", dtos);
+		
+		
+		
+
 
 	}// override method
 

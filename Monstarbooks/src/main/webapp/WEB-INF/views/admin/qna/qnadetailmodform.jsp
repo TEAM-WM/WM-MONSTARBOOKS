@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,11 @@
 				<td colspan="3">${qnadetail.qcontent }</td>
 			</tr>
 			<tr>
-				<td colspan="3"> <img alt="aa" src="/books/resources/assets/imgs/review/aaa.png"></td>
+				<td colspan="3"> 
+					<c:if test="${not empty qnadetail.qfilesrc }">
+	 	                <img alt="${qnadetail.qfilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/qna/${qnadetail.qfilesrc }">
+	            	</c:if>
+				</td>
 				
 			</tr>
 			<tr>
@@ -40,8 +45,8 @@
 			</tr>
 			<input type="hidden" name="qnano" value="${qnadetail.qnano}">
 		</table>
-		<a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a>
 		<button type="submit"value="qnadetailview?qnano=${dto.qnano }">수정</button>
+		<a href="qnadelete?qnano=${qnadetail.qnano }">문의삭제</a>
 	</form>
 </body>
 </html>

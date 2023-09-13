@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-	<h1>1:1문의상세</h1>
+<h1>1:1문의상세</h1>
 	<form action="qnadetailmodform" method="post">
 		<table border="1" width="500">
 			<tr>
@@ -25,7 +26,11 @@
 				<td colspan="3">${qnadetail.qcontent }</td>
 			</tr>
 			<tr>
-				<td colspan="3"><img alt="aa" src="/books/resources/assets/imgs/review/aaa.png"></td>
+				<td colspan="3">
+					<c:if test="${not empty qnadetail.qfilesrc }">
+	 	                <img alt="${qnadetail.qfilesrc }" src="${pageContext.request.contextPath}/resources/assets/imgs/upload/${qnadetail.qfilesrc }">
+	            	</c:if>
+				</td>
 			</tr>
 			 <tr>
 				<td colspan="3">

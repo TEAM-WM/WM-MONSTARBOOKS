@@ -2,11 +2,12 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 230822 / [효슬] 마이페이지 추가 -->
+<!-- 230903 / [효슬] MyprofileDto(임시)에서 MemberDto로 통합 작업 -->
 <mapper namespace="com.monstar.books.mypage.dao.MyProfileDao">
 
 	<!-- resultmap 타입으로 변경 -->
-	<resultMap type="com.monstar.books.mypage.dto.MyProfileDto"
-		id="MyProfile">
+	<resultMap type="com.monstar.books.member.dto.MemberDto"
+		id="Member">
 		<result column="MEMBERNO" property="memberno" />
 		<result column="MID" property="mid" />
 		<result column="MPW" property="mpw" />
@@ -22,12 +23,12 @@
 	</resultMap>
 
 	<!-- 프로필 메인 -->
-	<select id="list" parameterType="com.monstar.books.mypage.dto.MyProfileDto" resultMap="MyProfile">
-		SELECT MEMBERNO,MID,MNAME,MPROFILEIMG FROM M_MEMBER
+	<select id="list" parameterType="com.monstar.books.member.dto.MemberDto" resultMap="Member">
+		SELECT MEMBERNO,MID,MNAME,MPROFILEIMG FROM M_MEMBER WHERE MID = #{param1}
 	</select>
 	
 	<!-- 프로필 뷰 -->
-   	<select id="myprofileview" parameterType="com.monstar.books.mypage.dto.MyProfileDto" resultMap="MyProfile">
+   	<select id="myprofileview" parameterType="com.monstar.books.member.dto.MemberDto" resultMap="Member">
 	SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,
 	MPROFILEIMG,MFAVORITE,MAUTHORITY,DELETED FROM M_MEMBER WHERE MID=#{param1}
 	</select>

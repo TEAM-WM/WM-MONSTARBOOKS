@@ -1,6 +1,5 @@
 package com.monstar.books.adbanner.sevice;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +35,8 @@ public class BannerServiceDetail implements BannerService {
 
 		BannerDto dto = dao.bannerdetail(bannerno); // Use BannerDto type here
 		System.out.println(bannerno);
+		System.out.println(dto.getEfilesrc());
+		
 
 		model.addAttribute("bannerdetail", dto);
 

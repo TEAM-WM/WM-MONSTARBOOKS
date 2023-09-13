@@ -49,8 +49,8 @@
 		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 	<insert id="bannerwrite">
-		INSERT INTO M_BANNER VALUES
-		(SEQ_BANNERNO.NEXTVAL, SEQ_EVENTNO.NEXTVAL,#{param1},#{param2},SYSDATE)
+		INSERT INTO M_BANNER (BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE)
+    	VALUES (SEQ_BANNERNO.NEXTVAL, SEQ_EVENTNO.NEXTVAL,#{param1},#{param2}, SYSDATE)
 	</insert>
 	<select id="bannerdetail" resultType="com.monstar.books.adbanner.dto.BannerDto">
 		SELECT BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE
@@ -60,11 +60,12 @@
 	<update id="bannerdelete">
 		UPDATE M_EVENT SET DELETED = 'yes' WHERE EVENTNO = #{param1}
 	</update>
-<!-- 	<select id="selectQnatotCount" resultType="Integer">
-		SELECT COUNT(*)FROM (SELECT*FROM 
-		M_BANNER B JOIN M_EVENT E
-		ON B.EVENTNO=E.EVENTNO)
-	</select> -->
+	
+	<update id="bannermodify">
+		UPDATE M_BANNER
+		SET ETITLE = #{param2}, EFILESRC = #{param3}
+		WHERE BANNERNO = #{param1}
+	</update>
 	
 	<select id="selectBoardTotCount1" resultType="Integer">
 		SELECT COUNT(*)FROM M_BANNER WHERE ETITLE LIKE '%'||#{param1}||'%'

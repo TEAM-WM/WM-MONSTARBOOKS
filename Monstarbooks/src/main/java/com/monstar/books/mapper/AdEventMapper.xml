@@ -1,0 +1,101 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 230818 / 리연 추가 -->
+<mapper namespace="com.monstar.books.adevent.dao.AdEventDao">
+	<resultMap type="com.monstar.books.adbanner.dto.EventDto" id="Event">
+		<result column="EVENTNO" property="eventno"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="ECONTENT" property="econtent"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adbanner.dto.BannerDto" id="Banner">
+		<result column="BANNERNO" property="bannerno"/>
+		<result column="EVENTNO" property="eventno"/>
+		<result column="QCATEGORY" property="qcategory"/>
+		<result column="ETITLE" property="etitle"/>
+		<result column="EFILESRC" property="efilesrc"/>
+		<result column="EREGDATE" property="eregdate"/>
+		<collection property="event" resultMap="Event"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adevent.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCRIPTION" property="cpdescription"/>
+		<result column="CAPRICE" property="caprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	</resultMap>
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+		<result column="MNAME" property="mname"/>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.adevent.dto.CouponMemberDto" id="CouponMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO2" property="cpno2"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+		<collection property="coupon" resultMap="Coupon"></collection>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE ETITLE LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==2">
+				WHERE ECONTENT LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==3">
+				WHERE ETITLE LIKE '%'||#{param3}||'%' OR ECONTENT LIKE '%'||#{param3}||'%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
+	
+	<select id="list" resultType="com.monstar.books.adbanner.dto.EventDto">
+		SELECT*FROM
+		(SELECT ROWNUM NUM,N.*FROM
+		(SELECT*FROM M_EVENT ORDER BY EVENTNO DESC)N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT WHERE ETITLE LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT WHERE ECONTENT LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT	WHERE ETITLE LIKE '%'||#{param1}||'%'
+   		OR ECONTENT LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount4" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT
+	</select>
+	
+	<insert id="eventwrite">
+ 		INSERT INTO M_EVENT VALUES(M_EVENT_SEQ.NEXTVAL,#{param1},#{param2},#{param3},SYSDATE,'no')
+	</insert>
+	
+	<select id="eventdetail" resultType="com.monstar.books.adbanner.dto.EventDto">
+		SELECT*FROM M_EVENT
+		WHERE EVENTNO=#{param1}
+	</select>
+	<update id="eventdelete">
+		UPDATE M_EVENT SET DELETED='yes' WHERE EVENTNO=#{param1}
+	</update>
+	
+</mapper>

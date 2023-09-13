@@ -1,0 +1,51 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.monstar.books.adfaq.dao.AdFaqDao">
+    
+    <!-- 전체 FAQ 리스트를 불러오는 쿼리 -->
+    <select id="faqListAll" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT * FROM M_FAQ ORDER BY FAQNO DESC
+    </select>
+    
+    <!-- FAQ 반품/교환/환불 리스트를 불러오는 쿼리 -->
+    <select id="faqList1" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT * FROM M_FAQ WHERE FCATEGORY='반품/교환/환불' ORDER BY FAQNO DESC
+    </select>
+    
+    <!-- FAQ 주문취소/변경 리스트를 불러오는 쿼리 -->
+    <select id="faqList2" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT * FROM M_FAQ WHERE FCATEGORY='주문취소/변경' ORDER BY FAQNO DESC
+    </select>
+    
+    <!-- FAQ 배송/수령일 안내 리스트를 불러오는 쿼리 -->
+    <select id="faqList3" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT * FROM M_FAQ WHERE FCATEGORY='배송/수령일 안내' ORDER BY FAQNO DESC
+    </select>
+    
+    
+    <!-- FAQ를 등록하는 쿼리 -->
+    <insert id="faqInsert">
+    	INSERT INTO M_FAQ VALUES(M_FAQ_SEQ.NEXTVAL,#{param1},#{param2},
+    	#{param3},SYSDATE,'no')
+    </insert>
+    
+    <!-- 선택한 FAQ의 질문과 답변,카테고리를 가져오는 쿼리  -->
+    <select id="faqDetail" resultType="com.monstar.books.adfaq.dto.AdFaqDto">
+    	SELECT FAQNO,FQUESTION,FANSWER,FCATEGORY FROM M_FAQ
+    	 WHERE FAQNO = #{param1}
+    </select>
+    
+    <!-- 선택한 FAQ 수정하는 쿼리 -->
+    <update id="faqUpdate">
+    	UPDATE M_FAQ SET FQUESTION=#{param2}, FANSWER=#{param3},
+    	 FCATEGORY=#{param4} WHERE FAQNO = #{param1}
+    </update>
+    
+    <!-- 선택한 FAQ를 삭제하는 쿼리 -->
+    <update id="faqDelete">
+    	UPDATE M_FAQ SET DELETED='yes' WHERE FAQNO=#{param1}
+    </update>
+    
+    </mapper>

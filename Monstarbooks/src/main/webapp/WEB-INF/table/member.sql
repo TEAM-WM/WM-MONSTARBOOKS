@@ -16,7 +16,7 @@ create table m_member(
 commit;
 create sequence m_member_seq;
 
-select * from m_member;
+select * from m_member order by memberno desc;
 delete from m_member where mid='admin';
 commit;
 INSERT INTO m_member VALUES(m_member_seq.NEXTVAL,'admin', '1234', '1999-07-04','김리연','liyeon@kakao.com','01000000000',sysdate,null,null,'관리자','no');
@@ -25,8 +25,15 @@ SELECT mid
 FROM M_MEMBER
 WHERE mid='admin';
 
-UPDATE m_member set mauthority='관리자' where  mid='admin';
+UPDATE m_member set mauthority='관리자' where  memberno='48';
+
+UPDATE M_MEMBER SET deleted='yes', mname='킹왕짱' WHERE memberno='82';
 
 select MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,to_char(MREGDATE, 'yyyy.mm.dd hh24"시"mm"분"')as mregdate,MPROFILEIMG,MFAVORITE,MAUTHORITY
 from M_MEMBER
 where MAUTHORITY='관리자';
+-- oofdapeqbhsd
+SELECT MPW
+		FROM M_MEMBER WHERE mname='김리연' AND mtel='01000000000' AND mid='admin3';
+        
+        

@@ -27,13 +27,13 @@
 			<div class="login-save">
 				<input type="checkbox" name="remember" id="remember">
 				<label for="remember"></label>
-				<span>아이디 저장</span>
+				<span>자동로그인</span>
 			</div>
 			<div>
 				<a href="${pageContext.request.contextPath}/find/">아이디 / 비밀번호 찾기</a>
 			</div>
 		</div>
-		<div class="social-wrap">
+		<%-- <div class="social-wrap">
 			<div class="divider">
 				<span class="line"></span> <strong class="text">또는</strong> <span
 					class="line"></span>
@@ -65,7 +65,7 @@
 				</ul>
 			</div>
 			<!-- 로그인 박스 종료 -->
-		</div>
+		</div> --%>
 		<!-- social-wrap 종료 -->
 	</form>
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>

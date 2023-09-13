@@ -11,20 +11,24 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookListDto {
 	private int bookno;
+	private long bisbn;
 	private String btitle;
 	private String bsubtitle;
+	private String bpublisher;
 	private String bwriter;
 	private String btranslator;
-	private String bpublisher;
 	private Date bpdate;
 	private int bprice;
 	private int bpricesell;
 	private int bdiscount;
-	private long bisbn;
 	private String bstatus;
 	private Date bcdate;
 	private Date bmdate;
+	private int bstock;
 	
+	private int ccount;
+	
+	private BookListDto list;
 	private BookDetailDto detail;
 	private BookCategoryDto category;
 	

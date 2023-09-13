@@ -40,20 +40,34 @@ table {
 	background-color: var(- -color-white);
 	font-weight: var(- -weight-bold);
 	color: var(- -color-main);	
-} 
+}
+
+.content {
+	display:flex;
+	text-align: left;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
 
 </style>
 </head>
 <body>
-<br /> <br /><br />
-	<h2>My Profile Update</h2> <br />
+	<br /><br />
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="myprofile.jsp" %>
+        </div>
 
 <form action="profileupdate" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="mid" value="${myprofile_view.mid }" />
-<br />
 
 	
 	<div align="center" class="card" style="height: 700px;">
+			<br /><br />
+		<h2>My Profile Update</h2>
+	<br />
+	<br />
 	<table>
 				<c:choose>
 			<c:when test="${not empty myprofile_view.mprofileimg}">
@@ -72,7 +86,7 @@ table {
 					<td class="left" colspan=2>
 						<div align="center" class="image-container">
 							<img
-								src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
+								src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png"
 								alt="기본이미지" style="max-width: 40%; height: auto;">
 						</div>
 					</td>
@@ -105,7 +119,7 @@ table {
 		</table>
 		</div>
 	</form>
-	
+	        </div>
 
 	
 <script>

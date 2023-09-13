@@ -8,6 +8,25 @@
 <meta charset="UTF-8">
 <title>myprofile_list</title>
 <style>
+tr, td {
+	padding: 10px 0px 5px 0px;
+}
+
+form {
+	width: 500px;
+	align: center;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table {
+	width: 500px;
+	align: center;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
 .upde {
 	margin-left: auto;
 	margin-right: auto;
@@ -39,30 +58,50 @@
 	font-weight: var(- -weight-bold);
 	color: var(- -color-main);	
 }
+
+/* 주문/배송 목록 테이블 스타일 */
+.order-table {
+    width: 100%; /* 테이블 70% 너비로 설정 */
+    float: right;
+}
+
+.content {
+	display:flex;
+	text-align: left;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
+
 </style>
 </head>
 <!-- 로그인 시 회원이 등록한 이미지 출력/ 없을 경우 기본 이미지 -->
 <body>
-<br /><br />
+    		<c:forEach items="${list }" var="mem">
+	<br /><br />
+    <div class="content">
+
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+      <div id="myprofile-sidebar">
+            <%@ include file="myprofile.jsp" %>
+        </div> 
+
 <form action="myprofile_list" method="post">
-	<div align="center" class="card" style="height: 700px;">
-	
-		<c:forEach items="${list }" var="mem">
-			
-			<a href="">${mem.mname }  님</a> <br /><br />
-			
-			
+	<div align="left" class="card" style="height: 1000px;">
+	<br />
+	<br /><br />
 		<table>
 			<c:choose>
 				<c:when test="${not empty mem.mprofileimg}">
+				<tr>
+				<td><a href="">${mem.mname }  님</a></td>
 					<tr>
 						<td>
 							<div align="center" class="image-container">
 							<a href="download?p=resources/assets/upload/&f=${mem.mprofileimg }&mid=
 							${mem.mid }">
 								<img src="${pageContext.request.contextPath}/resources/assets/upload/${mem.mprofileimg }"
-									alt="회원 프로필이미지" style="width: 200px; height: 200px;" />
-							</a>									
+									alt="회원 프로필이미지" style="width: 200px; height: auto;" />
+							</a>
 							</div>
 						</td>
 					</tr>
@@ -71,35 +110,40 @@
 					<tr>
 						<td>
 							<div align="center" class="image-container">
-									<img src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
-									 alt="기본이미지" style=" max-width: 70%;  height: auto;">
+									<img src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png"
+									 alt="기본이미지" style=" max-width: 200px;  height: auto;">
 							
 							</div>
 						</td>
 					</tr>
 				</c:otherwise>
 			</c:choose>
-			<tr>
-			<td>
-			</td>
-			</tr>
+
 			<tr>
 			<td class="center">
 			<a class="relist" href="view?mid=${mem.mid }" type="button">프로필변경</a> &nbsp;&nbsp;&nbsp;
 			</td>
 			</tr>
+			<tr>
+			<td>
+			<a href="../member/content_view" class=upde>회원정보관리</a>
+			</td>
+			</tr>
+
+			
 				</table>
-			</c:forEach>
-					<a href="sample1" class=upde>회원정보관리</a> <br />
+
 <br />
 <br />
 <br />
 	</div>
-	
+
 </form>
+</div>
+			</c:forEach>	
 <br />
 	<script>
-		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";
+		document.title = "몬스타북스 :: 마이페이지 :: 프로필메인";
 	</script>
 </body>
 </html>

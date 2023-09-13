@@ -12,7 +12,7 @@ tr, td {
 }
 
 form {
-	width: 550px;
+	width: 500px;
 	align: center;
 	text-align: left;
 	margin-left: auto;
@@ -20,7 +20,7 @@ form {
 }
 
 table {
-	width: 550px;
+	width: 500px;
 	align: center;
 	text-align: left;
 	margin-left: auto;
@@ -57,18 +57,40 @@ table {
     font-weight: var(--weight-bold);
     color: var(--color-white);
     max-width: 50%
+      
 }
+  
+/* 주문/배송 목록 테이블 스타일 */
+.order-table {
+    width: 100%; /* 테이블 70% 너비로 설정 */
+    float: right;
+}
+
+.content {
+	display:flex;
+	text-align: left;
+	justify-content:space-between;
+    overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
+}
+
 </style>
 </head>
 <body>
-	<br />
-	<br />
-	<br />
-	<h2>My Profile View</h2>
+	<br /><br />
+    <div class="content">
+        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+        <div id="myprofile-sidebar">
+            <%@ include file="myprofile.jsp" %>
+        </div>
 	<br />
 	<br />
 
+<form action="" method="">
 	<div align="center" class="card" style="height: 700px;">
+		<br /><br />
+		<h2>My Profile View</h2>
+	<br />
+	<br />
 	<table>
 			<c:choose>
 			<c:when test="${not empty myprofile_view.mprofileimg}">
@@ -91,7 +113,7 @@ table {
 					<td class="left" colspan=2>
 						<div align="center" class="image-container">
 							<img
-								src="${pageContext.request.contextPath}/resources/assets/imgs/hyoseul/profile.png"
+								src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/profile.png"
 								alt="기본이미지" style="max-width: 40%; height: auto;">
 						</div>
 					</td>
@@ -123,7 +145,8 @@ table {
 		</tr>
 			</table>
 	</div>
-
+	</form>
+</div>
 
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";

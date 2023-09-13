@@ -37,11 +37,6 @@
 		
 	}
 	
-	function deleteFile(){
-		// 첨부파일 초기화
-		
-	}
-	
 </script>
 </head>
 <body>
@@ -62,7 +57,7 @@
 				<td>작성날짜</td>
 				<td>
 					<c:set var="ymd" value="<%=new java.util.Date()%>" />
-					<fmt:formatDate value="${ymd}" pattern="yyyy-MM-dd" />
+					<fmt:formatDate value="${ymd}" pattern="yy-MM-dd" />
 				</td>
 			</tr>
 			<tr>

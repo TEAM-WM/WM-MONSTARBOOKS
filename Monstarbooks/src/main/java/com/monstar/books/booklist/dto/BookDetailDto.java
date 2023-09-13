@@ -1,7 +1,5 @@
 package com.monstar.books.booklist.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +16,5 @@ public class BookDetailDto {
 	private int bpage;
 	private String bsize;
 	private String badge;
-	private Date bpdate;
 	
 }

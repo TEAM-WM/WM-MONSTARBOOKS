@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.monstar.books.ex.dao.ExDao;
@@ -17,6 +18,8 @@ import com.monstar.books.ex.dto.ExDto;
 import com.monstar.books.product.dao.ProductDao;
 import com.monstar.books.product.dto.BookCategoryDto;
 import com.monstar.books.product.dto.BookDto;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Service
 public class ProductInsertService implements ProductService {
@@ -34,33 +37,43 @@ public class ProductInsertService implements ProductService {
 	@Override
 	public void execute(Model model) {
 		
-		System.out.println(">>> INSERT SERVICE PROCESS >>>");
+		System.out.println(">>> INSERT SERVICE >>>");
 		
 		ProductDao dao = session.getMapper(ProductDao.class);
-		
+				
 		//map변환
 		Map<String, Object> map = model.asMap();
-		
-		//map에서 request 추출
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		//파일업로드(도서썸네일, 디테일)
+		String path = "C:\\Users\\joon879\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\imgs\\product";
+
+		MultipartRequest req = null;
+		try {
+			req = new MultipartRequest(request, path, 1024 * 1024 * 20, "utf-8", new MyFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		
 		//"도서"테이블에 넣을 정보
 //		int bookno = Integer.parseInt(request.getParameter("bookno"));
-		int bisbn = Integer.parseInt(request.getParameter("bisbn"));
-		String btitle = request.getParameter("btitle");
-		String bsubtitle = request.getParameter("bsubtitle");
-		String bpublisher = request.getParameter("bpublisher");
-		String bwriter = request.getParameter("bwriter");
-		String btranslator = request.getParameter("btranslator");
-		String bpdate = request.getParameter("bpdate");
-		int bprice = Integer.parseInt(request.getParameter("bprice"));
-		int bpricesell = Integer.parseInt(request.getParameter("bpricesell"));
-		int bdiscount = Integer.parseInt(request.getParameter("bdiscount"));
-		String bstatus = request.getParameter("bstatus");
+		long bisbn = Long.parseLong(req.getParameter("bisbn"));
+
+//		int bisbn = Integer.parseInt(req.getParameter("bisbn"));
+		String btitle = req.getParameter("btitle");
+		String bsubtitle = req.getParameter("bsubtitle");
+		String bpublisher = req.getParameter("bpublisher");
+		String bwriter = req.getParameter("bwriter");
+		String btranslator = req.getParameter("btranslator");
+		String bpdate = req.getParameter("bpdate");
+		int bprice = Integer.parseInt(req.getParameter("bprice"));
+		int bpricesell = Integer.parseInt(req.getParameter("bpricesell"));
+		int bdiscount = Integer.parseInt(req.getParameter("bdiscount"));
+		String bstatus = req.getParameter("bstatus");
 //		String bcdate = request.getParameter("bcdate");
 //		String bmdate = request.getParameter("bmdate");
-		int bstock = Integer.parseInt(request.getParameter("bstock"));
+		int bstock = Integer.parseInt(req.getParameter("bstock"));
 				
 		
 //		//selectCategory에서 카테고리를 불러옴
@@ -70,19 +83,28 @@ public class ProductInsertService implements ProductService {
 		//"도서" 테이블에 정보 입력
 		dao.insertBook(bisbn, btitle, bsubtitle, bpublisher, bwriter, btranslator,
 				bpdate, bprice, bpricesell, bdiscount, bstatus, bstock);	
+						
+		
+		
+		
 				
-		
-		
 		
 		//"디테일" 테이블에 넣을 정보
 //		int bookno = request.getParameter("bookno");
-		int bcategoryno = Integer.parseInt(request.getParameter("bcategoryno"));//라디오버튼
-		String bimg = request.getParameter("bimg");
-		String bimgdetail = request.getParameter("bimgdetail");
-		String bdescription = request.getParameter("bdescription");
-		int bpage = Integer.parseInt(request.getParameter("bpage"));
-		String bsize = request.getParameter("bsize");
-		String badge = request.getParameter("badge");
+		int bcategoryno = Integer.parseInt(req.getParameter("bcategoryno"));//라디오버튼
+		String bimg = req.getFilesystemName("bimg");
+		String bimgdetail = req.getFilesystemName("bimgdetail");
+		String bdescription = req.getParameter("bdescription");
+		int bpage = Integer.parseInt(req.getParameter("bpage"));
+		String bsize = req.getParameter("bsize");
+		String badge = req.getParameter("badge");
+		
+		if (bimg == null) {
+			bimg = "";
+		}
+		if (bimgdetail == null) {
+			bimgdetail = "";
+		}
 		
 		System.out.println("bcategoryno: "+bcategoryno);
 		
@@ -91,20 +113,12 @@ public class ProductInsertService implements ProductService {
 //		2. 도서 테이블의 도서이름+ISBN 등 2가지 데이터를 합쳐서 날리고 
 //			그 칼럼의 bookno를 가져오기
 //		-> 일단 1번으로 고고
-		
-		
-		
+				
 		//"디테일" 테이블에 정보 입력
 		dao.insertBookDetail(bcategoryno, bimg, bimgdetail, bdescription,
 				bpage, bsize, badge);
 		
-		
-		
-		
-//		String bcategory1 = request.getParameter("bcategory1");
-//		String bcategory2 = request.getParameter("bcategory2");
-//				
-//		ArrayList<BookCategoryDto> dto = dao.insertBookCategory(bcategory1, bcategory2);
+
 
 		
 		

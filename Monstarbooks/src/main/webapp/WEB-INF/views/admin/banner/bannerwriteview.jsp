@@ -8,12 +8,13 @@
 </head>
 <body>
 <h1>배너등록</h1>
-<form action="bannerwrite" method="post">
+<form action="bannerwrite" method="post" enctype="multipart/form-data">
     <label for="etitle">제목:</label>
     <input type="text" id="etitle" name="etitle"><br>
     <label for="efilesrc">첨부 파일:</label>
     <input type="file" id="efilesrc" name="efilesrc"><br>
     <button type="submit">등록</button>
+    <a href="list">목록</a>
 </form>
 </body>
 </html>

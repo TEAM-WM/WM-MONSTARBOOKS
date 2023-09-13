@@ -5,6 +5,28 @@
 	<!-- 230822 / 진성 추가 -->
 <mapper namespace="com.monstar.books.booklist.dao.BookListDao">
 
+	<resultMap type="com.monstar.books.booklist.dto.BookListDto" id="List">
+		<result column="BOOKNO" property="bookno"/>
+		<result column="BISBN" property="bisbn"/>
+		<result column="BTITLE" property="btitle"/>
+		<result column="BSUBTITLE" property="bsubtitle"/>
+		<result column="BPUBLISHER" property="bpublisher"/>
+		<result column="BWRITER" property="bwriter"/>
+		<result column="BTRANSLATOR" property="btranslator"/>
+		<result column="BPDATE" property="bpdate"/>
+		<result column="BPRICE" property="bprice"/>
+		<result column="BPRICESELL" property="bpricesell"/>
+		<result column="BDISCOUNT" property="bdiscount"/>
+		<result column="BSTATUS" property="bstatus"/>
+		<result column="BCDATE" property="bcdate"/>
+		<result column="BMDATE" property="bmdate"/>
+		<result column="BSTOCK" property="bstock"/>
+		<result column="STARAVG" property="starAvg"/>
+		<result column="REVIEWCNT" property="reviewCnt"/>
+		<collection property="detail" resultMap="Detail"></collection>
+		<collection property="category" resultMap="Category"></collection>
+	</resultMap>
+
 	<resultMap type="com.monstar.books.booklist.dto.BookDetailDto" id="Detail">
 		<result column="BOOKNO" property="bookno"/>
 		<result column="BCATEGORYNO" property="bcategoryno"/>
@@ -14,34 +36,12 @@
 		<result column="BPAGE" property="bpage"/>
 		<result column="BSIZE" property="bsize"/>
 		<result column="BADGE" property="badge"/>
-		<result column="BPDATE" property="bpdate"/>
-	</resultMap>
-	<resultMap type="com.monstar.books.booklist.dto.BookListDto" id="List">
-		<result column="BOOKNO" property="bookno"/>
-		<result column="BTITLE" property="btitle"/>
-		<result column="BSUBTITLE" property="bsubtitle"/>
-		<result column="BWRITER" property="bwriter"/>
-		<result column="BTRANSLATOR" property="btranslator"/>
-		<result column="BPUBLISHER" property="bpublisher"/>
-		<result column="BPDATE" property="bpdate"/>
-		<result column="BPRICE" property="bprice"/>
-		<result column="BPRICESELL" property="bpricesell"/>
-		<result column="BDISCOUNT" property="bdiscount"/>
-		<result column="BISBN" property="bisbn"/>
-		<result column="BSTATUS" property="bstatus"/>
-		<result column="BCDATE" property="bcdate"/>
-		<result column="BMDATE" property="bmdate"/>
-		<result column="STARAVG" property="starAvg"/>
-		<result column="REVIEWCNT" property="reviewCnt"/>
-		<collection property="detail" resultMap="Detail"></collection>
-		<collection property="category" resultMap="Category"></collection>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.booklist.dto.BookCategoryDto" id="Category">
 		<result column="BCATEGORYNO" property="bcategoryno"/>
 		<result column="BCATEGORY1" property="bcategory1"/>
 		<result column="BCATEGORY2" property="bcategory2"/>
-		<result column="category" property="Category"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.booklist.dto.BookReviewDto" id="Review">
@@ -57,54 +57,111 @@
 		<collection property="member" resultMap="Member"></collection>
 	</resultMap>
 	
-	<resultMap type="com.monstar.books.booklist.dto.MemberDto" id="Member">
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="MID" property="mid"/>
 	</resultMap>
 	
 	
-	<!-- 리스트 -->
+	<!-- 베스트셀러 리스트 -->
 	<select id="list" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
-		<!-- 페이징 전
-		SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,
-		B.BPRICESELL,B.BDISCOUNT FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO -->
-		
-		<!-- 페이징 후 -->
 		SELECT * FROM
 		(SELECT ROWNUM NUM, N.* FROM
-		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
 		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
 		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
 		WHERE BOOKNO=B.BOOKNO) STARAVG,
 		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
 		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
 		FROM M_BOOK B, M_BOOK_DETAIL D 
-		WHERE B.BOOKNO = D.BOOKNO) N)
+		WHERE B.BOOKNO = D.BOOKNO
+		AND (D.BADGE = '베스트' OR D.BADGE = '주문폭주')
+		ORDER BY REVIEWCNT DESC) N)
 		WHERE NUM BETWEEN #{param1} AND #{param2}
-		
 	</select>
 	
-	<!-- <select id="starAvgReCnt" resultType="com.monstar.books.booklist.dto.BookReviewDto">
-		SELECT ROUND(AVG(RSTAR),1) STARAVG, COUNT(REVIEWNO) REVIEWCNT FROM M_REVIEW 
-		WHERE BOOKNO=#{param1}
-	</select> -->
-	
-	<!-- 리스트 총 갯수 -->
-	<select id="TotCount" resultType="Integer">
-		SELECT COUNT(*) FROM M_BOOK
+	<!-- 베스트 리스트 총 갯수 -->
+	<select id="BestTotCount" resultType="Integer">
+		<!-- SELECT COUNT(*) FROM M_BOOK -->
+		SELECT COUNT(B.BOOKNO) FROM M_BOOK B, M_BOOK_DETAIL D
+		WHERE B.BOOKNO = D.BOOKNO
+		AND (D.BADGE = '베스트' OR D.BADGE = '주문폭주')
 	</select>
+	
+	<!-- 새로나온책 리스트 -->
+	<select id="newList" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
+		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
+		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) STARAVG,
+		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+		FROM M_BOOK B, M_BOOK_DETAIL D 
+		WHERE B.BOOKNO = D.BOOKNO
+        AND (B.BPDATE > SYSDATE-30 OR D.BADGE = '신상품')
+		ORDER BY BPDATE DESC) N)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<!-- 새로나온책 리스트 총 갯수 -->
+	<select id="NewTotCount" resultType="Integer">
+		SELECT COUNT(B.BOOKNO) FROM M_BOOK B, M_BOOK_DETAIL D
+		WHERE B.BOOKNO = D.BOOKNO
+		AND (B.BPDATE > SYSDATE-30 OR D.BADGE='신상품')
+	</select>
+	
+	<!-- 국내 or 국외 카테고리별 리스트 -->
+	<select id="categoryList" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
+		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
+        C.BCATEGORY1,
+		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) STARAVG,
+		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
+		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+        AND D.BCATEGORYNO = C.BCATEGORYNO
+        AND C.BCATEGORY1=#{param1}
+        <include refid="includeList"/>
+		ORDER BY BPDATE DESC) N)
+		WHERE NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	
+	<!-- 국내 or 국외 카테고리별 리스트 총 갯수 -->
+	<select id="categoryTotCount" resultType="Integer">
+		SELECT COUNT(B.BOOKNO) 
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+		AND D.BCATEGORYNO = C.BCATEGORYNO
+		AND C.BCATEGORY1=#{param1}
+		<include refid="includeList"/>
+	</select>
+	
+	<sql id="includeList">
+		<choose>
+			<when test="param2=='전체'">
+				
+			</when>
+			<otherwise>
+				AND C.BCATEGORY2=#{param2}
+			</otherwise>
+		</choose>
+	</sql>
+	
+	
 	
 	<!-- 도서 상세페이지 -->
 	<select id="bookDetail" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
-		<!-- SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,
-		B.BPDATE,B.BPRICE,B.BPRICESELL,B.BDISCOUNT,B.BISBN,
-		D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE
-		FROM M_BOOK B, M_BOOK_DETAIL D WHERE B.BOOKNO = D.BOOKNO AND B.BOOKNO = #{param1} -->
-		SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,B.BPDATE,B.BPRICE,
-		B.BPRICESELL,B.BDISCOUNT,B.BISBN,
-		D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE,
-		C.BCATEGORY1,C.BCATEGORY2
-		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_BCATEGORY C
+		SELECT B.BOOKNO,B.BTITLE,B.BSUBTITLE,B.BWRITER,B.BTRANSLATOR,B.BPUBLISHER,B.BPDATE,B.BPRICE,B.BSTOCK,
+			B.BPRICESELL,B.BDISCOUNT,B.BISBN,B.BSTOCK,
+			D.BCATEGORYNO,D.BIMG,D.BIMGDETAIL,D.BDESCRIPTION,D.BPAGE,D.BSIZE,D.BADGE,
+			C.BCATEGORY1,C.BCATEGORY2
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
 		WHERE B.BOOKNO = D.BOOKNO 
 		AND D.BCATEGORYNO = C.BCATEGORYNO
 		AND B.BOOKNO=#{param1}
@@ -112,15 +169,6 @@
 	
 	<!-- 리뷰 조회 -->		
 	<select id="bookReivew" parameterType="com.monstar.books.booklist.dto.BookReviewDto" resultMap="Review">
-		<!-- 페이징 전 
-		SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
-		M.MID
-		FROM M_REVIEW R,M_MEMBER M
-		WHERE R.MEMBERNO = M.MEMBERNO
-		AND BOOKNO= #{param1}
-		ORDER BY R.REGDATE DESC -->
-		
-		<!-- 페이징 후 -->
 		SELECT * FROM 
 		(SELECT ROWNUM NUM, N.* FROM
 		(SELECT R.REVIEWNO,R.BOOKNO,R.MEMBERNO,R.RTITLE,R.RCONTENT,R.REGDATE,R.RSTAR,R.REFILESRC,R.DELETED,
@@ -148,22 +196,69 @@
 		GROUP BY RSTAR ORDER BY RSTAR
 	</select>
 	
-	<!-- 사용자 번호가져오기 -->
-	<!-- <select id="memberno" resultType="int">
-		
-	</select> -->
-	
 	<insert id="cartInsert">
 		INSERT INTO M_CART VALUES(M_CART_SEQ.NEXTVAL,#{param1},#{param2},#{param3})
 	</insert>
 		
 	<select id="booknoCheck" resultType="Integer">
-		SELECT BOOKNO FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=1
+		SELECT BOOKNO FROM M_CART WHERE BOOKNO=#{param1} AND MEMBERNO=#{param2}
 	</select>
 	
 	<update id="cartAddUpdate">
-		UPDATE M_CART SET CCOUNT=CCOUNT+#{param3} WHERE BOOKNO=#{param2} AND MEMBERNO=1
+		UPDATE M_CART SET CCOUNT=CCOUNT+#{param3} WHERE BOOKNO=#{param2} AND MEMBERNO=#{param1}
 	</update>
 
+	<select id="goOrder" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
+		SELECT B.BOOKNO,B.BTITLE,B.BDISCOUNT,B.BPRICE,B.BPRICESELL,
+		D.BIMG,D.BCATEGORYNO,C.BCATEGORY1
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+		AND D.BCATEGORYNO = C.BCATEGORYNO
+		AND B.BOOKNO=#{param1}
+	</select>
 	
+	<select id="getMemberno" resultType="Integer">
+		SELECT MEMBERNO FROM M_MEMBER WHERE MID=#{param1}
+	</select>
+	
+	<!--========= 쿠폰 ========== -->
+	
+	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCIPTION" property="cpdesciption"/>
+		<result column="CPPRICE" property="cpprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+		<result column="CPCNT" property="cpCnt"/>
+		<collection property="cpMember" resultMap="CpMember"></collection>
+		<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO2" property="cpno2"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVAILD" property="cpvaild"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	</resultMap>
+	
+	<select id="myCouponCheck" parameterType="com.monstar.books.order.dto.CouponDto" resultMap="Coupon">
+		SELECT C.CPNAME,C.CPPRICE,CM.CPNO,CM.CPVALID			
+		FROM M_MEMBER M, M_COUPON_MEMBER CM, M_COUPON C
+		WHERE M.MEMBERNO=CM.MEMBERNO
+		AND CM.CPNO2 = C.CPNO
+		AND CM.CPSTATUS = 'N'
+		AND CM.CPVALID >= SYSDATE-1
+		AND M.MEMBERNO = #{param1}
+	</select>
+	
+	<select id="cpCnt" resultType="Integer">
+		SELECT COUNT(CPNO) FROM M_COUPON_MEMBER 
+		WHERE MEMBERNO = #{param1} 
+		AND CPSTATUS = 'N' 
+		AND CPVALID >= SYSDATE-1 
+	</select>
 </mapper>

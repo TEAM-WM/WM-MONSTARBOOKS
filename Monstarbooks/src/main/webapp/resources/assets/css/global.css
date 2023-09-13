@@ -3,7 +3,7 @@
 @import url(./footer.css);
 @import url(./main.css);
 @import url(./common.css);
-
+@import url(./list.css);
 @import url(./admin.css);
 /* Global*/
 :root {
@@ -54,7 +54,9 @@ button,
 input {
     cursor: pointer;
 }
-
+pre{
+    white-space: pre-wrap;
+}
 a:hover,
 button:hover {
     opacity: 0.5;
@@ -77,6 +79,22 @@ body{
 .right{
     text-align: right;
 }
+
+.text-back{
+	padding:5px 10px;
+	background: var(--color-main);
+	color: var(--color-white);
+	border-radius: 5px;
+	font-weight: var(--weight-bold);
+	line-height:2em;
+}
+.aqua{
+    background: rgb(181, 227, 242)!important;
+}
+.red{
+    color: #c30202;
+}
+
 /* 화살표 */
 .arrow-up {
     width: 50px;
@@ -141,6 +159,28 @@ main.main{
 .terms-modal .modal-content-wrap{
     width: 500px;
 }
+
+.coupon-modal .modal-content-wrap{
+	width:1000px;
+}
+
+.coupon-modal .modal-title{
+	position:relative;
+}
+
+.coupon-modal .modal-title .closeModalBtn{
+	position: absolute;
+    top: 53%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: min-content;
+    height: min-content;
+    padding: 0;
+    font-size: 30px;
+}
+.coupon-modal .modal-title .closeModalBtn i{
+	color:var(--color-white);
+}
 .modal-title{
     padding: 20px;
     background-color: var(--color-main-dark);
@@ -191,4 +231,109 @@ main.main{
     color: var(--color-white);
     font-weight: var(--weight-bold);
     
+}
+
+
+/* 페이징 */
+.pagination-wrap{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pagination {
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+}
+
+.pagination a,
+.pagination button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-main-dark);
+    text-decoration: none;
+}
+
+.pagination>a:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+.pagination>a:last-child {
+    border-radius: 0 3px 3px 0;
+}
+
+.pagination ol button {
+    background-color: #fff;
+    border: none;
+}
+
+.pagination ol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    list-style-type: none;
+    background-color: #fff;
+}
+
+.pagination li {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 32px;
+    border-right: 1px solid #e1e4e8;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-main-dark);
+}
+.pagination li:last-child{
+	border-right: none;
+}
+.pagination li.disabled {
+    background-color: #fafbfc;
+}
+.pagination li.disabled a i{
+    color: #d1d5da;
+}
+.pagination li.current-page {
+    border-color: var(--color-main-dark);
+    background-color: var(--color-main-dark);
+}
+
+.pagination li.current-page a {
+    color: #fff;
+}
+
+.pagination *[disabled],
+.pagination .disabled {
+    color: #d1d5da;
+    background-color: #fafbfc;
+}
+
+/*warning*/
+.warning{
+	font-size:var(--font-medium);
+	position: relative;
+	padding-top:80px;
+	margin-top : 20px;
+}
+.warning::before{
+	content: "\f071";
+    font-family: "FontAwesome";
+	font-size:60px;
+    position:absolute;
+    top:10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color:var(--color-main);
 }

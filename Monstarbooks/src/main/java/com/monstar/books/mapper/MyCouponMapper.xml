@@ -1,0 +1,86 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.monstar.books.mypage.dao.MyCouponDao">
+
+		<!--  마이페이지 : 보유 쿠폰함 -->
+	
+	<resultMap type="com.monstar.books.order.dto.CouponDto" id="Coupon">
+		<result column="CPNO" property="cpno"/>
+		<result column="CPNAME" property="cpname"/>
+		<result column="CPDESCRIPTION" property="cpdescription"/>
+		<result column="CPPRICE" property="cpprice"/>
+		<result column="CPCREATED" property="cpcreated"/>
+		<result column="CPVALID" property="cpvalid"/>
+		<result column="ADCPSTATUS" property="cpstatus"/>
+		<collection property="cpMember" resultMap="CpMember"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
+		<result column="CPNO" property="cpno"/>
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="CPNO2" property="cpno2"/>
+		<result column="CPRDATE" property="cprdate"/>
+		<result column="CPVAILD" property="cpvaild"/>
+		<result column="CPSTATUS" property="cpstatus"/>
+	<collection property="coupon" resultMap="Coupon"></collection>
+	<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+	
+	<resultMap type="com.monstar.books.member.dto.MemberDto"
+		id="Member">
+		<result column="MEMBERNO" property="memberno" />
+		<result column="MID" property="mid" />
+		<result column="MPW" property="mpw" />
+		<result column="MBIRTH" property="mbirth" />
+		<result column="MNAME" property="mname" />
+		<result column="MEMAIL" property="memail" />
+		<result column="MTEL" property="mtel" />
+		<result column="MREGDATE" property="mregdate" />
+		<result column="MPROFILEIMG" property="mprofileimg" />
+		<result column="MFAVORITE" property="mfavorite" />
+		<result column="MAUTHORITY" property="mauthority" />
+		<result column="MDELETED" property="mdeleted" />
+		<result column="member" property="Member" />
+	</resultMap>
+	
+	  <!-- 사용자 마이페이지 쿠폰함 목록 -->
+	<select id="myCoupon" parameterType="com.monstar.books.order.dto.CouponMemberDto" resultMap="CpMember">
+		<!-- 페이징 처리 전 -->
+<!-- SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
+		C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS ADCPSTATUS
+		FROM M_COUPON_MEMBER CM
+			LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
+		WHERE CM.MEMBERNO = #{param1}
+  			AND CM.CPVALID >= SYSDATE - 1
+  			AND CM.CPSTATUS = 'N'
+  			AND C.CPSTATUS = 'TRUE'
+  			ORDER BY CM.CPVALID ASC -->
+
+		<!-- 페이징 처리 후 -->
+		SELECT * FROM
+		(SELECT ROWNUM NUM, N.* FROM
+		(SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
+		C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS ADCPSTATUS
+		FROM M_COUPON_MEMBER CM
+			LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
+		WHERE CM.MEMBERNO = #{param1}
+  			AND CM.CPVALID >= SYSDATE - 1
+  			AND CM.CPSTATUS = 'N'
+  			AND C.CPSTATUS = 'FALSE'
+  		ORDER BY CM.CPVALID ASC) N)
+  		WHERE NUM BETWEEN #{param1} AND #{param2}
+
+ 	</select>
+ 	
+  		<!-- 리스트 총 갯수 -->
+		<select id="couponboxTotCount" resultType="int">
+    	SELECT COUNT(*)
+		FROM M_COUPON_MEMBER C
+		LEFT JOIN M_MEMBER M ON M.MEMBERNO = C.MEMBERNO
+		WHERE M.MID = #{param1}
+		</select>
+
+
+</mapper>

@@ -9,39 +9,31 @@
 	<!--주문목록 가져오기 -->
 	<select id="getDeliverStatus"
 		resultType="com.monstar.books.mypage.dto.MyOrderDto">
-		SELECT
-		od.oregdate AS orderDate,
-		o.ostatus AS orderStatus,
-		bc.bcategory1
-		AS category1,
-		od.ocount AS productCount,
-		od.opricesell AS productPrice,
-		(od.opricesell * od.ocount) AS totalAmount, -- 추가: 상품 총 가격 계산
-		b.btitle
-		AS productName,
-		m.mid AS memberId,
-		o.orderno AS orderNO,
-		bd.bimg AS
-		productImage -- 추가: 상품 이미지
-		FROM
-		m_order o
-		JOIN
-		m_order_detail od ON
-		o.orderno = od.orderno
-		JOIN
-		m_book b ON od.bookno = b.bookno
-		JOIN
-		m_member m ON o.memberno = m.memberno
-		JOIN
-		m_book_detail bd ON od.bookno
-		= bd.bookno
-		JOIN
-		m_book_category bc ON bd.bcategoryno = bc.bcategoryno
-		WHERE
-		m.mid = 'user1'
-		ORDER BY
-		orderDate DESC
-		<!-- #{param1}; -->
+		SELECT *
+		      FROM (
+		      SELECT
+		      od.oregdate AS orderDate,
+		      o.ostatus AS orderStatus,
+		      bc.bcategory1 AS category1,
+		      od.ocount AS productCount,
+		      od.opricesell AS productPrice,
+		      (od.opricesell * od.ocount) AS totalAmount,
+		      b.btitle AS productName,
+		      m.mid AS memberId,
+		      m.mname AS memberName,
+		      o.orderno AS OrderNO,
+		      bd.bimg AS productImage,
+		      b.bookno AS bookno, -- bookno 추가
+		      ROW_NUMBER() OVER (ORDER BY od.oregdate DESC) AS row_num
+		      FROM m_order o
+		      JOIN m_order_detail od ON o.orderno = od.orderno
+		      JOIN m_book b ON od.bookno = b.bookno
+		      JOIN m_member m ON o.memberno = m.memberno
+		      JOIN m_book_detail bd ON od.bookno = bd.bookno
+		      JOIN m_book_category bc ON bd.bcategoryno = bc.bcategoryno
+		      WHERE m.mid = #{param3}
+		      ) N
+		      WHERE row_num BETWEEN #{param1} AND #{param2}
 	</select>
 
 	<!-- 마이 페이지 주문/배송목록 페이징 -->
@@ -49,10 +41,10 @@
 		SELECT COUNT(*) FROM
 		m_order WHERE memberno = (
 		SELECT memberno FROM m_member WHERE mid =
-		'user1'
+		#{param1}
 		)
-
 	</select>
+
 	<!-- 상품정보 가져오기 주문번호가 1번인 상품이 몇개인가 카운트 하여 BOOKCOUNT로 받아 BOOKCOUNT가 1이상일시 
 		~~책 외 1권으로 표시가능하게 SQL 문작성 -->
 	<select id="getorderDetail"
@@ -94,15 +86,19 @@
 		resultType="com.monstar.books.mypage.dto.MyOrderDto">
 		SELECT
 		o.orderno,
-		SUM(od.opricesell * od.ocount) AS totalAmount,
+		SUM(od.opricesell * od.ocount) AS
+		totalAmount,
 		o.ototalprice,
 		o.opay AS paymentMethod,
-		c.cpname AS couponName,
+		c.cpname AS
+		couponName,
 		CASE
 		WHEN c.cpvalid >= SYSDATE THEN c.cpprice
 		ELSE 0
-		END AS applied_coupon_price,
-		(SUM(od.opricesell * od.ocount) - CASE WHEN c.cpvalid >= SYSDATE THEN c.cpprice ELSE 0
+		END AS
+		applied_coupon_price,
+		(SUM(od.opricesell * od.ocount) - CASE WHEN
+		c.cpvalid >= SYSDATE THEN c.cpprice ELSE 0
 		END) AS finalpay,
 		d.daddress2,
 		d.dtel
@@ -110,11 +106,13 @@
 		m_order o
 		LEFT JOIN m_coupon c ON o.cpno = c.cpno
 		JOIN m_order_detail od ON o.orderno = od.orderno
-		LEFT JOIN m_delivery d ON o.orderno = d.orderno
+		LEFT JOIN m_delivery d
+		ON o.orderno = d.orderno
 		WHERE
 		o.orderno = #{param1}
 		GROUP BY
-		o.orderno, o.ototalprice, o.opay, c.cpname, c.cpvalid, c.cpprice, d.daddress2,
+		o.orderno,
+		o.ototalprice, o.opay, c.cpname, c.cpvalid, c.cpprice, d.daddress2,
 		d.dtel
 	</select>
 
@@ -148,9 +146,6 @@
 		M_DELIVERY D ON OD.ORDERNO = D.ORDERNO
 		WHERE OD.ORDERNO = #{param1}
 	</select>
-
-
-
 
 
 </mapper>

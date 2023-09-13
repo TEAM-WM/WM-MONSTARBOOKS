@@ -3,7 +3,7 @@ package com.monstar.books.cart.dto;
 import com.monstar.books.booklist.dto.BookCategoryDto;
 import com.monstar.books.booklist.dto.BookDetailDto;
 import com.monstar.books.booklist.dto.BookListDto;
-import com.monstar.books.booklist.dto.MemberDto;
+import com.monstar.books.member.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +24,5 @@ public class CartDto {
 	private BookDetailDto detail;
 	private BookCategoryDto category;
 	private MemberDto member;
-	
+
 }
