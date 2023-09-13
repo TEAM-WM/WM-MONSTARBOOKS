@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.adevent.dao.AdEventDao;
+import com.monstar.books.event.dao.EventDao;
 
 
 @Service
@@ -32,7 +33,7 @@ public class EventcoupondwonService implements EventService{
 		Map<String, Object> map = model.asMap();
         HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
-        AdEventDao dao=session.getMapper(AdEventDao.class);
+        EventDao dao=session.getMapper(EventDao.class);
         
 		//회원번호 받아오기
         HttpSession Session = request.getSession();
