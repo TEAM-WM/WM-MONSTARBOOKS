@@ -4,102 +4,102 @@
 
 <mapper namespace="com.monstar.books.m3pop.dao.QnaDao">
 	<sql id="includelist">
-		<choose>
-			<when test="param4==1">
-				WHERE QTITLE LIKE '%'||#{param3}||'%'
-			</when>
-			<when test="param4==2">
-				WHERE QCONTENT LIKE '%'||#{param3}||'%'
-			</when>
-			<when test="param4==3">
-				WHERE QTITLE LIKE '%'||#{param3}||'%'
-				OR QCONTENT LIKE '%'||#{param3}||'%'
-			</when>
-			<otherwise>
-
-			</otherwise>
-
-		</choose>
-
-
+	<choose>
+	<when test="param4==1">
+	WHERE MEMBERNO=#{param5}  AND  QTITLE LIKE '%'||#{param3}||'%'
+	</when>
+	<when test="param4==2">
+	WHERE MEMBERNO=#{param5}  AND  QCONTENT LIKE '%'||#{param3}||'%'
+	</when>
+	<when test="param4==3">
+	WHERE MEMBERNO=#{param5}  AND  QTITLE LIKE '%'||#{param3}||'%' 
+	 OR QCONTENT LIKE '%'||#{param3}||'%' 
+	</when>
+	<otherwise>
+	
+	</otherwise>
+	
+	</choose>
+	
 	</sql>
 
-
-
-	<select id="list"
-		resultType="com.monstar.books.m3pop.dto.QnaDto">
-		<!-- SELECT BID,BNAME,BTITLE,BCONTENT,BDATE, BHIT,BGROUP,BSTEP,BINDENT 
-			FROM REPLYBOARD ORDER BY BGROUP DESC, BSTEP ASC -->
-
-		<!-- SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM REPLYBOARD 
-			ORDER BY BGROUP DESC, BSTEP ASC) N) WHERE NUM BETWEEN #{param1} AND #{param2} -->
-
-		SELECT * FROM
-		(SELECT ROWNUM NUM, N.* FROM
-		(SELECT * FROM QNA ORDER BY QREGDATE DESC)
-		N
-		<include refid="includelist" />
-		)
-		WHERE NUM BETWEEN #{param1} AND #{param2}
-	</select>
-	<select id="qnaTotalCount" resultType="Integer">
-		SELECT COUNT(*) FROM QNA
-		<include refid="includelist" />
-	</select>
-	<!-- <select id="selectBoardTotCount" resultType="Integer"> SELECT COUNT(*) 
-		FROM REPLYBOARD </select> -->
-
+    <select id="list" resultType="com.monstar.books.m3pop.dto.QnaDto">
+<!-- 	    SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,
+	    BHIT,BGROUP,BSTEP,BINDENT FROM REPLYBOARD 
+		ORDER BY BGROUP DESC, BSTEP ASC -->
+		
+<!-- 		SELECT * FROM
+		(SELECT ROWNUM NUM, 
+		N.* FROM 
+		(SELECT * FROM REPLYBOARD 
+		ORDER BY BGROUP DESC, BSTEP ASC) 
+		N)
+		WHERE NUM BETWEEN 
+		#{param1} AND #{param2} -->	
+		
+SELECT * FROM
+(SELECT ROWNUM NUM, N.* FROM 
+(SELECT * FROM M_QNA ORDER BY QREGDATE DESC) 
+N 
+<include refid="includelist"/>
+)
+WHERE NUM BETWEEN #{param1} AND #{param2}
+    </select>
+<select id="qnaTotalCount" resultType="Integer">
+SELECT COUNT(*) FROM M_QNA  WHERE MEMBERNO=#{param1}
+<include refid="includelist"/>
+</select>     
+<!-- 	<select id="selectBoardTotCount" resultType="Integer">
+	
+	SELECT COUNT(*) FROM REPLYBOARD
+	</select>  -->  
+	
 	<select id="selectBoardTotCount" resultType="Integer">
-		SELECT COUNT(*) FROM QNA WHERE QTITLE LIKE '%'||#{param1}||'%'
-	</select>
-
+	SELECT COUNT(*) FROM M_QNA WHERE MEMBERNO=#{param2}  AND  QTITLE LIKE '%'||#{param1}||'%'     
+	</select> 
+	
 	<select id="selectBoardTotCount2" resultType="Integer">
-		SELECT COUNT(*) FROM QNA WHERE QCONTENT LIKE '%'||#{param1}||'%'
+	SELECT COUNT(*) FROM M_QNA WHERE MEMBERNO=#{param2}  AND  QCONTENT LIKE '%'||#{param1}||'%'     
 	</select>
 
 	<select id="selectBoardTotCount3" resultType="Integer">
-		SELECT COUNT(*) FROM QNA WHERE QTITLE LIKE '%'||#{param1}||'%'
-		OR QCONTENT LIKE '%'||#{param1}||'%'
-	</select>
-
+	SELECT COUNT(*) FROM M_QNA WHERE MEMBERNO=#{param2} AND QTITLE LIKE '%'||#{param1}||'%' 
+	 OR QCONTENT LIKE '%'||#{param1}||'%'    
+	</select> 
+		
 	<select id="selectBoardTotCount4" resultType="Integer">
-		SELECT COUNT(*) FROM QNA
-	</select>
+	SELECT COUNT(*) FROM M_QNA WHERE MEMBERNO=#{param1}
+	</select> 	
+	 
+   	<insert id="write">
+	INSERT INTO M_QNA(QNANO,QCATEGORY,QTITLE,QCONTENT,QFILESRC,MEMBERNO) 
+	VALUES(M_QNA_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},#{param5})			 
+   	</insert>
+    
+    <select id="contentView" resultType="com.monstar.books.m3pop.dto.QnaDto">
+    	SELECT QNANO,QCATEGORY,QTITLE,MEMBERNO,
+    	
+    	QCONTENT,QREGDATE,QSTATUS,QANSWER,QFILESRC
+    	
+		FROM M_QNA WHERE QNANO= #{param1}
+    </select>
+    
+    <update id="upHit">
+    	UPDATE M_QNA SET QHIT=QHIT+1 WHERE QNANO=#{param1}
+    </update>
 
-	<insert id="write">
-		INSERT INTO QNA(QNANO,QCATEGORY,QTITLE,QCONTENT,QFILESRC,MID)
-		VALUES(QNA_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},#{param5})
-	</insert>
-
-	<select id="contentView"
-		resultType="com.monstar.books.m3pop.dto.QnaDto">
-		SELECT QNANO,QCATEGORY,QTITLE,MID,
-
-		QCONTENT,QREGDATE,QSTATUS,QANSWER,QFILESRC
-
-		FROM QNA WHERE QNANO= #{param1}
-	</select>
-
-	<update id="upHit">
-		UPDATE QNA SET QHIT=QHIT+1 WHERE QNANO=#{param1}
-	</update>
-
-	<update id="modify">
-		UPDATE QNA SET QCATEGORY=#{param2} , QTITLE=#{param3} ,
-		QCONTENT=#{param4}, QFILESRC=#{param5} WHERE QNANO=#{param1}
-	</update>
-
-	<delete id="delete">
-		DELETE QNA WHERE QNANO = #{param1}
-	</delete>
-
-
-
-
-
-
-
-
-
-
+    <update id="modify">
+    	UPDATE M_QNA SET QCATEGORY=#{param2} , QTITLE=#{param3} , 
+    	 QCONTENT=#{param4}, QFILESRC=#{param5} WHERE QNANO=#{param1}
+    </update>
+    
+    <delete id="delete">
+    	DELETE M_QNA  WHERE QNANO = #{param1}
+    </delete>
+ 	<!-- 회원정보 가져오기 -->
+	<select id="getData" parameterType="string" resultType="com.monstar.books.m3pop.dto.MemberDto">
+		SELECT MEMBERNO,MID,MPW,MBIRTH,MNAME,MEMAIL,MTEL,MREGDATE,MPROFILEIMG,MFAVORITE,MAUTHORITY
+		FROM M_MEMBER
+		WHERE mid=#{mid}
+	</select>     
 </mapper>

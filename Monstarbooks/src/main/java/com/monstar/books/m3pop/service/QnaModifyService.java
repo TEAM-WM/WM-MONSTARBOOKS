@@ -32,9 +32,10 @@ public class QnaModifyService implements BServiceInter{
 				(HttpServletRequest) map.get("request");
 		
 
-		
-		String path="C:\\javabjgsetspring2023\\spring_work"
-				+ "\\book3\\src\\main\\webapp\\resources\\upload";
+		//String path="C:\\Users\\goott4\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
+		String attachPath = "resources\\assets\\upload\\";
+	    // 실제 파일 경로를 구성합니다. 현재 세션의 서블릿 컨텍스트의 실제 경로와 파일 이름을 합쳐서 만듭니다.
+		String path = request.getSession().getServletContext().getRealPath(attachPath);
 		//인터페이스 타입으로
 		QnaDao dao = sqlSession.getMapper(QnaDao.class);
 		MultipartRequest req;
