@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>샘플페이지</title>
+<title>상품등록</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 포함 -->
 </head>
 <body>
@@ -17,11 +17,13 @@
 		<label for="" style="font-size: 20px;">도서 테이블</label>
 		<label for="ISBN">ISBN</label>
 		<div class="form-small">
-			<input type="text" name="bisbn" />
-			<input type="button" value="ISBN 검색" />
+			<!-- <input type="text" name="bisbn" /> -->
+			<!-- <input type="button" value="ISBN 검색" /> -->
+			<input type="text" name="bisbn" id="isbn" />
+			<button type="button" id="search">ISBN 검색</button>
 		</div>
 		<label for="btitle">도서제목</label>
-		<input type="text" name="btitle" />
+		<input type="text" name="btitle" class="title" />
 		
 		<label for="bsubtitle">도서부제목</label>
 		<input type="text" name="bsubtitle" />
@@ -41,7 +43,7 @@
 		<label for="bprice">정가</label>
 		<input type="text" name="bprice" class="bprice" />
 		
-		<label for="bdiscount">할인율</label>
+		<label for="bdiscount">할인율(%)</label>
 		<input type="text" name="bdiscount" class="bdiscount" />
 		
 		<br />
@@ -88,16 +90,14 @@
 		
 		<label for="bdescription">도서설명</label>
 		<input type="text" name="bdescription" />
+		<!-- <textarea type="text" name="bdescription" rows="5"  ></textarea> -->
 		
 		<label for="bpage">전체페이지</label>
 		<input type="text" name="bpage" />
 		
 		<label for="bsize">도서크기</label>
 		<input type="text" name="bsize" />
-		
-		<!-- <label for="badge">상품뱃지</label>
-		<input type="text" name="badge" /> -->
-		
+				
 		<label for=badge>상품뱃지</label>
         <select name="badge" >
             <option value="신상품">"신상품"</option>
@@ -161,6 +161,8 @@
 	</form>
 	</article>
 	
+		
+		
 				
 	<script>
 	document.title = "상품등록";
@@ -186,13 +188,13 @@
  	/* 파일추가 경고 */
  	
 	
-  // 파일 선택란(change 이벤트)에 이벤트 리스너를 추가합니다.
+  // 파일 선택란에 이벤트 리스너를 추가
   document.getElementById("bimgInput").addEventListener("change", function () {
-    // 파일이 선택되었는지 확인합니다.
+    // 파일 선택 확인
     if (this.files.length === 0) {
-      // 파일이 선택되지 않았을 때 경고창을 표시합니다.
+      // 파일 선택되지 않을 시 경고창을 출력
       alert("파일을 선택해주세요!");
-      // 선택한 파일을 초기화합니다. (선택된 파일을 제거합니다.)
+      // 선택 파일을 초기화 (선택된 파일을 제거)
       this.value = "";
     }
   });
@@ -204,8 +206,36 @@
     }
   });
 
-
-
+	//isbn 검색
+  $(document).ready(function(){
+		$("#search").click(function(){
+			$.ajax({
+				method: "GET",
+				url: "https://dapi.kakao.com/v3/search/book",
+				data: {query: $("#isbn").val()},
+				headers: {Authorization: "KakaoAK 01e8350958223ac98e6d3716c0a740f1" }
+			})
+				.done(function(result){
+					var bookTitle = result.documents[0].title;
+					var bookAuthors = result.documents[0].authors;
+					var bookPublisher = result.documents[0].publisher;
+					var bookDatetime = result.documents[0].datetime;
+					var bookTranslators = result.documents[0].translators;
+					var bookPrice = result.documents[0].price;
+					var bookContents = result.documents[0].contents;
+					
+					
+					
+					$("input[name='btitle']").val(bookTitle);
+					$("input[name='bwriter']").val(bookAuthors);
+					$("input[name='bpublisher']").val(bookPublisher);
+					$("input[name='bpdate']").val(bookDatetime.split('T')[0]);
+					$("input[name='btranslator']").val(bookTranslators);
+					$("input[name='bprice']").val(bookPrice);
+					$("input[name='bdescription']").val(bookContents);
+				});
+		});
+	});
 
 		
 	</script>
