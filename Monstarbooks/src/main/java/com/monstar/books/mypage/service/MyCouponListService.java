@@ -56,7 +56,10 @@ public class MyCouponListService implements MyPageService {
 		searchVO.setPage(page);
 		
 //		글의 총갯수 구하기
-		int total=dao.couponboxTotCount(mid);
+//		int total=dao.couponboxTotCount(mid);
+//		int total=dao.couponboxTotCount();
+		int total=dao.couponboxTotCount(no);
+		
 		System.out.println("totcnt : "+total);
 		searchVO.pageCalculate(total);
 		//계산결과들 출력
