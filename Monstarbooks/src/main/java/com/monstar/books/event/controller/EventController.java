@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.monstar.books.adevent.vopage.SearchVO;
 import com.monstar.books.event.sevice.CouponlistService;
 import com.monstar.books.event.sevice.EventDetailService;
 import com.monstar.books.event.sevice.EventService;
@@ -24,11 +25,11 @@ public class EventController {
 	private SqlSession session;
 
 	@RequestMapping("common/event/event")
-	public String event(HttpServletRequest request,Model model) {
+	public String event(HttpServletRequest request,SearchVO searchVO,Model model) {
 		System.out.println("event");
 
 		model.addAttribute("request", request);
-//		model.addAttribute("searchVO", searchVO);
+		model.addAttribute("searchVO", searchVO);
 
 		service = new EventServiceList(session);
 		service.execute(model);

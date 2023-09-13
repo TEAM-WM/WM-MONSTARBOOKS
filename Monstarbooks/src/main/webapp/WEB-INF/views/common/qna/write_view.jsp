@@ -107,11 +107,11 @@ cursor:default;
 </style>
 </head>
 <body>
-<h3>write_view.jsp</h3>
+
 
 <form action="write" method="post" enctype="multipart/form-data"
 onsubmit="return writeCheck();" name="writeForm">
-
+<input type="hidden" name ="memberno" value="${memberno}">
 	<table class="toClass">
 		<tr>
 		<td colspan="2" style="text-align:center"><h1>1:1 문의</h1></td>
@@ -138,7 +138,7 @@ onsubmit="return writeCheck();" name="writeForm">
 		</tr>
 		<tr>
 			<td class="left">작성자</td>
-			<td><input type="text" name="mid" value="${sessionScope.mid}" class="disableExp"/></td>
+			<td><input type="text" name="mid" value="${mname}" class="disableExp"/></td>
 		</tr>		
 		<tr>
 			<td class="left">내용</td>

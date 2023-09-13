@@ -3,12 +3,14 @@ package com.monstar.books.m3pop.service;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.monstar.books.m3pop.dao.QnaDao;
+import com.monstar.books.m3pop.dto.MemberDto;
 import com.monstar.books.m3pop.vopage.SearchVO;
 
 
@@ -32,7 +34,16 @@ public class QnaListService implements BServiceInter {
 		
 		
 		QnaDao dao=sqlSession.getMapper(QnaDao.class);
-//		searching
+		
+		HttpSession session = request.getSession();
+		//인터페이스 타입으로
+		String mid=(String) session.getAttribute("id");
+		
+		
+		//QnaDao dao = sqlSession.getMapper(QnaDao.class);
+		MemberDto dto = dao.getData(mid);
+		String memberno =String.valueOf(dto.getMemberno()) ;
+		System.out.println(memberno);
 		String btitle="";
 		String bcontent="";
 		
@@ -99,13 +110,13 @@ public class QnaListService implements BServiceInter {
 		int total=0;
 //		4개의 경우의 수로 총갯수 구하기
 		if(btitle.equals("qtitle")&& bcontent.equals("")) {
-			total=dao.selectBoardTotCount(searchKeyword);
+			total=dao.selectBoardTotCount(searchKeyword,memberno);
 		}else if(btitle.equals("")&& bcontent.equals("qcontent")) {
-			total=dao.selectBoardTotCount2(searchKeyword);
+			total=dao.selectBoardTotCount2(searchKeyword,memberno);
 		}else if(btitle.equals("qtitle")&& bcontent.equals("qcontent")) {
-			total=dao.selectBoardTotCount3(searchKeyword);
+			total=dao.selectBoardTotCount3(searchKeyword,memberno);
 		}else if(btitle.equals("")&& bcontent.equals("")) {
-			total=dao.selectBoardTotCount4(searchKeyword);
+			total=dao.selectBoardTotCount4(memberno);
 		}
 		
 
@@ -128,16 +139,16 @@ public class QnaListService implements BServiceInter {
 //		ArrayList<BoardDto> list=null;
 		if(btitle.equals("qtitle")&& bcontent.equals("")) {
 //			list=dao.list(rowStart,rowEnd,searchKeyword,"1");
-			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"1"));
-		}else if(btitle.equals("")&& bcontent.equals("bcontent")) {
+			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"1",memberno));
+		}else if(btitle.equals("")&& bcontent.equals("qcontent")) {
 //			list=dao.list(rowStart,rowEnd,searchKeyword,"2");
-			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"2"));
+			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"2",memberno));
 		}else if(btitle.equals("qtitle")&& bcontent.equals("qcontent")) {
 //			list=dao.list(rowStart,rowEnd,searchKeyword,"3");
-			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"3"));
+			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"3",memberno));
 		}else if(btitle.equals("")&& bcontent.equals("")) {
 //			list=dao.list(rowStart,rowEnd,searchKeyword,"4");
-			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"4"));
+			model.addAttribute("list",dao.list(rowStart,rowEnd,searchKeyword,"4",memberno));
 		}
 		
 		

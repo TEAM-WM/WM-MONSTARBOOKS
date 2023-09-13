@@ -61,6 +61,12 @@
 		UPDATE M_EVENT SET DELETED = 'yes' WHERE EVENTNO = #{param1}
 	</update>
 	
+	<update id="bannermodify">
+		UPDATE M_BANNER
+		SET ETITLE = #{param2}, EFILESRC = #{param3}
+		WHERE BANNERNO = #{param1}
+	</update>
+	
 	<select id="selectBoardTotCount1" resultType="Integer">
 		SELECT COUNT(*)FROM M_BANNER WHERE ETITLE LIKE '%'||#{param1}||'%'
 	</select>

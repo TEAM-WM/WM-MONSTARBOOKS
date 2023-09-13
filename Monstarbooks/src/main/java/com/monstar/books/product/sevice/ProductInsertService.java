@@ -118,7 +118,6 @@ public class ProductInsertService implements ProductService {
 		dao.insertBookDetail(bcategoryno, bimg, bimgdetail, bdescription,
 				bpage, bsize, badge);
 		
-		
 
 
 		

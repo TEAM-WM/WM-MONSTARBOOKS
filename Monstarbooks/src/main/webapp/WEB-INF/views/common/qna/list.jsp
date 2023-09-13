@@ -163,10 +163,11 @@ totcnt: ${totRowCnt } <br />
 		</c:otherwise>
 	</c:choose>
 
-	<label for="searchType2" name="searchType" value="qtitle" ></label>
+	<label for="searchType2" name="searchType" value="qcontent" ></label>
 		내용
 	&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="sk" value="${resk }"  style="display:inline-block;width:300px"/>
 	<br /><br /><input type="submit"  value="검색"/>
+	<input type="button"  value="리스트" onclick="javascript:location.href='./list'"/>
 </div>
 
 

@@ -21,5 +21,7 @@ public interface BannerDao {
 	public int selectBoardTotCount3(String searchKeyword);
 	public int selectBoardTotCount4(String searchKeyword);
 
+	public void bannermodify(int bannerno, String etitle, String efilesrc);
+
 
 }//interface 종료
