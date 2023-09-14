@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,8 +152,6 @@ tr, td {
 				<br />
 				<!-- 페이징 -->
 				<div class="center">
-					<%-- ${totRowcnt } <br />
-			${searchVO.page }/${searchVO.totPage } --%>
 					<hr />
 					<c:if test="${searchVO.page>1}">
 						<a href="couponbox?page=1"><i class="fa-solid fa-angles-left"></i></a>

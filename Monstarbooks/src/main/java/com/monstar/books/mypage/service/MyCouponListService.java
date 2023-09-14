@@ -41,10 +41,10 @@ public class MyCouponListService implements MyPageService {
 		
 //     로그인 사용자 회원번호 세션에서 받아오기
 		HttpSession session = request.getSession();
-		String mid = (String) session.getAttribute("id");
+//		String mid = (String) session.getAttribute("id");
 		Integer no = (Integer) session.getAttribute("memberNumber");
 		System.out.println("member :" + no);
-		System.out.println("id :" + mid);
+//		System.out.println("id :" + mid);
 
 //		페이징 paging
 		String strPage=request.getParameter("page");
@@ -57,7 +57,6 @@ public class MyCouponListService implements MyPageService {
 		
 //		글의 총갯수 구하기
 //		int total=dao.couponboxTotCount(mid);
-//		int total=dao.couponboxTotCount();
 		int total=dao.couponboxTotCount(no);
 		
 		System.out.println("totcnt : "+total);

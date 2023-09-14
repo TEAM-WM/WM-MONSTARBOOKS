@@ -64,17 +64,6 @@
 				WHERE NUM BETWEEN #{param1} AND #{param2}
  	</select>
  	
- 			<!-- 페이징 처리 전 -->
-<!-- SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
-		C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS ADCPSTATUS
-		FROM M_COUPON_MEMBER CM
-			LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
-		WHERE CM.MEMBERNO = #{param1}
-  			AND CM.CPVALID >= SYSDATE - 1
-  			AND CM.CPSTATUS = 'N'
-  			AND C.CPSTATUS = 'TRUE'
-  			ORDER BY CM.CPVALID ASC -->
-
  	
   		<!-- 리스트 총 갯수 -->		
 		<select id="couponboxTotCount" resultType="Integer">
