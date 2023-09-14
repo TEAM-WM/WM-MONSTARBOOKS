@@ -80,7 +80,7 @@ th {
 					<h3>주문/배송목록</h3>
 					<c:choose>
 						<c:when test="${totRowcnt > 0}">
-							<p>${totRowcnt}건의주문존재합니다.</p>
+							<p><strong>${totRowcnt}</strong>건의 주문이 존재합니다.</p>
 						</c:when>
 						<c:otherwise>
 							<p>주문이 없습니다.</p>
