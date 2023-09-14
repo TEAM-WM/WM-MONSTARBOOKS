@@ -69,6 +69,8 @@ public class NewBookListServiceList implements BookListService {
 		model.addAttribute("totRowCnt",total);
 		model.addAttribute("searchVO",searchVO);
 		model.addAttribute("pageName","new");
+		model.addAttribute("category1","새로 나온 책");
+		model.addAttribute("category2","주목할 신상품");
 		
 //		로그인상태인지 확인
 		if(memberId != null) {

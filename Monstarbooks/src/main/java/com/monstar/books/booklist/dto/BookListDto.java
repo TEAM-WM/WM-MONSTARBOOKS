@@ -34,4 +34,6 @@ public class BookListDto {
 	
 	private float starAvg;
 	private int reviewCnt;
+	
+	private int num;
 }

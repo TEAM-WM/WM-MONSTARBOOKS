@@ -143,6 +143,7 @@ input[type="checkbox"]:checked+label::after {
 
 input[type="file"] {
     padding-top: 10px;
+    background:var(--color-white);
 }
 
 /* 유효성 체크 */

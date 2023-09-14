@@ -14,20 +14,21 @@
 $().ready(function(){
 	$("#all_select").click(function(){
 		if($("#all_select").is(":checked")){
-			$("input[type='checkbox']").prop("checked", true);
+			$("input[name=chk]").prop("checked", true);
+			check_sel($("#amount").val());
 		}
 		else {
-			$("input[type='checkbox']").prop("checked", false);
-			$(".product_price").text(0);
-			$(".tot_price").text(0);
+			$("input[name=chk]").prop("checked", false);
 			$("#product_cnt").text(0);
+			$(".tot_price").text(0);
+			$(".product_price").text(0);
 		}
 	});
 });
 /* 수량조절 */
 function count_up(n,p){
 	var cnt = Number($(".cnt_"+n).val()); //수량
-	var stock = Number($("#bstock").val()); //재고
+	var stock = Number($("#bstock_"+n).val()); //재고
 	if(cnt < stock){//수량이 재고보다 적을때
 		$(".cnt_"+n).attr("value",++cnt);
 		$.ajax({
@@ -91,16 +92,16 @@ function check_sel(amount){
 	
 	// 하나라도 체크해제되면 전체체크박스도 해제
 	if($("input[name=chk]:checked").length == amount){
-		$('#all_select').prop('checked',true); 
+		$('#all_select').prop('checked',true);
 	}else{
 		$('#all_select').prop('checked',false); 
 	}
 }
 /* 선택상품 삭제 */
 function cart_delete(){
-	var cnt = $("input[type='checkbox']:checked").length;
+	var cnt = $("input[name=chk]:checked").length;
 	var arr = new Array();
-	$("input[type='checkbox']:checked").each(function(){
+	$("input[name=chk]:checked").each(function(){
 		arr.push($(this).attr('id'));
 	});
 
@@ -122,17 +123,33 @@ function cart_delete(){
 }
 /* 선택상품 주문 */
 function go_order_sel(){
-	var cnt = $("input[type='checkbox']:checked").length;
+	var amount = $("input[name=chk]:checked").length;
 	var cntSum = $("#product_cnt").text();
-	if(cnt == 0){
+	if(amount == 0){
 		alert("선택된 상품이 없습니다.");
-	}else {
-		 if(confirm(cntSum+"개의 상품을 주문하시겠습니까?")){
-			 $(".order_form").submit();
-		}else{
-			return;
-		} 
-	} 
+	}else{
+		var arr = new Array();
+		$("input[name=chk]:checked").each(function(){
+			arr.push($(this).val());
+		});
+		
+		var p = false;
+		for ( var i in arr) {
+			// 주문할 수량이 재고보다 많은가
+			 if (Number($(".cnt_" + arr[i]).val()) > Number($("#bstock_" + arr[i]).val())) {
+		        p = true;
+		        alert("재고를 초과하는 주문은 처리할 수 없습니다. 주문 수량을 확인해주세요.");
+		        break; //하나라도 충족한다면 빠져나감
+		    }
+		}
+		if (!p) { 
+		    if (confirm(cntSum + "개의 상품을 주문하시겠습니까?")) {
+		        $(".order_form").submit();
+		    } else {
+		        return;
+		    }
+		}
+	}	
 }  
 /* 전체상품 주문 */
 function go_order_all(cntSum){
@@ -256,6 +273,7 @@ function cart_empty_all(){
 									checked
 									onclick="check_sel(${cnt})" /> 
 									<label for="${list.cartno }"></label>
+							<input type="hidden" id="amount" value="${cnt }" />
 							</td>
 							<!-- 상품 정보 -->
 							<td class="cart-table-image">
@@ -291,6 +309,9 @@ function cart_empty_all(){
 									<input type="text" class="cnt_${list.cartno}" id="cnt"
 										name="ccount" value="${list.ccount }" readonly /> <input
 										type="hidden" name="bookno" value="${list.bookno }" />
+										<input type="hidden" id="bpricesell_${list.cartno }" value="${list.list.bpricesell }" />
+										<input type="hidden" id="bstock_${list.cartno }" value="${list.list.bstock }" />
+										<input type="hidden" id="cartno" value="${list.cartno }" />
 									<button class="plus_btn_${list.cartno}"
 										onclick="count_up(${list.cartno},${list.list.bpricesell })">
 										<i class="fa-solid fa-plus"></i>
@@ -300,7 +321,7 @@ function cart_empty_all(){
 							<!-- 가격 -->
 							<td class="cart-table-price">
 								<span class="totPrice_${list.cartno }">
-									<fmt:parseNumber value="${list.list.bpricesell * list.ccount}"/>
+									<fmt:formatNumber value="${list.list.bpricesell * list.ccount}" pattern="#,###" />
 								</span>원
 							</td>
 						</tr>
@@ -328,7 +349,7 @@ function cart_empty_all(){
 			</p>
 			<i class="fa-solid fa-equals"></i>
 			<p>
-				결제 예정 금액 <strong><fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" /></strong>원
+				결제 예정 금액 <strong class="tot_price"><fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" /></strong>원
 			</p>
 		</div>
 		

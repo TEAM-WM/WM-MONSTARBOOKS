@@ -106,16 +106,19 @@ function go_order(bno,memberno){
                     </a>
                 </li>
                 <li>
-                    <a href="">베스트셀러 </a>
+                    <c:if test="${category1 eq '베스트셀러' }"> <a href="./bestlist">${category1 }</a> </c:if>
+                    <c:if test="${category1 eq '새로 나온 책' }"> <a href="./new">${category1 }</a> </c:if>
+                    <c:if test="${category1 eq '국내도서' }"> <a href="./category?list=kor&code=0">${category1 }</a> </c:if>
+                    <c:if test="${category1 eq '외국도서' }"> <a href="./category?list=eng&code=0">${category1 }</a> </c:if>
                 </li>
                 <li>
-                    <a href="">종합 베스트 </a>
+                 	<a href="">${category2 }</a>
                 </li>
             </ul>
         </section>
 		<section class="book-section-wrap">
 		<jsp:include page="/WEB-INF/views/tiles/include/listMenu.jsp">
-			<jsp:param name="asideTitle" value="베스트셀러" />
+			<jsp:param name="asideTitle" value="${category1 }" />
 		</jsp:include>
 		<form action="../goOrder" class="order_form hidden" method="post">
 			<input type="hidden" name="bookno" id="bookno" value="0" />
@@ -140,9 +143,18 @@ function go_order(bno,memberno){
             	<c:forEach items="${dto }" var="list">
                 <li>
                     <div class="book-check">
-                        <input type="checkbox" id="${list.bookno }" name="chk"
-                                onclick="checkbox(${totRowCnt})" />
-                        <label for="${list.bookno }"></label>
+                    	<c:choose>
+							<c:when test="${list.bstock == 0 }">
+								<input type="checkbox" id="${list.bookno }" name="soldout" disabled
+                                	onclick="checkbox(${totRowCnt})" />
+                      			<label for="${list.bookno }"></label>
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" id="${list.bookno }" name="chk"
+                               	 	onclick="checkbox(${totRowCnt})" />
+                        		<label for="${list.bookno }"></label>
+							</c:otherwise>
+						</c:choose>                                       
                     </div><!-- 체크박스 -->
                     <div class="product-card-image">
                     	<img
@@ -150,7 +162,7 @@ function go_order(bno,memberno){
 						alt="책 썸네일 이미지" />
                     </div><!-- 책이미지 -->
                     <div class="book-info">
-                        <span class="rank">순위???</span>
+                        <span class="rank">${list.num }위</span>
                         <div class="product-card-title">
                             <h3>
                                 <a href="bookdetail?bookno=${list.bookno }">${list.btitle }</a>
@@ -380,8 +392,6 @@ function go_order(bno,memberno){
 			</c:forEach>
 			<c:choose>
 				<c:when test="${searchVO.page < searchVO.totPage}">
-					<%-- <li><a href="bestlist?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
-					<li><a href="bestlist?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li> --%>
 					<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
 					<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
 				</c:when>

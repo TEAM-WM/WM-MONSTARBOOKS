@@ -5,6 +5,7 @@
 @import url(./common.css);
 @import url(./list.css);
 @import url(./admin.css);
+@import url(./mypage.css);
 /* Global*/
 :root {
     /* Color */
@@ -68,7 +69,9 @@ body{
 .container {
     width: 100%;
 }
-
+.bn{
+    border: none!important;
+}
 /* 정렬 */
 .center{
     text-align: center;
@@ -93,6 +96,51 @@ body{
 }
 .red{
     color: #c30202;
+}
+.btn-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 라디오 버튼 */
+label.radio{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    width: auto;
+    cursor: pointer;
+}
+input[type='radio'] {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #999;
+    appearance: none;
+    position: relative;
+    background-color: var(--color-white);
+    padding: 0;
+    margin: 0;
+}
+
+input[type='radio']:checked {
+    border: none;
+    background-color: var(--color-main);
+}
+
+input[type='radio']:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-white);
 }
 
 /* 화살표 */
@@ -137,6 +185,12 @@ main.main{
 /* main article {} */
 
 /* modal 창 기본 스타일 */
+#myCouponModal .modal-content-wrap{
+	width:500px;
+}
+#myCouponModal .modal-content-wrap table{
+	width:100%;
+}
 .modal {
     display: none;
     position: fixed;

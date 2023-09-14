@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>myprofile_update</title>
-<style>
+<!-- <style>
 tr, td {
 	padding: 10px 0px 5px 0px;
 }
@@ -73,10 +73,59 @@ table {
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
 }
 
-</style>
+</style> -->
 </head>
 <body>
-	<br /><br />
+<article class="mypage-wrap">
+		<section class="mypage-section-wrap">
+			<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp">
+				<jsp:param name="name" value="${myprofile_view.mname }" />
+				<jsp:param name="img" value="${myprofile_view.mprofileimg }" />
+				<jsp:param name="id" value="${myprofile_view.mid }" />
+			</jsp:include>
+			<div class="mypage-content-box">
+				<div class="mypage-title">
+					<h3>프로필정보</h3>
+				</div>
+				<div class="mypage-content">
+					<table>
+						<tr>
+							<th>이름</th>
+							<td>
+								${myprofile_view.mname }님
+							</td>
+						</tr>
+						<tr>
+							<th>아이디</th>
+							<td>
+								${myprofile_view.mid }님
+							</td>
+						</tr>
+						<tr>
+							<th>프로필 이미지</th>
+							<td>
+								<div class="profile-img-box">
+									<a <c:if test="${not empty myprofile_view.mprofileimg }">href='download?p=resources/assets/upload/&f=${myprofile_view.mprofileimg }&mid=${myprofile_view.mid }' </c:if> class="btn-profile">
+										<span class="thumb-box">
+										<c:if test="${not empty myprofile_view.mprofileimg }">
+											<img src="${pageContext.request.contextPath}/resources/assets/upload/${myprofile_view.mprofileimg }" alt="프로필이미지"/>
+										</c:if>
+										</span>
+									</a>
+									<div class="a-wrap">
+										<a href="update?mid=${myprofile_view.mid }" class="btn-a"><i class="fa-solid fa-camera"></i> 수정</a>
+				 						<a href="delete?mid=${myprofile_view.mid }" class="btn-a gray"><i class="fa-solid fa-trash-can"></i> 삭제</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+			</div>
+		</section>
+	</article>
+	<%-- <br /><br />
     <div class="content">
         <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
         <div id="myprofile-sidebar">
@@ -147,7 +196,7 @@ table {
 	</div>
 	</form>
 </div>
-
+ --%>
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 프로필뷰";
 	</script>

@@ -12,51 +12,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<style>
-table{
-	width: 1200px;
-	border-top: 2px solid #ccc;
-	border-bottom: 2px solid #ccc;
-	border-collapse: collapse;
-	text-align: center;
-}
-td {
-	padding: 0px 10px;
-}
-.under_line{
-	border-bottom: 2px solid #ccc;
-}
-#addr_btn{
-	width : 100%;
-	height: 50px;
-	border : 2px solid #ccc;
-	border-radius: 5px;
-}
-#coupon_btn{
-	width : 100%;
-	height: 50px;
-	border : 2px solid #ccc;
-	border-radius: 5px;
-}
-input[type="radio"] {
-	display: inline;
-	width: 20px;
-}
-label{
-	display: inline;
-}
-#pay_btn{
-	width:40%;
-	background-color: #00084f;
-	color:white;
-}
-#addr{
-	display: none;
-}
-input:read-only {
-	background-color: white;
-}  
-</style>
 <script>
 function addr_write(){
 	sample6_execDaumPostcode();
@@ -220,151 +175,314 @@ function requestPay(pay){
 </script>
 </head>
 <body>
-	<h1 align="left" style="margin: 30px;">주문 / 결제</h1>
-	
-		<!-- 주문 단계 -->
-	<div align="right">
-		<span style="color: lightgray;">장바구니 <i class="fa-solid fa-circle-chevron-right" style="color: lightgray;"></i></span> 
-		<b>주문/결제</b> <i class="fa-solid fa-circle-chevron-right"></i>
-			<span style="color: lightgray;">결제완료</span>
-	</div>
-
-	<br /> <br />
-	
-	<!-- 배송지 정보 -->
-	<table>
-		<tr>
+	<article class="cart-wrap">
+		<section class="cart-title">
+			<h2>주문 / 결제</h2>
+			<!-- 주문 단계 -->
+			<div class="step-list">
+				<ul>
+					<li>장바구니</li>
+					<li class="active">주문/결제</li>
+					<li>결제완료</li>
+				</ul>
+			</div>
+		</section>
+		
+		<!-- 배송지 정보 -->
 		<form action="orderInsert" class="payment_form" method="post">
-			<th width="30%" height="150px">배송지 정보</th>
-			<td><i class="fa-solid fa-location-dot"></i>
-				<b style="color:#00084f;">&nbsp;배송지를 등록해주세요.</b> <br /><br />
-				<button id="addr_btn" onclick="addr_write()"><i class='fa-solid fa-pen-to-square'></i>&nbsp;배송지 입력</button>
-				<div id="addr">
-					<input type="text" id="sample6_postcode" name="dzipcode" placeholder="우편번호" readonly>
-					<input type="text" id="sample6_address" name="daddress1" placeholder="주소" style="width:50%;display: inline;" readonly>
-					<input type="text" id="sample6_extraAddress" name="daddress3" placeholder="참고항목" style="width:49%;display: inline;"readonly>
-					<input type="text" id="sample6_detailAddress" name="daddress2" placeholder="상세주소를 입력해주세요">
-					<input type="text" id="dname" name="dname" placeholder="받는 분 성함" style="width:50%;display: inline;"/>
-					<input type="text" id="dtel" name="dtel" placeholder="받는 분 연락처('-'제외)" style="width:49%;display: inline;"/>
-				</div>
-			</td>
-		</tr>
-	</table>
+		<section class="order-box">
+			<div class="order-item">
+			    <h3>
+					배송지 정보
+			    </h3>
+			    <div class="order-addr-info">
+			        <div class="order-addr">
+			            <p>
+			                <i class="fa-solid fa-location-dot"></i>
+			                배송지를 등록해주세요.
+			            </p>
+			            <button id="addr_btn" onclick="addr_write()">
+			                <i class='fa-solid fa-pen-to-square'></i>&nbsp;배송지 입력
+			            </button>
+			        </div>
+			        <div id="addr">
+			            <div class="addr-readonly form-small">
+			                <p class="addr-zipcode">
+			                    [<input type="text" id="sample6_postcode" name="dzipcode" placeholder="우편번호" readonly>]
+			                </p>
+			            </div>
+			            <div class="addr-readonly form-small">
+			            	<input type="text" id="sample6_address" name="daddress1" placeholder="주소" readonly>
+			                <input type="text" id="sample6_extraAddress" name="daddress3" placeholder="참고항목" readonly>
+			            </div>
+			            <input type="text" id="sample6_detailAddress" name="daddress2" placeholder="상세주소를 입력해주세요">
+			            <div class="form-small">
+			                <input type="text" id="dname" name="dname" placeholder="받는 분 성함"/>
+			                <input type="text" id="dtel" name="dtel" placeholder="받는 분 연락처('-'제외)"/>
+			            </div>
+			        </div>
+			    </div>
+			</div><!-- order-item -->
+		</section>
+		<section class="cart-table-wrap order-box">
+	        <div class="order-item">
+	            <h3>
+	                주문상품
+	            </h3>
+	            <p>
+	                총 
+	                <strong>
+	                <c:if test="${cnt >=1 }">${cnt }</c:if>
+					<c:if test="${cnt == null }">1</c:if>
+	                </strong>
+	                개
+	            </p>
+	        </div>
+	        <table class="bn">
+	        	<c:forEach items="${dto }" var="list">
+	            <input type="hidden" name="bookno" value="${list.bookno }" />
+	            <!-- 장바구니에서 주문 -->
+	            <c:if test="${list.ccount ne 0 }">
+	            <tr>
+	                <!-- 상품 정보 -->
+	                <td class="cart-table-image">
+	                    <div class="product-card-image">
+	                        <img
+			                    src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg}"
+			                    alt="책 썸네일 이미지" />
+	                    </div>
+	                    <!-- <img
+	                    src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
+	                    alt="책 썸네일 이미지" /> -->
+	                </td>
+	                <td class="left">
+	                    <div class="book-info">
+	                        <div class="product-card-title">
+	                            <h3>
+	                                [${list.category.bcategory1}]
+	                                ${list.list.btitle }
+	                            </h3>
+	                        </div>
+	                        <div class="book-price">
+	                            <strong class="discount">
+	                                ${list.list.bdiscount }%
+	                            </strong>
+	                            <span class="price">
+	                                <fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원
+	                            </span>
+	                        </div>
+	                    </div>
+	                </td>
+	                <!-- 갯수 -->
+	                <td class="cart-table-price">
+	                    <p>
+	                        ${list.ccount }개
+							<c:if test="${list.ccount eq 0 }">${ccount }개</c:if>
+	                    </p>
+	                </td>
+	                <!-- 가격 -->
+	                <td class="cart-table-price">
+	                    <span class="totPrice_${list.cartno }">
+	                    <fmt:formatNumber value="${list.list.bpricesell * list.ccount}" 
+							pattern="#,###,###" />
+	                    </span>원
+	                </td>
+	            </tr>
+	            <input type="hidden" name="opricesell" value="${list.list.bpricesell }" />
+				<input type="hidden" name="ocount" value="${list.ccount }" />
+	            
+	            </c:if>
+	            
+	            <!-- 상세페이지에서 바로 주문 -->
+	            <c:if test="${list.ccount eq 0 }">
+	            <tr>
+	                <!-- 상품 정보 -->
+	                <td class="cart-table-image">
+	                    <div class="product-card-image">
+	                        <img
+			                    src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg}"
+			                    alt="책 썸네일 이미지" />
+	                    </div>
+	                    <!-- <img
+	                    src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
+	                    alt="책 썸네일 이미지" /> -->
+	                </td>
+	                <td class="left">
+	                    <div class="book-info">
+	                        <div class="product-card-title">
+	                            <h3>
+	                                [${list.category.bcategory1}]
+	                                ${list.btitle }
+	                            </h3>
+	                        </div>
+	                        <div class="book-price">
+	                            <strong class="discount">
+	                                ${list.bdiscount }%
+	                            </strong>
+	                            <span class="price">
+	                                <fmt:formatNumber value="${list.bprice }" pattern="#,###" />원
+	                            </span>
+	                        </div>
+	                    </div>
+	                </td>
+	                <!-- 갯수 -->
+	                <td class="cart-table-price">
+	                    <p>
+	                        ${ccount }개
+	                    </p>
+	                </td>
+	                <!-- 가격 -->
+	                <td class="cart-table-price">
+	                    <span>
+	                    <fmt:formatNumber value="${list.bpricesell * ccount}" 
+							pattern="#,###,###" />
+	                    </span>원
+	                </td>
+	            </tr>
+	            <input type="hidden" name="opricesell" value="${list.bpricesell }" />
+				<input type="hidden" name="ocount" value="${ccount }" />
+	            
+	            </c:if>
+	            </c:forEach>
+	        </table>
+	    </section>
+	    <section class="order-box order-coupon">
+	        <div class="order-item">
+	            <h3>
+	                할인쿠폰
+	            </h3>
+	            <button id="coupon_btn" onclick="openModal('myCouponModal')">
+	                <i class="fa-solid fa-money-check-dollar"></i>
+	                보유 쿠폰 확인
+	            </button>
+	        </div>
+	    </section>
+	    	
 	
-	<br /><br /><br />
+		<!-- modal -->
+		<div id="myCouponModal" class="modal coupon-modal">
+	        <section class="modal-content-wrap">
+	            <div class="modal-title left">
+	            	<button class="closeModalBtn" onclick="closeModal('myCouponModal')"><i class="fa-solid fa-xmark"></i></button>
+	                <h3>
+						나의 보유쿠폰
+	                </h3>
+	            </div>
+	            <div class="modal-content">
+	               		<table>
+							<tr>
+								<th>쿠폰이름</th>
+								<th>할인금액</th>
+								<th>유효기간</th>
+								<th>선택</th>
+							</tr>
+							<c:choose>
+								 <c:when test="${cpCnt eq 0 }">
+								 	<tr>
+								 		<td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td>
+								 	</tr>	
+								</c:when>
+							 <c:otherwise>
+							 	<c:forEach items="${cpdto }" var="list">
+									<tr height="30px">
+										<td>${list.cpname }</td>
+										<td>${list.cpprice }</td>
+										<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
+										<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
+									</tr>
+								</c:forEach>
+								<input type="hidden" id="usedCpno" name="usedCpno" value="" />
+							 </c:otherwise>
+							</c:choose>
+						</table> 
+	            </div>
+	        </section>
+	    </div>
+	    <section class="order-box order-payment-info">
+	        <div class="order-item">
+	            <h3>
+	                상품금액
+	            </h3>
+	            <p>
+	                <fmt:formatNumber value="${totPrice}" pattern="#,###,###" />원
+	            </p>
+	        </div>
+	        <div class="order-item">
+	            <h3>
+	                쿠폰할인
+	            </h3>
+	            <p>
+	                - <span class="cpdiscount"></span>원
+	            </p>
+	        </div>
+	        <div class="order-item">
+	            <h3>
+	                배송비
+	            </h3>
+	            <p>
+	                + 2,500원
+	            </p>
+	        </div>
+	        <div class="order-item">    
+	            <h3>
+	                총 결제금액
+	            </h3>
+	            <p>
+	                <fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" />원
+	            </p>
+	        </div>
+	        <div class="order-item">
+	            <h3>
+	                결제방법
+	            </h3>
+	            <div class="order-payment">
+	                <input type="hidden" id="ototalprice" name="ototalprice" value="${totPrice + 2500}"/>
+	                <label for="pay_1" class="radio">
+	                    <input type="radio" name="payment" value="계좌이체" id="pay_1" onclick="return(false);" />
+	                    계좌이체
+	                </label>
+	                <label for="pay_2" class="radio">
+	                    <input type="radio" name="payment" value="신용/체크카드" id="pay_2" />
+	                    신용/체크카드
+	                </label>
+	                <label for="pay_3" class="radio">
+	                    <input type="radio" name="payment" value="휴대폰" id="pay_3" />
+	                    휴대폰
+	                </label>
+	                <label for="pay_4" class="radio">
+	                    <input type="radio" name="payment" value="무통장입금(가상계좌)" id="pay_4" onclick="return(false);" />
+	                    무통장입금(가상계좌)
+	                </label>
+	                <label for="pay_5" class="radio">
+	                    <input type="radio" name="payment" value="카카오페이" id="pay_5" />
+	                    카카오페이
+	                </label>
+	            </div>
+	        </div>
+	    </section>
+	    <section class="order-box policy-box">
+	        <div class="order-item">
+	            <div class="policy-chk">
+	                <input type="checkbox" id="order_agree" name="order_agree" />
+	                <label for="order_agree"></label>
+	            </div>
+	            <h3>
+	                주문 상품 정보 동의
+	            </h3>
+	            <p>
+	                주문할 상품의 상품명, 가격, 배송정보 등을 최종 확인하였으며, 구매에 동의합니다. (전자상거래법 제 8조 2항)
+	            </p>
+	        </div>
+	    </section>
+	    <section class="cart-btn-box order-btn-box">
+	        <div class="btn-wrap">
+	            <input type="button" value="결제하기" id="pay_btn" onclick="requestPay(${totPrice + 2500})"/>
+	        </div>
+	    </section>
+		</form><!-- orderinsert -->
+	</article>
 	
-	<!-- 주문 상품 정보 -->
-	<table>
-		<colgroup>
-			<col width="10%">
-			<col width="20%">
-			<col width="40%">
-			<col width="15%">
-			<col width="15%">
-		</colgroup>
-		<tr height="50px" class="under_line">
-			<th colspan="2">주문상품</th>
-			<td colspan="3">
-			<c:if test="${cnt >=1 }">총 ${cnt }개</c:if>		
-			<c:if test="${cnt == null }">총 1개</c:if></td>		
-			
-		</tr>
-		<c:forEach items="${dto }" var="list">
-		
-			<input type="hidden" name="bookno" value="${list.bookno }" />
-			
-		
-		<tr height="150px" class="under_line">
-			
-		<!-- 장바구니에서 주문 -->
-		<c:if test="${list.ccount ne 0 }">
-			<td><img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}" 
-				alt="책 썸네일 이미지" width="70%"/></td>
-			<td colspan="2" align="left">
-			<b style="font-size: large">[${list.category.bcategory1}도서] 
-				${list.list.btitle } </b> <br /><br /> 
-				<b><span style="color: orange">${list.list.bdiscount }%</span> 
-				<fmt:formatNumber value="${list.list.bprice }" pattern="#,###" />원</b></td>
-			<td>${list.ccount }
-				<c:if test="${list.ccount eq 0 }">${ccount }개</c:if></td>
-			<td><fmt:formatNumber value="${list.list.bpricesell * list.ccount}" 
-				pattern="#,###,###" />원</td>	
-			<input type="hidden" name="opricesell" value="${list.list.bpricesell }" />
-			<input type="hidden" name="ocount" value="${list.ccount }" />
-		</c:if> 
-			
-		<!-- 상세페이지에서 바로 주문 -->
-		<c:if test="${list.ccount eq 0 }">
-			<td><img src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}" 
-				alt="책 썸네일 이미지" width="70%"/></td>
-			<td colspan="2" align="left">
-			<b style="font-size: large">[${list.category.bcategory1}도서] 
-				${list.btitle } </b> <br /><br /> 
-				<b><span style="color: orange">${list.bdiscount }%</span> 
-				<fmt:formatNumber value="${list.bprice }" pattern="#,###" />원</b></td>
-			<td>${ccount }개</td>
-			<td><fmt:formatNumber value="${list.bpricesell * ccount}"
-				pattern="#,###,###" />원</td>
-			<input type="hidden" name="opricesell" value="${list.bpricesell }" />
-			<input type="hidden" name="ocount" value="${ccount }" />
-		</c:if> 
-			
-		</tr>
-		</c:forEach>
-	</table>
-	
-	<br /><br /><br />
-	
-	<!-- 할인쿠폰 -->
-	<table>
-		<tr>
-			<th width="30%" height="150px">할인쿠폰</th>
-			<td><button id="coupon_btn" onclick="openModal('myCouponModal')">
-				<i class="fa-solid fa-money-check-dollar"></i>&nbsp;보유 쿠폰 확인</button></td>
-		</tr>
-	</table>
-	
-	<!-- modal -->
-	<div id="myCouponModal" class="modal terms-modal">
-        <section class="modal-content-wrap">
-            <div class="modal-title left">
-                <h3>
-					나의 보유쿠폰
-                </h3>
-            </div>
-            <div class="modal-content">              
-               		<table style="width: 430px">
-						<tr>
-							<th>쿠폰이름</th>
-							<th>할인금액</th>
-							<th>유효기간</th>
-							<th>선택</th>
-						</tr>
-						<c:choose>
-							 <c:when test="${cpCnt eq 0 }">
-							 	<tr><td colspan="4" height="100px">사용가능한 할인쿠폰이 없습니다.</td></tr>	
-							</c:when>
-						 <c:otherwise>
-						 	<c:forEach items="${cpdto }" var="list">
-								<tr height="30px">
-									<td>${list.cpname }</td>
-									<td>${list.cpprice }</td>
-									<td>~ <fmt:formatDate value="${list.cpvalid }" pattern="yy-MM-dd"/> </td>
-									<td><button onclick="coupon_select(${list.cpprice},${totPrice + 2500},${list.cpMember.cpno })">선택</button></td>
-								</tr>
-							</c:forEach>
-							<input type="hidden" id="usedCpno" name="usedCpno" value="" />
-						 </c:otherwise>
-						</c:choose>
-					</table> 
-                <button class="closeModalBtn" onclick="closeModal('myCouponModal')">닫기</button>
-            </div>
-        </section>
-    </div>
-	
-	<br /><br /><br />
-	
-	<!-- 결제 정보 -->
+	<%-- <!-- 결제 정보 -->
 	<table>
 		<colgroup>
 			<col width="30%">
@@ -412,6 +530,7 @@ function requestPay(pay){
 				<label for="pay_5"><input type="radio" name="payment" value="카카오페이" id="pay_5"/> 
 					카카오페이</label>
 			</form>
+			</form>
 			</td>
 		</tr>
 	</table>
@@ -430,11 +549,11 @@ function requestPay(pay){
 	</table>
 	
 	<br /><br /><br />
-	
 	<!-- 결제하기 -->
 	<div align="center">
 		<input type="button" value="결제하기" id="pay_btn" onclick="requestPay(${totPrice + 2500})"/>
 	</div>
+	 --%>
 	
 	
 	<!-- modal.js -->
