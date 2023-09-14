@@ -21,7 +21,7 @@
 			</jsp:include>
 			<div class="mypage-content-box">
 				<div class="mypage-title">
-					<h3>내 정보 관리</h3>
+					<h3>회원정보</h3>
 				</div>
 				<div class="mypage-content">
 					<table>
@@ -46,7 +46,7 @@
 						<tr>
 							<th>회원정보수정 화면으로 이동</th>
 							<td>
-								<a href="${pageContext.request.contextPath}/mypage/pwCheckForm" class="btn-a"> 
+								<a href="${pageContext.request.contextPath}/mypage/content_view" class="btn-a"> 
 									<i class="fa-solid fa-pen-to-square"></i> 회원정보관리
 								</a>
 							</td>
