@@ -10,6 +10,7 @@
 		<result column="EFILESRC" property="efilesrc"/>
 		<result column="EREGDATE" property="eregdate"/>
 		<result column="DELETED" property="deleted"/>
+		<result column="E_ETITLE" property="e_etitle"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.adbanner.dto.BannerDto" id="Banner">
@@ -37,14 +38,14 @@
 		</choose>
 	</sql>
 
-	<select id="list" resultType="com.monstar.books.adbanner.dto.BannerDto" resultMap="Banner">
+	<select id="list" resultType="com.monstar.books.adbanner.dto.BannerDto" resultMap="Banner">		
 		SELECT *FROM     
 		(SELECT ROWNUM NUM, N.*FROM
-		(SELECT B.BANNERNO,B.EVENTNO,B.ETITLE,B.EFILESRC,B.EREGDATE,E.DELETED
+		(SELECT B.BANNERNO,B.EVENTNO,B.ETITLE,B.EFILESRC,B.EREGDATE,E.DELETED,E.ETITLE AS E_ETITLE
 		FROM M_BANNER B JOIN M_EVENT E 
 		ON B.EVENTNO=E.EVENTNO
 		ORDER BY BANNERNO DESC)N
-			<include refid="includeList"/>
+		<include refid="includeList"/>
 		)
 		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>

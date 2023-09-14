@@ -51,9 +51,13 @@ public class AdBannerController {
 	}// detail 종료
 	
 	@RequestMapping("admin/banner/bannerwriteview")
-	public String bannerwriteview() {
-		System.out.println("bannerwrite");
+	public String bannerwriteview(HttpServletRequest request,Model model) {
+		System.out.println("bannerwriteview");
 
+//	    model.addAttribute("request", request);
+//
+//		service = new BannerServiceList(session);
+//		service.execute(model);
 		
 		return "admin/banner/bannerwriteview";
 		

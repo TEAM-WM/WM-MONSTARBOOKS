@@ -16,5 +16,6 @@ public class EventDto {
 	private String efilesrc;
 	private Date eregdate;
 	private String deleted;
+	private String e_etitle;
 
 }
