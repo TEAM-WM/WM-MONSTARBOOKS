@@ -47,7 +47,7 @@
 		<input type="text" name="bdiscount" class="bdiscount" />
 		
 		<br />
-		<button id="calDiscount">판매가계산</button>
+		<button type="button" id="calDiscount">판매가계산</button>
 		<br />
 		
 		<label for="bpricesell">판매가</label>
@@ -184,10 +184,8 @@
 		   })
 	   });
 	});
-	
- 	/* 파일추가 경고 */
- 	
-	
+	 	
+	/* 파일추가 경고 */
   // 파일 선택란에 이벤트 리스너를 추가
   document.getElementById("bimgInput").addEventListener("change", function () {
     // 파일 선택 확인
@@ -207,7 +205,7 @@
   });
 
 	//isbn 검색
-  $(document).ready(function(){
+	$(document).ready(function(){
 		$("#search").click(function(){
 			$.ajax({
 				method: "GET",
