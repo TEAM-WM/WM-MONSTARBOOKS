@@ -2,15 +2,13 @@ package com.monstar.books.adbanner.dao;
 
 import java.util.ArrayList;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.monstar.books.adbanner.dto.BannerDto;
 
 public interface BannerDao {
 
 	public ArrayList<BannerDto> list(int Start, int End, String sk, String selNum);
 
-	public void bannerwrite(String etitle, String efilesrc, String betitle);
+	public void bannerwrite(String etitle, String efilesrc, String e_etitle);
 
 	public BannerDto bannerdetail(int bannerno);
 
