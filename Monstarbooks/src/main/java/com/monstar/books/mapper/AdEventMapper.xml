@@ -98,4 +98,15 @@
 		UPDATE M_EVENT SET DELETED='yes' WHERE EVENTNO=#{param1}
 	</update>
 	
+		<update id="eventmodify">
+		UPDATE M_EVENT
+		SET ETITLE = #{param2}
+		WHERE EVENTNO = #{param1}
+	</update>
+	<update id="eventmodify2">		
+		UPDATE M_EVENT
+		SET EFILESRC = #{param2}
+		WHERE EVENTNO = #{param1}
+	</update>
+	
 </mapper>

@@ -1,4 +1,4 @@
-package com.monstar.books.adbanner.sevice;
+package com.monstar.books.adevent.sevice;
 
 import java.util.Map;
 
@@ -9,28 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.monstar.books.adbanner.dao.BannerDao;
+import com.monstar.books.adevent.dao.AdEventDao;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Service
-public class BannerServiceModify implements BannerService {
+public class AdEventServiceModify implements AdEventService {
 
 	@Autowired
 	private SqlSession session;
 
 	// 생성자
-	public BannerServiceModify(SqlSession session) {
+	public AdEventServiceModify(SqlSession session) {
 		this.session = session;
 	}
 
 	@Override
 	public void execute(Model model) {
-		System.out.println(">>>배너 수정 신호");
+		System.out.println(">>>이벤트 수정 신호");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
-		BannerDao dao = session.getMapper(BannerDao.class);
+		AdEventDao dao = session.getMapper(AdEventDao.class);
 		
 		String path = "/Users/chajong-geon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/banner";
 						
@@ -44,14 +44,14 @@ public class BannerServiceModify implements BannerService {
 		System.out.println(etitle);
 		String efilesrc = req.getFilesystemName("efilesrc");
 		System.out.println(efilesrc);	
-		int bannerno = Integer.parseInt(req.getParameter("bannerno"));
-		System.out.println(bannerno+"번호");
+		int eventno = Integer.parseInt(req.getParameter("eventno"));
+		System.out.println(eventno+"번호");
 		
 		if (efilesrc == null) {
 			efilesrc = "";
 		}
-		dao.bannermodify(bannerno,etitle);
-		dao.bannermodify2(bannerno,efilesrc);
+		dao.eventmodify(eventno,etitle);
+		dao.eventmodify2(eventno,efilesrc);
 
 	}
 
