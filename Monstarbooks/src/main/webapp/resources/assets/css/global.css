@@ -45,12 +45,6 @@
     border: none;
     background-color: transparent;
 }
-.left{
-    text-align: left;
-}
-.right{
-    text-align: right;
-}
 button,
 input {
     cursor: pointer;
@@ -74,13 +68,13 @@ body{
 }
 /* 정렬 */
 .center{
-    text-align: center;
+    text-align: center!important;
 }
 .left{
-    text-align: left;
+    text-align: left!important;
 }
 .right{
-    text-align: right;
+    text-align: right!important;
 }
 
 .text-back{

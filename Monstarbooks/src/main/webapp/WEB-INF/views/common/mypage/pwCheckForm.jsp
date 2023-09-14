@@ -12,13 +12,6 @@
 <title> </title>
 </head>
 <body onload="">
-<!-- <link rel="stylesheet" href="../css/join_style.css" /> -->
-<style>
-/* .pw{
-margin-botom:20px;
-
-} */
-</style>
 <script>
 
 	function goJoinForm(){
@@ -53,6 +46,32 @@ margin-botom:20px;
 		  console.log('로딩 완료');
 		 }
 </script>
+<article class="mypage-wrap">
+	<section class="mypage-section-wrap">
+		<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp">
+			<jsp:param name="name" value="${mname }" />
+			<jsp:param name="img" value="${mem.mprofileimg }" />
+			<jsp:param name="id" value="${mid }" />
+		</jsp:include>
+		<div class="mypage-content-box">
+			<div class="mypage-title">
+				<h3>비밀번호 확인</h3>
+			</div> 
+			<div class="mypage-content bn">
+				<form action="${pageContext.request.contextPath}/mypage/pwCheck" class="join"
+						name="loginInfo" method="post" onsubmit="return pwCheck();">
+						<!-- 	<img src="../img/welcome.jpg" alt="wel_img" /> <br /><br /> -->
+						<div class="btn-wrap">
+						
+						<input type="password" id="pwd" name="mpw" value="" />
+						<input type="submit" value="확인" style="width:100px;"/>
+						</div>
+						<!-- 	<input type="button"  value="join" onclick="goJoinForm();"/> -->
+				</form>
+			</div>
+		</div>
+	</section>
+</article>
 <div id="wrap">
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:if test="${param.result eq 0 }">
@@ -60,22 +79,22 @@ margin-botom:20px;
 	alert('비밀번호가 틀립니다');
 </script>
 </c:if>
-<form action="${pageContext.request.contextPath}/mypage/pwCheck" name="loginInfo" 
-method="post" onsubmit="return pwCheck();">
-<!-- 	<img src="../img/welcome.jpg" alt="wel_img" /> <br /><br /> -->
-	<table width="340">
-		
-			<tr>
-			<td bgcolor="skyblue" class="pw"><h2>비밀번호</h2></td>
-			<td><input type="password" id="pwd" name="mpw" value=""/></td>
-		</tr>
-	
-	</table>
-	<input type="submit"  value="login"/>
-<!-- 	<input type="button"  value="join" onclick="goJoinForm();"/> -->
-</form>
+<%-- 		<form action="${pageContext.request.contextPath}/mypage/pwCheck"
+			name="loginInfo" method="post" onsubmit="return pwCheck();">
+			<!-- 	<img src="../img/welcome.jpg" alt="wel_img" /> <br /><br /> -->
+			<table width="340">
 
-<script>
+				<tr>
+					<td bgcolor="skyblue" class="pw"><h2>비밀번호</h2></td>
+					<td><input type="password" id="pwd" name="mpw" value="" /></td>
+				</tr>
+
+			</table>
+			<input type="submit" value="login" />
+			<!-- 	<input type="button"  value="join" onclick="goJoinForm();"/> -->
+		</form> --%>
+
+		<script>
 
 
 //검색폼 쳄크 자바스크립트

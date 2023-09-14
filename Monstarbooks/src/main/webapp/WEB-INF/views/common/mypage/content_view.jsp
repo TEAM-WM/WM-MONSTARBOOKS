@@ -9,25 +9,140 @@
 <head>
 <meta charset="UTF-8">
 <title> </title>
-<style>
+<!-- <style>
 .disableExp{
 background-color: #f4f6f9;
 cursor:default;
 
 }
 </style>
-
+ -->
 </head>
 <body>
-<p style="color:red">
+<article class="mypage-wrap">
+	<section class="mypage-section-wrap">
+		<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp">
+			<jsp:param name="name" value="${m.mname}" />
+			<jsp:param name="img" value="${m.mprofileimg}" />
+			<jsp:param name="id" value="${m.mid }" />
+		</jsp:include>
+		<c:set var="ctx" value="${pageContext.request.contextPath}" />
+		<div class="mypage-content-box">
+			<div class="mypage-title">
+				<h3>회원정보 관리</h3>
+			</div> 
+			<div class="mypage-content">
+			<table>
+				<tr>
+					<th>아이디</th>
+					<td>
+						${m.mid}
+					</td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td>
+						${m.mname}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						생년월일
+					</th>
+					<td>
+						<fmt:formatDate value="${m.mbirth}" pattern="yy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						핸드폰번호
+					</th>
+					<td>
+						${fn:substring(m.mtel,0,3)}-${fn:substring(m.mtel,3,7)}-${fn:substring(m.mtel,7,12)}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						이메일
+					</th>
+					<td>
+						${m.memail}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						취미
+					</th>
+					<td>
+					<c:set var="token" value="소설,시,경제,에세이,요리,문화" />
+					<!-- Display Each token -->
+					<!-- 소설,시/에세이,인문,가정/육아,요리,정치/사회,경제/경영,역사/문화,컴퓨터/IT,건강,스포츠,자기계발 -->
+					<div class="favorite-box" style="margin:0">
+						<input type="checkbox" name="favorite" id="favorite01" value="소설" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '소설'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+							/>
+						<label for="favorite01">소설</label>
+						<input type="checkbox" name="favorite" id="favorite02" value="시" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '시'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+						/>
+						<label for="favorite02">시</label>
+						<input type="checkbox" name="favorite" id="favorite03" value="경제" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '경제'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+						/>
+						<label for="favorite03">경제</label>
+						<input type="checkbox" name="favorite" id="favorite04" value="에세이" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '에세이'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+						
+						/>
+						<label for="favorite04">에세이</label>
+						<input type="checkbox" name="favorite" id="favorite05" value="요리" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '요리'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+						/>
+						<label for="favorite05">요리</label>
+						<input type="checkbox" name="favorite" id="favorite06" value="문화" disabled
+						<c:forTokens var="f" items="${m.mfavorite}" delims=",">
+							<c:if test="${f eq '문화'}">
+							<c:out value="checked" />
+							</c:if> 
+							</c:forTokens>
+						/>
+						<label for="favorite06">문화</label>
+					</div>
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div class="cart-btn-box" style="margin-top:40px; width:150px;">
+				<input type="button" class="btn-a" value="회원정보 수정" 
+				onclick="location.href='${ctx }/mypage/pwCheckForm'">
+			</div>
+		</div>
+	</section>
+</article>
 
-
-</p>
-<h1>회원정보</h1>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%-- <link rel="stylesheet" href="${ctx }/resources/css/nstyle.css" /> --%>
 
-<label for="id">아이디 : </label>
+<%-- <label for="id">아이디 : </label>
 <input type="text" id="id" name="mid" value="${m.mid}" disabled class="disableExp"/>
  <br /> 
 <label for="name">이름:</label> 
@@ -39,8 +154,7 @@ cursor:default;
 value="<fmt:formatDate value="${m.mbirth}" pattern="yyyy-MM-dd" />" 
 disabled class="disableExp"/>
 
-<br />
- 
+<br /> 
 <label for="cphone" style="margin-bottom:15px;">핸드폰번호  </label>
  <input type="text" id="mtel2" name="mtel2" 
  value="${fn:substring(m.mtel,0,3)}" size="3" style="display:inline-block;width:350px;" disabled class="disableExp"/>
@@ -51,7 +165,8 @@ value="${fn:substring(m.mtel,7,12)}" size="3" style="display:inline-block;width:
 예)010-455-4568<br />
 <label for="email">이메일:</label> 
 <input type="text" id="memail" name="memail" 
-value="${m.memail}" disabled class="disableExp"/>
+value="${m.memail}" disabled class="disableExp"/>--%>
+ 
 
  <br />
 
@@ -59,12 +174,12 @@ value="${m.memail}" disabled class="disableExp"/>
 
 
 
-<label for="habit" style="margin-bottom:15px;">취미</label> 
-	<c:set var="token" value="소설,시/에세이,인문,가정/육아,요리,정치/사회,경제/경영,역사/문화,컴퓨터/IT,건강,스포츠,자기계발" />
+<!-- <label for="habit" style="margin-bottom:15px;">취미</label> --> 
+	<%-- <c:set var="token" value="소설,시/에세이,인문,가정/육아,요리,정치/사회,경제/경영,역사/문화,컴퓨터/IT,건강,스포츠,자기계발" /> --%>
 	
 	<!-- Display Each token -->
 <!-- 소설,시/에세이,인문,가정/육아,요리,정치/사회,경제/경영,역사/문화,컴퓨터/IT,건강,스포츠,자기계발 -->
-<input type="checkbox" id="mfavorite1" name="mfavorite" class="disableExp" disabled value="소설" 
+<%-- <input type="checkbox" id="mfavorite1" name="mfavorite" class="disableExp" disabled value="소설" 
 	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 	<c:if test="${f eq '소설'}">
 	<c:out value="checked" />
@@ -83,126 +198,6 @@ value="${m.memail}" disabled class="disableExp"/>
 />
 <label for="mfavorite2" name="mfavorite" value="시/에세이" disabled></label>
 시/에세이
-
-
-
- <input type="checkbox" id="mfavorite3" name="mfavorite" disabled value="인문"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '인문'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite3" name="mfavorite" value="인문" disabled></label>
-
-인문 
-
- <input type="checkbox" id="mfavorite4" name="mfavorite" disabled value="가정/육아"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '가정/육아'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite4" name="mfavorite" value="가정/육아" disabled></label>
-가정/육아
-  
- <input type="checkbox" id="mfavorite5" name="mfavorite" disabled value="요리"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '요리'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite5" name="mfavorite" value="요리" disabled></label>
-요리
- <input type="checkbox" id="mfavorite6" name="mfavorite" disabled value="정치/사회"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '정치/사회'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite6" name="mfavorite" value="정치/사회" disabled></label>
-정치/사회
- <input type="checkbox" id="mfavorite7" name="mfavorite" disabled value="경제/경영"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '경제/경영'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite7" name="mfavorite" value="경제/경영" disabled></label>
-경제/경영
-
- <input type="checkbox" id="mfavorite8" name="mfavorite" disabled value="역사/문화"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '역사/문화'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite8" name="mfavorite" value="역사/문화" disabled></label>
-역사/문화
-
-
-
- <input type="checkbox" id="mfavorite9" name="mfavorite" disabled value="컴퓨터/IT"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '컴퓨터/IT'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite9" name="mfavorite" value="컴퓨터/IT" disabled></label>
-컴퓨터/IT
-
-
-<input type="checkbox" id="mfavorite10" name="mfavorite" disabled value="건강"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '건강'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite10" name="mfavorite" value="건강" disabled></label>
-건강
-
-
- <input type="checkbox" id="mfavorite11" name="mfavorite" disabled value="스포츠"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '스포츠'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite11" name="mfavorite" value="스포츠" disabled></label>
-스포츠
-
-
-<input type="checkbox" id="mfavorite12" name="mfavorite" disabled value="자기계발"
-	<c:forTokens var="f" items="${m.mfavorite}" delims=",">
-	<c:if test="${f eq '자기계발'}">
-	<c:out value="checked" />
-	</c:if> 
-	</c:forTokens>
-
-/>
-<label for="mfavorite12" name="mfavorite" value="자기계발" disabled></label>
-
-자기계발
-
-<br /><br />
-<input type="button"  value="회원정보 수정" 
-			onclick="location.href='${ctx }/mypage/pwCheckForm'">
+ --%>
 </body>
 </html>
