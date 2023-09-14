@@ -40,7 +40,7 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-					<textarea name="qanswer" cols="50" rows="10">답변을 입력하시요.</textarea>
+					<textarea name="qanswer" cols="50" rows="10" placeholder="답변을 입력하세요." style="resize: none"></textarea>
 				</td>
 			</tr>
 			<input type="hidden" name="qnano" value="${qnadetail.qnano}">

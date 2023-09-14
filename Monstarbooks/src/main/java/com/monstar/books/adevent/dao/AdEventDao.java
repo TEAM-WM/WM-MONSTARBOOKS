@@ -19,4 +19,8 @@ public interface AdEventDao {
 	public int selectBoardTotCount3(String searchKeyword);
 	public int selectBoardTotCount4(String searchKeyword);
 
+	public void eventmodify(int eventno, String etitle);
+
+	public void eventmodify2(int eventno, String efilesrc);
+
 }
