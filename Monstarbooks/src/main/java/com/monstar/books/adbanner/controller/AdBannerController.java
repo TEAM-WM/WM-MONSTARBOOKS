@@ -95,13 +95,18 @@ public class AdBannerController {
 	    service.execute(model);
 
 
-	    return "redirect:/admin/banner/bannerdetail";
+	    return "redirect:/admin/banner/list";
 	}// bannermodify 종료
 	@RequestMapping("admin/banner/bannermodifyview")
-	public String bannermodifyview(Model model) {
+	public String bannermodifyview(HttpServletRequest request, Model model) {
 		System.out.println("bannermodifyview");
 
+		model.addAttribute("request", request);
 		
+		service = new BannerServiceDetail(session);
+		service.execute(model);
+
 		return "admin/banner/bannermodifyview";
-	}// detail 종료
+	}// bannermodifyview 종료
+
 }

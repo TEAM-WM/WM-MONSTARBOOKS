@@ -14,7 +14,7 @@ public interface AdNoticeDao {
 	public int selectTot4(String searchKeyword);
 	
 	// noticeInsert
-	public void insert(String ntitle, String ncontent, String nfilesrc);
+	public void insert(String ntitle, String ncontent,String id, String nfilesrc);
 	
 	// noticeDetail
 	public AdNoticeDto noticeDetail(String noticeno);

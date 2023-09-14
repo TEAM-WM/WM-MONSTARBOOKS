@@ -65,6 +65,8 @@ public class MemberLoginProcessService implements MemberService {
 			httpSession.setAttribute("id", dto.getMid());
 			httpSession.setAttribute("auth", dto.getMauthority());
 			httpSession.setAttribute("memberNumber", dto.getMemberno());
+			httpSession.setAttribute("profileImg", dto.getMprofileimg());
+			httpSession.setAttribute("name", dto.getMname());
 			model.addAttribute("isSuccess", true);
 			// 로그인 상태 유지
 			if (remember == null) {// 체크 안했다면

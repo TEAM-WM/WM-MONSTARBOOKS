@@ -13,7 +13,7 @@
     <tr>
     	<td>${eventdetail.etitle }</td>
     	<td>${eventdetail.eregdate }</td>
-    	<td><a href="">수정</a></td>
+    	<td><a href="eventmodifyview?eventno=${eventdetail.eventno }">수정</a></td>
     	<td><a href="eventdelete?eventno=${eventdetail.eventno }">삭제</a></td>
     	<td><a href="event">목록</a></td>
     </tr>
@@ -21,7 +21,7 @@
     	<td colspan="5">${eventdetail.econtent }</td>
     </tr>
     <tr>
-    	<td colspan="5"><img alt="11" src="/books/resources/assets/imgs/coupon/${eventdetail.efilesrc }"></td>
+    	<td colspan="5"><img alt="${eventdetail.efilesrc }" src="/books/resources/assets/imgs/coupon/${eventdetail.efilesrc }"></td>
    	</tr>
 </table>
 </body>
