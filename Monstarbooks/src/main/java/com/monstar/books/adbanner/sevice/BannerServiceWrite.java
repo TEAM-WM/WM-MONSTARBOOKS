@@ -42,11 +42,13 @@ public class BannerServiceWrite implements BannerService {
 		}
 		String etitle = req.getParameter("etitle");
 		String efilesrc = req.getFilesystemName("efilesrc");
+		String betitle = req.getParameter("betitle");
+		
 		
 		if (efilesrc == null) {
 			efilesrc = "";
 		}
-		dao.bannerwrite(etitle, efilesrc);
+		dao.bannerwrite(etitle, efilesrc,betitle);
 
 	}
 

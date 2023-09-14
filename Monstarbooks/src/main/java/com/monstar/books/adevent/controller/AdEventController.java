@@ -12,6 +12,7 @@ import com.monstar.books.adevent.sevice.AdEventDeleteService;
 import com.monstar.books.adevent.sevice.AdEventDetailService;
 import com.monstar.books.adevent.sevice.AdEventService;
 import com.monstar.books.adevent.sevice.AdEventServiceList;
+import com.monstar.books.adevent.sevice.AdEventServiceModify;
 import com.monstar.books.adevent.sevice.AdEventServiceWrite;
 import com.monstar.books.adevent.vopage.SearchVO;
 
@@ -71,6 +72,30 @@ public class AdEventController {
 	    model.addAttribute("request", request);
 
 	    service = new AdEventServiceWrite(session);
+	    service.execute(model);
+
+
+	    return "redirect:/admin/event/event";
+	}// bannerwrite 종료
+	@RequestMapping("/admin/event/eventmodifyview")
+	public String eventmodifyview(HttpServletRequest request, Model model) {
+	    System.out.println("eventmodifyview");
+
+	    model.addAttribute("request", request);
+
+	    service = new AdEventDetailService(session);
+	    service.execute(model);
+
+
+	    return "admin/event/eventmodifyview";
+	}// bannerwrite 종료
+	@RequestMapping("/admin/event/eventmodify")
+	public String eventmodify(HttpServletRequest request, Model model) {
+	    System.out.println("eventmodify");
+
+	    model.addAttribute("request", request);
+
+	    service = new AdEventServiceModify(session);
 	    service.execute(model);
 
 

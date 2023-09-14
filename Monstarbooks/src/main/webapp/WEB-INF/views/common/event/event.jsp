@@ -60,7 +60,7 @@
     <c:forEach items="${event }" var="event" varStatus="status">
         <c:if test="${event.deleted ne 'yes'}">
             <div class="event-row">
-                <a href="eventdetail?eventno=${event.eventno }"><img alt="11" src="/books/resources/assets/imgs/coupon/event.jpeg"></a><br/>
+                <a href="eventdetail?eventno=${event.eventno }"><img width="200" height="200" alt="11" src="/books/resources/assets/imgs/coupon/${event.efilesrc }"></a><br/>
                 <a href="eventdetail?eventno=${event.eventno }">${event.etitle }</a><br/>
                 ${list.eregdate }
             </div>
