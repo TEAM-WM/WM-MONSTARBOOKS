@@ -102,10 +102,12 @@ tr, td {
 			<input type="hidden" name="reviewno" value="${bcate.reviewno }" />
 			<input type="hidden" name="memberno" value="${bcate.memberno }" />
 			<input type="hidden" name="bookno" value="${bcate.bookno }" />
+			<input type="hidden" name="orderno" value="${bcate.orderdetail.orderno }" />
 			<input type="hidden" name="mid" value="${bcate.member.mid }" />
+			<input type="hidden" name="btitle" value="${bcate.book.btitle }" />
 			<input type="hidden" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
 				&nbsp;&nbsp; ${bcate.book.btitle } " /></td>
-			   <!-- Use hidden fields to submit data to the server / bookno 제외하고 잘들어옴 -->
+			   <!-- Use hidden fields to submit data to the server 잘들어옴 -->
 				  
 		</tr>
 		
