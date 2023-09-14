@@ -134,42 +134,42 @@ cursor:default;
 						<!-- Display Each token -->
 						<!-- 소설,시/에세이,인문,가정/육아,요리,정치/사회,경제/경영,역사/문화,컴퓨터/IT,건강,스포츠,자기계발 -->
 						<div class="favorite-box left">
-							<input type="checkbox" name="favorite" id="favorite01" value="소설"
+							<input type="checkbox" name="mfavorite" id="favorite01" value="소설"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '소설'}">
 							<c:out value="checked" />
 							</c:if> 
 							</c:forTokens> />
 							<label for="favorite01">소설</label> <input type="checkbox"
-								name="favorite" id="favorite02" value="시"
+								name="mfavorite" id="favorite02" value="시"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '시'}">
 							<c:out value="checked" />
 							</c:if> 
 							</c:forTokens> />
 							<label for="favorite02">시</label> <input type="checkbox"
-								name="favorite" id="favorite03" value="경제"
+								name="mfavorite" id="favorite03" value="경제"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '경제'}">
 							<c:out value="checked" />
 							</c:if> 
 							</c:forTokens> />
 							<label for="favorite03">경제</label> <input type="checkbox"
-								name="favorite" id="favorite04" value="에세이"
+								name="mfavorite" id="favorite04" value="에세이"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '에세이'}">
 							<c:out value="checked" />
 							</c:if> 
 							</c:forTokens> />
 							<label for="favorite04">에세이</label> <input type="checkbox"
-								name="favorite" id="favorite05" value="요리"
+								name="mfavorite" id="favorite05" value="요리"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '요리'}">
 							<c:out value="checked" />
 							</c:if> 
 							</c:forTokens> />
 							<label for="favorite05">요리</label> <input type="checkbox"
-								name="favorite" id="favorite06" value="문화"
+								name="mfavorite" id="favorite06" value="문화"
 								<c:forTokens var="f" items="${m.mfavorite}" delims=",">
 							<c:if test="${f eq '문화'}">
 							<c:out value="checked" />

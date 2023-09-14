@@ -54,6 +54,7 @@ public class MemberModifyService implements BServiceInter{
 			//String mprofileimg = req.getFilesystemName("mprofileimg"); //
 
 			String[] mfavorite = request.getParameterValues("mfavorite");
+			System.out.println(mfavorite);
 			int ml=mfavorite.length-1;
 			String mf="";
 			for (int i = 0; i < mfavorite.length; i++) {

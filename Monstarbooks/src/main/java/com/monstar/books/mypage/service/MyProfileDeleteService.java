@@ -34,6 +34,7 @@ public class MyProfileDeleteService implements MyPageService {
 //      로그인 사용자 ID 세션에서 받아오기
 		HttpSession session = request.getSession();
 		String mid = (String) session.getAttribute("id");
+		session.removeAttribute("profileImg");
 		System.out.println("id받아줘 :" + mid);
 		//로그인프로세스 서비스 참조
 //		httpSession.setAttribute("id", dto.getMid());

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 %>
@@ -13,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Insert title here</title>
-<style>
+<!-- <style>
 
 h2 {
     text-align: center;
@@ -78,22 +78,62 @@ tr, td {
     overflow: hidden; /* 사이드바와 테이블이 겹치지 않도록 처리 */
 }
 
-</style>
+</style> -->
 </head>
 
 <body>
-	<br /><br />
-	
-    <div class="content">
-        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
-        <div id="myprofile-sidebar">
-            <%@ include file="../myprofile/myprofile.jsp" %>
-        </div>
+	<article class="mypage-wrap">
+		<section class="mypage-section-wrap">
+			<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp"></jsp:include>
+			<div class="mypage-content-box">
+				<div class="mypage-title">
+					<h3>리뷰 작성</h3>
+				</div>
+				<div class="mypage-content">
+					<div class="mypage-form order-box">
+						<h3>
+							[ ${bcate.bookcategory.bcategory1 } / ${bcate.bookcategory.bcategory2 } ] 
+							<strong>${bcate.book.btitle }</strong>
+						</h3>
+						<form action="insert" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="reviewno" value="${bcate.reviewno }" />
+              <input type="hidden" name="memberno" value="${bcate.memberno }" />
+              <input type="hidden" name="bookno" value="${bcate.bookno }" />
+              <input type="hidden" name="orderno" value="${bcate.orderdetail.orderno }" />
+              <input type="hidden" name="mid" value="${bcate.member.mid }" />
+              <input type="hidden" name="btitle" value="${bcate.book.btitle }" />
+              <input type="hidden" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
+                &nbsp;&nbsp; ${bcate.book.btitle } " />
+							<div class="select-group">
+								<select class="form-select star">
+									<option value="5" <c:if test="${bcate.rstar == 5}">selected</c:if>>★★★★★</option>
+									<option value="4" <c:if test="${bcate.rstar == 4}">selected</c:if>>★★★★</option>
+									<option value="3" <c:if test="${bcate.rstar == 3}">selected</c:if>>★★★</option>
+									<option value="2" <c:if test="${bcate.rstar == 2}">selected</c:if>>★★</option>
+									<option value="1" <c:if test="${bcate.rstar == 1}">selected</c:if>>★</option>
+								</select>
+							</div>
+							<textarea name="rcontent" placeholder="리뷰를 입력해주세요." maxlength="800"></textarea>
+							<input type="file" name="refilesrc" accept=".jpg, .png, .gif" />
+							<input type="submit" value="저장" />
+						</form>
+
+					</div>
+					<!--mypage-form-->
+				</div><!-- content -->
+			</div><!-- content-box -->
+		</section>
+	</article>
+	<%-- <div class="content">
+		<!-- 왼쪽에 myprofile.jsp 내용 추가 -->
+		<div id="myprofile-sidebar">
+			<%@ include file="../myprofile/myprofile.jsp"%>
+		</div>
 
 
-<form action="insert" method="post" enctype="multipart/form-data">
-	<div>
-			<br />
+		<form action="insert" method="post" enctype="multipart/form-data">
+			<div>
+				<br />
 				<h2>Review Write</h2>
 	<br /><br />
 	<table>
@@ -151,5 +191,6 @@ tr, td {
 </form>
 
     	</div>
+ --%>
 </body>
 </html>
