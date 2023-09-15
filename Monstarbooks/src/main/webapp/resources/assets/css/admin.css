@@ -13,7 +13,12 @@
 .admin-container .cart-table-wrap {
 	margin-top:10px;
 }
-
+.admin-container .product-card-image{
+	width:95px;
+	height:130px;
+    display: inline-block;
+    margin:0;
+}
 .admin-container .cart-table-wrap .order-item{
 	padding:20px;
 }
@@ -256,4 +261,8 @@ form.admin{
 }
 .search-box .search-icon{
 	background:transparent;
+}
+
+.admin-book-form{
+	width:500px;
 }
