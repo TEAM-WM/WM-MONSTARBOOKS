@@ -32,7 +32,7 @@ public class AdEventServiceModify implements AdEventService {
 
 		AdEventDao dao = session.getMapper(AdEventDao.class);
 		
-		String path = "/Users/chajong-geon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/banner";
+		String path = "/Users/chajong-geon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/coupon";
 						
 		MultipartRequest req = null;
 		try {
