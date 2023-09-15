@@ -28,7 +28,7 @@
 		<label for="bpublisher">출판사</label>
 		<input type="text" name="bpublisher" />
 		<label for="bwriter">저자</label>
-		<input type="text" name="bwriter" />
+		<input type="text" name="bwriter" id="bwriterInput" />
 		<label for="btranslator">역자</label>
 		<input type="text" name="btranslator" />
 		<label for="bpdate">출간날짜</label>
@@ -98,46 +98,97 @@
 		</div>
 	</form>
 	<script>
-		document.title = "몬스타북스 || 상품등록";
-		/* 할인률 계산 */
-		$(document).ready(function() {
-			$("#calDiscount").click(function() {
-				var price = Number($(".bprice").val());
-				var discount = Number($(".bdiscount").val());
-
-				// 할인율 계산 후 결과를 #bpricesell 입력란에 표시
-				$("#bpricesell").val(price - (price * discount * 0.01));
-
-				//form submit 막기
-				$(".insertForm").submit(function(e) {
-					e.preventDefault();
-					$(".insertForm").unbind();
-				})
-			});
-		});
-
-		/* 파일추가 경고 */
-		// 파일 선택란에 이벤트 리스너를 추가
-		document.getElementById("bimgInput").addEventListener("change",
-				function() {
-					// 파일 선택 확인
-					if (this.files.length === 0) {
-						// 파일 선택되지 않을 시 경고창을 출력
-						alert("파일을 선택해주세요!");
-						// 선택 파일을 초기화 (선택된 파일을 제거)
-						this.value = "";
-					}
-				});
-
-		document.getElementById("bimgdetailInput").addEventListener("change",
-				function() {
-					if (this.files.length === 0) {
-						alert("파일을 선택해주세요!");
-						this.value = "";
-					}
-				});
-
+document.title = "몬스타북스 :: 상품등록";
+	/* 할인률 계산 */
+	$(document).ready(function(){
+	   $("#calDiscount").click(function(){
+	      var price = Number($(".bprice").val());
+	      var discount = Number($(".bdiscount").val());
+	      
+	      // 할인율 계산 후 결과를 #bpricesell 입력란에 표시
+	      $("#bpricesell").val(price - (price * discount * 0.01));
+	      
+			//form submit 막기
+		   $(".insertForm").submit(function(e){
+		      e.preventDefault();
+		      $(".insertForm").unbind();
+		   })
+	   });
+	});
+	 	
+	
+	
+	/* not null 칼럼 미입력 경고 */
 		
+	
+	/* $(document).ready(function() {
+		$(".insertForm").submit(function(event) {
+			var author = $("#bwriterInput").val().trim();
+ 
+		    if (author === "") {
+		      alert("저자를 입력하세요."");
+		      event.preventDefault(); // 제출을 막음
+		    }
+		});
+	}); */
+	
+  	// 파일 선택란에 이벤트 리스너를 추가
+	document.getElementById("bimgInput").addEventListener("change", function () {
+    	// 파일 선택 확인
+	    if (this.files.length === 0) {
+	      // 파일 선택되지 않을 시 경고창을 출력
+	      alert("파일을 선택해주세요!");
+	      // 선택 파일을 초기화 (선택된 파일을 제거)
+	      this.value = "";
+	    }
+ 	 });
+
+	document.getElementById("bimgdetailInput").addEventListener("change", function () {
+		if (this.files.length === 0) {
+	      alert("파일을 선택해주세요!");
+	      this.value = "";
+	    }
+	});
+  
+	//isbn 검색
+	$(document).ready(function(){
+		$("#search").click(function(){
+			$.ajax({
+				method: "GET",
+				url: "https://dapi.kakao.com/v3/search/book",
+				data: {query: $("#isbn").val()},
+				headers: {Authorization: "KakaoAK 01e8350958223ac98e6d3716c0a740f1" }
+			})
+				.done(function(result){
+					var bookTitle = result.documents[0].title;
+					var bookAuthors = result.documents[0].authors;
+					var bookPublisher = result.documents[0].publisher;
+					var bookDatetime = result.documents[0].datetime;
+					var bookTranslators = result.documents[0].translators;
+					var bookPrice = result.documents[0].price;
+					var bookContents = result.documents[0].contents;
+					
+					
+					
+					$("input[name='btitle']").val(bookTitle);
+					$("input[name='bwriter']").val(bookAuthors);
+					$("input[name='bpublisher']").val(bookPublisher);
+					$("input[name='bpdate']").val(bookDatetime.split('T')[0]);
+					$("input[name='btranslator']").val(bookTranslators);
+					$("input[name='bprice']").val(bookPrice);
+					$("input[name='bdescription']").val(bookContents);
+				});
+		});
+		
+		/* $(".insertForm").submit(function(event) {
+			var author = $("#bwriterInput").val().trim();
+ 
+		    if (author === "") {
+		      alert("저자를 입력하세요."");
+		      event.preventDefault(); // 제출을 막음
+		    })
+		}); */
+	});
 
 //isbn 검색
 $(document).ready(function() {$("#search").click(
