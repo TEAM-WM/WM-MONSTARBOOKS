@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>     
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- <link rel="stylesheet" href="../resources/css/nstyle.css" /> -->
-<style>
+<!-- <style>
 .fa-solid{
 	color:#333;
 	
@@ -60,84 +60,93 @@ input[type="button"] {
     border-color: var(--color-main);
     display: inline-block;
 }
-</style>
+</style> -->
 </head>
 <body>
-<table class="toClass">
-	<tr>
-		<td colspan="2" style="text-align:center"><h1>1:1 문의</h1></td>
-	
-	</tr>
-	
-	<tr>
-		<td class="left">제목</td>
-		<td>${qna.qtitle }</td>
-	</tr>	
-<%-- 	<tr>
+	<article class="mypage-wrap">
+		<section class="mypage-section-wrap">
+			<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp"></jsp:include>
+			<div class="mypage-content-box">
+				<div class="mypage-title">
+					<h3>1:1문의 상세</h3>
+				</div>
+				<div class="mypage-content">
+					<table>
+					<colgroup>
+								<col width="100px" />
+							</colgroup>
+						<tr>
+							<th>제목</th>
+							<td>${qna.qtitle }</td>
+						</tr>
+						<%-- 	<tr>
 		<td class="left top">번호</td>
 		<td style="text-align:left">${qna.qnano }</td>
 	</tr> --%>
-	<tr>
-		<td class="left">처리상태</td>
-		<td>${qna.qstatus }</td>
-	</tr>
-	<tr>
-		<td class="left">질문유형</td>
-		<td>${qna.qcategory }</td>
-	</tr>
+						<tr>
+							<th>처리상태</th>
+							<td><span class="text-back" style="line-height:normal">${qna.qstatus }</span></td>
+						</tr>
+						<tr>
+							<th>질문유형</th>
+							<td>${qna.qcategory }</td>
+						</tr>
 
-	<tr>
-		<td class="left">질문내용</td>
-		<td>${qna.qcontent }</td>
-	</tr>
-	<tr>
-		<td class="left">답변내용</td>
-		<td>
-			<c:choose>
-		<c:when test="${qna.qanswer eq null }">
-			답변 준비중 입니다
-		</c:when>
-		<c:otherwise>
-			${qna.qanswer }
+						<tr>
+							<th>질문내용</th>
+							<td>
+								<pre>${qna.qcontent }</pre>
+							</td>
+						</tr>
+						<tr>
+							<th>답변내용</th>
+							<td>
+							<c:choose>
+									<c:when test="${qna.qanswer eq null }">
+										답변 준비중 입니다
+									</c:when>
+									<c:otherwise>
+										<pre>${qna.qanswer }</pre>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						<c:if test="${not empty qna.qfilesrc }">
+						<tr>
+							<th>첨부</th>
+							<td>
+							<a
+								href="download?p/resources/assets/upload/&f=${qna.qfilesrc }&qnano=${qna.qnano }">
+								<img src="${pageContext.request.contextPath}/resources/assets/upload/${qna.qfilesrc }" alt="" />
+								</a>
+							</td>
+						</tr>
+						</c:if>
+					</table>
+				</div>
+				<!-- mypage-content <-->
+				<section class="cart-btn-box" style="margin-top:30px;">
+				<div class="btn-wrap">
+					<c:choose>
+						<c:when test="${qna.qstatus eq '답변완료' }">
+							<input type="button" value="목록" onclick="location.href='./list'">
+						</c:when>
+						<c:otherwise>
+							<input type="button" value="수정"
+								onclick="location.href='./content_update?qnano=${qna.qnano }'">
 
-		</c:otherwise>
-	</c:choose>
-	
+							<input type="button" value="목록"
+								onclick="location.href='./list'">
 
-		</td>
-	</tr>	
-		<tr>
-		<td class="left">첨부</td>
-		<td>
-		<a href="download?p/resource/upload/&f=${qna.qfilesrc }
-		&qnano=${qna.qnano }"> 
-		${qna.qfilesrc }</a>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" style="text-align:center">
-		
-	<c:choose>	
-	<c:when test="${qna.qstatus eq '답변완료' }">
-
-		<input type="button" style="width:350px;" value="목록" onclick="location.href='./list'">
-			
-	</c:when>
-	<c:otherwise>
-		<input type="button"  value="수정" style="width:350px;"
-			onclick="location.href='./content_update?qnano=${qna.qnano }'">
-			
-		<input type="button" style="width:350px;" value="목록" onclick="location.href='./list'">
-			
-		<input type="button"  style="width:350px;" value="삭제" onclick="location.href='delete?qnano=${qna.qnano }'">
-			
-
-		</c:otherwise>
-	</c:choose>
-		</td>
-	</tr>
-</table>
-
-
+							<input type="button" value="삭제" class="btn-a gray"
+								onclick="location.href='delete?qnano=${qna.qnano }'">
+						</c:otherwise>
+					</c:choose>
+				</div>
+				</section>
+			</div>
+			<!-- "mypage-content-box -->
+		</section>
+	</article>
 </body>
 </html>

@@ -68,9 +68,14 @@ body {
 .container {
     width: 100%;
 }
-
+.height0{
+	height:auto;
+}
 .bn {
     border: none !important;
+}
+.mn{
+	margin:0!important;
 }
 
 /* 정렬 */
@@ -109,7 +114,14 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+.w100{
+	width:100px;
+}
+.space{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /* 라디오 버튼 */
 label.radio {
     display: flex;
