@@ -97,10 +97,10 @@ function go_order(bno,memberno){
 <body>
 	<article class="book-list-wrap">
         <!-- 카테고리 분류 -->
+  	<section class="breadcrumb-wrap">
+        <ul>
         <c:choose>
         	<c:when test="${pageName ne 'search' }">
-        		<section class="breadcrumb-wrap">
-		            <ul>
 		                <li>
 		                    <a href="../">
 		                        <i class="fa-solid fa-house"></i>
@@ -115,13 +115,13 @@ function go_order(bno,memberno){
 		                <li>
 		                 	<a href="">${category2 }</a>
 		                </li>
-		            </ul>
-		        </section>
         	</c:when>
         	<c:otherwise>
-        		<section>'${search }'에 대한 ${totRowCnt }개의 검색 결과</section>
+						<li><a>'${search }'에 대한 ${totRowCnt }개의 검색 결과</a></li>
         	</c:otherwise>
         </c:choose>
+         </ul>
+     </section>
         
         <section class="breadcrumb-wrap">
         </section>
@@ -147,6 +147,12 @@ function go_order(bno,memberno){
                     장바구니
                 </button>
             </div><!-- book-item-content -->
+            <c:if test="${totRowCnt eq 0}">
+        		<article class="join-success">
+        		<i class="fa-solid fa-magnifying-glass"></i>
+        		<h2>'${search }'에 대한 ${totRowCnt }개의 검색 결과</h2>
+        		</article>
+        	</c:if>
             <!-- 리스트 시작 -->
             <ul class="book-list">
             	<c:forEach items="${dto }" var="list">
