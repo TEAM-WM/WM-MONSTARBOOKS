@@ -12,7 +12,7 @@
 <body>
 <h3>productList.jsp</h3>
 <%-- 	<img src="${pageContext.request.contextPath}/resources/assets/imgs/kyobo.jpg" witdh="200" height="200" alt="" /> --%>
-	<img src="https://monstarbuck.s3.ap-northeast-2.amazonaws.com/%EA%B8%B0%EC%97%AC%EC%96%B4.png" alt="aws 버킷 테스트" />
+	<img src="https://monstarbuck.s3.ap-northeast-2.amazonaws.com/imgs/%EA%B8%B0%EC%97%AC%EC%96%B4.png" alt="aws 버킷 테스트" />
 	<h3>AWS 버킷 테스트</h3>
 	<img src="${pageContext.request.contextPath}/resources/assets/imgs/product/기여어.png" alt="테스트이미지" width="100" />
 	
