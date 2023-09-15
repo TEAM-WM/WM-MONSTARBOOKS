@@ -20,7 +20,7 @@
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="RTITLE" property="rtitle"/>
 		<result column="RCONTENT" property="rcontent"/>
-		<result column="REDATE" property="redate"/>
+		<result column="REGDATE" property="regdate"/>
 		<result column="RSTAR" property="rstar"/>
 		<result column="REFILESRC" property="refilesrc"/>
 		<result column="DELETED" property="deleted"/>

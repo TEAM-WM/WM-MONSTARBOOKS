@@ -78,7 +78,7 @@ function updateReviewList() {
 					<td>${review.book.btitle }</td>
 					<td>${review.member.mname }</td>
 					<td>${review.rcontent }</td>
-					<td>${review.redate }</td>
+					<td>${review.regdate }</td>
 					<td>
 						<c:choose>
 							<c:when test="${review.rstar == 1}">★</c:when>
