@@ -16,7 +16,9 @@ import com.monstar.books.vopage.SearchVo;
 
 @Controller
 public class AdCouponController {
-
+	//=====230915 리연 추가
+	String currentPage = "/admin/coupon"; 
+	
 	AdCouponService adcouponservice;
 
 	@Autowired
@@ -24,7 +26,7 @@ public class AdCouponController {
 
 	@RequestMapping("/admin/coupon/list")
 	public String adcouponList(HttpServletRequest request, Model model, SearchVo searchvo) {
-
+		model.addAttribute("currentPage",currentPage);
 		System.out.println("adcouponList 호출");
 
 		model.addAttribute("request", request);
@@ -49,7 +51,8 @@ public class AdCouponController {
 	}
 	
 	@RequestMapping("admin/coupon/register_view")
-	public String adcouponRegister_view() {
+	public String adcouponRegister_view(Model model) {
+		model.addAttribute("currentPage",currentPage);
 		System.out.println("register_view호출");
 		return "admin/coupon/register_view";
 	}

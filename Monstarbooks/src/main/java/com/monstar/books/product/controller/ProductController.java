@@ -1,52 +1,30 @@
 package com.monstar.books.product.controller;
 
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.monstar.books.product.sevice.ProductInsertReadyService;
-import com.monstar.books.product.dto.BookDto;
 import com.monstar.books.product.sevice.ProductDetailService;
-import com.monstar.books.product.sevice.ProductUpdateReadyService;
+import com.monstar.books.product.sevice.ProductInsertReadyService;
 import com.monstar.books.product.sevice.ProductInsertService;
 import com.monstar.books.product.sevice.ProductListService;
 import com.monstar.books.product.sevice.ProductService;
+import com.monstar.books.product.sevice.ProductUpdateReadyService;
 import com.monstar.books.product.sevice.ProductUpdateService;
 import com.monstar.books.product.vopage.SearchVO;
 
 
 @Controller
 public class ProductController {
-	
+	//=====230908 리연 추가
+	String currentPage = "/admin/product"; 
+   
 	@Autowired
 	ProductService service;
 
@@ -84,7 +62,7 @@ public class ProductController {
 	//상품등록 카테고리 준비
 	@RequestMapping("/admin/product/productinsertview")
 	public String insert_view(Model model) {
-		
+		model.addAttribute("currentPage",currentPage);
 		System.out.println(">>> INSERT VIEW() >>>");
 		
 		service = new ProductInsertReadyService(session);
@@ -112,7 +90,7 @@ public class ProductController {
 	//상품디테일
 	@RequestMapping("/admin/product/productdetail")
 	public String detail(HttpServletRequest request, Model model) {
-
+		model.addAttribute("currentPage",currentPage);
 		System.out.println(">>> DETAIL() >>>");
 		
 		model.addAttribute("request", request);
@@ -129,7 +107,7 @@ public class ProductController {
 	@RequestMapping("/admin/product/productupdateview")
 	public String update_view(Model model, HttpServletRequest request) {
 		
-		
+		model.addAttribute("currentPage",currentPage);
 		System.out.println(">>> UPDATE VIEW() >>>");
 		
 		model.addAttribute("request", request);

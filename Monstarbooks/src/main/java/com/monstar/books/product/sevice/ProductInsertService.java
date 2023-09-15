@@ -46,7 +46,7 @@ public class ProductInsertService implements ProductService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
 		//파일업로드(도서썸네일, 디테일)
-		String path = "C:\\Users\\joon879\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\imgs\\product";
+		String path = "/Users/klyeon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/product";
 
 		MultipartRequest req = null;
 		try {

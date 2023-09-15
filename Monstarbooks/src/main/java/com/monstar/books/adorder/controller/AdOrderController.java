@@ -16,6 +16,8 @@ import com.monstar.books.vopage.SearchVo;
 
 @Controller
 public class AdOrderController {
+	//=====230915 리연 추가
+	String currentPage = "/admin/order"; 
 
 	AdOrderService adorderservice;
 
@@ -24,7 +26,7 @@ public class AdOrderController {
 
 	@RequestMapping("/admin/order/list")
 	public String adorderList(HttpServletRequest request, Model model, SearchVo searchvo) {
-
+		model.addAttribute("currentPage",currentPage);
 		System.out.println("adorderList 호출");
 
 		model.addAttribute("request", request);
@@ -38,6 +40,7 @@ public class AdOrderController {
 
 	@RequestMapping("admin/order/detail")
 	public String adorderdetail(HttpServletRequest request, Model model) {
+		model.addAttribute("currentPage",currentPage);
 		System.out.println("adorderdetail 호출");
 
 		model.addAttribute("request", request);
