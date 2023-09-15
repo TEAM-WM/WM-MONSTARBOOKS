@@ -91,7 +91,7 @@ function coupon_select(cpprice,totPrice,cpno){
 /* 결제하기 */
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
-/* function requestPay(pay){
+function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
 
@@ -166,12 +166,12 @@ IMP.init('imp30831436');//가맹점 식별코드
 			}
 		}
 	}	
-} */
-function requestPay(pay){
+}
+/* function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
 	$(".payment_form").submit();
-}
+} */
 </script>
 </head>
 <body>
