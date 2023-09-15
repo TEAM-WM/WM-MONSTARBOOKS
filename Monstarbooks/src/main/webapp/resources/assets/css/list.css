@@ -149,6 +149,10 @@
     height: 200px;
     margin: 0;
 }
+.book-list .product-card-title h3,
+.book-list .product-card-author{
+	width:460px;
+}
 .book-list .product-card-title h3{
     font-size: 20px;
 }
@@ -267,6 +271,10 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
+}
+
+.book-detail-content .product-card-title h3, .book-detail-content .product-card-author{
+	width:500px;
 }
 .book-detail-content .book-info{
     height: 590px;
@@ -502,6 +510,15 @@
     justify-content: space-between;
     align-items: center;
 }
+.product-card-title h3,
+.product-card-author
+ {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	word-break: break-all;
+	display: inline-block;
+	width: 210px;}
 
 .book-recommend-wrap ul .product-card-title h3{
     font-size: var(--font-regular);
