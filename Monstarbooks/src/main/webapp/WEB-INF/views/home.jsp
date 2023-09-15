@@ -27,9 +27,9 @@
                             이주의 책
                         </h2>
                     </div>
-                    <strong>
+  <!--                   <strong>
                         <a href="">더보기 +</a>
-                    </strong>
+                    </strong> -->
                 </div>
                 <article class="main-weekly-slides">
                     <section class="slider-weekly">
@@ -243,48 +243,31 @@
                         </h2>
                         <ul>
                             <li class="active">
-                                <a href="">전체</a>
+                                <a>전체</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="">국내도서</a>
                             </li>
                             <li>
                                 <a href="">외국도서</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <strong>
-                        <a href="">더보기 +</a>
+                        <a href="${pageContext.request.contextPath}/booklist/bestlist">더보기 +</a>
                     </strong>
                 </div>
                 <ul class="main-product-list">
-                    <script>
-                        for (let i = 0; i < 10; i++) {
-                            document.write("<li>");
-                            document.write("<span class='rank'>" + (i + 1) + "</span>");
-                            document.write("<div class='product-card'>")
-                            document.write("<div class='product-card-image'><img src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg' alt=''></div>");
-                            document.write("<div class='product-card-title'><h3>아기 판다 푸바오아기 판다 푸바오 아기 판다 푸바오</h3></div>");
-                            document.write("<strong aria-label='저자 / 출판사' class='product-card-author'>에버랜드 외 · 시공주니어</strong>");
-                            document.write("</div></li>");
-
-                        }
-                    </script>
-
-                    <!-- <li>
-                        <span class='rank'>1</span>
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg" alt="">
-                            </div>
-                            <div class="product-card-title">
-                                <h3>
-                                    아기 판다 푸바오
-                                </h3>
-                            </div>
-                            <strong aria-label="저자 / 출판사" class="product-card-author">에버랜드 외 · 시공주니어</strong>
-                        </div>
-                    </li> -->
+                	<c:forEach items="${best }" var="list" begin="0" end="9">
+                	<li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?bookno=${list.bookno }';">
+                		<span class='rank'>${list.num }</span>
+                		<div class='product-card'>
+                		<div class='product-card-image'><img src='${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }' alt='썸네일'></div>
+                		<div class='product-card-title'><h3>${list.btitle }</h3></div>
+                		<strong aria-label='저자 / 출판사' class='product-card-author'>${list.bwriter } · ${list.bpublisher }</strong>
+                		</div>
+                	</li>
+                	</c:forEach>
                 </ul>
             </article>
             <!-- 신상책 -->
@@ -295,49 +278,26 @@
                             새로 나왔어요
                         </h2>
                         <ul>
-                            <li>
-                                <a href="">전체</a>
-                            </li>
                             <li class="active">
-                                <a href="">국내도서</a>
-                            </li>
-                            <li>
-                                <a href="">외국도서</a>
+                                <a>전체</a>
                             </li>
                         </ul>
                     </div>
                     <strong>
-                        <a href="">더보기 +</a>
+                        <a href="${pageContext.request.contextPath}/booklist/new">더보기 +</a>
                     </strong>
                 </div>
                 <div class="swiper book">
                     <ul class="main-product-list swiper-wrapper">
-                        <script>
-                            for (let i = 0; i < 10; i++) {
-                                document.write("<li class='swiper-slide'>");
-                                document.write("<div class='product-card'>")
-                                document.write("<div class='product-card-image'><img src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg' alt=''></div>");
-                                document.write("<div class='product-card-title'><h3>아기 판다 푸바오아기 판다 푸바오아기 판다 푸바오</h3></div>");
-                                document.write("<strong aria-label='저자 / 출판사' class='product-card-author'>에버랜드 외 · 시공주니어</strong>");
-                                document.write("</div></li>");
-
-                            }
-                        </script>
-
-                        <!-- <li>
-                            <div class="product-card">
-                                <div class="product-card-image">
-                                    <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg" alt="">
-                                </div>
-                                <div class="product-card-title">
-                                    <h3>
-                                        아기 판다 푸바오
-                                    </h3>
-                                </div>
-                                <strong aria-label="저자 / 출판사" class="product-card-author">에버랜드 외 · 시공주니어</strong>
-                            </div>
-                        </li> -->
-                    </ul>
+	                <c:forEach items="${newlist }" var="list" begin="0" end="9">
+		                    <li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?bookno=${list.bookno }';" class='swiper-slide'>
+		                    <div class='product-card'>
+		                    <div class='product-card-image'><img src='${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }' alt='썸네일'></div>
+		                    <div class='product-card-title'><h3>${list.btitle }</h3></div>
+		                    <strong aria-label='저자 / 출판사' class='product-card-author'>${list.bwriter } · ${list.bpublisher }</strong>
+		                    </div></li>
+					</c:forEach>
+					</ul>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
                 </div>
