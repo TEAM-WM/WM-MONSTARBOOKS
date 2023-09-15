@@ -116,6 +116,40 @@
     vertical-align: middle;
 }
 
+.mypage-table{
+	width:100%;
+}
+.mypage-table table{
+	width:100%;
+	table-layout: fixed;
+    overflow: hidden;
+} 
+.mypage-table table tr:first-child,
+.mypage-table table tr:last-child{
+	border:none;
+}
+.mypage-table table tr{
+	border-bottom:1px solid #eaeaea;
+}
+.mypage-table table th,
+.mypage-table table td{
+	font-size:var(--font-small);
+	padding:13px;
+	text-align: center;
+	vertical-align: middle;
+	border:none;
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.mypage-table table th{
+	background:#f4f6f8a1;
+	font-weight:700;
+}
+
+.mypage-table table td.left{
+	padding-left:20px;
+}
 .mypage-title {
     padding-bottom: 20px;
     border-bottom: 1px solid var(--color-black);
@@ -224,4 +258,44 @@
     flex-direction: column;
     justify-content: flex-start;
     gap: 20px;
+}
+
+/*체크박스 검색폼*/
+.chk-search-wrap{
+	width:100%;
+	display: flex;
+	justify-content: flex-end;
+}
+.chk-search-form{
+	/* width:500px; */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap:5px;
+	margin-top:20px;
+}
+.chk-search-form *{
+	font-size:var(--font-small);
+	margin:0;
+}
+.chk-search-form input[type="text"]{
+	width: 200px;
+}
+
+
+.chk-search-form input[type="submit"]{
+	width:80px;
+}
+.chk-search-form input[type="text"],
+.chk-search-form input[type="submit"]
+{	
+	padding:10px 14px;
+	height:auto;
+}
+.chk-search{
+	width: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }

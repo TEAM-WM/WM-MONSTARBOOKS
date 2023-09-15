@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-
+<!-- 
 <style>
 .fa-solid{
 	color:#333;
@@ -96,100 +96,159 @@ input[type="button"] {
 .top{
    border-top: 1px solid #ddd;
 }
-</style>
+</style> -->
 </head>
 <body>
-
-<!-- 이 번호에 대한 글을 수정하겠다! -->
-<h1>1:1문의 수정</h1>
-<table class="toClass">
-	<tr>
-		<td class="left top">번호</td>
-		<td class="top">${qna.qnano }</td>
-	</tr>
-	<tr>
-		<td class="left">처리상태</td>
-		<td>${qna.qstatus }</td>
-	</tr>
-<form action="${ctx }/qna/modify" method="post" 
-enctype="multipart/form-data" onsubmit="return writeCheck();" name="writeForm">
-<input type="hidden" name="qnano" value="${qna.qnano }" /> 
-<input type="hidden" name="oldqfilesrc" value="${qna.qfilesrc }" /> 	
-	<tr>
-		<td class="left">질문유형</td>
-		<td><!-- selected -->
-			  <select name="qcategory" class="pl">
-				<option value="상품" 
-				<c:if test="${qna.qcategory eq '상품'}"><c:out value="selected" /></c:if>>상품</option>
-				<option value="주문"
-				<c:if test="${qna.qcategory eq '주문'}"><c:out value="selected" /></c:if>>주문</option>
-				<option value="배송"
-				<c:if test="${qna.qcategory eq '배송'}"><c:out value="selected" /></c:if>>배송</option>
-				<option value="환불"
-				<c:if test="${qna.qcategory eq '환불'}"><c:out value="selected" /></c:if>>환불</option>
-				<option value="기타"
-				<c:if test="${qna.qcategory eq '기타'}"><c:out value="selected" /></c:if>>기타</option>
-
-  			</select>
-		</td>
-	</tr>
-	<tr>
-		<td class="left">제목</td>
-		<td>
-		<input type="text" name="qtitle" value="${qna.qtitle }" />		
-		</td>
-	</tr>
-	<tr>
-		<td class="left">질문내용</td>
-		<td>
-		<textarea type="text" name="qcontent" rows="10" cols="145" class="pl2" >${qna.qcontent }</textarea>
-		</td>
-	</tr>
-	
+	<!-- 이 번호에 대한 글을 수정하겠다! -->
+	<article class="mypage-wrap">
+		<section class="mypage-section-wrap">
+			<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp"></jsp:include>
+			<div class="mypage-content-box">
+				<div class="mypage-title">
+					<h3>1:1문의 수정</h3>
+				</div>
+				<form action="${ctx }/qna/modify" method="post"
+					enctype="multipart/form-data" onsubmit="return writeCheck();"
+					name="writeForm">
+					<input type="hidden" name="qnano" value="${qna.qnano }" /> <input
+						type="hidden" name="oldqfilesrc" value="${qna.qfilesrc }" />
+					<div class="mypage-content">
+						<input type="hidden" name="memberno" value="${memberno}">
+						<table>
+							<colgroup>
+								<col width="100px" />
+							</colgroup>
+							<tr>
+								<th>번호</th>
+								<td>${qna.qnano }</td>
+							</tr>
+							<tr>
+								<th>처리상태</th>
+								<td><span class="text-back">
+								${qna.qstatus }
+								</span></td>
+							</tr>
+							<tr>
+								<th>질문유형</th>
+								<td>
+									<div class="select-group">
+										<select name="qcategory" class="form-select">
+											<option value="상품"
+												<c:if test="${qna.qcategory eq '상품'}"><c:out value="selected" /></c:if>>상품</option>
+											<option value="주문"
+												<c:if test="${qna.qcategory eq '주문'}"><c:out value="selected" /></c:if>>주문</option>
+											<option value="배송"
+												<c:if test="${qna.qcategory eq '배송'}"><c:out value="selected" /></c:if>>배송</option>
+											<option value="환불"
+												<c:if test="${qna.qcategory eq '환불'}"><c:out value="selected" /></c:if>>환불</option>
+											<option value="기타"
+												<c:if test="${qna.qcategory eq '기타'}"><c:out value="selected" /></c:if>>기타</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>제목</th>
+								<td><input type="text" name="qtitle" value="${qna.qtitle }" /></td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td><textarea name="qcontent" rows="10" cols="145">${qna.qcontent }</textarea></td>
+							</tr>
+							<tr>
+								<th>첨부파일</th>
+								<td><input type="file" name="qfilesrc" ${qna.qfilesrc }></td>
+							</tr>
+						</table>
+					</div>
+					<section class="cart-btn-box order-btn-box">
+						<div class="btn-wrap" style="margin-top: 20px;">
+							<input type="submit" value="수정" />
+						</div>
+					</section>
+				</form>
+				<!-- mypage-content -->
+			</div>
+			<!-- "mypage-content-box -->
+		</section>
+	</article>
+<%-- 	<h1>1:1문의 수정</h1>
+	<table class="toClass">
 		<tr>
-		<td class="left">첨부</td>
-		<td>
-		<input type="file" name="qfilesrc" >
-		
-		</td>
-	</tr>
+			<td class="left top">번호</td>
+			<td class="top">${qna.qnano }</td>
+		</tr>
+		<tr>
+			<td class="left">처리상태</td>
+			<td>${qna.qstatus }</td>
+		</tr>
+		<form action="${ctx }/qna/modify" method="post"
+			enctype="multipart/form-data" onsubmit="return writeCheck();"
+			name="writeForm">
+			<input type="hidden" name="qnano" value="${qna.qnano }" /> <input
+				type="hidden" name="oldqfilesrc" value="${qna.qfilesrc }" />
+			<tr>
+				<td class="left">질문유형</td>
+				<td>
+					<!-- selected --> <select name="qcategory" class="pl">
+						<option value="상품"
+							<c:if test="${qna.qcategory eq '상품'}"><c:out value="selected" /></c:if>>상품</option>
+						<option value="주문"
+							<c:if test="${qna.qcategory eq '주문'}"><c:out value="selected" /></c:if>>주문</option>
+						<option value="배송"
+							<c:if test="${qna.qcategory eq '배송'}"><c:out value="selected" /></c:if>>배송</option>
+						<option value="환불"
+							<c:if test="${qna.qcategory eq '환불'}"><c:out value="selected" /></c:if>>환불</option>
+						<option value="기타"
+							<c:if test="${qna.qcategory eq '기타'}"><c:out value="selected" /></c:if>>기타</option>
 
-		<td colspan="2">
-			<input type="submit" value="수정" /> &nbsp;&nbsp;
-			<input type="button" value="리스트" 
-			onclick="location.href='./list'" /> 			
-		</td>
-	</tr>
-</table>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="left">제목</td>
+				<td><input type="text" name="qtitle" value="${qna.qtitle }" />
+				</td>
+			</tr>
+			<tr>
+				<td class="left">질문내용</td>
+				<td><textarea type="text" name="qcontent" rows="10" cols="145"
+						class="pl2">${qna.qcontent }</textarea></td>
+			</tr>
+
+			<tr>
+				<td class="left">첨부</td>
+				<td><input type="file" name="qfilesrc"></td>
+			</tr>
+
+			<td colspan="2"><input type="submit" value="수정" /> &nbsp;&nbsp;
+				<input type="button" value="리스트" onclick="location.href='./list'" />
+			</td>
+			</tr>
+	</table>
 
 
 
-</form>
-<script>
+	</form> --%>
+	<script>
+		function writeCheck() {
+			var frm = document.writeForm;
 
+			if (frm.qtitle.value == "") {
+				alert('제목을  입력하세요');
+				frm.qtitle.focus();
+				return false;
 
-	function writeCheck(){
-		var frm	= document.writeForm;
-		
-		
-		if(frm.qtitle.value==""){
-			alert('제목을  입력하세요');
-			frm.qtitle.focus();
-			return false;
-			
+			}
+
+			if (frm.qcontent.value == "") {
+				alert('내용을  입력하세요');
+				frm.qcontent.focus();
+				return false;
+
+			}
 		}
-		
-		
-		if(frm.qcontent.value==""){
-			alert('내용을  입력하세요');
-			frm.qcontent.focus();
-			return false;
-			
-		}
-	}
-	
-	
-</script>
+	</script>
 
 </body>
 </html>

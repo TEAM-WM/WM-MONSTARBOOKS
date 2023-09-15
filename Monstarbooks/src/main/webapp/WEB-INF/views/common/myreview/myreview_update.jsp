@@ -89,7 +89,7 @@ tr, td {
 							<input type="hidden" name="mid" value="${myreview_view.member.mid }" />
 							<input type="hidden" name="rtitle" value="${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }&nbsp; ${myreview_view.book.btitle } " />
 							<div class="select-group">
-								<select class="form-select star">
+								<select name="rstar" class="form-select star">
 									<option value="5" <c:if test="${myreview_view.rstar == 5}">selected</c:if>>★★★★★</option>
 									<option value="4" <c:if test="${myreview_view.rstar == 4}">selected</c:if>>★★★★</option>
 									<option value="3" <c:if test="${myreview_view.rstar == 3}">selected</c:if>>★★★</option>
@@ -99,7 +99,11 @@ tr, td {
 							</div>
 							<textarea name="rcontent" placeholder="리뷰를 입력해주세요." maxlength="800">${myreview_view.rcontent}</textarea>
 							<input type="file" name="refilesrc" accept=".jpg, .png, .gif" value="${myreview_view.refilesrc}"/>
-							<input type="submit" value="저장" />
+							<section class="cart-btn-box order-btn-box">
+							<div class="btn-wrap">
+								<input type="submit" value="저장" />
+							</div>
+							</section>
 						</form>
 					</div>
 					<!--mypage-form-->

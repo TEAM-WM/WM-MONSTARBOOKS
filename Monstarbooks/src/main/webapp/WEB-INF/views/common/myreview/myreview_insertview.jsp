@@ -105,7 +105,7 @@ tr, td {
               <input type="hidden" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
                 &nbsp;&nbsp; ${bcate.book.btitle } " />
 							<div class="select-group">
-								<select class="form-select star">
+								<select name="rstar" class="form-select star">
 									<option value="5" <c:if test="${bcate.rstar == 5}">selected</c:if>>★★★★★</option>
 									<option value="4" <c:if test="${bcate.rstar == 4}">selected</c:if>>★★★★</option>
 									<option value="3" <c:if test="${bcate.rstar == 3}">selected</c:if>>★★★</option>
@@ -115,7 +115,11 @@ tr, td {
 							</div>
 							<textarea name="rcontent" placeholder="리뷰를 입력해주세요." maxlength="800"></textarea>
 							<input type="file" name="refilesrc" accept=".jpg, .png, .gif" />
-							<input type="submit" value="저장" />
+							<section class="cart-btn-box order-btn-box">
+							<div class="btn-wrap">
+								<input type="submit" value="저장" />
+							</div>
+							</section>
 						</form>
 
 					</div>
