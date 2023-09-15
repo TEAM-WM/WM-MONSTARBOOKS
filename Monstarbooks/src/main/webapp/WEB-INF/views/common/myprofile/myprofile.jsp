@@ -115,7 +115,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="<%=request.getContextPath()%>/mycoupon/couponbox">
+                    <a href="<%=request.getContextPath()%>/mycoupon/mycouponbox">
                         <i class="fa-solid fa-ticket-simple"></i>
                         <span>쿠폰함</span>
                     </a>

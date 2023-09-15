@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,7 +116,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="<%=request.getContextPath()%>/mycoupon/couponbox">
+                    <a href="<%=request.getContextPath()%>/mycoupon/mycouponbox">
                         <i class="fa-solid fa-ticket-simple"></i>
                         <span>쿠폰함</span>
                     </a>

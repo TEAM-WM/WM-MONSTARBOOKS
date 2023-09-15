@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>couponbox</title>
+<title>마이페이지 쿠폰함</title>
 <style>
 /* 테이블 스타일 */
 /* 테이블 내용을 각각의 열로 정렬 */
@@ -88,69 +87,64 @@ tr, td {
 						<th style="width: 100px;">사용유무</th>
 						<th style="width: 100px;" hidden>사용가능(관리자)</th>
 					</tr>
-					<c:forEach var="mcoupon" items="${mcoupon}" varStatus="loop">
+					<c:forEach var="mycp" items="${mcoupon}" varStatus="loop">
 						<tr>
 							<c:choose>
 								<c:when
-									test="${mcoupon.cpstatus eq 'N' and mcoupon.coupon.cpstatus eq 'FALSE' and mcoupon.coupon.cpname eq '신규가입 할인쿠폰'}">
+									test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq '신규가입 할인쿠폰'}">
 									<td colspan="2" style="width: 300px;"><img
 										class="coupon-image"
 										src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon0.png"
 										alt="쿠폰이미지" align="left"></td>
-									<td style="width: 170px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpname}</td>
-									<td style="width: 110px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpprice}
+									<td style="width: 170px; color: #33322e; font-weight: bold;">${mycp.coupon.cpname}</td>
+									<td style="width: 110px; color: #33322e; font-weight: bold;">${mycp.coupon.cpprice}
 										원</td>
 									<td style="width: 10px; color: #33322e; font-weight: bold;">
-										<fmt:formatDate value="${mcoupon.cprdate}"
+										<fmt:formatDate value="${mycp.cprdate}"
 											pattern="yyyy.MM.dd" /> - <fmt:formatDate
-											value="${mcoupon.coupon.cpvalid}" pattern="yyyy.MM.dd" />
+											value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
 									</td>
-									<td style="width: 100px; color: #33322e; font-weight: bold;">${mcoupon.cpstatus}</td>
-									<td style="width: 100px;" hidden>${mcoupon.coupon.cpstatus}</td>
+									<td style="width: 100px; color: #33322e; font-weight: bold;">${mycp.cpstatus}</td>
+									<td style="width: 100px;" hidden>${mycp.coupon.cpstatus}</td>
 								</c:when>
 								<c:when
-									test="${mcoupon.cpstatus eq 'N' and mcoupon.coupon.cpstatus eq 'FALSE' and mcoupon.coupon.cpname eq 'WMBOOK 개업 이벤트'}">
+									test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq 'WMBOOK 개업 이벤트'}">
 									<td colspan="2" style="width: 300px;"><img
 										class="coupon-image"
 										src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon1.png"
 										alt="쿠폰이미지" align="left"></td>
-									<td style="width: 170px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpname}</td>
-									<td style="width: 110px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpprice}
+									<td style="width: 170px; color: #33322e; font-weight: bold;">${mycp.coupon.cpname}</td>
+									<td style="width: 110px; color: #33322e; font-weight: bold;">${mycp.coupon.cpprice}
 										원</td>
 									<td style="width: 10px; color: #33322e; font-weight: bold;">
-										<fmt:formatDate value="${mcoupon.cprdate}"
+										<fmt:formatDate value="${mycp.cprdate}"
 											pattern="yyyy.MM.dd" /> - <fmt:formatDate
-											value="${mcoupon.coupon.cpvalid}" pattern="yyyy.MM.dd" />
+											value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
 									</td>
-									<td style="width: 100px; color: #33322e; font-weight: bold;">${mcoupon.cpstatus}</td>
-									<td style="width: 100px;" hidden>${mcoupon.coupon.cpstatus}</td>
+									<td style="width: 100px; color: #33322e; font-weight: bold;">${mycp.cpstatus}</td>
+									<td style="width: 100px;" hidden>${mycp.coupon.cpstatus}</td>
 								</c:when>
 								<c:when
-									test="${mcoupon.cpstatus eq 'N' and mcoupon.coupon.cpstatus eq 'FALSE' and mcoupon.coupon.cpname eq '가을은 독서 이벤트'}">
+									test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq '가을은 독서 이벤트'}">
 									<td colspan="2" style="width: 300px;"><img
 										class="coupon-image"
 										src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon2.png"
 										alt="쿠폰이미지" align="left"></td>
-									<td style="width: 170px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpname}</td>
-									<td style="width: 110px; color: #33322e; font-weight: bold;">${mcoupon.coupon.cpprice}
+									<td style="width: 170px; color: #33322e; font-weight: bold;">${mycp.coupon.cpname}</td>
+									<td style="width: 110px; color: #33322e; font-weight: bold;">${mycp.coupon.cpprice}
 										원</td>
 									<td style="width: 10px; color: #33322e; font-weight: bold;">
-										<fmt:formatDate value="${mcoupon.cprdate}"
+										<fmt:formatDate value="${mycp.cprdate}"
 											pattern="yyyy.MM.dd" /> - <fmt:formatDate
-											value="${mcoupon.coupon.cpvalid}" pattern="yyyy.MM.dd" />
+											value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
 									</td>
-									<td style="width: 100px; color: #33322e; font-weight: bold;">${mcoupon.cpstatus}</td>
-									<td style="width: 100px;" hidden>${mcoupon.coupon.cpstatus}</td>
+									<td style="width: 100px; color: #33322e; font-weight: bold;">${mycp.cpstatus}</td>
+									<td style="width: 100px;" hidden>${mycp.coupon.cpstatus}</td>
 								</c:when>
 								<c:otherwise>
 									<!-- 다른 경우에 대한 처리를 여기에 추가 -->
 								</c:otherwise>
 							</c:choose>
-						</tr>
-						<tr>
-							<td colspan="7">
-								<%--  				<input type="hidden" name="memberno" value="${mcoupon.member.memberno}" /> --%>
-							</td>
 						</tr>
 					</c:forEach>
 
@@ -160,8 +154,8 @@ tr, td {
 				<div class="center">
 					<hr />
 					<c:if test="${searchVO.page>1}">
-						<a href="couponbox?page=1"><i class="fa-solid fa-angles-left"></i></a>
-						<a href="couponbox?page=${searchVO.page-1 }"><i
+						<a href="mycouponbox?page=1"><i class="fa-solid fa-angles-left"></i></a>
+						<a href="mycouponbox?page=${searchVO.page-1 }"><i
 							class="fa-solid fa-circle-chevron-left"></i></a>
 					</c:if>
 					<c:forEach begin="${searchVO.pageStart }"
@@ -171,14 +165,14 @@ tr, td {
 								<span style="color: red; font-weight: bold;">${i }</span>
 							</c:when>
 							<c:otherwise>
-								<a href="couponbox?page=${i }" style="text-decoration: none;">${i }</a>
+								<a href="mycouponbox?page=${i }" style="text-decoration: none;">${i }</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${searchVO.page < searchVO.totPage}">
-						<a href="couponbox?page=${searchVO.page+1 }"><i
+						<a href="mycouponbox?page=${searchVO.page+1 }"><i
 							class="fa-solid fa-circle-chevron-right"></i></a>
-						<a href="couponbox?page=${searchVO.totPage }"><i
+						<a href="mycouponbox?page=${searchVO.totPage }"><i
 							class="fa-solid fa-angles-right"></i></a>
 					</c:if>
 				</div>
