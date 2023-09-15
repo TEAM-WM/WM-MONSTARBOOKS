@@ -168,7 +168,9 @@ article{
     height: 390px;
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
 }
-
+.main-weekly-wrap .product-info .product-card-title h3{
+	width: 400px;
+}
 .product-info .product-card-title h3{
     font-size: var(--font-medium);
     margin-bottom: 5px;
