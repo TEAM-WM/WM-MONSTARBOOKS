@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.monstar.books.m3pop.dao.QnaDao;
+import com.monstar.books.m3pop.dto.MemberDto;
 import com.monstar.books.m3pop.service.BServiceInter;
 import com.monstar.books.m3pop.service.QnaContentViewService;
 import com.monstar.books.m3pop.service.QnaDeleteService3;
@@ -36,7 +39,11 @@ public class QnaController {
 	@RequestMapping("/qna/list")
 	public String list(HttpServletRequest request,SearchVO searchVO, Model model) { //model 파라미터는 리스트를 만들 때 가져온다??
 		System.out.println("====list()====");
-		
+		String attachPath = "resources\\assets\\upload\\";
+		String path = request.getSession().getServletContext().getRealPath(attachPath);
+		//String path="C:\\Users\\goott4\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\assets\\upload";
+				//uploadPath+attachPath;
+		System.out.println("path :"+path);
 //		데이터 가져오기 작업
 		//model.addAttribute("request", request);
 		model.addAttribute("request",request);
@@ -50,9 +57,22 @@ public class QnaController {
 	}
 	
 	@RequestMapping("/qna/write_view")
-	public String write_view() {
+	public String write_view(HttpServletRequest request, Model model) {
 		System.out.println("====write_view()====");
 		
+		
+		HttpSession session = request.getSession();
+		//인터페이스 타입으로
+		String mid=(String) session.getAttribute("id");
+		
+		
+		QnaDao dao = sqlSession.getMapper(QnaDao.class);
+		MemberDto dto = dao.getData(mid);
+		String memberno =String.valueOf(dto.getMemberno()) ;
+		String mname =String.valueOf(dto.getMname()) ;
+		System.out.println("memberno :"+memberno);
+		model.addAttribute("memberno", memberno);
+		model.addAttribute("mname", mname);
 		return "common/qna/write_view";
 	}
 	
@@ -61,6 +81,8 @@ public class QnaController {
 		System.out.println("====write()====");
 		//글쓰기 진행
 		//model에 담아서 toss
+
+		
 		model.addAttribute("request", request);
 		bServiceInter = new QnaWriteService(sqlSession);
 		bServiceInter.execute(model);

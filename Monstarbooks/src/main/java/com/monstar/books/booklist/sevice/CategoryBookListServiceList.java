@@ -98,6 +98,8 @@ public class CategoryBookListServiceList implements BookListService {
 		model.addAttribute("pageName","category");
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
+		model.addAttribute("category1",category1+"도서");
+		model.addAttribute("category2",category2);
 		
 //		로그인상태인지 확인
 		if(memberId != null) {

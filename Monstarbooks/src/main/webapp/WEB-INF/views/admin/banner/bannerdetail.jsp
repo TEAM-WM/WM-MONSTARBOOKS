@@ -22,7 +22,8 @@
 		
 	</tr>
 </table>
-<a href="list">목록</a>
+<a href="bannermodifyview?bannerno=${bannerdetail.bannerno }">수정</a>
 <a href="bannerdelete?bannerno=${bannerdetail.bannerno }">삭제</a>
+<a href="list">목록</a>
 </body>
 </html>

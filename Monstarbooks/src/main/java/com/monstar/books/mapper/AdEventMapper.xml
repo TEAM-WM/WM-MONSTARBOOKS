@@ -48,13 +48,46 @@
 		<collection property="member" resultMap="Member"></collection>
 	</resultMap>
 	
+	<sql id="includeList">
+		<choose>
+			<when test="param4==1">
+				WHERE ETITLE LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==2">
+				WHERE ECONTENT LIKE '%'||#{param3}||'%'
+			</when>
+			<when test="param4==3">
+				WHERE ETITLE LIKE '%'||#{param3}||'%' OR ECONTENT LIKE '%'||#{param3}||'%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
 	
 	<select id="list" resultType="com.monstar.books.adbanner.dto.EventDto">
-		SELECT*FROM M_EVENT
+		SELECT*FROM
+		(SELECT ROWNUM NUM,N.*FROM
+		(SELECT*FROM M_EVENT ORDER BY EVENTNO DESC)N
+			<include refid="includeList"/>
+		)
+		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 	
-	<insert id="eventcoupondwon">
- 		INSERT INTO M_COUPON_MEMBER VALUES(M_COUPON_MEMBER_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},'N')
+	<select id="selectBoardTotCount1" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT WHERE ETITLE LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount2" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT WHERE ECONTENT LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount3" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT	WHERE ETITLE LIKE '%'||#{param1}||'%'
+   		OR ECONTENT LIKE '%'||#{param1}||'%'
+	</select>
+	<select id="selectBoardTotCount4" resultType="Integer">
+		SELECT COUNT(*)FROM M_EVENT
+	</select>
+	
+	<insert id="eventwrite">
+ 		INSERT INTO M_EVENT VALUES(M_EVENT_SEQ.NEXTVAL,#{param1},#{param2},#{param3},SYSDATE,'no')
 	</insert>
 	
 	<select id="eventdetail" resultType="com.monstar.books.adbanner.dto.EventDto">
@@ -65,9 +98,15 @@
 		UPDATE M_EVENT SET DELETED='yes' WHERE EVENTNO=#{param1}
 	</update>
 	
-	<select id="couponlist" resultType="com.monstar.books.adevent.dto.CouponDto">
-		SELECT * FROM M_COUPON
-	</select>
-	
+		<update id="eventmodify">
+		UPDATE M_EVENT
+		SET ETITLE = #{param2}
+		WHERE EVENTNO = #{param1}
+	</update>
+	<update id="eventmodify2">		
+		UPDATE M_EVENT
+		SET EFILESRC = #{param2}
+		WHERE EVENTNO = #{param1}
+	</update>
 	
 </mapper>

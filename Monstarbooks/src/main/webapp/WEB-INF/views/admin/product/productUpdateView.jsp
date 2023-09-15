@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>샘플페이지</title>
+<title>상품수정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 포함 --> 
 </head>
 <body>
@@ -22,7 +22,7 @@
 		<label for="bisbn">ISBN</label>
 		<div class="form-small">
 			<input type="text" name="bisbn" value="${dtos.bisbn }" />
-			<input type="button" value="ISBN 검색" />
+		<!-- 	<input type="button" value="ISBN 검색" /> -->
 		</div>
 		
 		<label for="btitle">도서제목</label>
@@ -50,7 +50,7 @@
 		<input type="text" name="bdiscount" value="${dtos.bdiscount }" class="bdiscount" />
 		
 		<br />
-		<button id="upcalDiscount">판매가계산</button>
+		<button type="button" id="calDiscount">판매가계산</button>
 		<br />
 		
 		<label for="bpricesell">판매가</label>
@@ -168,20 +168,26 @@
 				
 	<script>
 	// "수정하기" 버튼 클릭 시 폼을 제출하기 전에 파일 필드를 검사
-	  document.querySelector(".updateForm").addEventListener("submit", function (event) {
-	    
-	    var bimgInput = document.querySelector('input[name="bimg"]');
-	    var bimgValue = bimgInput.value;
-	    
-	    var bimgdetailInput = document.querySelector('input[name="bimgdetail"]');
-	    var bimgdetailValue = bimgdetailInput.value;
+	document.querySelector(".updateForm").addEventListener("submit", function (event) {
+	  
+	  var bimgInput = document.querySelector('input[name="bimg"]');
+	  var bimgValue = bimgInput.value;
+	  
+	  var bimgdetailInput = document.querySelector('input[name="bimgdetail"]');
+	  var bimgdetailValue = bimgdetailInput.value;
+	
+	  // 파일 필드 값이 둘 다 비어있는 경우 경고창 표시하고 폼 제출 취소
+	  if (bimgValue === "" && bimgdetailValue === "") {
+	    alert("도서썸네일과 도서상세이미지를 선택하세요.");
+	    event.preventDefault(); // 폼 제출 취소
+	  }
+	});
+	
+	
+	
 
-	    // 파일 필드 값이 둘 다 비어있는 경우 경고창 표시하고 폼 제출 취소
-	    if (bimgValue === "" && bimgdetailValue === "") {
-	      alert("도서썸네일과 도서상세이미지를 선택하세요.");
-	      event.preventDefault(); // 폼 제출 취소
-	    }
-	  });
+	
+	
 	</script>
 </body>
 </html>

@@ -42,15 +42,15 @@ public class MyProfileUpdateService implements MyPageService {
 		//로그인프로세스 서비스 참조
 //		httpSession.setAttribute("id", dto.getMid());
 		
-		
+		///Users/klyeon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/imgs/product
 		// 파일 업로드를 위한 경로 설정
-		String path = "C:\\javabigsetspring2023\\spring_work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\Monstarbooks\\resources\\assets\\upload";	
+		String path = "/Users/klyeon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/assets/upload";	
 //		해당 톰캣의 server.xml을 수정? <Context path="/상대경로" docBase="/절대경로" />
 		
 		
 		// MyProfileDao를 이용하여 데이터베이스 업데이트 수행
 		MyProfileDao dao = sqlSession.getMapper(MyProfileDao.class);
-
+		
 		MultipartRequest req = null;
 
 		try {
@@ -70,7 +70,7 @@ public class MyProfileUpdateService implements MyPageService {
 			System.out.println("mprofileimg:" + mprofileimg);
 
 			dao.profileupdate(mid, mprofileimg);
-			
+			session.setAttribute("profileImg", mprofileimg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

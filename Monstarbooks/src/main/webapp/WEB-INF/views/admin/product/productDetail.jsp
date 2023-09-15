@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>productDetail</title>
+<title>상품상세</title>
 </head>
 <body>
 <h3>productDetail.jsp</h3>
@@ -103,14 +103,14 @@
 					<%-- <td><img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg }" width="200" alt="도서썸네일" /></td> --%>
 					<td>
 						<c:if test="${dto.bookDetailDto.bimg ne null }">
-							<img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg}" alt="썸네일" />
+							<img src="${pageContext.request.contextPath}/resources/assets/imgs/product/${dto.bookDetailDto.bimg}" alt="썸네일" />
 						</c:if>
 					</td>
 					<%-- <td><a href="download?p=/resources/assets/imgs/product/&f=${dto.bookDetailDto.bimg }">${dto.bookDetailDto.bimg }</a></td> --%>
 				</tr>
 				<tr>
 					<td>도서상세이미지</td>
-					<td><img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimgdetail }" alt="도서상세이미지" /></td>
+					<td><img src="${pageContext.request.contextPath}/resources/assets/imgs/product/${dto.bookDetailDto.bimgdetail }" alt="도서상세이미지" /></td>
 				</tr>
 				<tr>
 					<td>도서설명</td>

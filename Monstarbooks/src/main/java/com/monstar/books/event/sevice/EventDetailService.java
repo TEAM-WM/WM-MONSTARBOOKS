@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 
 
 import com.monstar.books.adbanner.dto.EventDto;
-import com.monstar.books.adevent.dao.AdEventDao;
+import com.monstar.books.event.dao.EventDao;
 
 
 @Service
@@ -31,7 +31,7 @@ public class EventDetailService implements EventService{
 		Map<String, Object> map=model.asMap();
 		HttpServletRequest request=(HttpServletRequest) map.get("request");
 		int eventno = Integer.parseInt(request.getParameter("eventno"));
-		AdEventDao dao=session.getMapper(AdEventDao.class);
+		EventDao dao=session.getMapper(EventDao.class);
 		
 		EventDto dto=dao.eventdetail(eventno);
 		

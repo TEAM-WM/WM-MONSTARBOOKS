@@ -4,6 +4,25 @@
 
 <mapper namespace="com.monstar.books.adnotice.dao.AdNoticeDao">
 
+	<resultMap type="com.monstar.books.member.dto.MemberDto" id="Member">
+		<result column="MEMBERNO" property="memberno"/>
+		<result column="MID" property="mid"/>
+		<result column="MNAME" property="mname"/>
+	</resultMap>
+
+	<resultMap type="com.monstar.books.adnotice.dto.AdNoticeDto" id="Notice">
+	    <result column="noticeno" property="noticeno"/>
+	    <result column="ntitle" property="ntitle"/>
+	    <result column="ncontent" property="ncontent"/>
+	    <result column="nwriter" property="nwriter"/>
+	    <result column="nregdate" property="nregdate"/>
+	    <result column="nfilesrc" property="nfilesrc"/>
+	    <result column="deleted" property="deleted"/>
+	    <result column="memberno" property="memberno"/>
+    	<collection property="member" resultMap="Member"></collection>
+	</resultMap>
+
+
 	<!-- 아래 notice에 추가하는 쿼리 -->
 	<sql id="includeNotice">
 		<choose>
@@ -25,8 +44,7 @@
 
 
 	<!-- m_notice테이블의 전체 데이터를 불러오는 쿼리 -->
-	<select id="notice"
-		resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
+	<select id="notice" resultType="com.monstar.books.adnotice.dto.AdNoticeDto">
 		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM M_NOTICE
 		ORDER BY NOTICENO DESC) N
 		<include refid="includeNotice" />
@@ -52,15 +70,16 @@
 
 	<!-- 공지를 등록하는 쿼리 -->
 	<insert id="insert">
-		INSERT INTO M_NOTICE VALUES(M_NOTICE_SEQ.NEXTVAL,#{param1},#{param2},'관리자1',
-		SYSDATE,#{param3},'No',1)
+		INSERT INTO M_NOTICE (NOTICENO, NTITLE, NCONTENT, NWRITER, NREGDATE, NFILESRC, DELETED, MEMBERNO)
+		SELECT M_NOTICE_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, SYSDATE, #{param4}, 'no', MM.MEMBERNO
+		FROM M_MEMBER MM
+		WHERE MM.MID = #{param3}
 	</insert>
 
 	<!-- 공지를 삭제하는 쿼리 -->
 	<update id="delete">
-		UPDATE M_NOTICE SET DELETED='Yes' WHERE NOTICENO=#{param1}
+		UPDATE M_NOTICE SET DELETED='yes' WHERE NOTICENO=#{param1}
 	</update>
-
 
 	<!-- 검색 이후의 데이터 총합을 구하는 쿼리 -->
 	<select id="selectTot1" resultType="Integer">

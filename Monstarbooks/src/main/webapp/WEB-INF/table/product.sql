@@ -194,3 +194,29 @@ insert into m_book_detail(bookno, bcategoryno, bimg, bimgdetail, bdescription,
         '신상품');
         
 SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_BOOK_SEQ';
+
+
+
+
+
+
+----------------------------
+--통합
+--------[
+
+
+create table m_member(
+    memberno	NUMBER,
+	mid VARCHAR2(100)	NOT NULL,
+	mpw VARCHAR2(100)	NOT NULL,
+	mbirth	DATE,
+	mname VARCHAR2(100)	NOT NULL,
+	memail VARCHAR2(100)	NOT NULL,
+	mtel	 VARCHAR2(100)	NOT NULL,
+	mregdate DATE	NOT NULL,
+	mprofileimg VARCHAR2(255)	NULL,
+	mfavorite VARCHAR2(255)	NULL,
+	mauthority VARCHAR2(10) DEFAULT '사용자',
+	deleted	char(3) DEFAULT 'no',
+    constraint m_member_id_pk primary key(mid)
+);

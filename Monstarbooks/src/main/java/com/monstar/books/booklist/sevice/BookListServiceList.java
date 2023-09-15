@@ -75,6 +75,8 @@ public class BookListServiceList implements BookListService {
 		model.addAttribute("totRowCnt",total);
 		model.addAttribute("searchVO",searchVO);
 		model.addAttribute("pageName","bestlist");
+		model.addAttribute("category1","베스트셀러");
+		model.addAttribute("category2","종합 베스트");
 		
 //		로그인상태인지 확인
 		if(memberId != null) {

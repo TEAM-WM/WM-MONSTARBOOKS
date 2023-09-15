@@ -5,14 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품관리 - 상품목록</title>
+<title>상품목록</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
 </head>
 <body>
 <h3>productList.jsp</h3>
 <%-- 	<img src="${pageContext.request.contextPath}/resources/assets/imgs/kyobo.jpg" witdh="200" height="200" alt="" /> --%>
-	<img src="/books/resources/assets/imgs/product/기여어.png" alt="테스트이미지" width="100" />
+	<img src="https://monstarbuck.s3.ap-northeast-2.amazonaws.com/%EA%B8%B0%EC%97%AC%EC%96%B4.png" alt="aws 버킷 테스트" />
+	<h3>AWS 버킷 테스트</h3>
+	<img src="${pageContext.request.contextPath}/resources/assets/imgs/product/기여어.png" alt="테스트이미지" width="100" />
 	
 	<!-- 상품등록 버튼 -->
 	<div style="width:100%; text-align:right;">
@@ -60,7 +62,7 @@
 					<tr>
 						<td align=center>${dto.bookno }</td>
 						<!-- <td>도서이미지</td> -->
-						<td align=center><img src="/books/resources/assets/imgs/product/${dto.bookDetailDto.bimg }" width="80" alt="도서이미지" /></td>
+						<td align=center><img src="${pageContext.request.contextPath}/resources/assets/imgs/product/${dto.bookDetailDto.bimg }" width="80" alt="도서이미지" /></td>
 						<td align=center>${dto.btitle }</td>
 						<td align=center>${dto.bpublisher }</td>
 						<td align=center>${dto.bwriter }</td>

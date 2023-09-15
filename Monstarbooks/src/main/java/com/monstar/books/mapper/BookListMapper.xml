@@ -23,6 +23,7 @@
 		<result column="BSTOCK" property="bstock"/>
 		<result column="STARAVG" property="starAvg"/>
 		<result column="REVIEWCNT" property="reviewCnt"/>
+		<result column="NUM" property="num"/>
 		<collection property="detail" resultMap="Detail"></collection>
 		<collection property="category" resultMap="Category"></collection>
 	</resultMap>
@@ -128,7 +129,7 @@
         AND D.BCATEGORYNO = C.BCATEGORYNO
         AND C.BCATEGORY1=#{param1}
         <include refid="includeList"/>
-		ORDER BY BPDATE DESC) N)
+		ORDER BY REVIEWCNT DESC) N)
 		WHERE NUM BETWEEN #{param3} AND #{param4}
 	</select>
 	

@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 
-<style>
+<!-- <style>
 
 h2 {
     text-align: center;
@@ -52,132 +52,232 @@ a:hover {
   color: navy; /* 색상을 변경하고자 하는 색상으로 설정 */
   text-decoration: none; /* 밑줄을 제거하려면 이 줄을 추가 */
 }
-</style>
+</style> -->
 
 </head>
 <body>
-	<br />
-	<br />
-
-    <div class="content">
-        <!-- 왼쪽에 myprofile.jsp 내용 추가 -->
-        <div id="myprofile-sidebar">
-            <%@ include file="../myprofile/myprofile.jsp" %>
-        </div>
-
-<form action="">	
 	<!--  230826 [효슬] 리뷰 목록 페이지 구현 -->
-	<div>
-	<br />
-		<h2>My Review</h2>
-		<br/>	<br/>
-		<table border="1">
-			<c:forEach items="${reviewList }" var="dto">
-				<tr>
-					<td class="left" hidden>로그인,이미지,제목,별점,날짜,내용</td>
-			<!-- hidden값 잘 넘어옴 확인완료  -->
+	<article class="mypage-wrap">
+		<section class="mypage-section-wrap">
+			<jsp:include page="/WEB-INF/views/tiles/include/mypageMenu.jsp"></jsp:include>
+			<div class="mypage-content-box">
+				<div class="mypage-title">
+					<h3>내가 남긴 리뷰</h3>
+				</div>
+				<div class="mypage-content bn">
+					<ol class="review-list">
+						<c:forEach items="${reviewList }" var="re">
+							<li class="review-item"><header class="review-card-header">
+									<div class="review-card-book">
+										<div class="product-card-image">
+											<img
+												src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791170626459.jpg"
+												alt="">
+										</div>
+										<div class="review-card-box">
+											<div class="product-card-title">
+												<h3><a href="${pageContext.request.contextPath}/booklist/bookdetail?bookno=${re.book.bookno }">[${re.bookcategory.bcategory1 } /
+													${re.bookcategory.bcategory2 }] ${re.book.btitle }</a></h3>
+											</div>
+											<div class="review-card-box2">
+												<div class="star-rating">
+													<div class="star-back">
+														<i class="fa-solid fa-star"></i> <i
+															class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+														<i class="fa-solid fa-star"></i> <i
+															class="fa-solid fa-star"></i>
+														<div class="star-front" style="width: ${re.rstar*20.6}%">
+															<i class="fa-solid fa-star"></i> <i
+																class="fa-solid fa-star"></i> <i
+																class="fa-solid fa-star"></i> <i
+																class="fa-solid fa-star"></i> <i
+																class="fa-solid fa-star"></i>
+														</div>
+													</div>
+												</div>
+												<!-- 별점끝 -->
+											</div>
+											<!--review-card-book2-->
+											<div class="info">
+												<time datetime="0000-00-00"> ${re.regdate } </time>
+											</div>
+										</div>
+										<!--review-card-box-->
+									</div>
+									<!--review-card-book-->
+									<div>
+										<a href="update?reviewno=${re.reviewno }" class="btn-a">수정</a>
+										<a href="reviewdelete?reviewno=${re.reviewno }"
+											class="btn-a gray">삭제</a>
+									</div>
+								</header>
+
+								<div class="review-card-body">
+									<c:if test="${not empty re.refilesrc }">
+										<div class="review-image">
+											<img
+												src="${pageContext.request.contextPath}/resources/assets/upload/${re.refilesrc }"
+												alt="리뷰 사진" />
+										</div>
+									</c:if>
+									<pre>${re.rcontent }</pre>
+								</div></li>
+						</c:forEach>
+					</ol>
+				</div>
+				<!-- mypage-content -->
+				<!-- pagination-wrap -->
+				<div class="pagination-wrap">
+					<!-- pagination -->
+					<div class="pagination">
+						<ol>
+							<c:choose>
+								<c:when test="${searchVO.page>1}">
+									<li><a href="list?page=1"><i
+											class="fa-solid fa-angles-left"></i></a></li>
+									<li><a href="list?page=${searchVO.page-1 }"><i
+											class="fa-solid fa-angle-left"></i></a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="disabled"><a> <i
+											class="fa-solid fa-angles-left"></i>
+									</a></li>
+									<li class="disabled"><a> <i
+											class="fa-solid fa-angle-left"></i>
+									</a></li>
+								</c:otherwise>
+							</c:choose>
+							<!-- 14 -->
+							<c:forEach begin="${searchVO.pageStart }"
+								end="${searchVO.pageEnd }" var="i">
+								<c:choose>
+									<c:when test="${i eq searchVO.page }">
+										<!-- 내가 클릭한 페이지의 숫자랑 같냐 -->
+										<li class="current-page"><a> ${i } </a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="list?page=${i }">${i }</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${searchVO.page < searchVO.totPage}">
+									<li><a href="list?page=${searchVO.page+1 }"><i
+											class="fa-solid fa-angle-right"></i></a></li>
+									<li><a href="list?page=${searchVO.totPage }"><i
+											class="fa-solid fa-angles-right"></i></a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="disabled"><a> <i
+											class="fa-solid fa-angle-right"></i>
+									</a></li>
+									<li class="disabled"><a> <i
+											class="fa-solid fa-angles-right"></i>
+									</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</div>
+					<!-- pagination -->
+				</div>
+				<!-- pagination-wrap -->
+			</div>
+		</section>
+	</article>
+	<%-- 
+	<div class="content">
+		<form action="">
+
+			<div>
+				<br />
+				<h2>My Review</h2>
+				<br /> <br />
+				<table border="1">
+					<c:forEach items="${reviewList }" var="dto">
 						<tr>
-						<td>
-					<input type="hidden" name="mid" value="${dto.member.mid}" />
-					<input type="hidden" name="bookno" value="${dto.book.bookno }" />
-					<input type="hidden" name="memberno" value="${dto.memberno }" />
-					<input type="hidden" name="rtitle" value="${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }&nbsp;${dto.book.btitle }" />
-					</td>
-				</tr>
-				<c:if test="${empty dto.refilesrc}">
-					<!-- dto.refilesrc가 비어있으면 -->
-					<tr>
-						<td colspan=3 style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold; vertical-align: top; "
-							class="left"><img style="max-width: 40px; height: 40px;"
-							src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/bookdefault.png"
-							alt="기본썸네일" />&nbsp;&nbsp;&nbsp;<a href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
-						&nbsp;${dto.book.btitle }</a></td>
-					</tr>
-				</c:if>
+							<td class="left" hidden>로그인,이미지,제목,별점,날짜,내용</td>
+							<!-- hidden값 잘 넘어옴 확인완료  -->
+						<tr>
+							<td><input type="hidden" name="mid"
+								value="${dto.member.mid}" /> <input type="hidden" name="bookno"
+								value="${dto.book.bookno }" /> <input type="hidden"
+								name="memberno" value="${dto.memberno }" /> <input
+								type="hidden" name="rtitle"
+								value="${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }&nbsp;${dto.book.btitle }" />
+							</td>
+						</tr>
+						<c:if test="${empty dto.refilesrc}">
+							<!-- dto.refilesrc가 비어있으면 -->
+							<tr>
+								<td colspan=3
+									style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold; vertical-align: top;"
+									class="left"><img style="max-width: 40px; height: 40px;"
+									src="${pageContext.request.contextPath}/resources/assets/imgs/mypage/bookdefault.png"
+									alt="기본썸네일" />&nbsp;&nbsp;&nbsp;<a
+									href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
+										&nbsp;${dto.book.btitle }</a></td>
+							</tr>
+						</c:if>
 
-				<tr>
-					<c:if test="${dto.refilesrc ne null }">
-						<!-- dto.refilesrc가 비어있지 않으면 -->
-						<td colspan=3 style="border-bottom: 1px solid; border-color: darkgray;  font-weight: bold; vertical-align: top;" class="left">
-						<img style="max-width: 40px; height: 40px;"
-							src="${pageContext.request.contextPath}/resources/assets/upload/${dto.refilesrc }"
-							alt="이미지첨부" /> &nbsp;&nbsp;&nbsp;<a href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
-						&nbsp;${dto.book.btitle }</a></td>
-					</c:if>
-					
-			
-				</tr>
+						<tr>
+							<c:if test="${dto.refilesrc ne null }">
+								<!-- dto.refilesrc가 비어있지 않으면 -->
+								<td colspan=3
+									style="border-bottom: 1px solid; border-color: darkgray; font-weight: bold; vertical-align: top;"
+									class="left"><img style="max-width: 40px; height: 40px;"
+									src="${pageContext.request.contextPath}/resources/assets/upload/${dto.refilesrc }"
+									alt="이미지첨부" /> &nbsp;&nbsp;&nbsp;<a
+									href="view?reviewno=${dto.reviewno }">[${dto.bookcategory.bcategory1 }│${dto.bookcategory.bcategory2 }]
+										&nbsp;${dto.book.btitle }</a></td>
+							</c:if>
 
-				<tr>
-					<td class="left" colspan="1" style=" font-size: 15px; ">
-					<c:choose>
-							<c:when test="${dto.rstar == 1}">
+
+						</tr>
+
+						<tr>
+							<td class="left" colspan="1" style="font-size: 15px;"><c:choose>
+									<c:when test="${dto.rstar == 1}">
                 ★
               </c:when>
-							<c:when test="${dto.rstar == 2}">
+									<c:when test="${dto.rstar == 2}">
                 ★★
               </c:when>
-							<c:when test="${dto.rstar == 3}">
+									<c:when test="${dto.rstar == 3}">
                 ★★★
               </c:when>
-							<c:when test="${dto.rstar == 4}">
+									<c:when test="${dto.rstar == 4}">
                 ★★★★
               </c:when>
-							<c:when test="${dto.rstar == 5}">
+									<c:when test="${dto.rstar == 5}">
                 ★★★★★
               </c:when>
-						</c:choose> &nbsp;&nbsp;&nbsp;<fmt:formatDate value="${dto.regdate}"
-							pattern="yyyy.MM.dd" /></td>
-							
-					<td class="right"><a href="update?reviewno=${dto.reviewno }">수정</a>
-						&nbsp; l &nbsp;<a href="reviewdelete?reviewno=${dto.reviewno }">삭제</a></td>
-				</tr>
-				<tr>
-					<td style="vertical-align: top;" class="left" colspan="3"
-						height="100px">${dto.rcontent }</td>
-				</tr>
-				
-			</c:forEach>
-			
-			
-			
-		</table>
+								</c:choose> &nbsp;&nbsp;&nbsp;<fmt:formatDate value="${dto.regdate}"
+									pattern="yyyy.MM.dd" /></td>
 
-		
-		<br /> 
-		<br />
+							<td class="right"><a href="update?reviewno=${dto.reviewno }">수정</a>
+								&nbsp; l &nbsp;<a href="reviewdelete?reviewno=${dto.reviewno }">삭제</a></td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top;" class="left" colspan="3"
+								height="100px">${dto.rcontent }</td>
+						</tr>
 
-		<!-- 페이징 -->
-	<div class="center">
-	<%-- ${totRowcnt } <br />
-	${searchVO.page }/${searchVO.totPage } --%>
-	<hr />
-	<c:if test="${searchVO.page>1}">
-		<a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a>
-		<a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a>
-	</c:if>
-	<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
-		<c:choose>
-			<c:when test="${i eq searchVO.page }">
-				<span style="color:red; font-weight:bold;">${i }</span>
-			</c:when>
-			<c:otherwise>
-				<a href="list?page=${i }" style="text-decoration:none;">${i }</a> 
-			</c:otherwise>
-		</c:choose>	
-	</c:forEach>
-	<c:if test="${searchVO.page < searchVO.totPage}">
-		<a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a>
-		<a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a>
-	</c:if>
+					</c:forEach>
+
+
+
+				</table>
+
+
+				<br /> <br />
+
+
+			</div>
+		</form>
 	</div>
-			
-		        </div>
-				</form>
-	        </div>
 
 
-
+ --%>
 
 	<script>
 		document.title = "몬스타북스 :: 마이페이지 :: 마이리뷰";

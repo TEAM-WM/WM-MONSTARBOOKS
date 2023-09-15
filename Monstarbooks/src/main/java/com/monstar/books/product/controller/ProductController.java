@@ -52,6 +52,17 @@ public class ProductController {
 
 	@Autowired
 	private SqlSession session;
+	
+	//isbn test
+	@RequestMapping("/admin/product/isbn")
+	public String isbn(Model model, HttpServletRequest request, SearchVO searchVO) {
+
+		System.out.println(">>> ISBN TEST() >>>");
+		
+		return "admin/product/testISBN";
+	}
+	
+	
 
 	//상품리스트
 	@RequestMapping("/admin/product/productlist")

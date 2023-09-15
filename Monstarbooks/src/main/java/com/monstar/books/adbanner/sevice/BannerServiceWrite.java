@@ -1,6 +1,5 @@
 package com.monstar.books.adbanner.sevice;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.monstar.books.adbanner.dao.BannerDao;
-import com.monstar.books.adbanner.dto.BannerDto;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -45,11 +42,13 @@ public class BannerServiceWrite implements BannerService {
 		}
 		String etitle = req.getParameter("etitle");
 		String efilesrc = req.getFilesystemName("efilesrc");
-
+		String e_etitle = req.getParameter("e_etitle");
+		
+		
 		if (efilesrc == null) {
 			efilesrc = "";
 		}
-		dao.bannerwrite(etitle, efilesrc);
+		dao.bannerwrite(etitle, efilesrc,e_etitle);
 
 	}
 

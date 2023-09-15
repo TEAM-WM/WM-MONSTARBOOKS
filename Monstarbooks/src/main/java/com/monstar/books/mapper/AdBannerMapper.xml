@@ -10,6 +10,7 @@
 		<result column="EFILESRC" property="efilesrc"/>
 		<result column="EREGDATE" property="eregdate"/>
 		<result column="DELETED" property="deleted"/>
+		<result column="E_ETITLE" property="e_etitle"/>
 	</resultMap>
 	
 	<resultMap type="com.monstar.books.adbanner.dto.BannerDto" id="Banner">
@@ -37,20 +38,22 @@
 		</choose>
 	</sql>
 
-	<select id="list" resultType="com.monstar.books.adbanner.dto.BannerDto" resultMap="Banner">
+	<select id="list" resultType="com.monstar.books.adbanner.dto.BannerDto" resultMap="Banner">		
 		SELECT *FROM     
 		(SELECT ROWNUM NUM, N.*FROM
-		(SELECT B.BANNERNO,B.EVENTNO,B.ETITLE,B.EFILESRC,B.EREGDATE,E.DELETED
+		(SELECT B.BANNERNO,B.EVENTNO,B.ETITLE,B.EFILESRC,B.EREGDATE,E.DELETED,E.ETITLE AS E_ETITLE
 		FROM M_BANNER B JOIN M_EVENT E 
 		ON B.EVENTNO=E.EVENTNO
 		ORDER BY BANNERNO DESC)N
-			<include refid="includeList"/>
+		<include refid="includeList"/>
 		)
 		WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 	<insert id="bannerwrite">
-		INSERT INTO M_BANNER (BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE)
-    	VALUES (SEQ_BANNERNO.NEXTVAL, SEQ_EVENTNO.NEXTVAL,#{param1},#{param2}, SYSDATE)
+    	INSERT INTO M_BANNER (BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE)
+		SELECT M_BANNER_SEQ.NEXTVAL,ME.EVENTNO,#{param1},#{param2},SYSDATE
+		FROM M_EVENT ME
+		WHERE ME.ETITLE = #{param3}
 	</insert>
 	<select id="bannerdetail" resultType="com.monstar.books.adbanner.dto.BannerDto">
 		SELECT BANNERNO, EVENTNO, ETITLE, EFILESRC, EREGDATE
@@ -61,6 +64,16 @@
 		UPDATE M_EVENT SET DELETED = 'yes' WHERE EVENTNO = #{param1}
 	</update>
 	
+	<update id="bannermodify">
+		UPDATE M_BANNER
+		SET ETITLE = #{param2}
+		WHERE BANNERNO = #{param1}
+	</update>
+	<update id="bannermodify2">		
+		UPDATE M_BANNER
+		SET EFILESRC = #{param2}
+		WHERE BANNERNO = #{param1}
+	</update>
 	<select id="selectBoardTotCount1" resultType="Integer">
 		SELECT COUNT(*)FROM M_BANNER WHERE ETITLE LIKE '%'||#{param1}||'%'
 	</select>
@@ -73,5 +86,6 @@
 	<select id="selectBoardTotCount4" resultType="Integer">
 		SELECT COUNT(*)FROM M_BANNER
 	</select>
+	
 	
 </mapper>

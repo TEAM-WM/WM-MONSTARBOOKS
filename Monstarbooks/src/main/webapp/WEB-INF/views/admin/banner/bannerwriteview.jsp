@@ -13,6 +13,7 @@
     <input type="text" id="etitle" name="etitle"><br>
     <label for="efilesrc">첨부 파일:</label>
     <input type="file" id="efilesrc" name="efilesrc"><br>
+    <input type="hidden" name="e_etitle" value="${e_etitle}">
     <button type="submit">등록</button>
     <a href="list">목록</a>
 </form>

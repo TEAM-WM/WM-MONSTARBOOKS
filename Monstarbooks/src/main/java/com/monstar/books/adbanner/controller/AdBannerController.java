@@ -12,6 +12,7 @@ import com.monstar.books.adbanner.sevice.BannerDeleteService;
 import com.monstar.books.adbanner.sevice.BannerService;
 import com.monstar.books.adbanner.sevice.BannerServiceDetail;
 import com.monstar.books.adbanner.sevice.BannerServiceList;
+import com.monstar.books.adbanner.sevice.BannerServiceModify;
 import com.monstar.books.adbanner.sevice.BannerServiceWrite;
 import com.monstar.books.adbanner.vopage.SearchVO;
 
@@ -51,9 +52,9 @@ public class AdBannerController {
 	
 	@RequestMapping("admin/banner/bannerwriteview")
 	public String bannerwriteview() {
-		System.out.println("bannerwrite");
+		System.out.println("bannerwriteview");
 
-		
+
 		return "admin/banner/bannerwriteview";
 		
 	}// bannerwriteview 종료
@@ -83,4 +84,29 @@ public class AdBannerController {
 
 	    return "redirect:/admin/banner/list";
 	}//bannerdelete 종료
+
+	@RequestMapping("/admin/banner/bannermodify")
+	public String bannermodify(HttpServletRequest request, Model model) {
+	    System.out.println("bannermodify");
+
+	    model.addAttribute("request", request);
+
+	    service = new BannerServiceModify(session);
+	    service.execute(model);
+
+
+	    return "redirect:/admin/banner/list";
+	}// bannermodify 종료
+	@RequestMapping("admin/banner/bannermodifyview")
+	public String bannermodifyview(HttpServletRequest request, Model model) {
+		System.out.println("bannermodifyview");
+
+		model.addAttribute("request", request);
+		
+		service = new BannerServiceDetail(session);
+		service.execute(model);
+
+		return "admin/banner/bannermodifyview";
+	}// bannermodifyview 종료
+
 }

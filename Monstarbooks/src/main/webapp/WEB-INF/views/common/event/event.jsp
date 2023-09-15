@@ -41,17 +41,51 @@
 </script>
 </head>
 <body>
+<form action="event" method="post">
+    <div style="display: inline-block;">
+        <select name="searchType" id="searchType">
+            <option value="etitle" ${etitle ? 'selected' : ''}>제목</option>
+            <option value="econtent" ${econtent ? 'selected' : ''}>내용</option>
+        </select>
+    </div>
+    <div style="display: inline-block;">
+        <input type="text" name="sk" value="${resk}" style="width: 150px;" maxlength="50"/>
+    </div>
+    <div style="display: inline-block;">
+        <input type="submit" value="검색"/>
+    </div>
+</form>
 <a href="javascript:void(0);" onclick="checkLogin();">쿠폰받기</a>
 <div class="event-table-container">
-    <c:forEach items="${list }" var="list" varStatus="status">
-        <c:if test="${list.deleted ne 'yes'}">
+    <c:forEach items="${event }" var="event" varStatus="status">
+        <c:if test="${event.deleted ne 'yes'}">
             <div class="event-row">
-                <a href="eventdetail?eventno=${list.eventno }"><img alt="11" src="/books/resources/assets/imgs/coupon/event.jpeg"></a><br/>
-                <a href="eventdetail?eventno=${list.eventno }">${list.etitle }</a><br/>
+                <a href="eventdetail?eventno=${event.eventno }"><img width="200" height="200" alt="11" src="/books/resources/assets/imgs/coupon/${event.efilesrc }"></a><br/>
+                <a href="eventdetail?eventno=${event.eventno }">${event.etitle }</a><br/>
                 ${list.eregdate }
             </div>
         </c:if>
     </c:forEach>
+</div>
+<div style="display: inline-block; margin-top: 10px;">
+    <c:if test="${searchVO.page > 1 }">
+        <a href="list?page=1" style="text-decoration: none;">처음</a>
+        <a href="list?page=${searchVO.page - 1 }" style="text-decoration: none;">이전</a>
+    </c:if>
+    <c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+        <c:choose>
+            <c:when test="${i eq searchVO.page }">
+                <span style="color: red; font-weight: bold;">${i }</span>
+            </c:when>
+            <c:otherwise>
+                <a href="list?page=${i }" style="text-decoration: none;">${i }</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${searchVO.page < searchVO.totPage }">
+        <a href="list?page=${searchVO.page + 1 }" style="text-decoration: none;">다음</a>
+        <a href="list?page=${searchVO.totPage }" style="text-decoration: none;">마지막</a>
+    </c:if>
 </div>
 <script>
 	document.title = "몬스타북스 :: 샘플페이지"; 
