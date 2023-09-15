@@ -39,7 +39,7 @@
                             </span>
                         </a>
                     </li>
-                    <li>
+                    <li class="${currentPage == '/admin/order' ? 'active' : ''}">
                         <a href="${pageContext.request.contextPath}/admin/order/list">
                             <i class="fa-solid fa-briefcase"></i>
                             <span>
@@ -47,8 +47,8 @@
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/admin/">
+                    <li class="${currentPage == '/admin/coupon' ? 'active' : ''}">
+                        <a href="${pageContext.request.contextPath}/admin/coupon/list">
                             <i class="fa-solid fa-ticket-simple"></i>
                             <span>
                                 쿠폰관리
@@ -70,7 +70,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/admin/">
+                                    <a href="${pageContext.request.contextPath}/admin/adfaq/faq">
                                         FAQ
                                     </a>
                                 </li>
