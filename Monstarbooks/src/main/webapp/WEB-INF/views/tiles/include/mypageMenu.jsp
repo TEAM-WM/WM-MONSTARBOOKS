@@ -45,7 +45,7 @@
 	                <a href="${pageContext.request.contextPath}/myreview/list">리뷰</a>
 	            </li>
 	            <li class="aside-sub">
-	                <a href="${pageContext.request.contextPath}/mycoupon/couponbox">쿠폰함</a>
+	                <a href="${pageContext.request.contextPath}/mycoupon/mycouponbox">쿠폰함</a>
 	            </li>
 	            <li class="aside-sub">
 	                <a href="${pageContext.request.contextPath}/qna/list">1:1문의</a>
