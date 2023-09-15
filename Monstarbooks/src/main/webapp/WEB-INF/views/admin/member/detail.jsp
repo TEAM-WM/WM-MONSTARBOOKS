@@ -152,93 +152,158 @@
 		<h2>
 			${dto.mname }회원님의 주문 내역입니다. 
 		</h2>
-		
-			<table>
-		<tr>
-			<th>주문일자</th>
-			<th>상품정보</th>
-			<th>수량</th>
-			<th>가격</th>
-			<th>총 가격</th>
-			<th>배송 상태</th>
-			<!-- <th></th>
-			<th></th> -->
-		</tr>
+		<c:choose>
+			<c:when test="${totRowcnt > 0}">
+				<p>${totRowcnt}건의주문 존재합니다.</p>
+				<section class="cart-table-wrap">
+					<c:set var="prevOrderNo" value="" />
+					<c:forEach var="order" items="${orderList}">
+						<c:set var="currentOrderNo" value="${order.orderNo}" />
+							<c:if test="${currentOrderNo ne prevOrderNo}">
+								<div class="order-item" style="justify-content: space-between; border-top: 1px solid #000; border-bottom:1px solid #000">
+									<div>
+										<h3>주문상품&nbsp;&nbsp;&nbsp;
+										<span>
+										<fmt:formatDate
+												value="${order.orderDate}" pattern="yy-MM-dd" />
+										</span>
+										</h3>
+										
+									</div>
+									<p>
+										<a class="btn-a gray"
+											href="${pageContext.request.contextPath}/admin/order/detail?orderNo=${order.orderNo}">주문
+												상세보기</a> 
+									</p>
+								</div>
+								<c:set var="prevOrderNo" value="${currentOrderNo}" />
+							</c:if>
+							<table class="bn">
+								
+								<tr>
+									<!-- 상품 정보 -->
+									<td class="cart-table-image">
+										<div class="product-card-image">
+											<img
+												src="${pageContext.request.contextPath}/resources/assets/imgs/product/${order.productImage}"
+												alt="책 썸네일 이미지" />
+										</div>
+									</td>
+									<td class="left">
+										<div class="book-info">
+											<div class="book-price">
+												<span class="price"> ${order.productPrice}원 </span>
+											</div>
+										</div>
+									</td>
+									<!-- 갯수 -->
+									<td class="cart-table-price">
+										<p>${order.productCount}개</p>
+									</td>
+									<!-- 가격 -->
+									<td class="cart-table-price"><span>
+											${order.totalAmount} </span>원</td>
+									<td class="right">
+										<span class="text-back">
+											${order.orderStatus}
+										</span>
+									</td>
+								</tr>
+								<c:set var="prevOrderNo" value="${currentOrderNo}" />
+							</table>
+					</c:forEach>
+						</section>
+			</c:when>
+			<c:otherwise>
+				<p>주문이 없습니다.</p>
+			</c:otherwise>
+		</c:choose>
 
-		<!-- 주문 목록 데이터를 반복해서 출력 -->
-		<c:set var="prevOrderNo" value="" />
-		<c:forEach var="order" items="${orderList}">
-			<c:set var="currentOrderNo" value="${order.orderNo}" />
-			<c:if test="${currentOrderNo ne prevOrderNo}">
-				<tr style="border-top: 2px solid black;">
-				<tr>
+	<c:if test="${totRowcnt>0}">
+		<!-- pagination-wrap -->
+		<div class="pagination-wrap">
+			<!-- pagination -->
+			<div class="pagination">
+				<ol>
+					<c:choose>
+						<c:when test="${searchVo.page>1}">
+							<li><a
+								href="<c:url value='/admin/member/detail'>]
+								<c:param name="memberNo" value="${dto.memberno}" />
+								<c:param name='page' value='1'/>
+								</c:url>">
+								<i
+									class="fa-solid fa-angles-left"></i></a></li>
+							<li><a
+								href="<c:url value='/admin/member/detail'>
+									<c:param name="memberNo" value="${dto.memberno}" />
+									<c:param name='page' value='${searchVo.page - 1}'/>
+									</c:url>">
+									<i class="fa-solid fa-angle-left"></i>
+							</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="disabled"><a> <i
+									class="fa-solid fa-angles-left"></i>
+							</a></li>
+							<li class="disabled"><a> <i
+									class="fa-solid fa-angle-left"></i>
+							</a></li>
+						</c:otherwise>
+					</c:choose>
 
-					<td rowspan="2" class="center-align-td"><fmt:formatDate
-							value="${order.orderDate}" pattern="yyyy.MM.dd" /><br> <strong><a
-							href="${pageContext.request.contextPath}/admin/order/detail?orderNo=${order.orderNo}">주문 상세보기</a>
-					</strong></td>
-				</tr>
-				<c:set var="prevOrderNo" value="${currentOrderNo}" />
-			</c:if>
-
-			<tr>
-				<td><img class="product-image"
-					src="${pageContext.request.contextPath}/resources/assets/imgs/adorder/${order.productImage}"
-					alt="상품 이미지" align="left"> ${order.productName}</td>
-				<td>${order.productCount}개</td>
-				<td>${order.productPrice}원</td>
-				<td>${order.totalAmount}원</td>
-				<td><strong>${order.orderStatus}</strong></td>
-				<c:set var="prevOrderNo" value="${currentOrderNo}" />
-		</c:forEach>
-	</table>
-
-	<c:choose>
-		<c:when test="${totRowcnt > 0}">
-			<p>${totRowcnt}건의 주문 존재합니다.</p>
-		</c:when>
-		<c:otherwise>
-			<p>주문이 없습니다.</p>
-		</c:otherwise>
-	</c:choose>
-
-	<div>
-		<!-- 이전 페이지 링크 -->
-		<c:if test="${searchVo.page > 1}">
-			<a
-				href="<c:url value='/admin/order/list'><c:param name='page' value='${searchVo.page - 1}'/></c:url>">
-				<i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-left"></i>
-			</a>
-		</c:if>
-
-		<!-- 페이지 갯수 표시 -->
-		<c:forEach begin="${searchVo.pageStart}" end="${searchVo.pageEnd}"
-			var="i">
-			<c:choose>
-				<c:when test="${i eq searchVo.page}">
-					<span style="font-weight: bold;">${i}</span>
-				</c:when>
-				<c:otherwise>
-					<!-- 페이지 번호 링크 -->
-					<a
-						href="<c:url value='/admin/order/list'><c:param name='page' value='${i}'/></c:url>"
-						style="text-decoration: none;">${i}</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-		<!-- 다음 페이지 링크 -->
-		<c:if test="${searchVo.page < searchVo.totPage}">
-			<a
-				href="<c:url value='/admin/order/list'><c:param name='page' value='${searchVo.page + 1}'/></c:url>">
-				<i class="pagelist"></i> <i class="fa-solid fa-circle-chevron-right"></i>
-			</a>
-		</c:if>
-	</div>
+					<!-- 페이지 갯수 표시 -->
+					<c:forEach begin="${searchVo.pageStart}" end="${searchVo.pageEnd}"
+						var="i">
+						<c:choose>
+							<c:when test="${i eq searchVo.page}">
+								<li class="current-page"><a> ${i } </a></li>
+							</c:when>
+							<c:otherwise>
+								<!-- 페이지 번호 링크 -->
+								<li><a
+									href="<c:url value='/admin/member/detail'>
+									<c:param name="memberNo" value="${dto.memberno}" />
+									<c:param name='page' value='${i}'/>
+									</c:url>">${i}</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<!-- 다음 페이지 링크 -->
+					<c:choose>
+						<c:when test="${searchVo.page < searchVo.totPage}">
+							<li><a
+								href="<c:url value='/admin/member/detail'>
+								<c:param name="memberNo" value="${dto.memberno}" />
+								<c:param name='page' value='${searchVo.page + 1}'/>
+								</c:url>">
+									<i class="fa-solid fa-angle-right"></i>
+							</a></li>
+							<li><a
+								href="<c:url value='/admin/member/detail'>
+								<c:param name="memberNo" value="${dto.memberno}" />
+								<c:param name='page' value='${searchVo.totPage }'/>
+								</c:url>">
+									<i class="fa-solid fa-angles-right"></i>
+							</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="disabled"><a> <i
+									class="fa-solid fa-angles-right"></i>
+							</a></li>
+							<li class="disabled"><a> <i
+									class="fa-solid fa-angle-right"></i>
+							</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ol>
+			</div>
+			<!-- pagination -->
+		</div>
+		<!-- pagination-wrap -->
+	</c:if>
 	</article>
-	
-	
-	
 	<!-- 모달 -->
 	
 	<div id="adminCouponModal" class="modal coupon-modal">

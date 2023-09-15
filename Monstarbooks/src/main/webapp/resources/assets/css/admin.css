@@ -10,7 +10,10 @@
     position: relative;
     padding: 20px;
 }
-
+.admin-container .select-group{
+	width:100%;
+	height:50px;
+}
 .admin-sidebar h1 {
     color: var(--color-white);
 }
