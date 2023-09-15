@@ -72,8 +72,8 @@ SELECT COUNT(*) FROM M_QNA  WHERE MEMBERNO=#{param1}
 	</select> 	
 	 
    	<insert id="write">
-	INSERT INTO M_QNA(QNANO,QCATEGORY,QTITLE,QCONTENT,QFILESRC,MEMBERNO) 
-	VALUES(M_QNA_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},#{param5})			 
+	INSERT INTO M_QNA(QNANO,QCATEGORY,QTITLE,QCONTENT,QFILESRC,MEMBERNO,QSTATUS,QREGDATE) 
+	VALUES(M_QNA_SEQ.NEXTVAL,#{param1},#{param2},#{param3},#{param4},#{param5},'준비중',SYSDATE)			 
    	</insert>
     
     <select id="contentView" resultType="com.monstar.books.m3pop.dto.QnaDto">
