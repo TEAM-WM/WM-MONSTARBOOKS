@@ -185,7 +185,8 @@ public class MemberController {
 	}// find/pwPhone 종료
 
 	//====================관리자===================
-	@RequestMapping("/admin/member/list")
+	
+	@RequestMapping(value = {"/admin/member/list","/admin"})
 	public String adminMember(Model model, HttpServletRequest request) {
 		System.out.println(">>>관리자 회원 리스트 요청처리");
 		service = new MemberListService(session);
