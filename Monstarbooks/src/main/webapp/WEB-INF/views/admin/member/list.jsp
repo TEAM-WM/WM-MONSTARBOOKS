@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,14 +46,14 @@
 					<td>${dto.mname }</td>
 					<td>${dto.memail }</td>
 					<td>${dto.to_regdate }</td>
-					<td><a href="detail?memberNo=${dto.memberno}">상세보기</a></td>
+					<td><a href="${ctx }/admin/member/detail?memberNo=${dto.memberno}">상세보기</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	
 	
-	<form action="list" method="post" class="admin">
+	<form action="${ctx }/admin/member/list" method="post" class="admin">
 		<div class="search-wrap">
 			<div class="search-box">
 				<select name="searchType" id="searchType">
@@ -70,8 +71,8 @@
                 <ol>
 				<c:choose>
 					<c:when test="${searchVO.page>1}">
-						<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
-						<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+						<li><a href="${ctx }/admin/member/list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+						<li><a href="${ctx }/admin/member/list?page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="disabled">
@@ -99,15 +100,15 @@
 						</c:when>
 						<c:otherwise>
 							<li>
-								<a href="list?page=${i }&sk=${searchKey }&mid=${mid==true?'mid':''}&mname=${mname==true?'mname':''}">${i }</a>
+								<a href="${ctx }/admin/member/list?page=${i }&sk=${searchKey }&mid=${mid==true?'mid':''}&mname=${mname==true?'mname':''}">${i }</a>
 							</li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				<c:choose>
 					<c:when test="${searchVO.page < searchVO.totPage}">
-						<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
-						<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+						<li><a href="${ctx }/admin/member/list?page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+						<li><a href="${ctx }/admin/member/list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="disabled">

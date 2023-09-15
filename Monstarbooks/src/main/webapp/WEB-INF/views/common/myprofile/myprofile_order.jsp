@@ -126,6 +126,7 @@ th {
 									</td>
 									<td class="left">
 										<div class="book-info">
+											<p>${order.productName }</p>
 											<div class="book-price">
 												<span class="price"> ${order.productPrice}원 </span>
 											</div>

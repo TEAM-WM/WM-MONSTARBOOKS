@@ -15,14 +15,14 @@
             </div>
             <nav>
                 <ul class="admin-menu-list">
-                    <li class="${currentPage == '/admin/' ? 'active' : ''}">
+                    <%-- <li class="${currentPage == '/admin/' ? 'active' : ''}">
                         <a href="${pageContext.request.contextPath}/admin/">
                             <i class="fa-solid fa-cube"></i>
                             <span>
                                 대시보드
                             </span>
                         </a>
-                    </li> 
+                    </li>  --%>
 					<li class="${currentPage == '/admin/member' ? 'active' : ''}">
     					<a href="${pageContext.request.contextPath}/admin/member/list">
                             <i class="fa-solid fa-user-astronaut"></i>
@@ -55,7 +55,7 @@
                             </span>
                         </a>
                     </li>
-                    <li class="accordion-button">
+                    <li>
                         <a>
                             <i class="fa-solid fa-layer-group"></i>
                             <span>
