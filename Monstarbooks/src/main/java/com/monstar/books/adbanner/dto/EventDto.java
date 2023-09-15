@@ -17,5 +17,6 @@ public class EventDto {
 	private Date eregdate;
 	private String deleted;
 	private String e_etitle;
+	
 
 }

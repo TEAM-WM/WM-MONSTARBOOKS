@@ -34,6 +34,11 @@ public class BannerServiceList implements BannerService{
 		SearchVO searchVO=(SearchVO) map.get("searchVO");
 		
 		BannerDao dao=session.getMapper(BannerDao.class);
+
+	    String e_etitle = request.getParameter("e_etitle");
+	    System.out.println("e_etitle: " + e_etitle);
+
+
 		
 //		검색
 		String etitle = "";
@@ -123,7 +128,7 @@ public class BannerServiceList implements BannerService{
 			model.addAttribute("list", dao.list(rowStart, rowEnd, searchKeyword, "4"));
 		}
 
-
+	    model.addAttribute("e_etitle", e_etitle);
 		model.addAttribute("totRowcnt", total);
 		model.addAttribute("searchVO", searchVO);
 	}

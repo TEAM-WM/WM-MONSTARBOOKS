@@ -3,6 +3,7 @@ package com.monstar.books.adbanner.dao;
 import java.util.ArrayList;
 
 import com.monstar.books.adbanner.dto.BannerDto;
+import com.monstar.books.adbanner.dto.EventDto;
 
 public interface BannerDao {
 
@@ -22,6 +23,5 @@ public interface BannerDao {
 	public void bannermodify(int bannerno, String etitle);
 
 	public void bannermodify2(int bannerno, String efilesrc);
-
 
 }//interface 종료
