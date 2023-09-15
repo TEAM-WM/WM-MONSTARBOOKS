@@ -126,7 +126,8 @@ a:hover {
 					</ol>
 				</div>
 				<!-- mypage-content -->
-				<!-- pagination-wrap -->
+				<c:if test="${not empty reviewList }">
+					<!-- pagination-wrap -->
 				<div class="pagination-wrap">
 					<!-- pagination -->
 					<div class="pagination">
@@ -181,6 +182,13 @@ a:hover {
 					<!-- pagination -->
 				</div>
 				<!-- pagination-wrap -->
+				</c:if>
+				
+				<c:if test="${empty reviewList }">
+					<div class="warning center">
+						작성하신 리뷰가 없습니다.
+					</div>
+				</c:if>
 			</div>
 		</section>
 	</article>

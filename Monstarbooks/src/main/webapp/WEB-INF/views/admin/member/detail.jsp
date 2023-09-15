@@ -149,12 +149,14 @@
 		</div>
 	</article>
 	<article>
-		<h2>
-			${dto.mname }회원님의 주문 내역입니다. 
-		</h2>
 		<c:choose>
 			<c:when test="${totRowcnt > 0}">
-				<p>${totRowcnt}건의주문 존재합니다.</p>
+				<div class="mypage-title bn space">
+					<h3>${dto.mname }회원님의 주문 내역입니다.</h3>
+					<p>
+						<strong>${totRowcnt}</strong>건의 주문이 존재합니다.
+					</p>
+				</div>
 				<section class="cart-table-wrap">
 					<c:set var="prevOrderNo" value="" />
 					<c:forEach var="order" items="${orderList}">
@@ -192,6 +194,7 @@
 									<td class="left">
 										<div class="book-info">
 											<div class="book-price">
+											<p>${order.productName} </p>
 												<span class="price"> ${order.productPrice}원 </span>
 											</div>
 										</div>
@@ -215,7 +218,9 @@
 						</section>
 			</c:when>
 			<c:otherwise>
-				<p>주문이 없습니다.</p>
+				<div class="warning">
+					<p>주문이 없습니다.</p>
+				</div>
 			</c:otherwise>
 		</c:choose>
 

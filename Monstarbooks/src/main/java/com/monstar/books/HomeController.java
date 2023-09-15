@@ -27,14 +27,14 @@ public class HomeController {
 		return "home";
 	}//home
 	
-	@RequestMapping("/admin")
-	public String admin(Model model,HttpServletRequest request) {
-		
-	    String currentPage = request.getServletPath();; 
-	    System.out.println(currentPage);
-		// 모델에 전달하기
-	    model.addAttribute("currentPage",currentPage);
-		model.addAttribute("");
-		return "admin/dashboard/admin";
-	}//home
+//	@RequestMapping("/admin")
+//	public String admin(Model model,HttpServletRequest request) {
+//		
+//	    String currentPage = request.getServletPath();; 
+//	    System.out.println(currentPage);
+//		// 모델에 전달하기
+//	    model.addAttribute("currentPage",currentPage);
+//		model.addAttribute("");
+//		return "admin/dashboard/admin";
+//	}//home
 }//class
