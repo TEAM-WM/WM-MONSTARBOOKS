@@ -111,12 +111,9 @@
 					<td class="cart-table-image">
 					    <div class="product-card-image">
 					        <img
-					      src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg}"
+					      src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.bdetail.bimg}"
 					     alt="책 썸네일 이미지" />
 					   </div>
-					   <!-- <img
-					   src="${pageContext.request.contextPath}/resources/assets/imgs/book/${list.detail.bimg}"
-					   alt="책 썸네일 이미지" /> -->
 					</td>
 					<td class="left">
 					    <div class="book-info">

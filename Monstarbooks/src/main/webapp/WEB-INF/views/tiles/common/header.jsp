@@ -48,23 +48,23 @@
 				</h1>
 				<!-- 검색 -->
 				<div class="global-search">
-					<form action="" method="get">
+					<form action="${pageContext.request.contextPath}/booklist/search" method="get">
 						<input type="text" name="search" placeholder="세상에 꼭 나와야만 했던 이야기"
-							autocomplete="off">
-						<button type="submit" class="search-icon"></button>
+							autocomplete="off" value="${search }" onkeydown="handleEnterKey(event)" />
+						<button type="button" class="search-icon" onclick="searching()"></button>
 					</form>
 					<section class="global-search-history">
 						<div class="global-search-history-recommend">
 							<h4>추천검색어</h4>
 							<ul>
-								<li><a href=""> 챗GPT </a></li>
-								<li><a href=""> 자바 </a></li>
-								<li><a href=""> 파이썬 </a></li>
-								<li><a href=""> 총균쇠 </a></li>
-								<li><a href=""> 김태연 </a></li>
-								<li><a href=""> 히가시노 게이고 </a></li>
-								<li><a href=""> 노벨문학상 </a></li>
-								<li><a href=""> 베르나르 베르베르 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=챗GPT"> 챗GPT </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=자바"> 자바 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=파이썬"> 파이썬 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=총균쇠"> 총균쇠 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=김태연"> 김태연 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=히가시노 게이고"> 히가시노 게이고 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=노벨문학상"> 노벨문학상 </a></li>
+								<li><a href="${pageContext.request.contextPath}/booklist/search?search=베르나르 베르베르"> 베르나르 베르베르 </a></li>
 							</ul>
 						</div>
 						<div class="global-search-history-recent">
@@ -187,6 +187,23 @@
 	function logout(){
 		alert("로그아웃 되었습니다");
 		location.href="${pageContext.request.contextPath }/logout";
+	}
+	
+	//검색어 입력 후 엔터 눌렀을 때
+	function handleEnterKey(event) {
+	    if (event.key === "Enter") {	
+			//event.preventDefault();
+	    	searching();
+	    }
+	}
+	//검색버튼 눌렀을 때
+ 	function searching(){
+    	if($("input[name='search']").val().trim() == ""){//검색어 공백일때
+    		alert("검색어를 입력해주세요.");
+    		$("input[name='search']").focus();
+		}else{
+			$(".global-search form").submit();
+		}
 	}
 	</script>
 </body>

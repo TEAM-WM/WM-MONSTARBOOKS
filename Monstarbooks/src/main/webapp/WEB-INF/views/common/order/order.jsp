@@ -82,7 +82,7 @@ function coupon_select(cpprice,totPrice,cpno){
 			alert("쿠폰이 적용되었습니다.");
 			$(".cpdiscount").text(cpprice.toLocaleString()); // 쿠폰할인 값 변경
 			$("#ototalprice").val(totPrice-cpprice);
-			$(".final_totPrice").text((totPrice-cpprice).toLocaleString()); //총 결제금액 변경
+			$(".final_totPrice").text((totPrice-cpprice).toLocaleString()+"원"); //총 결제금액 변경
 			$("#usedCpno").val(cpno);//사용한 쿠폰번호 전달
 			closeModal("myCouponModal"); // 모달 닫기
 		}
@@ -91,7 +91,7 @@ function coupon_select(cpprice,totPrice,cpno){
 /* 결제하기 */
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
-/* function requestPay(pay){
+function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
 
@@ -166,12 +166,12 @@ IMP.init('imp30831436');//가맹점 식별코드
 			}
 		}
 	}	
-} */
-function requestPay(pay){
+}
+/* function requestPay(pay){
 	var couponPrice = $(".cpdiscount").text();
 	var totPay = pay - couponPrice;
 	$(".payment_form").submit();
-}
+} */
 </script>
 </head>
 <body>
@@ -427,7 +427,7 @@ function requestPay(pay){
 	            <h3>
 	                총 결제금액
 	            </h3>
-	            <p>
+	            <p class="final_totPrice">
 	                <fmt:formatNumber value="${totPrice + 2500}" pattern="#,###,###" />원
 	            </p>
 	        </div>
