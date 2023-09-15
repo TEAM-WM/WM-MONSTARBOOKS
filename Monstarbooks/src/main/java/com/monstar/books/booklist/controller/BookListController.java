@@ -38,6 +38,10 @@ public class BookListController {
 		
 		System.out.println("bestlisttttttttttt.");
 		
+		
+		
+		
+		
 		// 230823 진성 추가
 		// paging
 		model.addAttribute("request",request);
@@ -82,15 +86,24 @@ public class BookListController {
 	// 230823 진성 추가
 	// 도서 상세 페이지
 	@RequestMapping("/booklist/bookdetail")
-	public String bookdetail(HttpServletRequest request,SearchVO searchVO, Model model) {
-		model.addAttribute("request",request);
-		model.addAttribute("searchVO",searchVO);
-		
-		service = new BookDetailServiceList(session);
-		service.execute(model);
-		
-		return "common/booklist/bookdetail";
+	public String bookdetail(HttpServletRequest request, SearchVO searchVO, Model model) {
+	    // btitle 값을 추출
+	//    String btitle = request.getParameter("btitle5");
+	//    String bookno = request.getParameter("bookno");
+	    // 모델에 btitle 추가
+	//    model.addAttribute("btitle5", btitle);
+//	    System.out.println("책번호는:"+bookno);
+	//    System.out.println("타이틀은rtrrr:"+btitle);
+	    
+	    model.addAttribute("request", request);
+	    model.addAttribute("searchVO", searchVO);
+	    
+	    service = new BookDetailServiceList(session);
+	    service.execute(model);
+	    
+	    return "common/booklist/bookdetail";
 	}
+
 	// 230825 진성 추가
 	// 도서 리뷰 페이징
 	@RequestMapping("/booklist/reviewPage")

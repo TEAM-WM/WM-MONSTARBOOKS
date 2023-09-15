@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -40,7 +40,10 @@ public class AdOrderListService implements AdOrderService {
 		HttpServletRequest request = 
 				(HttpServletRequest) map.get("request");
 		
+
+		
 		SearchVo searchvo = (SearchVo) map.get("searchVo");
+		
 		
 		
 		// paging
@@ -163,6 +166,7 @@ public class AdOrderListService implements AdOrderService {
 		    model.addAttribute("getOrderList", getOrderList);
 		    System.out.println("기본검색"+getOrderList);
 		}
+		
 		
 		model.addAttribute("sk", searchKeyword);
 		model.addAttribute("totRowcnt", total);

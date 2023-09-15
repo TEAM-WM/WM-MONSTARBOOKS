@@ -1,15 +1,16 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>책 상세</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $().ready(function(){
 /* 수량조절 */
@@ -84,206 +85,184 @@ function reviewPage(num){
 		}
 	});
 }
+
+var btitle = "${list.btitle}";
+console.log("btitle: " + btitle);
 </script>
 </head>
 <body onload="javascript:reviewPage('1')">
-<article class="book-list-wrap">
-	<!-- 카테고리 분류 -->
-    <section class="breadcrumb-wrap">
-        <ul>
-            <li>
-                <a href="../">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-            </li>
-            <li>
-                <a href="">${list.category.bcategory1 } </a>
-            </li>
-            <li>
-                <a href="">${list.category.bcategory2 } </a>
-            </li>
-        </ul>
-    </section>
+	<article class="book-list-wrap">
+		<!-- 카테고리 분류 -->
+		<section class="breadcrumb-wrap">
+			<ul>
+				<li><a href="../"> <i class="fa-solid fa-house"></i>
+				</a></li>
+				<li><a href="">${list.category.bcategory1 } </a></li>
+				<li><a href="">${list.category.bcategory2 } </a></li>
+			</ul>
+		</section>
 
-	<!-- 책 상단 -->
-	<section class="book-section-wrap">
-        <!-- book-detail-content -->
-        <div class="book-detail-content">
-            <!-- 책 상세 시작 -->
-            <div class="product-card-image">
-                <img 
-                src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }"
-				alt="책 썸네일 이미지" />
-            </div><!-- 책이미지 -->
-            <div class="book-info">
-                <div class="book-info-box">
-                    <!-- 태그 -->
-                    <div class="book-badge">
-                        <i class="fa-solid fa-crown"></i>
-                        ${list.detail.badge }
-                    </div>
-                    <div class="product-card-title">
-                        <h3>
-                            ${list.btitle }
-                        </h3>
-                       <c:if test="${list.bsubtitle }">
-                       	<h4>
-                       		${list.bsubtitle }
-                       </h4>
-                       </c:if>
-                    </div>
-                    <strong aria-label="저자 / 출판사" class="product-card-author">${list.bwriter } · ${list.bpublisher }</strong>
-                    <div class="book-price">
-                        <strong class="discount">
-                            ${list.bdiscount }%
-                        </strong>
-                        <strong class="sell">
-                            <fmt:formatNumber value="${list.bpricesell }" pattern="#,###"/>원
-                        </strong>
-                        <span class="price">
-                            <fmt:formatNumber value="${list.bprice }" pattern="#,###"/>원
-                        </span>
-                    </div><!-- 책가격 -->
-                    
-                    <div class="book-detail-info">
-                    <c:if test=" ${list.btranslator ne null} "> 
-                        <p>
-                            <strong>
-                                <span>번역</span>
-                                ${list.btranslator }
-                            </strong>
-                        </p>
-					</c:if>
-                        <p>
-                            <strong>
-                                <span>출간일</span>
-                                <fmt:formatDate value="${list.bpdate }" pattern="yyyy.MM.dd"/> 
-                            </strong>
-                        </p>
-                        <p>
-                            <strong>
-                                <span>쪽수</span>
-                                ${list.detail.bpage }p
-                            </strong>
-                        </p>
-                        <p>
-                            <strong>
-                                <span>ISBN</span>
-                                ${list.bisbn }
-                            </strong>
-                        </p>
-                    </div><!-- 책 디테일 info -->
-                    <div class="book-review">
-                        <!-- 평점, 리뷰수 -->
-                        
-                        <!-- ${list.starAvg } (${list.reviewCnt}개의 리뷰) -->
-                        <p class="book-star">
-                            ${avg }
-                            <span>  
-                                (${reCnt }개의 리뷰)
-                            </span>
-                        </p>
-                        <!-- 별점 시작 -->
-                        <div class="star-rating">
-                            <div class="star-back">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <div class="star-front" style="width:${avg*20.6}%">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div><!-- 별점끝 -->
-                    </div> <!-- book-review -->
-                    <!-- 배송 예정 날짜 -->
-                    <div class="book-order">
-                    	<jsp:useBean id="now" class="java.util.Date" />
-						<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
-						<fmt:formatDate value="${list.bpdate }" pattern="yyyyMMdd" var="pDate" />
-                        
-                        <c:if test="${nowDate < pDate }">
-                        	<span class="aqua">배송일정</span>
-							<strong>
-								<fmt:formatDate value="${list.bpdate }" pattern="yyyy년 MM월 dd일"/>
-                            </strong>
-                            <p>
-                                출고예정
-                            </p>
-						</c:if>
-						<c:if test="${nowDate >= pDate }">	
-							<span>배송일정</span>
-							<c:set var="twoDayAfter" value="<%=new Date(new Date().getTime()+60*60*24*1000*2) %>"/>
-							<strong>
-								<fmt:formatDate value="${twoDayAfter}" pattern="MM월 dd일 (E)"/>
-							</strong>
+		<%
+    String btitle = request.getParameter("btite");
+    %>
+
+		<!-- 책 상단 -->
+		<section class="book-section-wrap">
+			<!-- book-detail-content -->
+			<div class="book-detail-content">
+				<!-- 책 상세 시작 -->
+				<div class="product-card-image">
+					<img
+						src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }"
+						alt="책 썸네일 이미지" />
+				</div>
+				<!-- 책이미지 -->
+				<div class="book-info">
+					<div class="book-info-box">
+						<!-- 태그 -->
+						<div class="book-badge">
+							<i class="fa-solid fa-crown"></i> ${list.detail.badge }
+						</div>
+						<div class="product-card-title">
+							<h3>${list.btitle }</h3>
+							<c:if test="${list.bsubtitle }">
+								<h4>${list.bsubtitle }</h4>
+							</c:if>
+						</div>
+						<strong aria-label="저자 / 출판사" class="product-card-author">${list.bwriter }
+							· ${list.bpublisher }</strong>
+						<div class="book-price">
+							<strong class="discount"> ${list.bdiscount }% </strong> <strong
+								class="sell"> <fmt:formatNumber
+									value="${list.bpricesell }" pattern="#,###" />원
+							</strong> <span class="price"> <fmt:formatNumber
+									value="${list.bprice }" pattern="#,###" />원
+							</span>
+						</div>
+						<!-- 책가격 -->
+
+						<div class="book-detail-info">
+							<c:if test=" ${list.btranslator ne null} ">
+								<p>
+									<strong> <span>번역</span> ${list.btranslator }
+									</strong>
+								</p>
+							</c:if>
 							<p>
-								도착예정 		
+								<strong> <span>출간일</span> <fmt:formatDate
+										value="${list.bpdate }" pattern="yyyy.MM.dd" />
+								</strong>
 							</p>
-						</c:if>
-                    </div>
-                    
-                </div><!-- book-info-box -->
-                <form action="../goOrder" method="post" class="order_form">
-	                <c:choose>
-	                	<c:when test="${list.bstock == 0 }">
-	                	<!-- 재고가 0일때 -->
-	                		<div class="book-soldout">
-		                		<span>품절되었습니다.</span>
-	                		</div>
-	                	</c:when>
-	                	<c:otherwise>
-	                	<!-- 재고가 0이 아닐때 -->	
-	                	<div class="book-btn-wrap">
-		                    <div class="book-count">
-		                        <button class="minus_btn">
-		                            <i class="fa-solid fa-minus"></i>
-		                        </button>
-		                        <input type="text" id="cnt" name="ccount" value="1" readonly/>
-		                        <button class="plus_btn">
-		                            <i class="fa-solid fa-plus"></i>
-		                        </button>
-		                    </div>
-	                        <input type="hidden" name="bookno" value="${list.bookno }" />
-	                        <input type="hidden" id="bstock" value="${list.bstock }"/>
-		                    <!-- 장바구니 담기 -->	
-		                    <button type="button" 
-		                    class="cartto-btn"
-		                    onclick="add_cart(${list.bookno},${memberno })">
-		                        ADD TO CART
-		                    </button>
-		
-		                    <button type="button"
-		                    onclick="go_order(${memberno })">
-		                        ORDER
-		                    </button>
-		                </div><!-- 책 버튼 -->
-	                	</c:otherwise>
-	                </c:choose>
-                </form>
-            </div><!-- 책 박스 -->
-        </div><!-- book-detail-content -->
-    </section>
-    <section class="book-section-wrap book-intro-wrap">
-    <!-- 책 상세정보 -->
-	    <div class="book-intro">
-	        <h3>
-	            책소개
-	        </h3>
-	        <div>
-	            <h4>
-	                카테고리 분류
-	            </h4>
-	            <p>
-	                ${list.category.bcategory1 } &gt; ${list.category.bcategory2 }
-	            </p>
-	        </div>
-	    </div><!-- 책 상세 정보 끝 -->
+							<p>
+								<strong> <span>쪽수</span> ${list.detail.bpage }p
+								</strong>
+							</p>
+							<p>
+								<strong> <span>ISBN</span> ${list.bisbn }
+								</strong>
+							</p>
+						</div>
+						<!-- 책 디테일 info -->
+						<div class="book-review">
+							<!-- 평점, 리뷰수 -->
+
+							<!-- ${list.starAvg } (${list.reviewCnt}개의 리뷰) -->
+							<p class="book-star">
+								${avg } <span> (${reCnt }개의 리뷰) </span>
+							</p>
+							<!-- 별점 시작 -->
+							<div class="star-rating">
+								<div class="star-back">
+									<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+									<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+									<i class="fa-solid fa-star"></i>
+									<div class="star-front" style="width:${avg*20.6}%">
+										<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+										<i class="fa-solid fa-star"></i>
+									</div>
+								</div>
+							</div>
+							<!-- 별점끝 -->
+						</div>
+						<!-- book-review -->
+						<!-- 배송 예정 날짜 -->
+						<div class="book-order">
+							<jsp:useBean id="now" class="java.util.Date" />
+							<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
+							<fmt:formatDate value="${list.bpdate }" pattern="yyyyMMdd"
+								var="pDate" />
+
+							<c:if test="${nowDate < pDate }">
+								<span class="aqua">배송일정</span>
+								<strong> <fmt:formatDate value="${list.bpdate }"
+										pattern="yyyy년 MM월 dd일" />
+								</strong>
+								<p>출고예정</p>
+							</c:if>
+							<c:if test="${nowDate >= pDate }">
+								<span>배송일정</span>
+								<c:set var="twoDayAfter"
+									value="<%=new Date(new Date().getTime()+60*60*24*1000*2) %>" />
+								<strong> <fmt:formatDate value="${twoDayAfter}"
+										pattern="MM월 dd일 (E)" />
+								</strong>
+								<p>도착예정</p>
+							</c:if>
+						</div>
+
+					</div>
+					<!-- book-info-box -->
+					<form action="../goOrder" method="post" class="order_form">
+						<c:choose>
+							<c:when test="${list.bstock == 0 }">
+								<!-- 재고가 0일때 -->
+								<div class="book-soldout">
+									<span>품절되었습니다.</span>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<!-- 재고가 0이 아닐때 -->
+								<div class="book-btn-wrap">
+									<div class="book-count">
+										<button class="minus_btn">
+											<i class="fa-solid fa-minus"></i>
+										</button>
+										<input type="text" id="cnt" name="ccount" value="1" readonly />
+										<button class="plus_btn">
+											<i class="fa-solid fa-plus"></i>
+										</button>
+									</div>
+									<input type="hidden" name="bookno" value="${list.bookno }" />
+									<input type="hidden" id="bstock" value="${list.bstock }" />
+									<!-- 장바구니 담기 -->
+									<button type="button" class="cartto-btn"
+										onclick="add_cart(${list.bookno},${memberno })">ADD
+										TO CART</button>
+
+									<button type="button" onclick="go_order(${memberno })">
+										ORDER</button>
+								</div>
+								<!-- 책 버튼 -->
+							</c:otherwise>
+						</c:choose>
+					</form>
+				</div>
+				<!-- 책 박스 -->
+			</div>
+			<!-- book-detail-content -->
+		</section>
+		<section class="book-section-wrap book-intro-wrap">
+			<!-- 책 상세정보 -->
+			<div class="book-intro">
+				<h3>책소개</h3>
+				<div>
+					<h4>카테고리 분류</h4>
+					<p>${list.category.bcategory1 } &gt; ${list.category.bcategory2 }
+					</p>
+				</div>
+			</div>
+			<!-- 책 상세 정보 끝 -->
 
 			<div class="book-info-table-wrap">
 				<h4>책 정보</h4>
@@ -295,10 +274,8 @@ function reviewPage(num){
 						</tr>
 						<tr>
 							<th scope="row">발행(출시)일자</th>
-							<td>
-								<fmt:formatDate value="${list.bpdate }"
-									pattern="yyyy년 MM월 dd일" />
-							</td>
+							<td><fmt:formatDate value="${list.bpdate }"
+									pattern="yyyy년 MM월 dd일" /></td>
 						</tr>
 						<tr>
 							<th scope="row">쪽수</th>
@@ -314,6 +291,7 @@ function reviewPage(num){
 			<div class="book-recommend-wrap">
 				<h3>키워드픽</h3>
 				<ul>
+					<!--
 					<c:forEach var="item"  begin="0" end="4" step="1" varStatus="status">
 						<li>
 							<div class='product-card'>
@@ -330,8 +308,47 @@ function reviewPage(num){
 							</div>
 						</li>
 					</c:forEach>
+					-->
+					<c:forEach var="item" begin="0" end="4" step="1" varStatus="status">
+						<li>
+							<div class='product-card'>
+								<div class='product-card-image'>
+									<img
+										src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg'
+										alt=''>
+								</div>
+								<div class='product-card-title'>
+									<h3>
+										<a
+											href="bookdetail?btitle5=${recbooklist[item].btitle } &bookno=${recbooklist[item].bookno }">
+											${recbooklist[item].btitle }</a>
+									</h3>
+								</div>
+								<strong aria-label='저자 / 출판사' class='product-card-author'>
+									${recbooklist[item].bwriter } · ${recbooklist[item].bpublisher }</strong>
+							</div>
+						</li>
+					</c:forEach>
+
+					<%-- <c:forEach var="item" items="${recbooklist }" varStatus="status">
+						<li>
+							<div class='product-card'>
+								<div class='product-card-image'>
+									<img
+										src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg'
+										alt=''>
+								</div>
+								<div class='product-card-title'>
+									<h3>${item.btitle }</h3>
+								</div>
+								<strong aria-label='저자 / 출판사' class='product-card-author'>
+									에버랜드 외 · 시공주니어</strong>
+							</div>
+						</li>
+					</c:forEach> --%>
 				</ul>
-			</div><!-- 키워드픽 종료 -->
+			</div>
+			<!-- 키워드픽 종료 -->
 			<div class="book-info-img">
 				<img
 					src="${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimgdetail }"
@@ -340,8 +357,8 @@ function reviewPage(num){
 			<div class="book-info-text">
 				<pre>${list.detail.bdescription }</pre>
 			</div>
-			
-			
+
+
 			<!-- 리뷰 -->
 			<div class="book-review-wrap">
 				<h3>
@@ -367,37 +384,42 @@ function reviewPage(num){
 							</div>
 							<!-- 별점끝 -->
 							<strong class="average-score" aria-label="평점"> ${avg } </strong>
-						</div><!-- score-star -->
-					</div><!-- score-summary -->
+						</div>
+						<!-- score-star -->
+					</div>
+					<!-- score-summary -->
 					<div class="score-detail">
 						<dl class="score-stats-list">
-						<c:set var="totalStarCnt" value="0" />
-						<c:forEach items="${arr}" var="item">
-				        	<c:set var="totalStarCnt" value="${totalStarCnt + item.starCnt}" />
-				        </c:forEach>
-				        <c:forEach items="${arr}" var="item">
-				            <c:set var="oneStarRatio" value="${totalStarCnt != 0 ? (item.starCnt / totalStarCnt) * 100 : 0}" />
-				            <div class="score-stats-item">
-				                <dt>${item.star}점</dt>
-				                <dd>
-				                    <div class="bar-graph" aria-hidden>
-				                        <div class="active-bar" style="width: ${oneStarRatio}%"></div>
-				                    </div>
-				                    <strong class="count">${item.starCnt}</strong>
-				                </dd>
-				            </div>
-				        </c:forEach>
+							<c:set var="totalStarCnt" value="0" />
+							<c:forEach items="${arr}" var="item">
+								<c:set var="totalStarCnt" value="${totalStarCnt + item.starCnt}" />
+							</c:forEach>
+							<c:forEach items="${arr}" var="item">
+								<c:set var="oneStarRatio"
+									value="${totalStarCnt != 0 ? (item.starCnt / totalStarCnt) * 100 : 0}" />
+								<div class="score-stats-item">
+									<dt>${item.star}점</dt>
+									<dd>
+										<div class="bar-graph" aria-hidden>
+											<div class="active-bar" style="width: ${oneStarRatio}%"></div>
+										</div>
+										<strong class="count">${item.starCnt}</strong>
+									</dd>
+								</div>
+							</c:forEach>
 
 						</dl>
 					</div>
 					<!--score-detail-->
-				</div><!-- review-scoreboard -->
+				</div>
+				<!-- review-scoreboard -->
 
 				<!-- 리뷰 목록 -->
 				<div id="reviewPage"></div>
 
-				
-			</div><!-- 리뷰 끝 -->
+
+			</div>
+			<!-- 리뷰 끝 -->
 
 			<!-- 반품 / 교환 -->
 			<!-- 교환 반품 안내 -->
@@ -446,10 +468,11 @@ function reviewPage(num){
 			</div>
 			<!-- 반품 / 교환 종료 -->
 		</section>
-</article><!-- 리스트 종료 -->
-	
-<!-- 도서 상세 테이블 -->
-<%-- <div align="center">
+	</article>
+	<!-- 리스트 종료 -->
+
+	<!-- 도서 상세 테이블 -->
+	<%-- <div align="center">
 	<table>
 	
 		
@@ -527,7 +550,7 @@ function reviewPage(num){
 		
 		
 </div> --%>
-<script>
+	<script>
 	document.title = "몬스타북스 :: 도서 상세 페이지"; 
 </script>
 </body>
