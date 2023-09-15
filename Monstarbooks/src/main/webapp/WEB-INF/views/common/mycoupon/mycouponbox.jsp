@@ -13,8 +13,10 @@
   /* 스타일을 적용할 div 요소의 클래스 및 스타일 설정 */
   .coupon-item {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+	align-items: flex-start; /* Align items at the top */
     padding: 10px;
+    padding-left: 100px;
     margin-bottom: 15px;
   /* border: 1px solid #ddd;  */
 	border-bottom: 1px solid black;
@@ -23,7 +25,7 @@
   .coupon-image {
     width: 350px;
     height: auto;
-    margin-right: 40px;
+    margin-right: 80px;
   }
 
   .coupon-details {
@@ -39,7 +41,7 @@
   .coupon-price {
     color: #33322e;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
   }
 
 </style>
