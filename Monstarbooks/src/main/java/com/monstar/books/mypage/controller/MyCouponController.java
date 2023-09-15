@@ -1,8 +1,6 @@
 package com.monstar.books.mypage.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.monstar.books.mypage.service.MyCouponListService;
 import com.monstar.books.mypage.service.MyPageService;
-import com.monstar.books.mypage.service.MyProfileViewService;
 import com.monstar.books.mypage.vopage.SearchVO;
 
 @Controller

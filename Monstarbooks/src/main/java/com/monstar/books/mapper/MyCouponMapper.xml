@@ -13,7 +13,8 @@
 		<result column="CPPRICE" property="cpprice"/>
 		<result column="CPCREATED" property="cpcreated"/>
 		<result column="CPVALID" property="cpvalid"/>
-		<result column="ADCPSTATUS" property="cpstatus"/>
+		<result column="CP_STATUS" property="cpstatus"/>
+		<result column="CPCNT" property="cpCnt"/>
 		<collection property="cpMember" resultMap="CpMember"></collection>
 	</resultMap>
 	
@@ -47,44 +48,30 @@
 	
 	  <!-- 사용자 마이페이지 쿠폰함 목록 -->
 	<select id="myCoupon" parameterType="com.monstar.books.order.dto.CouponMemberDto" resultMap="CpMember">
-		<!-- 페이징 처리 전 -->
-<!-- SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
-		C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS ADCPSTATUS
-		FROM M_COUPON_MEMBER CM
-			LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
-		WHERE CM.MEMBERNO = #{param1}
-  			AND CM.CPVALID >= SYSDATE - 1
-  			AND CM.CPSTATUS = 'N'
-  			AND C.CPSTATUS = 'TRUE'
-  			ORDER BY CM.CPVALID ASC -->
-
 		<!-- 페이징 처리 후 -->
-		SELECT * FROM
-		(SELECT ROWNUM NUM, N.* FROM
-		(SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS, 
-		C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS ADCPSTATUS
-		FROM M_COUPON_MEMBER CM
-			LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
-		WHERE CM.MEMBERNO = #{param1}
-  			AND CM.CPVALID >= SYSDATE - 1
-  			AND CM.CPSTATUS = 'N'
-  			AND C.CPSTATUS = 'FALSE'
-  		ORDER BY CM.CPVALID ASC) N)
-  		WHERE NUM BETWEEN #{param1} AND #{param2}
-
+	 	SELECT * FROM
+	 	(SELECT ROWNUM NUM, N.*
+				    FROM
+				        (SELECT CM.MEMBERNO, CM.CPNO, CM.CPNO2, CM.CPRDATE, CM.CPVALID, CM.CPSTATUS,
+				                C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS CP_STATUS
+				        FROM M_COUPON_MEMBER CM
+				        LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
+				        WHERE CM.MEMBERNO = #{param1}
+				            AND CM.CPVALID >= SYSDATE - 1
+				            AND CM.CPSTATUS = 'N'
+				            AND C.CPSTATUS = 'FALSE'
+				        ORDER BY CM.CPVALID ASC) N)
+				WHERE NUM BETWEEN #{param1} AND #{param2}
  	</select>
  	
-  		<!-- 리스트 총 갯수 -->
-<!-- 		<select id="couponboxTotCount" resultType="int">
-    	SELECT COUNT(*)
-		FROM M_COUPON_MEMBER C
-		</select> -->
-		
+ 	
+  		<!-- 리스트 총 갯수 -->		
 		<select id="couponboxTotCount" resultType="Integer">
-    	SELECT COUNT(*)
-		FROM M_COUPON_MEMBER C
-		LEFT JOIN M_MEMBER M ON M.MEMBERNO = C.MEMBERNO
-		WHERE M.MEMBERNO = #{param1}
+		    SELECT COUNT(*)
+		    FROM M_COUPON_MEMBER CM
+		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = CM.MEMBERNO
+		    WHERE M.MEMBERNO = #{param1} AND CM.CPSTATUS = 'N'
 		</select>
+
 
 </mapper>
