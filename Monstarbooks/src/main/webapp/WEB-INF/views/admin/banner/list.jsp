@@ -38,10 +38,6 @@
         <input type="submit" value="검색"/>
     </div>
 </form>
-<%-- 	<form action="bannerwriteview" method="post">
-	    <input type="hidden" name="e_etitle" value="${list.e_etitle}">
-	    <input type="submit" value="등록"> 
-	</form> --%>
 	<a href="bannerwriteview">등록</a>
 	<div id="resultContainer">
 	<table>

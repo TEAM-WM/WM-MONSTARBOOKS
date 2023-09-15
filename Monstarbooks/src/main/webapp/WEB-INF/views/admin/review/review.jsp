@@ -71,14 +71,14 @@ function updateReviewList() {
 			<c:if test="${review.deleted ne 'yes'}">
 				<tr>
 					<td>
-						<c:if test="${not empty review.refnlesrc }">
-	 	                	<img alt="aa" src="${pageContext.request.contextPath}/resources/assets/imgs/review/${review.refnlesrc }">
+						<c:if test="${not empty review.refilesrc }">
+	 	                	<img alt="aa" src="${pageContext.request.contextPath}/resources/assets/imgs/review/${review.refilesrc }">
 	            		</c:if>
 					</td>
 					<td>${review.book.btitle }</td>
 					<td>${review.member.mname }</td>
 					<td>${review.rcontent }</td>
-					<td>${review.redate }</td>
+					<td>${review.regdate }</td>
 					<td>
 						<c:choose>
 							<c:when test="${review.rstar == 1}">★</c:when>
