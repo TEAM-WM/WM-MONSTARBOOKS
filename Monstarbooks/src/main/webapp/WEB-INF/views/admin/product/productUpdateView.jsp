@@ -9,10 +9,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 포함 --> 
 </head>
 <body>
-<h3>productUpdateView.jsp</h3>
 
-	<article>
-	<form action="productupdate" method="post" enctype="multipart/form-data" class="updateForm">
+	<form action="productupdate" method="post" enctype="multipart/form-data" class="updateForm admin-book-form">
 	<input type="hidden" name="bookno" value="${dtos.bookno }" />
 	<!-- 도서 테이블 -->
 		<label for="" style="font-size: 20px;">도서 테이블</label>
@@ -47,11 +45,10 @@
 		<input type="text" name="bprice" value="${dtos.bprice }" class="bprice"  />
 		
 		<label for="bdiscount">할인율</label>
-		<input type="text" name="bdiscount" value="${dtos.bdiscount }" class="bdiscount" />
-		
-		<br />
-		<button type="button" id="calDiscount">판매가계산</button>
-		<br />
+		<div class="form-small">
+		<input type="text" name="bdiscount" class="bdiscount"  value="${dtos.bdiscount }"/>
+		<input type="button" id="calDiscount" value="판매가계산">
+		</div>
 		
 		<label for="bpricesell">판매가</label>
 		<input type="text" name="bpricesell" value="${dtos.bpricesell }" id="bpricesell" />
@@ -60,14 +57,22 @@
 		<input type="text" name="bstatus" value="${dtos.bstatus }" /> --%>
 		
 		<label for="bstatus">상태</label>
-        <select name="bstatus" value="${dtos.bstatus }" id="selectedBstatus" >
+		<div class="select-group">
+			<select name="bstatus" id="selectedBstatus" class="form-select">
+				<option value="판매중"
+					${dtos.bstatus=='판매중' ? 'selected="selected"':'' }>판매중</option>
+				<option value="품절" ${dtos.bstatus=='품절' ? 'selected="selected"':'' }>품절</option>
+				<option value="숨김" ${dtos.bstatus=='숨김' ? 'selected="selected"':'' }>숨김</option>
+			</select>
+		</div>
+        <%-- <select name="bstatus" value="${dtos.bstatus }" id="selectedBstatus" >
             <option value="판매중" ${dtos.bstatus=='판매중' ? 'selected="selected"':'' }>판매중</option>
             <option value="품절" ${dtos.bstatus=='품절' ? 'selected="selected"':'' }>품절</option>
             <option value="숨김" ${dtos.bstatus=='숨김' ? 'selected="selected"':'' }>숨김</option>
         </select>
 		<br />
         <br />
-        <br />
+        <br /> --%>
 		
 		<!-- <label for="bcdate">등록날짜</label>
 		<input type="text" name="bcdate" /> -->
@@ -81,7 +86,7 @@
 					
 			
 	<!-- 도서 상세 테이블 -->
-		<label for="" style="font-size: 20px;">도서 디테일 테이블</label>
+		<label for="" style="font-size: 20px;margin-top:40px; margin-bottom:10px;">도서 디테일 테이블</label>
 		
 		<label for="bimg">도서썸네일</label>
 		<label for="">${dtos.bookDetailDto.bimg}</label>
@@ -92,7 +97,7 @@
 		<input type="file" name="bimgdetail" value="${dtos.bookDetailDto.bimgdetail }" />
 		
 		<label for="bdescription">도서설명</label>
-		<input type="text" name="bdescription" value="${dtos.bookDetailDto.bdescription }" />
+		<textarea name="bdescription">${dtos.bookDetailDto.bdescription }</textarea>
 		
 		<label for="bpage">전체페이지</label>
 		<input type="text" name="bpage" value="${dtos.bookDetailDto.bpage }" />
@@ -101,69 +106,39 @@
 		<input type="text" name="bsize" value="${dtos.bookDetailDto.bsize }" />
 		
 		<label for="badge">상품뱃지</label>
-		<select name="bstatus" value="${dtos.bstatus }" id="selectedBstatus" >
-            <option value="신상품" ${dtos.bstatus=='신상품' ? 'selected="selected"':'' }>신상품</option>
-            <option value="베스트" ${dtos.bstatus=='베스트' ? 'selected="selected"':'' }>베스트</option>
-            <option value="주문폭주" ${dtos.bstatus=='주문폭주' ? 'selected="selected"':'' }>주문폭주</option>
-        </select>
-		<br />
-        <br />
-        <br />
-		<input type="text" name="badge" value="${dtos.bookDetailDto.badge }" />
-						
+		<div class="select-group">
+			<select name="badge" class="form-select">
+				<option value="신상품" ${dtos.bookDetailDto.badge=='신상품' ? 'selected="selected"':'' }>신상품</option>
+	            <option value="베스트" ${dtos.bookDetailDto.badge=='베스트' ? 'selected="selected"':'' }>베스트</option>
+	            <option value="주문폭주" ${dtos.bookDetailDto.badge=='주문폭주' ? 'selected="selected"':'' }>주문폭주</option>
+			</select>
+		</div>
 				
 	<!-- 도서 카테고리 테이블 -->
-		<label for="" style="font-size: 20px;">도서 카테고리 테이블</label>	
-				
-			<c:set var="selectedValue" value="${selectedValue}" />
-			<div>
-				<label for="">카테고리</label>
-					<c:forEach items="${dto }" var="dto">
-					<tr>
-						<td><input type="radio" name="bcategoryno" value="${dto.bcategoryno }"
-						<c:if test="${dto.bcategoryno eq selectedValue}">checked</c:if> />
-						${dto.bcategory1 } >> ${dto.bcategory2 }</td>
-					</tr>
-				</c:forEach>
-			</div>
-				
-				
-				
-				
-				
-			<!-- 	<label for="bcategory">카테고리</label>
-					<form action="" method="post">
-			    		<select name="category1" id="category1">
-				          <option>----- 상위 카테고리 -----</option>
-				          <option value="국내도서">국내도서</option>
-				          <option value="외국도서">외국도서</option>
-				        </select>
-				        <select name="category2" id="category2">
-				          <option>----- 하위 카테고리 -----</option>
-				          <option value="소설">소설</option>
-				          <option value="시">시</option>
-				          <option value="경제">경제</option>
-				          <option value="에세이">에세이</option>
-				          <option value="요리">요리</option>
-				          <option value="문화">문화</option>
-				        </select>
-					</form> -->
-					
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-			
-			
-				
-				
-				
-		
-		<input type="submit" value="수정하기" />
-		<a href="productlist">목록으로</a>
+		<label for="" style="font-size: 20px;margin-top:40px; margin-bottom:10px;">도서 카테고리 테이블</label>
+		<c:set var="selectedValue" value="${selectedValue}" />
+		<label for="">카테고리</label>
+		<div class="select-group">
+			<select name="bcategoryno" class="form-select">
+			<c:forEach items="${dto }" var="dto">
+				<option value="${dto.bcategoryno }" <c:if test="${dto.bcategoryno eq selectedValue}">selected</c:if>>${dto.bcategory1 } / ${dto.bcategory2 }</option>
+			</c:forEach>
+			</select>
+		</div>
+<%-- 		<c:forEach items="${dto }" var="dto">
+			<tr>
+				<td><input type="radio" name="bcategoryno"
+					value="${dto.bcategoryno }"
+					<c:if test="${dto.bcategoryno eq selectedValue}">checked</c:if> />
+					${dto.bcategory1 } >> ${dto.bcategory2 }</td>
+			</tr>
+		</c:forEach>
+ --%>
+		<div class="btn-wrap" style="width:auto; margin-top:20px;">
+			<input type="submit" value="등록하기" />
+			<input type="button" onclick="location.href='productlist'" value="취소하기">
+		</div>
 	</form>
-	</article>
 	
 				
 	<script>
@@ -182,12 +157,6 @@
 	    event.preventDefault(); // 폼 제출 취소
 	  }
 	});
-	
-	
-	
-
-	
-	
 	</script>
 </body>
 </html>

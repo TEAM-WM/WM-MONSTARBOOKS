@@ -120,6 +120,7 @@
             R.DELETED,
             M.MID AS MID,
             B.BTITLE AS BTITLE,
+            D.BIMG AS BIMG,
             (
                 SELECT C.BCATEGORY1 
                 FROM M_BOOK_CATEGORY C 

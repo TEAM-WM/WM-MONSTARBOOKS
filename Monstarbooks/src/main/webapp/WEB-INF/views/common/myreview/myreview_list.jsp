@@ -71,7 +71,7 @@ a:hover {
 									<div class="review-card-book">
 										<div class="product-card-image">
 											<img
-												src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791170626459.jpg"
+												src="${pageContext.request.contextPath}/resources/assets/imgs/product/${re.bookdetail.bimg}"
 												alt="">
 										</div>
 										<div class="review-card-box">
