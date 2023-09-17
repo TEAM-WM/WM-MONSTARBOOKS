@@ -53,7 +53,7 @@
 			</select>
 		</div>
 		
-		<label for="bstock">재고</label>
+		<label for="bstock" id="bstockInput">재고</label>
 		<input type="text" name="bstock" />
 
 		<!-- 도서 상세 테이블 -->
@@ -98,39 +98,10 @@
 		</div>
 	</form>
 	<script>
-document.title = "몬스타북스 :: 상품등록";
-	/* 할인률 계산 */
-	$(document).ready(function(){
-	   $("#calDiscount").click(function(){
-	      var price = Number($(".bprice").val());
-	      var discount = Number($(".bdiscount").val());
-	      
-	      // 할인율 계산 후 결과를 #bpricesell 입력란에 표시
-	      $("#bpricesell").val(price - (price * discount * 0.01));
-	      
-			//form submit 막기
-		   $(".insertForm").submit(function(e){
-		      e.preventDefault();
-		      $(".insertForm").unbind();
-		   })
-	   });
-	});
-	 	
+	document.title = "몬스타북스 :: 상품등록";
 	
-	
-	/* not null 칼럼 미입력 경고 */
-		
-	
-	/* $(document).ready(function() {
-		$(".insertForm").submit(function(event) {
-			var author = $("#bwriterInput").val().trim();
- 
-		    if (author === "") {
-		      alert("저자를 입력하세요."");
-		      event.preventDefault(); // 제출을 막음
-		    }
-		});
-	}); */
+
+	//not null 칼럼 미입력 경고
 	
   	// 파일 선택란에 이벤트 리스너를 추가
 	document.getElementById("bimgInput").addEventListener("change", function () {
@@ -150,8 +121,9 @@ document.title = "몬스타북스 :: 상품등록";
 	    }
 	});
   
-	//isbn 검색
+	
 	$(document).ready(function(){
+		//isbn 검색
 		$("#search").click(function(){
 			$.ajax({
 				method: "GET",
@@ -168,84 +140,34 @@ document.title = "몬스타북스 :: 상품등록";
 					var bookPrice = result.documents[0].price;
 					var bookContents = result.documents[0].contents;
 					
-					
-					
 					$("input[name='btitle']").val(bookTitle);
 					$("input[name='bwriter']").val(bookAuthors);
 					$("input[name='bpublisher']").val(bookPublisher);
 					$("input[name='bpdate']").val(bookDatetime.split('T')[0]);
 					$("input[name='btranslator']").val(bookTranslators);
 					$("input[name='bprice']").val(bookPrice);
-					$("input[name='bdescription']").val(bookContents);
+					$("textarea[name='bdescription']").val(bookContents);
 				});
 		});
 		
-		/* $(".insertForm").submit(function(event) {
-			var author = $("#bwriterInput").val().trim();
- 
-		    if (author === "") {
-		      alert("저자를 입력하세요."");
-		      event.preventDefault(); // 제출을 막음
-		    })
-		}); */
+					
+		//할인률 계산
+		$("#calDiscount").click(function(){
+	      var price = Number($(".bprice").val());
+	      var discount = Number($(".bdiscount").val());
+	      
+	      // 할인율 계산 후 결과를 #bpricesell 입력란에 표시
+	      $("#bpricesell").val(price - (price * discount * 0.01));
+	      
+			//form submit 막기
+		   $(".insertForm").submit(function(e){
+		      e.preventDefault();
+		      $(".insertForm").unbind();
+		   })
+		});
 	});
 
-//isbn 검색
-$(document).ready(function() {$("#search").click(
-	function() {$.ajax({
-			method : "GET",
-			url : "https://dapi.kakao.com/v3/search/book",
-			data : {
-				query : $(
-						"#isbn")
-						.val()
-			},
-			headers : {
-				Authorization : "KakaoAK 01e8350958223ac98e6d3716c0a740f1"
-			}
-		})
-.done(
-		function(result) {
-			var bookTitle = result.documents[0].title;
-			var bookAuthors = result.documents[0].authors;
-			var bookPublisher = result.documents[0].publisher;
-			var bookDatetime = result.documents[0].datetime;
-			var bookTranslators = result.documents[0].translators;
-			var bookPrice = result.documents[0].price;
-			var bookContents = result.documents[0].contents;
 
-			$(
-					"input[name='btitle']")
-					.val(
-							bookTitle);
-			$(
-					"input[name='bwriter']")
-					.val(
-							bookAuthors);
-			$(
-					"input[name='bpublisher']")
-					.val(
-							bookPublisher);
-			$(
-					"input[name='bpdate']")
-					.val(
-							bookDatetime
-									.split('T')[0]);
-			$(
-					"input[name='btranslator']")
-					.val(
-							bookTranslators);
-			$(
-					"input[name='bprice']")
-					.val(
-							bookPrice);
-			$(
-					"input[name='bdescription']")
-					.val(
-							bookContents);
-		});
-});
-});
 	</script>
 </body>
 </html>

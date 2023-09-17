@@ -91,6 +91,8 @@
 		<label for="bimg">도서썸네일</label>
 		<label for="">${dtos.bookDetailDto.bimg}</label>
 		<input type="file" name="bimg" value="${dtos.bookDetailDto.bimg }" />
+		<%-- <% String previousFilePath = "${dtos.bookDetailDto.bimg }";%>
+		<input type="file" name="bimg" value="<%= previousFilePath %>" /> --%>
 		
 		<label for="bimgdetail">도서상세이미지</label>
 		<label for="">${dtos.bookDetailDto.bimgdetail}</label>
@@ -157,6 +159,24 @@
 	    event.preventDefault(); // 폼 제출 취소
 	  }
 	});
+	
+	$(document).ready(function(){
+	//할인률 계산
+		$("#calDiscount").click(function(){
+	      var price = Number($(".bprice").val());
+	      var discount = Number($(".bdiscount").val());
+	      
+	      // 할인율 계산 후 결과를 #bpricesell 입력란에 표시
+	      $("#bpricesell").val(price - (price * discount * 0.01));
+	      
+			//form submit 막기
+		   $(".insertForm").submit(function(e){
+		      e.preventDefault();
+		      $(".insertForm").unbind();
+		   })
+		});
+	});
+	
 	</script>
 </body>
 </html>
