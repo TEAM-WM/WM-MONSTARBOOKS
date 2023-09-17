@@ -39,7 +39,7 @@
 		<collection property="bookCategoryDto" resultMap="BookCategoryDto" ></collection>
 	</resultMap>
 	
-	<!-- 페이징 전 -->
+	<!-- 상품목록 - 페이징 전 -->
 	<!-- <select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, BD.BIMG, B.BTITLE, B.BPUBLISHER, B.BWRITER, B.BPRICE, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK
 		FROM M_BOOK B INNER JOIN M_BOOK_DETAIL BD
@@ -65,7 +65,7 @@
 		</choose>
 	</sql>
 			
-	<!-- 페이징 후 + 검색쿼리 -->
+	<!-- 상품목록 - 페이징 후 + 검색쿼리 -->
 	<select id="list" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT *
     	FROM
@@ -80,7 +80,7 @@
     	WHERE NUM BETWEEN #{param1} AND #{param2}
 	</select>
 		
-	<!-- 검색 조건에 따른 목록의 총 갯수 -->
+	<!-- 검색 조건에 따른 목록의 총 갯수(2개 조건) -->
 	<select id="selectBoardTotCount1" resultType="Integer">
     	SELECT COUNT(*) FROM M_BOOK WHERE BISBN LIKE '%'|| #{param1} || '%'
     </select>
@@ -138,7 +138,7 @@
 		WHERE NUM BETWEEN #{param2} AND #{param3}
 	</select> -->
 		
-	<!-- 도서상세 진입 -->
+	<!-- 상품상세 진입 -->
 	<select id="detail" parameterType="com.monstar.books.product.dto.BookDto" resultMap="BookDto">
 		SELECT B.BOOKNO, B.BISBN, B.BTITLE, B.BSUBTITLE, B.BPUBLISHER, B.BWRITER, B.BTRANSLATOR, B.BPDATE, 
 			B.BPRICE, B.BPRICESELL, B.BDISCOUNT, B.BSTATUS, B.BCDATE, B.BMDATE, B.BSTOCK, 
@@ -167,6 +167,7 @@
 		#{param7}, #{param8}, #{param9}, #{param10}, #{param11}, SYSDATE, NULL, #{param12})
 	</insert> -->	
 	
+	<!-- 상품등록 - M_BOOK 테이블 -->
 	<insert id="insertBook">
 		INSERT INTO M_BOOK(BOOKNO, BISBN, BTITLE, BSUBTITLE, BPUBLISHER, BWRITER, BTRANSLATOR,
 			BPDATE, BPRICE, BPRICESELL, BDISCOUNT, BSTATUS, BCDATE, BMDATE, BSTOCK)
@@ -181,6 +182,7 @@
    	 	#{param5}, #{param6}, #{param7})
 	</insert> -->
 		
+	<!-- 상품등록 - M_BOOK_DETAIL 테이블 -->
  	<insert id="insertBookDetail">
  		<selectKey keyProperty="bookno" order="BEFORE" resultType="Integer">
  			SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'M_BOOK_SEQ'
@@ -191,6 +193,7 @@
    	 	#{param5}, #{param6}, #{param7})
 	</insert>
 	
+	<!-- 상품수정 - M_BOOK 테이블 -->
 	<update id="updateBook">
 		UPDATE M_BOOK
 		SET BISBN=#{param2}, BTITLE=#{param3}, BSUBTITLE=#{param4}, BPUBLISHER=#{param5},
@@ -207,6 +210,7 @@
 		WHERE BOOKNO=#{param1}
 	</update> -->
 	
+	<!-- 상품수정 - M_BOOK_DETAIL 테이블 -->
 	<update id="updateBookDetail">
 		UPDATE M_BOOK_DETAIL
 		SET BCATEGORYNO=#{param2}, BDESCRIPTION=#{param3}, BPAGE=#{param4}, 
@@ -214,6 +218,7 @@
 		WHERE BOOKNO=#{param1}
 	</update>
 	
+	<!-- 상품수정 - M_BOOK_DETAIL 테이블 (이미지 분리)-->
 	<update id="updateBookDetailImg">
 		UPDATE M_BOOK_DETAIL
 		SET BIMG=#{param2}, BIMGDETAIL=#{param3}
@@ -224,7 +229,15 @@
     	SELECT COUNT(*) FROM M_BOOK
     </select>
 	
+	<!-- 상품삭제 - M_BOOK 테이블 -->
+	<delete id="deleteBook">
+		DELETE FROM M_BOOK WHERE BOOKNO=#{PARAM1}
+	</delete>
 	
+	<!-- 상품삭제 - M_BOOK_DETAIL 테이블 -->
+	<delete id="deleteBookDetail">
+		DELETE FROM M_BOOK_DETAIL WHERE BOOKNO=#{PARAM1}
+	</delete>
 	
 	
 	

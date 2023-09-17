@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.monstar.books.product.sevice.ProductDeleteService;
 import com.monstar.books.product.sevice.ProductDetailService;
 import com.monstar.books.product.sevice.ProductInsertReadyService;
 import com.monstar.books.product.sevice.ProductInsertService;
@@ -129,20 +130,19 @@ public class ProductController {
 
 		return "redirect:/admin/product/productlist";
 	}
-//	
-//	//상품상태 변경(=판매중, 품절, 숨김)
-//	@RequestMapping("/admin/product/productupdate")
-//	public String update(Model model, HttpServletRequest request) {
-//
-//		System.out.println(">>> UPDATE() >>>");
-//		
-//		model.addAttribute("request", request);
-//		service = new ProductUpdateService(session);
-//		service.execute(model);
-//
-//		return "redirect:/admin/product/productlist";
-//	}
-//	
+
+	//상품삭제
+	@RequestMapping("/admin/product/productdelete")
+	public String delete(HttpServletRequest request, Model model) {
+		
+		System.out.println(">>> DELETE >>>");
+		
+		model.addAttribute("request", request);
+		service = new ProductDeleteService(session);
+		service.execute(model);
+		
+		return "redirect:/admin/product/productlist";
+	}
 	
 	
 	
