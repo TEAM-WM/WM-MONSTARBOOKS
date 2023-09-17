@@ -37,8 +37,8 @@
 		<input type="text" name="bprice" class="bprice" />
 		<label for="bdiscount">할인율(%)</label>
 		<div class="form-small">
-		<input type="text" name="bdiscount" class="bdiscount" />
-		<input type="button" id="calDiscount" value="판매가계산">
+			<input type="text" name="bdiscount" class="bdiscount" />
+			<input type="button" id="calDiscount" value="판매가계산">
 		</div>
 		
 		<label for="bpricesell">판매가</label>
