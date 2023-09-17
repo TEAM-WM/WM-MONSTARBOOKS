@@ -87,7 +87,11 @@
                         <strong aria-label="저자 / 출판사" class="product-card-author">${dto.bwriter } · ${dto.bpublisher }</strong>
                         <div class="book-price">
                             <span class="price">
-                                ${dto.bprice }원
+                                ${dto.bprice } 원
+                            </span>
+                            &nbsp;
+                            <span class="sell">
+                            	${dto.bpricesell } 원
                             </span>
                         </div>
                     </div>

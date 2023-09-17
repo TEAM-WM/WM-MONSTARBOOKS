@@ -59,14 +59,14 @@
 		<beans:property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
 		<!-- localhost -> 172.16.4.19 -->
-		<beans:property name="url"
+		<!-- <beans:property name="url"
 			value="jdbc:oracle:thin:@monstarbooks.csokyu8oltuf.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
 		<beans:property name="username" value="admin" />
-		<beans:property name="password" value="goott9922**" />
-		<!-- <beans:property name="url"
+		<beans:property name="password" value="goott9922**" /> -->
+		<beans:property name="url"
 			 value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<beans:property name="username" value="hr" />
-		<beans:property name="password" value="123456" /> -->
+		<beans:property name="password" value="123456" />
 	</beans:bean>
 
 	<beans:bean id="sqlSessionFactory"
