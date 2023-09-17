@@ -71,7 +71,7 @@ a:hover {
 									<div class="review-card-book">
 										<div class="product-card-image">
 											<img
-												src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791170626459.jpg"
+												src="${pageContext.request.contextPath}/resources/assets/imgs/product/${re.bookdetail.bimg}"
 												alt="">
 										</div>
 										<div class="review-card-box">
@@ -126,7 +126,8 @@ a:hover {
 					</ol>
 				</div>
 				<!-- mypage-content -->
-				<!-- pagination-wrap -->
+				<c:if test="${not empty reviewList }">
+					<!-- pagination-wrap -->
 				<div class="pagination-wrap">
 					<!-- pagination -->
 					<div class="pagination">
@@ -181,6 +182,13 @@ a:hover {
 					<!-- pagination -->
 				</div>
 				<!-- pagination-wrap -->
+				</c:if>
+				
+				<c:if test="${empty reviewList }">
+					<div class="warning center">
+						작성하신 리뷰가 없습니다.
+					</div>
+				</c:if>
 			</div>
 		</section>
 	</article>

@@ -20,9 +20,9 @@
 		<result column="MEMBERNO" property="memberno"/>
 		<result column="RTITLE" property="rtitle"/>
 		<result column="RCONTENT" property="rcontent"/>
-		<result column="REDATE" property="redate"/>
+		<result column="REGDATE" property="regdate"/>
 		<result column="RSTAR" property="rstar"/>
-		<result column="REFNLESRC" property="refnlesrc"/>
+		<result column="REFILESRC" property="refilesrc"/>
 		<result column="DELETED" property="deleted"/>
 		<collection property="member" resultMap="Member"></collection>
 		<collection property="book" resultMap="Book"></collection>
@@ -48,7 +48,7 @@
 		FROM M_REVIEW R,M_BOOK B,M_MEMBER M
 		WHERE B.BOOKNO=R.BOOKNO AND R.MEMBERNO=M.MEMBERNO
 		 -->
-		SELECT *FROM (SELECT ROWNUM NUM, N.*FROM(SELECT B.BTITLE,M.MNAME,M.MID,R.RCONTENT,R.REDATE,R.RSTAR,R.DELETED,R.REVIEWNO,R.REFNLESRC
+		SELECT *FROM (SELECT ROWNUM NUM, N.*FROM(SELECT B.BTITLE,M.MNAME,M.MID,R.RCONTENT,R.REGDATE,R.RSTAR,R.DELETED,R.REVIEWNO,R.REFILESRC
 		FROM M_REVIEW R,M_BOOK B,M_MEMBER M
 		WHERE B.BOOKNO=R.BOOKNO AND R.MEMBERNO=M.MEMBERNO ORDER BY R.REVIEWNO DESC)N
 			<include refid="includeList"/>

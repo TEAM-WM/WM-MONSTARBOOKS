@@ -18,6 +18,7 @@ import com.monstar.books.booklist.sevice.BookListServiceList;
 import com.monstar.books.booklist.sevice.CategoryBookListServiceList;
 import com.monstar.books.booklist.sevice.GoOrderServiceList;
 import com.monstar.books.booklist.sevice.NewBookListServiceList;
+import com.monstar.books.booklist.sevice.SearchBookListServiceList;
 import com.monstar.books.booklist.sevice.addCartCheckServiceList;
 import com.monstar.books.booklist.sevice.addCartServiceList;
 import com.monstar.books.booklist.vopage.SearchVO;
@@ -51,7 +52,7 @@ public class BookListController {
 	
 	// 새로나온책 리스트
 	@RequestMapping("/booklist/new")
-	public String list(HttpServletRequest request,SearchVO searchVO, Model model) {
+	public String newlist(HttpServletRequest request,SearchVO searchVO, Model model) {
 		
 		System.out.println("새로나온책 리스트");
 		
@@ -62,11 +63,11 @@ public class BookListController {
 		service.execute(model);
 		
 		return "common/booklist/bestlist";	
-	}// bestlist 종료
+	}// newlist 종료
 	
 	// 국내 국외 리스트
 	@RequestMapping("/booklist/category")
-	public String category(HttpServletRequest request,SearchVO searchVO, Model model) {
+	public String categorylist(HttpServletRequest request,SearchVO searchVO, Model model) {
 		
 		System.out.println("국내 or 국외 리스트");
 		
@@ -77,7 +78,23 @@ public class BookListController {
 		service.execute(model);
 		
 		return "common/booklist/bestlist";	
-	}// bestlist 종료
+	}// categorylist 종료
+	
+	// 검색
+	@RequestMapping("/booklist/search")
+	public String search(HttpServletRequest request,SearchVO searchVO, Model model) {
+		
+		System.out.println("통합 검색");
+		System.out.println("search : "+request.getParameter("search"));
+		
+		model.addAttribute("request",request);
+		model.addAttribute("searchVO",searchVO);
+		
+		service = new SearchBookListServiceList(session);
+		service.execute(model);
+		
+		return "common/booklist/bestlist";	
+	}// search 종료
 	
 	// 230823 진성 추가
 	// 도서 상세 페이지

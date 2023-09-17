@@ -14,7 +14,7 @@
   <interface id="2" language="java" name="com.monstar.books.product.dao.ProductDao" project="Monstarbooks" 
     file="/Monstarbooks/src/main/java/com/monstar/books/product/dao/ProductDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="333" y="208"/>    
+    <position height="-1" width="-1" x="1324" y="200"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -24,7 +24,7 @@
   <class id="3" language="java" name="com.monstar.books.product.dto.BookCategoryDto" project="Monstarbooks" 
     file="/Monstarbooks/src/main/java/com/monstar/books/product/dto/BookCategoryDto.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="693" y="1016"/>    
+    <position height="-1" width="-1" x="1348" y="1417"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -34,7 +34,7 @@
   <class id="4" language="java" name="com.monstar.books.product.dto.BookDetailDto" project="Monstarbooks" 
     file="/Monstarbooks/src/main/java/com/monstar/books/product/dto/BookDetailDto.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="271" y="838"/>    
+    <position height="-1" width="-1" x="1369" y="788"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -43,7 +43,7 @@
   </class>  
   <class id="5" language="java" name="com.monstar.books.product.dto.BookDto" project="Monstarbooks" 
     file="/Monstarbooks/src/main/java/com/monstar/books/product/dto/BookDto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1293" y="622"/>    
+    <position height="-1" width="-1" x="488" y="704"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -150,58 +150,70 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="16">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="17" name="bookDetailDto"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="19">    
+  <realization id="16">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <association id="17">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="20" name="service"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
+      <attribute id="18" name="service">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="22">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="11"/>  
-  </realization>  
-  <realization id="23">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="11"/>  
-  </realization>  
-  <realization id="24">    
+  <realization id="20">    
     <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
-  <realization id="25">    
-    <end type="SOURCE" refId="9"/>    
+  <realization id="21">    
+    <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
-  <generalization id="26">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <association id="27">    
+  <association id="22">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="28" name="bookCategoryDto"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
+      <attribute id="23" name="bookCategoryDto">        
+        <position height="0" width="0" x="655" y="401"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="655" y="401"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="30">    
-    <end type="SOURCE" refId="13"/>    
+  <realization id="25">    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
-  <realization id="31">    
+  <realization id="26">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <association id="27">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="28" name="bookDetailDto">        
+        <position height="0" width="0" x="1098" y="-50"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="0" width="0" x="1098" y="-50"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="30">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
+  <generalization id="31">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

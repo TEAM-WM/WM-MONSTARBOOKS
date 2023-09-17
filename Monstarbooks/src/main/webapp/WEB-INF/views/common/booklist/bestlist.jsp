@@ -27,8 +27,7 @@ function cart_add_check(memberno){
 		});
 		if(cnt == 0){
 			alert("선택된 상품이 없습니다.");
-		}
-		 else{
+		}else{
 			$.ajax({
 				url : '../addCartCheck',
 				type: 'post',
@@ -98,23 +97,33 @@ function go_order(bno,memberno){
 <body>
 	<article class="book-list-wrap">
         <!-- 카테고리 분류 -->
+  	<section class="breadcrumb-wrap">
+        <ul>
+        <c:choose>
+        	<c:when test="${pageName ne 'search' }">
+		                <li>
+		                    <a href="../">
+		                        <i class="fa-solid fa-house"></i>
+		                    </a>
+		                </li>
+		                <li>
+		                    <c:if test="${category1 eq '베스트셀러' }"> <a href="./bestlist">${category1 }</a> </c:if>
+		                    <c:if test="${category1 eq '새로 나온 책' }"> <a href="./new">${category1 }</a> </c:if>
+		                    <c:if test="${category1 eq '국내도서' }"> <a href="./category?list=kor&code=0">${category1 }</a> </c:if>
+		                    <c:if test="${category1 eq '외국도서' }"> <a href="./category?list=eng&code=0">${category1 }</a> </c:if>
+		                </li>
+		                <li>
+		                 	<a href="">${category2 }</a>
+		                </li>
+        	</c:when>
+        	<c:otherwise>
+						<li><a>'${search }'에 대한 ${totRowCnt }개의 검색 결과</a></li>
+        	</c:otherwise>
+        </c:choose>
+         </ul>
+     </section>
+        
         <section class="breadcrumb-wrap">
-            <ul>
-                <li>
-                    <a href="../">
-                        <i class="fa-solid fa-house"></i>
-                    </a>
-                </li>
-                <li>
-                    <c:if test="${category1 eq '베스트셀러' }"> <a href="./bestlist">${category1 }</a> </c:if>
-                    <c:if test="${category1 eq '새로 나온 책' }"> <a href="./new">${category1 }</a> </c:if>
-                    <c:if test="${category1 eq '국내도서' }"> <a href="./category?list=kor&code=0">${category1 }</a> </c:if>
-                    <c:if test="${category1 eq '외국도서' }"> <a href="./category?list=eng&code=0">${category1 }</a> </c:if>
-                </li>
-                <li>
-                 	<a href="">${category2 }</a>
-                </li>
-            </ul>
         </section>
 		<section class="book-section-wrap">
 		<jsp:include page="/WEB-INF/views/tiles/include/listMenu.jsp">
@@ -138,6 +147,12 @@ function go_order(bno,memberno){
                     장바구니
                 </button>
             </div><!-- book-item-content -->
+            <c:if test="${totRowCnt eq 0}">
+        		<article class="join-success">
+        		<i class="fa-solid fa-magnifying-glass"></i>
+        		<h2>'${search }'에 대한 ${totRowCnt }개의 검색 결과</h2>
+        		</article>
+        	</c:if>
             <!-- 리스트 시작 -->
             <ul class="book-list">
             	<c:forEach items="${dto }" var="list">
@@ -356,8 +371,17 @@ function go_order(bno,memberno){
             <ol>
 			<c:choose>
 				<c:when test="${searchVO.page>1}">
-					<li><a href="${pageName }?list=${list }&code=${code }&page=1"><i class="fa-solid fa-angles-left"></i></a></li>
-					<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+					<c:choose>
+						<c:when test="${pageName eq 'search' }">
+							<li><a href="search?search=${search }&page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+							<li><a href="search?search=${search }&page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+						</c:when>
+						<c:otherwise>						
+							<li><a href="${pageName }?list=${list }&code=${code }&page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+							<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.page-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+						</c:otherwise>
+					</c:choose>
+					
 				</c:when>
 				<c:otherwise>
 					<li class="disabled">
@@ -385,15 +409,30 @@ function go_order(bno,memberno){
 					</c:when>
 					<c:otherwise>
 						<li>
-							<a href="${pageName }?list=${list }&code=${code }&page=${i }">${i }</a>
+							<c:choose>
+								<c:when test="${pageName eq 'search' }">
+									<a href="search?search=${search }&page=${i }">${i }</a>
+								</c:when>
+								<c:otherwise>						
+									<a href="${pageName }?list=${list }&code=${code }&page=${i }">${i }</a>
+								</c:otherwise>
+							</c:choose>
 						</li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:choose>
 				<c:when test="${searchVO.page < searchVO.totPage}">
-					<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
-					<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+					<c:choose>
+						<c:when test="${pageName eq 'search' }">
+							<li><a href="search?search=${search }&page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+							<li><a href="search?search=${search }&page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.page+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+							<li><a href="${pageName }?list=${list }&code=${code }&page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+						</c:otherwise>
+					</c:choose>
 				</c:when>
 				<c:otherwise>
 					<li class="disabled">

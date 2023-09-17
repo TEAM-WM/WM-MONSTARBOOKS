@@ -65,5 +65,11 @@ public interface BookListDao {
 	//보유쿠폰 수량 조회
 	public int cpCnt(int memberno);
 
+	//searching 글 갯수
+	public int searchTotCnt(String search);
+
+	//searching 결과
+	public ArrayList<BookListDto> searchList(int rowStart, int rowEnd, String search);
+
 	
 }//interface 종료

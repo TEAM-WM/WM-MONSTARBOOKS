@@ -13,10 +13,12 @@
 	<form action="${pageContext.request.contextPath}/admin/member/update/access" method="post" class="join left">
 		<input type="hidden" name="memberno" value="${dto.memberno }" />
 		<label for="auth">권한</label>
-		<select name="auth" id="auth">
-			<option value="관리자"<c:if test="${dto.mauthority eq '관리자'}" >selected</c:if>>관리자</option>
+		<div class="select-group">
+			<select name="auth" id="auth" class="form-select">
+				<option value="관리자"<c:if test="${dto.mauthority eq '관리자'}" >selected</c:if>>관리자</option>
 			<option value="사용자"<c:if test="${dto.mauthority eq '사용자'}" >selected</c:if>>사용자</option>
-		</select>
+			</select>
+		</div>
 		<label for="id">아이디</label>
 		<input type="text" name="id" placeholder="아이디를 입력해주세요." id="id" value="${dto.mid }" readonly="readonly">
 		

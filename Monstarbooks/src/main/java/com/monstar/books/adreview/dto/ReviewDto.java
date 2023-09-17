@@ -17,9 +17,9 @@ public class ReviewDto {
 	private int memberno; //회원번호
 	private String rtitle; //후기제목 
 	private String rcontent; //후기내용 
-	private Date redate; //작성날짜 
+	private Date regdate; //작성날짜 
 	private String rstar; //별점 
-	private String refnlesrc; //사진 
+	private String refilesrc; //사진 
 	private String deleted; //삭제여부 
 	
 	private MemberDto member;

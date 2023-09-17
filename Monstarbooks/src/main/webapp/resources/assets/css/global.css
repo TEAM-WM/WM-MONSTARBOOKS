@@ -251,7 +251,7 @@ main.main {
 
 /* modal 창 기본 스타일 */
 #myCouponModal .modal-content-wrap {
-    width: 500px;
+    width: 800px;
 }
 
 #myCouponModal .modal-content-wrap table {
