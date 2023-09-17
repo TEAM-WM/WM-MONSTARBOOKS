@@ -74,12 +74,8 @@ public class MyCouponListService implements MyPageService {
 		int rowStart=searchVO.getRowStart();
 		int rowEnd=searchVO.getRowEnd();
 		
-//		int cpno = Integer.parseInt(request.getParameter("cpno"));
-//		System.out.println("cpno :" + cpno);
-		
 		List<CouponMemberDto> couponMember = dao.myCoupon(rowStart,rowEnd,no);		
-		model.addAttribute("mcoupon", couponMember);
-		
+		model.addAttribute("mcoupon", couponMember);		
 		
 	}// execute method
 

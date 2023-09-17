@@ -57,9 +57,10 @@
         <div class="mypage-content bn">
           <div class="coupon-list">
             <c:forEach var="mycp" items="${mcoupon}" varStatus="loop">
+
               <div class="coupon-item">
                 <c:choose>
-                  <c:when test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq '신규가입 할인쿠폰'}">
+                   <c:when test="${mycp.cpstatus eq 'N' && mycp.coupon.cpstatus eq 'FALSE' && mycp.coupon.cpname eq '신규가입 할인쿠폰'}">
                     <img class="coupon-image" src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon0.png" alt="쿠폰이미지">
                     <div class="coupon-details">
                       <div class="coupon-name">${mycp.coupon.cpname}</div>
@@ -68,9 +69,13 @@
                         <fmt:formatDate value="${mycp.cprdate}" pattern="yyyy.MM.dd" /> - 
                         <fmt:formatDate value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
                       </div>
+                     <div>
+              			<input type="hidden" name="cpstatus" value="${mycp.cpstatus }" />
+              			<input type="hidden" name="cpstatus" value="${mycp.coupon.cpstatus }" />
+                     </div>
                     </div>
                   </c:when>
-                  <c:when test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq 'WMBOOK 개업 이벤트'}">
+                  <c:when test="${mycp.cpstatus eq 'N' && mycp.coupon.cpstatus eq 'FALSE' && mycp.coupon.cpname eq 'WMBOOK 개업 이벤트'}">
                     <img class="coupon-image" src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon1.png" alt="쿠폰이미지">
                     <div class="coupon-details">
                       <div class="coupon-name">${mycp.coupon.cpname}</div>
@@ -79,9 +84,13 @@
                         <fmt:formatDate value="${mycp.cprdate}" pattern="yyyy.MM.dd" /> - 
                         <fmt:formatDate value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
                       </div>
+                     <div>
+              			<input type="hidden" name="cpstatus" value="${mycp.cpstatus }" />
+              			<input type="hidden" name="cpstatus" value="${mycp.coupon.cpstatus }" />
+                     </div>
                     </div>
                   </c:when>
-                  <c:when test="${mycp.cpstatus eq 'N' and mycp.coupon.cpstatus eq 'FALSE' and mycp.coupon.cpname eq '가을은 독서 이벤트'}">
+                  <c:when test="${mycp.cpstatus eq 'N' && mycp.coupon.cpstatus eq 'FALSE' && mycp.coupon.cpname eq '가을은 독서 이벤트'}">
                     <img class="coupon-image" src="${pageContext.request.contextPath}/resources/assets/imgs/coupon/coupon2.png" alt="쿠폰이미지">
                     <div class="coupon-details">
                       <div class="coupon-name">${mycp.coupon.cpname}</div>
@@ -90,6 +99,10 @@
                         <fmt:formatDate value="${mycp.cprdate}" pattern="yyyy.MM.dd" /> - 
                         <fmt:formatDate value="${mycp.coupon.cpvalid}" pattern="yyyy.MM.dd" />
                       </div>
+                     <div>
+              			<input type="hidden" name="cpstatus" value="${mycp.cpstatus }" />
+              			<input type="hidden" name="cpstatus" value="${mycp.coupon.cpstatus }" />
+                     </div>
                     </div>
                   </c:when>
                   <c:otherwise>

@@ -48,7 +48,8 @@ public class MyReviewUpdateService implements MyPageService {
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
 		
 		// 파일 업로드를 위한 경로 설정
-		String path = "C:\\javabigsetspring2023\\spring_work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\Monstarbooks\\resources\\assets\\upload";
+		String path = "C:\\javabigsetspring2023\\spring_work\\.metadata\\.plugins\\org.eclipse.wst.server.core"
+				+ "\\tmp1\\wtpwebapps\\Monstarbooks\\resources\\assets\\upload";
 		log.info("path: {}", path);
 
 		// TODO : 파일 업로드 구현

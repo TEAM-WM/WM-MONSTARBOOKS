@@ -17,7 +17,7 @@
 		<result column="CPCNT" property="cpCnt"/>
 		<collection property="cpMember" resultMap="CpMember"></collection>
 	</resultMap>
-	
+
 	<resultMap type="com.monstar.books.order.dto.CouponMemberDto" id="CpMember">
 		<result column="CPNO" property="cpno"/>
 		<result column="MEMBERNO" property="memberno"/>
@@ -28,7 +28,7 @@
 	<collection property="coupon" resultMap="Coupon"></collection>
 	<collection property="member" resultMap="Member"></collection>
 	</resultMap>
-	
+
 	<resultMap type="com.monstar.books.member.dto.MemberDto"
 		id="Member">
 		<result column="MEMBERNO" property="memberno" />
@@ -45,7 +45,7 @@
 		<result column="MDELETED" property="mdeleted" />
 		<result column="member" property="Member" />
 	</resultMap>
-	
+
 	  <!-- 사용자 마이페이지 쿠폰함 목록 -->
 	<select id="myCoupon" parameterType="com.monstar.books.order.dto.CouponMemberDto" resultMap="CpMember">
 		<!-- 페이징 처리 후 -->
@@ -56,7 +56,7 @@
 				                C.CPNAME, C.CPDESCRIPTION, C.CPPRICE, C.CPSTATUS AS CP_STATUS
 				        FROM M_COUPON_MEMBER CM
 				        LEFT JOIN M_COUPON C ON CM.CPNO2 = C.CPNO AND CM.CPVALID = C.CPVALID
-				        WHERE CM.MEMBERNO = #{param1}
+				        WHERE CM.MEMBERNO = #{param3}
 				            AND CM.CPVALID >= SYSDATE - 1
 				            AND CM.CPSTATUS = 'N'
 				            AND C.CPSTATUS = 'FALSE'
@@ -64,14 +64,14 @@
 				WHERE NUM BETWEEN #{param1} AND #{param2}
  	</select>
  	
- 	
-  		<!-- 리스트 총 갯수 -->		
+  		<!-- 리스트 총 갯수 -->
 		<select id="couponboxTotCount" resultType="Integer">
 		    SELECT COUNT(*)
 		    FROM M_COUPON_MEMBER CM
 		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = CM.MEMBERNO
-		    WHERE M.MEMBERNO = #{param1} AND CM.CPSTATUS = 'N'
+		    WHERE M.MEMBERNO = #{param1} 
+		    AND CM.CPSTATUS = 'N' 
+		    AND CM.CPVALID >= SYSDATE
 		</select>
-
 
 </mapper>

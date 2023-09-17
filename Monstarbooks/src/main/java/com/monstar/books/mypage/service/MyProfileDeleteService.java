@@ -38,16 +38,11 @@ public class MyProfileDeleteService implements MyPageService {
 		System.out.println("id받아줘 :" + mid);
 		//로그인프로세스 서비스 참조
 //		httpSession.setAttribute("id", dto.getMid());
-		
-		
+				
 		MyProfileDao dao=sqlSession.getMapper(MyProfileDao.class);
-		
-//		String mid = request.getParameter("mid");
 
 		dao.delete(mid);
-			
-	
+				
 	}// execute method
-		
 }// class 종료
 
