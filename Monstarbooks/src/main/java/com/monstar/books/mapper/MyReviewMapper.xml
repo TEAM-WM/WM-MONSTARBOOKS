@@ -202,12 +202,35 @@
 		    WHERE REVIEWNO = #{param3} AND MEMBERNO = #{param5}
 		</update>
 
-	<!-- 230905 [효슬] 리뷰 글쓰기폼 불러오기: 사용자, 책, 책 상세정보, 북카테고리, 주문정보 -->
+	<!-- [효슬] 리뷰 글쓰기폼 불러오기: 사용자, 책, 책 상세정보, 북카테고리, 주문정보 -->
+	<!-- WHERE 회원세션 MID * BOOKNO 검색 (조건 동일서적, 수량 2개 이상일 경우 1개 값만 불러올 수 있게 쿼리 수정-->
 	<select id="bcategories"
-		parameterType="com.monstar.books.mypage.dto.MyReviewDto"
-		resultMap="MyReview">
-			<!-- WHERE 회원세션 MID * BOOKNO 검색 (완료) -->
-		SELECT
+		parameterType="com.monstar.books.mypage.dto.MyReviewDto" resultMap="MyReview">
+		SELECT *
+		FROM (
+		    SELECT A.*, ROWNUM AS RNUM
+		    FROM (SELECT
+		    R.MEMBERNO,
+		    M.MID,
+		    B.BOOKNO,
+		    B.BTITLE,
+		    C.BCATEGORY1,
+		    C.BCATEGORY2
+		FROM
+		    M_REVIEW R
+		    LEFT JOIN M_MEMBER M ON M.MEMBERNO = R.MEMBERNO
+		    LEFT JOIN M_BOOK B ON B.BOOKNO = R.BOOKNO
+		    LEFT JOIN M_BOOK_DETAIL D ON D.BOOKNO = B.BOOKNO
+		    LEFT JOIN M_BOOK_CATEGORY C ON C.BCATEGORYNO = D.BCATEGORYNO
+		WHERE
+		    M.MID = #{param2}
+		    AND R.DELETED = 'NO'
+		    AND B.BOOKNO = #{param1}
+		    ) A
+		) WHERE RNUM =1
+	</select>
+		    
+		<!-- SELECT
 		    R.REVIEWNO,
 		    R.MEMBERNO,
 		    R.RTITLE,
@@ -230,9 +253,8 @@
 		WHERE
 		    M.MID = #{param2}
 			    AND R.DELETED = 'NO'
-			    AND R.BOOKNO = #{param1}
-	</select>
-
+			    AND R.BOOKNO = #{param1} -->
+			    
 	<!-- 230906 [효슬] 리뷰 글쓰기 기능 -->
 	<insert id="reviewInsert">
 		INSERT INTO M_REVIEW(REVIEWNO, BOOKNO, MEMBERNO,
