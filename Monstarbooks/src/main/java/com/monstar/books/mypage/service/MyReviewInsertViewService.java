@@ -39,7 +39,6 @@ public class MyReviewInsertViewService implements MyPageService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
 		MyReviewDao dao = sqlSession.getMapper(MyReviewDao.class);
-//		MemberDto member = (MemberDto) request.getSession().getAttribute("user");
 
 //	     로그인 사용자 ID 세션에서 받아오기
 		HttpSession session = request.getSession();

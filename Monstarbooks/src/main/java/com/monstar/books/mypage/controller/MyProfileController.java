@@ -69,7 +69,6 @@ public class MyProfileController {
 		service = new MyProfileViewService(sqlSession);
 		service.execute(model);
 
-//		return "redirect:myprofile_list";
 		return "common/myprofile/myprofile_update";
 
 	}// update 수정폼 종료
@@ -86,7 +85,6 @@ public class MyProfileController {
 
 	    // 수정 후 목록 페이지로 리다이렉트
 	    return "redirect:list";
-//	    return "redirect:myprofile_view";
 	}
 	
 	//230828 [효슬] 마이페이지 프로필이미지 삭제 기능
@@ -117,6 +115,5 @@ public class MyProfileController {
 //		return null;
 		
 	}// 이미지download 종료
-
 	
 }// class 종료

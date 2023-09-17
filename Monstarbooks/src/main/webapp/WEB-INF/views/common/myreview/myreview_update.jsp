@@ -87,7 +87,8 @@ tr, td {
 							<input type="hidden" name="reviewno" value="${myreview_view.reviewno }" />
 							<input type="hidden" name="memberno" value="${myreview_view.memberno }" />
 							<input type="hidden" name="mid" value="${myreview_view.member.mid }" />
-							<input type="hidden" name="rtitle" value="${myreview_view.bookcategory.bcategory1 }│${myreview_view.bookcategory.bcategory2 }&nbsp; ${myreview_view.book.btitle } " />
+							<input type="hidden" name="rtitle" value="${myreview_view.bookcategory.bcategory1 }│
+							${myreview_view.bookcategory.bcategory2 }&nbsp; ${myreview_view.book.btitle } " />
 							<div class="select-group">
 								<select name="rstar" class="form-select star">
 									<option value="5" <c:if test="${myreview_view.rstar == 5}">selected</c:if>>★★★★★</option>

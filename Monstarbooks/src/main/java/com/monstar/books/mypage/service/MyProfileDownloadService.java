@@ -69,10 +69,7 @@ public class MyProfileDownloadService implements MyPageService {
 			fin.close();
 			sout.close();
 			// 파일 다운로드를 처리하기 위한 코드 블록 종료
-		} catch (Exception e) {
-
+			} catch (Exception e) {
 		}
 	}// execute method
-
-}
-// class
+}// class
