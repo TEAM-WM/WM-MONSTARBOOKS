@@ -48,7 +48,7 @@
 				</h1>
 				<!-- 검색 -->
 				<div class="global-search">
-					<form action="${pageContext.request.contextPath}/booklist/search" method="get">
+					<form action="${pageContext.request.contextPath}/search" method="get">
 						<input type="text" name="search" placeholder="세상에 꼭 나와야만 했던 이야기"
 							autocomplete="off" value="${search }" onkeydown="handleEnterKey(event)" />
 						<button type="button" class="search-icon" onclick="searching()"></button>
@@ -189,13 +189,6 @@
 		location.href="${pageContext.request.contextPath }/logout";
 	}
 	
-	//검색어 입력 후 엔터 눌렀을 때
-	function handleEnterKey(event) {
-	    if (event.key === "Enter") {	
-			//event.preventDefault();
-	    	searching();
-	    }
-	}
 	//검색버튼 눌렀을 때
  	function searching(){
     	if($("input[name='search']").val().trim() == ""){//검색어 공백일때
@@ -204,6 +197,13 @@
 		}else{
 			$(".global-search form").submit();
 		}
+	}
+	//검색어 입력 후 엔터 눌렀을 때
+	function handleEnterKey(event) {
+	    if (event.key === "Enter") {	
+			//event.preventDefault();
+	    	searching();
+	    }
 	}
 	</script>
 </body>

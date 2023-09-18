@@ -81,7 +81,7 @@ function coupon_select(cpprice,totPrice,cpno){
 		}else{
 			alert("쿠폰이 적용되었습니다.");
 			$(".cpdiscount").text(cpprice); // 쿠폰할인 값 변경
-			$("#ototalprice").val(totPrice-cpprice);
+			$("#ototalprice").val(totPrice-cpprice);//상품가격 - 쿠폰가격
 			$(".final_totPrice").text((totPrice-cpprice).toLocaleString()+"원"); //총 결제금액 변경
 			$("#usedCpno").val(cpno);//사용한 쿠폰번호 전달
 			closeModal("myCouponModal"); // 모달 닫기
@@ -92,19 +92,17 @@ function coupon_select(cpprice,totPrice,cpno){
 var IMP = window.IMP;
 IMP.init('imp30831436');//가맹점 식별코드 
 function requestPay(pay){
-	var couponPrice = $(".cpdiscount").text();
-	alert(couponPrice);
-	var totPay = pay - couponPrice;
-	alert(totPay);
+	var couponPrice = $(".cpdiscount").text();//쿠폰금액
+	var totPay = pay - couponPrice; //상품 합계금액 - 쿠폰금액
 	
-	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){
+	if($("#sample6_postcode").val()=="" && $("#sample6_detailAddress").val()==""){//배송지 입력되었는지 검사
 		alert("배송지를 입력해주세요.");
 	}else{
-		if($("#dname").val()=="" && $("#dtel").val()==""){
+		if($("#dname").val()=="" && $("#dtel").val()==""){//수령인의 이름과 연락처가 입력되었는지 검사
 			alert("수령인의 성함과 연락처를 입력해주세요.");
 		}else{
-			if($("#order_agree").is(":checked")){
-				if($("input[name='payment']:checked").val()=='신용/체크카드'){
+			if($("#order_agree").is(":checked")){//주문 상품 정보 동의에 체크하였는지 검사
+				if($("input[name='payment']:checked").val()=='신용/체크카드'){//결제방법이 신용/체크카드일 때
 					IMP.request_pay({
 						pg : 'html5_inicis',
 				        pay_method : 'card',
@@ -123,7 +121,7 @@ function requestPay(pay){
 						}
 					});
 				}
-				else if($("input[name='payment']:checked").val()=='휴대폰'){
+				else if($("input[name='payment']:checked").val()=='휴대폰'){//결제방법이 휴대폰일 때
 					IMP.request_pay({
 						pg : 'danal.A010002002',
 				        pay_method : 'phone',
@@ -142,7 +140,7 @@ function requestPay(pay){
 						}
 					});
 				}
-				else if($("input[name='payment']:checked").val()=='카카오페이'){
+				else if($("input[name='payment']:checked").val()=='카카오페이'){//결제방법이 카카오페이일 때
 					IMP.request_pay({
 						pg : 'kakaopay.TC0ONETIME',
 				        pay_method : 'card',

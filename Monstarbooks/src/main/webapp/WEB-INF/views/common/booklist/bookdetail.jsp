@@ -15,10 +15,9 @@ $().ready(function(){
 /* 수량조절 */
 	var i = 1;
 	var stock = Number($("#bstock").val()); 
-	$(".plus_btn").click(function(){
-		console.log($("#cnt").val());
+	$(".plus_btn").click(function(){// '+' 버튼 눌렀을때
 		if(Number($("#cnt").val()) < stock){//수량이 재고보다 적을때
-			$("#cnt").val(++i);		
+			$("#cnt").val(++i);	// 수량 증가
 		}else{//수량이 재고보다 많을때
 			alert("재고를 초과하는 주문은 처리할 수 없습니다. 주문 수량을 확인해주세요.");
 		}
@@ -28,10 +27,10 @@ $().ready(function(){
 			$(".order_form").unbind();
 		})
 	});
-	$(".minus_btn").click(function(){
+	$(".minus_btn").click(function(){// '-' 버튼 눌렀을때
 		var cnt = $("#cnt").val();
-		if(cnt > 1){
-			$("#cnt").val(--i);	
+		if(cnt > 1){//선택한 수량이 1보다 크다면
+			$("#cnt").val(--i);	//수량 감소
 		}
 		//form submit 막기
 		$(".order_form").submit(function(e){

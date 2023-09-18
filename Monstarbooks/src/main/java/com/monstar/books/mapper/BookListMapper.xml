@@ -116,31 +116,19 @@
 	<!-- 국내 or 국외 카테고리별 리스트 -->
 	<select id="categoryList" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
 		SELECT * FROM
-		(SELECT ROWNUM NUM, N.* FROM
-		(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
-		B.BPRICESELL,B.BDISCOUNT,D.BADGE,
-        C.BCATEGORY1,
-		(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW 
-		WHERE BOOKNO=B.BOOKNO) STARAVG,
-		(SELECT COUNT(REVIEWNO) FROM M_REVIEW 
-		WHERE BOOKNO=B.BOOKNO) REVIEWCNT
-		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
-		WHERE B.BOOKNO = D.BOOKNO
-        AND D.BCATEGORYNO = C.BCATEGORYNO
-        AND C.BCATEGORY1=#{param1}
-        <include refid="includeList"/>
-		ORDER BY REVIEWCNT DESC) N)
+			(SELECT ROWNUM NUM, N.* FROM
+				(SELECT B.BOOKNO,D.BIMG,B.BTITLE,B.BWRITER,B.BPUBLISHER,B.BPRICE,B.BPDATE,B.BSTOCK,
+					B.BPRICESELL,B.BDISCOUNT,D.BADGE, C.BCATEGORY1,
+					(SELECT ROUND(AVG(RSTAR),1) FROM M_REVIEW WHERE BOOKNO=B.BOOKNO) STARAVG,
+					(SELECT COUNT(REVIEWNO) FROM M_REVIEW WHERE BOOKNO=B.BOOKNO) REVIEWCNT
+				FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+				WHERE B.BOOKNO = D.BOOKNO
+			        AND D.BCATEGORYNO = C.BCATEGORYNO
+			        AND C.BCATEGORY1 = #{param1}
+			        <include refid="includeList"/>
+				ORDER BY REVIEWCNT DESC
+				) N)
 		WHERE NUM BETWEEN #{param3} AND #{param4}
-	</select>
-	
-	<!-- 국내 or 국외 카테고리별 리스트 총 갯수 -->
-	<select id="categoryTotCount" resultType="Integer">
-		SELECT COUNT(B.BOOKNO) 
-		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
-		WHERE B.BOOKNO = D.BOOKNO
-		AND D.BCATEGORYNO = C.BCATEGORYNO
-		AND C.BCATEGORY1=#{param1}
-		<include refid="includeList"/>
 	</select>
 	
 	<sql id="includeList">
@@ -153,6 +141,17 @@
 			</otherwise>
 		</choose>
 	</sql>
+	
+	<!-- 국내 or 국외 카테고리별 리스트 총 갯수 -->
+	<select id="categoryTotCount" resultType="Integer">
+		SELECT COUNT(B.BOOKNO) 
+		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
+		WHERE B.BOOKNO = D.BOOKNO
+		AND D.BCATEGORYNO = C.BCATEGORYNO
+		AND C.BCATEGORY1=#{param1}
+		<include refid="includeList"/>
+	</select>
+	
 	
 	<select id="searchTotCnt" resultType="Integer">
 		SELECT COUNT(*) FROM M_BOOK 
@@ -233,11 +232,11 @@
 
 	<select id="goOrder" parameterType="com.monstar.books.booklist.dto.BookListDto" resultMap="List">
 		SELECT B.BOOKNO,B.BTITLE,B.BDISCOUNT,B.BPRICE,B.BPRICESELL,
-		D.BIMG,D.BCATEGORYNO,C.BCATEGORY1
+			D.BIMG,D.BCATEGORYNO,C.BCATEGORY1
 		FROM M_BOOK B, M_BOOK_DETAIL D, M_BOOK_CATEGORY C
 		WHERE B.BOOKNO = D.BOOKNO
-		AND D.BCATEGORYNO = C.BCATEGORYNO
-		AND B.BOOKNO=#{param1}
+			AND D.BCATEGORYNO = C.BCATEGORYNO
+			AND B.BOOKNO=#{param1}
 	</select>
 	
 	<select id="getMemberno" resultType="Integer">

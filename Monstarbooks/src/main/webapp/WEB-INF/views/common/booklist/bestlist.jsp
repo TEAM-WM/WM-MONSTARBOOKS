@@ -19,33 +19,33 @@ $().ready(function(){
 });
 /* 체크박스 선택 장바구니 담기 */
 function cart_add_check(memberno){
-	if(memberno != 0){
-		var cnt = $("input[name=chk]:checked").length;
+	if(memberno != 0){//로그인이 되어있을 때
+		var cnt = $("input[name=chk]:checked").length; //선택된 체크박스 수
 		var arr = new Array();
 		$("input[name=chk]:checked").each(function(){
-			arr.push($(this).attr('id'));
+			arr.push($(this).attr('id'));//체크된 체크박스의 id(bookno) arr에 담기
 		});
-		if(cnt == 0){
+		if(cnt == 0){//선택된 상품이 없을 때
 			alert("선택된 상품이 없습니다.");
 		}else{
 			$.ajax({
 				url : '../addCartCheck',
 				type: 'post',
 				data: {
-					'memberno' : 1,
+					'memberno' : memberno,
 					'chbox' : arr,
 					'cnt' : cnt
 					},
-				success:function(result){
+				success:function(result){//장바구니 추가 성공 시
 					if(confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")){
-						location.href='../cart';
+						location.href='../cart'; //장바구니로 이동
 					}else{
-						return;
+						return; //현재페이지에 머물기
 					}
 				}
 			});
 		}
-	}else{
+	}else{//로그인이 안되어있을 때
 		alert("로그인이 필요합니다.");
 		location.href="../login";
 	}
@@ -84,10 +84,10 @@ function add_cart(bookno,memberno){
 }
 /* 바로 주문 */
 function go_order(bno,memberno){
-	if(memberno != 0){
+	if(memberno != 0){//로그인 상태일때
 		$("#bookno").attr("value",bno);
 		$(".order_form").submit();				
-	}else{
+	}else{//로그인 상태가 아닐때
 		alert("로그인이 필요합니다.");
 		location.href="../login";
 	}
@@ -177,7 +177,7 @@ function go_order(bno,memberno){
 						alt="책 썸네일 이미지" />
                     </div><!-- 책이미지 -->
                     <div class="book-info">
-                        <span class="rank">${list.num }위</span>
+                    	<c:if test="${category1 eq '베스트셀러' }"><span class="rank">${list.num }위</span></c:if>
                         <div class="product-card-title">
                             <h3>
                                 <a href="bookdetail?bookno=${list.bookno }">${list.btitle }</a>

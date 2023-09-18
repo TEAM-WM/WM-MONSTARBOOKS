@@ -43,7 +43,7 @@ function paintToDo(newTodo) { //화면에 뿌림
 };
 
 function handleToDoSubmit(event) { //form 전송
-    event.preventDefault();
+//    event.preventDefault();
     const newTodoItem = toDoInput.value;
     toDoInput.value = '';
     const newTodoObj = {

@@ -37,9 +37,8 @@ public class CartToOrderServiceList implements CartService {
 	
 //		map에서 request 추출
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		ArrayList<String> chArr = (ArrayList<String>) map.get("chArr");
 		
-		System.out.println(chArr);
+	
 		
 		CartDao dao = sqlSession.getMapper(CartDao.class);
 		
@@ -50,6 +49,8 @@ public class CartToOrderServiceList implements CartService {
         
         int memberno = dao.getMemberno(memberId);		
         System.out.println("memberno :"+memberno);
+        
+        ArrayList<String> chArr = (ArrayList<String>) map.get("chArr");
         
 		ArrayList<CartDto> dto = dao.cartSelList(memberno,chArr);
 		
