@@ -33,7 +33,7 @@
 					<td>${dto.memberno }</td>
 					<td>
 						<strong>${dto.mauthority }</strong><br>
-						<form action="list/status" method="post" style="width:auto">
+						<form action="${pageContext.request.contextPath}/admin/member/list/status" method="post" style="width:auto">
 							<input type="hidden" name="no" value="${dto.memberno }"/>
 							<select name="status" id="userStatus">
 								<option value="관리자" <c:if test="${dto.mauthority eq '관리자' }">selected</c:if>>관리자</option>

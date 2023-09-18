@@ -111,7 +111,7 @@ public class MemberListService implements MemberService {
 		// 총 갯수
 		System.out.println("total cnt: " + total);
 		searchVO.pageCalculate(total);
-		/* #9 페이징 글 번호 전달 */
+		/* 페이징 글 번호 전달 */
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
 //		ArrayList<BoardDto> dto = dao.list(rowStart, rowEnd);
@@ -130,8 +130,8 @@ public class MemberListService implements MemberService {
 		System.out.println("total row: " + total);
 		
 		
-//		// 현재 페이지 정보 가져오기
-	    String currentPage = "/admin/member"; // 페이지 이름이나 식별자로 표시할 수 있습니다.
+//		// 현재 페이지 정보 전달하기
+	    String currentPage = "/admin/member"; 
 	    System.out.println(currentPage);
 		// 모델에 전달하기
 	    model.addAttribute("currentPage",currentPage);
