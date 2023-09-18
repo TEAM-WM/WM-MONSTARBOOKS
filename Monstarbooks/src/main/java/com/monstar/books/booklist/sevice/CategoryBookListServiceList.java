@@ -37,32 +37,20 @@ public class CategoryBookListServiceList implements BookListService {
 		Map<String, Object> map = model.asMap();
         HttpServletRequest request = (HttpServletRequest) map.get("request");
         String list = request.getParameter("list");
-        
-        String category1 = null;
-        if(list.equals("kor")) {
-        	category1 = "국내";
-        }else if(list.equals("eng")) {
-        	category1 = "외국";
-        }
-        
         String code = request.getParameter("code");
         
+        String category1 = null;
+        if(list.equals("kor")) {category1 = "국내";}
+        else if(list.equals("eng")) { category1 = "외국"; }
+        
         String category2 = null;  
-        if(code.equals("0")) {
-        	category2 = "전체";
-        }else if(code.equals("1")) {
-        	category2 = "소설";
-        }else if(code.equals("2")) {
-        	category2 = "시";
-        }else if(code.equals("3")) {
-        	category2 = "경제";
-        }else if(code.equals("4")) {
-        	category2 = "에세이";
-        }else if(code.equals("5")) {
-        	category2 = "요리";
-        }else if(code.equals("6")) {
-        	category2 = "문화";
-        }
+        if(code.equals("0")) { category2 = "전체"; }
+        else if(code.equals("1")) { category2 = "소설"; }
+        else if(code.equals("2")) { category2 = "시"; }
+        else if(code.equals("3")) { category2 = "경제"; }
+        else if(code.equals("4")) { category2 = "에세이"; }
+        else if(code.equals("5")) { category2 = "요리"; }
+        else if(code.equals("6")) { category2 = "문화"; }
 		
 		// 세션에서 회원 ID 가져오기
         HttpSession session = request.getSession();

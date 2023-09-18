@@ -47,11 +47,12 @@ public class addCartCheckServiceList implements BookListService {
       
     		List<String> chArr = (List<String>) map.get("chArr");
     		
-    		for (String i : chArr) {
+    		for (String i : chArr) {//체크된 도서의 bookno 하나씩 검사
+    			// 이미 장바구니에 담겼는가?
     			Integer booknoCheck = dao.booknoCheck(i,memberno);
-    			if (booknoCheck == null) {
+    			if (booknoCheck == null) {// 장바구니에 없을 때
     				dao.cartInsert(memberno,i,"1");				
-    			}else {
+    			}else { // 장바구니에 담겨있을 때
     				dao.cartAddUpdate(memberno,i,"1");
     			}
     		}

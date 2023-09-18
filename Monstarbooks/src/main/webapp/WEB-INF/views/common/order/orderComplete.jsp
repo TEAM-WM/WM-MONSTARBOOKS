@@ -172,7 +172,7 @@
 		</section>
 		<section class="cart-btn-box" style="justify-content: center; margin-top:40px;">
 	       <div class="btn-wrap">
-	       	<button type="button">주문내역 확인</button>
+	       	<button type="button" onclick="location.href='./myprofile/myprofile_orderdetail?orderNo='+${dtos.orderno}">주문내역 확인</button>
 			<button type="button" onclick="location.href='./'">홈으로</button>
 	       </div>
 	    </section>

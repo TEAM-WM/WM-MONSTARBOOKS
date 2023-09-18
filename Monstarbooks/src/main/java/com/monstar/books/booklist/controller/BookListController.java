@@ -81,11 +81,10 @@ public class BookListController {
 	}// categorylist 종료
 	
 	// 검색
-	@RequestMapping("/booklist/search")
-	public String search(HttpServletRequest request,SearchVO searchVO, Model model) {
+	@RequestMapping("/**/search")
+	public String searchKeyword(HttpServletRequest request,SearchVO searchVO, Model model) {
 		
 		System.out.println("통합 검색");
-		System.out.println("search : "+request.getParameter("search"));
 		
 		model.addAttribute("request",request);
 		model.addAttribute("searchVO",searchVO);

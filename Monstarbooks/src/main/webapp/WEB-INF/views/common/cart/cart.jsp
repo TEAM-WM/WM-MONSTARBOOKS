@@ -75,20 +75,19 @@ function count_down(n,p){
 }
 /* 체크항목의 가격 합계 */
 function check_sel(amount){
-	var cnt = $("input[name=chk]:checked").length;
 	var arr = new Array(); 
 	var priceSum = 0;
 	var cntSum = 0;
 	$("input[name=chk]:checked").each(function(){
-		arr.push($(this).val());
+		arr.push($(this).val());//체크된 항목 arr에 담기
 	});
 	for ( var i in arr) {
-		priceSum += Number($(".cnt_"+arr[i]).val())*Number($("#bpricesell_"+arr[i]).val());
-		cntSum += Number($(".cnt_"+arr[i]).val());
+		priceSum += Number($(".cnt_"+arr[i]).val())*Number($("#bpricesell_"+arr[i]).val());//각각의 상품가격*수량
+		cntSum += Number($(".cnt_"+arr[i]).val());//총 수량(구매도서 * 각각의 수량 합)
 	}
-	$(".product_price").text(priceSum.toLocaleString());
-	$(".tot_price").text((priceSum+2500).toLocaleString());
-	$("#product_cnt").text(cntSum);
+	$(".product_price").text(priceSum.toLocaleString()); //상품금액
+	$(".tot_price").text((priceSum+2500).toLocaleString());//상품금액  + 배송비
+	$("#product_cnt").text(cntSum);//총 수량(구매도서 * 각각의 수량 합)
 	
 	// 하나라도 체크해제되면 전체체크박스도 해제
 	if($("input[name=chk]:checked").length == amount){
@@ -123,14 +122,14 @@ function cart_delete(){
 }
 /* 선택상품 주문 */
 function go_order_sel(){
-	var amount = $("input[name=chk]:checked").length;
-	var cntSum = $("#product_cnt").text();
+	var amount = $("input[name=chk]:checked").length; //체크된 항목의 갯수
+	var cntSum = $("#product_cnt").text();//총 수량(구매도서 * 각각의 수량 합)
 	if(amount == 0){
 		alert("선택된 상품이 없습니다.");
 	}else{
 		var arr = new Array();
 		$("input[name=chk]:checked").each(function(){
-			arr.push($(this).val());
+			arr.push($(this).val());//체크된 항목 arr에 담기
 		});
 		
 		var p = false;
@@ -142,7 +141,7 @@ function go_order_sel(){
 		        break; //하나라도 충족한다면 빠져나감
 		    }
 		}
-		if (!p) { 
+		if (!p) { // 모든 상품의 구매 수량이 재고를 초과하지 않을 때
 		    if (confirm(cntSum + "개의 상품을 주문하시겠습니까?")) {
 		        $(".order_form").submit();
 		    } else {

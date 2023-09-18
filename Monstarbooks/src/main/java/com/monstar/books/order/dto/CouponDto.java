@@ -2,7 +2,7 @@ package com.monstar.books.order.dto;
 
 import java.util.Date;
 
-import com.monstar.books.booklist.dto.MemberDto;
+import com.monstar.books.member.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

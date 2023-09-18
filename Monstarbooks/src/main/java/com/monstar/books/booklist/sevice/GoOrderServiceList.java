@@ -49,7 +49,6 @@ public class GoOrderServiceList implements BookListService {
         
 		String bookno = (String) map.get("bookno");
 		String ccount = (String) map.get("ccount");
-		System.out.println("bookno : " + bookno);
 		
 		// 주문 상품 리스트
 		ArrayList<BookListDto> dto =  dao.goOrder(bookno);
