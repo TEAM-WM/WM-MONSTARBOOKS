@@ -3,6 +3,7 @@ package com.monstar.books.member.service;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class MemberListStatusService implements MemberService {
 		dto.setMauthority(status);
 		dto.setMemberno(Integer.parseInt(no));
 		System.out.println("변경할 권한"+status);
-		
+		HttpSession session = request.getSession();
+		session.setAttribute("auth", dto.getMauthority());
 		dao.updateStatus(dto);
 	}// method override
 
