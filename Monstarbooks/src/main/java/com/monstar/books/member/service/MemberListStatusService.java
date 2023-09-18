@@ -38,8 +38,6 @@ public class MemberListStatusService implements MemberService {
 		dto.setMauthority(status);
 		dto.setMemberno(Integer.parseInt(no));
 		System.out.println("변경할 권한"+status);
-		HttpSession session = request.getSession();
-		session.setAttribute("auth", dto.getMauthority());
 		dao.updateStatus(dto);
 	}// method override
 
