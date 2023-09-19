@@ -96,11 +96,11 @@ tr, td {
 							<strong>${bcate.book.btitle }</strong>
 						</h3>
 						<form action="insert" method="post" enctype="multipart/form-data">
-              <input type="text" name="memberno" value="${bcate.memberno }" />
-              <input type="text" name="bookno" value="${bcate.book.bookno }" />
-              <input type="text" name="mid" value="${bcate.member.mid }" />
-              <input type="text" name="btitle" value="${bcate.book.btitle }" />
-              <input type="text" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
+              <input type="hidden" name="memberno" value="${bcate.memberno }" />
+              <input type="hidden" name="bookno" value="${bcate.book.bookno }" />
+              <input type="hidden" name="mid" value="${bcate.member.mid }" />
+              <input type="hidden" name="btitle" value="${bcate.book.btitle }" />
+              <input type="hidden" name="rtitle" value="${bcate.bookcategory.bcategory1 }│${bcate.bookcategory.bcategory2 }
                 &nbsp;&nbsp; ${bcate.book.btitle } " />
 							<div class="select-group">
 								<select name="rstar" class="form-select star">
