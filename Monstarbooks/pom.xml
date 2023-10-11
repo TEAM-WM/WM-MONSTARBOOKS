@@ -243,7 +243,7 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>5.1.11.RELEASE</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<!-- core -->
 		<dependency>
@@ -259,28 +259,28 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>5.1.11.RELEASE</version>
 		</dependency>
-		
-		<!-- jsp에서 스프링시큐리티 태그 라이브러리 사용  -->
+
+		<!-- jsp에서 스프링시큐리티 태그 라이브러리 사용 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.1.11.RELEASE</version>
 		</dependency>
-		
+
 		<!-- COOLSMS 핸드폰번호 인증을 위한 라이브러리 -->
 		<dependency>
-		    <groupId>net.nurigo</groupId>
-		    <artifactId>sdk</artifactId>
-		    <version>4.3.0</version>
+			<groupId>net.nurigo</groupId>
+			<artifactId>sdk</artifactId>
+			<version>4.3.0</version>
 		</dependency>
-		
+
 		<!-- 트랜잭션 관리를 위한 라이브러리 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- 이메일 인증을 위한 라이브러리 -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -313,6 +313,8 @@
 
 
 	</dependencies>
+
+
 	<build>
 		<plugins>
 			<plugin>

@@ -2,13 +2,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>샘플페이지</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 /* 체크박스 전체선택 */
 $().ready(function(){
@@ -92,6 +93,9 @@ function go_order(bno,memberno){
 		location.href="../login";
 	}
 }
+
+var btitle = "${list.btitle}";
+console.log("btitle: " + btitle);
 </script>
 </head>
 <body>
@@ -126,6 +130,7 @@ function go_order(bno,memberno){
         <section class="breadcrumb-wrap">
         </section>
 		<section class="book-section-wrap">
+
 		<jsp:include page="/WEB-INF/views/tiles/include/listMenu.jsp">
 			<jsp:param name="asideTitle" value="${category1 }" />
 		</jsp:include>
@@ -180,7 +185,7 @@ function go_order(bno,memberno){
                     	<c:if test="${category1 eq '베스트셀러' }"><span class="rank">${list.num }위</span></c:if>
                         <div class="product-card-title">
                             <h3>
-                                <a href="bookdetail?bookno=${list.bookno }">${list.btitle }</a>
+                                <a href="bookdetail?btitle5=${list.btitle } &bookno=${list.bookno }">${list.btitle }</a>
                             </h3>
                         </div>
                         <strong aria-label="저자 / 출판사" class="product-card-author">${list.bwriter } · ${list.bpublisher }</strong>
@@ -363,8 +368,8 @@ function go_order(bno,memberno){
 		</div>
 	</div>
 	<br /> --%>
-	
-	<!-- pagination-wrap -->
+
+		<!-- pagination-wrap -->
     <div class="pagination-wrap">
         <!-- pagination -->
         <div class="pagination">

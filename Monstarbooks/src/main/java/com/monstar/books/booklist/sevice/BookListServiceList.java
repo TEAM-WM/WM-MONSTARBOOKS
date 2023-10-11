@@ -44,8 +44,7 @@ public class BookListServiceList implements BookListService {
 		
 		// 세션에서 회원 ID 가져오기
         HttpSession session = request.getSession();
-        String memberId = (String) session.getAttribute("id");
-        
+        String memberId = (String) session.getAttribute("id");     
 		
 		// 230823 진성 추가
 		// paging
