@@ -51,7 +51,7 @@ def get_recommendations_book(btitle,cosine_sim_book=cosine_sim_book):
     # 코사인 유사도매트릭스 cosine_sim에서 idx에 해당하는 데이터를 (idx, 유사도)
     sim_scores_book=sorted(sim_scores_book,key=lambda x:x[1],reverse=True)
     # 코사인 유사도 기준으로 내림차순정렬
-    sim_scores_book=sim_scores_book[1:7] 
+    sim_scores_book=sim_scores_book[4:9] 
     # 자신을 제외한 6개의 추천 대상를 슬라이싱
     # 추천서적목록 인덱스 정보 추출
     movie_indices_book=[i[0] for i in sim_scores_book]

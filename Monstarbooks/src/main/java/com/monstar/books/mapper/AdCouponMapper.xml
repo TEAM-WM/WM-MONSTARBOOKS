@@ -98,7 +98,7 @@
  	<insert id="insertCoupon">
 		INSERT INTO M_COUPON
 		(CPNO,CPNAME,CPDESCRIPTION,CPPRICE,CPCREATED,CPVALID,CPSTATUS)
-		VALUES(CPNO_SEQ.NEXTVAL,#{param1}, #{param2}, #{param3}, #{param4},
+		VALUES(M_COUPON_SEQ.NEXTVAL,#{param1}, #{param2}, #{param3}, #{param4},
 		#{param5}, #{param6})
 	</insert>
  

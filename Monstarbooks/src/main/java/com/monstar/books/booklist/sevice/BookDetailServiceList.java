@@ -45,7 +45,6 @@ public class BookDetailServiceList implements BookListService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
 		
-		
 		 String btitle = request.getParameter("btitle5"); 
 		 System.out.println("책이름으으은: " + btitle);
 		 model.addAttribute("btitle5", btitle);

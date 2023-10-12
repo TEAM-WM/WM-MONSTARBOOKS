@@ -63,13 +63,14 @@
 		</div>
 
 		<!-- 새로운 쿠폰 입력 폼을 추가하는 버튼 -->
-		<div class="button-container">
+		<!-- <div class="button-container">
 			<button type="button" onclick="addCouponEntry()">새로운 쿠폰 추가</button>
 		</div>
-
+ -->
 		<!-- 모든 쿠폰을 한 번에 제출하는 버튼 -->
 		<div class="button-container">
-			<button type="submit" onclick="submitCouponForm()">모든 쿠폰 등록</button>
+			<button type="submit" onclick="submitCouponForm()">쿠폰 등록 하기
+			</button>
 		</div>
 	</form>
 
