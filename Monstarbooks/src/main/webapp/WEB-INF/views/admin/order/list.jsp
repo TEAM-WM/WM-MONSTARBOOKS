@@ -116,9 +116,10 @@
 						<td><fmt:formatDate value="${order.orderDate}"
 								pattern="yyyy.MM.dd" /></td>
 						<td>
-							<!-- productName 및 totalAmount 처리 --> <c:set var="productNames"
-								value="" /> <c:set var="totalAmount" value="0" /> <c:forEach
-								items="${getOrderList}" var="product">
+							<!-- productName 및 totalAmount 처리 -->
+							 <c:set var="productNames" value="" />
+							  <c:set var="totalAmount" value="0" /> 
+							  <c:forEach items="${getOrderList}" var="product">
 								<c:if test="${product.orderNo == order.orderNo}">
 									<c:set var="productNames"
 										value="${productNames}${product.productName} / " />

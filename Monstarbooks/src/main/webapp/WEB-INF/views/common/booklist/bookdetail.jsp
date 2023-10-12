@@ -314,7 +314,7 @@ console.log("btitle: " + btitle);
 							<div class='product-card'>
 								<div class='product-card-image'>
 									<img
-										src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791165796396.jpg'
+										src="${pageContext.request.contextPath}/resources/assets/imgs/product/${recbooklist[item].detail.bimg }"
 										alt=''>
 								</div>
 								<div class='product-card-title'>

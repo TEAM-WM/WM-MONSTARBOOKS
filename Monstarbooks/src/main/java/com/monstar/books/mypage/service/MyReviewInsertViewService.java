@@ -50,7 +50,6 @@ public class MyReviewInsertViewService implements MyPageService {
 
 
 //		parseint전에 int 0 초기화 및 null값 들어오는지 확인		
-
 		int bookno = Integer.parseInt(request.getParameter("bookno"));
 //		int memberno = Integer.parseInt(request.getParameter("memberno"));
 		System.out.println("bookno:"+bookno);
