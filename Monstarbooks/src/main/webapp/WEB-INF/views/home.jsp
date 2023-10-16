@@ -259,7 +259,7 @@
                 </div>
                 <ul class="main-product-list">
                 	<c:forEach items="${best }" var="list" begin="0" end="9">
-                	<li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?bookno=${list.bookno }';">
+                	<li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?btitle5=${list.btitle } &bookno=${list.bookno }';">
                 		<span class='rank'>${list.num }</span>
                 		<div class='product-card'>
                 		<div class='product-card-image'><img src='${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }' alt='썸네일'></div>
@@ -290,7 +290,7 @@
                 <div class="swiper book">
                     <ul class="main-product-list swiper-wrapper">
 	                <c:forEach items="${newlist }" var="list" begin="0" end="9">
-		                    <li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?bookno=${list.bookno }';" class='swiper-slide'>
+		                    <li onclick="location.href='${pageContext.request.contextPath}/booklist/bookdetail?btitle5=${list.btitle } &bookno=${list.bookno }';" class='swiper-slide'>
 		                    <div class='product-card'>
 		                    <div class='product-card-image'><img src='${pageContext.request.contextPath}/resources/assets/imgs/product/${list.detail.bimg }' alt='썸네일'></div>
 		                    <div class='product-card-title'><h3>${list.btitle }</h3></div>

@@ -7,7 +7,7 @@ import sys
 import pandas as pd
 import numpy as np
 # 데이터 파일 읽기
-bookdf1=pd.read_csv('C:\\Users\\oreho\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\pycode\\bookinfo.csv')
+bookdf1=pd.read_csv('C:\\javabigsetspring2023\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\pycode\\bookinfo.csv')
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 #백터화 작업 - bookinfo의 텍스트를 벡터로 변환
