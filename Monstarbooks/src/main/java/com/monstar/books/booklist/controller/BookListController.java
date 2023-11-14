@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.monstar.books.booklist.sevice.BookDetailReviewServiceList;
 import com.monstar.books.booklist.sevice.BookDetailServiceList;
 import com.monstar.books.booklist.sevice.BookListService;
 import com.monstar.books.booklist.sevice.BookListServiceList;
@@ -127,7 +128,7 @@ public class BookListController {
 		model.addAttribute("request",request);
 		model.addAttribute("searchVO",searchVO);
 		
-		service = new BookDetailServiceList(session);
+		service = new BookDetailReviewServiceList(session);
 		service.execute(model);
 		
 		return "common/booklist/reviewPage";

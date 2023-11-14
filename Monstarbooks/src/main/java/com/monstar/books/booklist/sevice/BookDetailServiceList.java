@@ -54,9 +54,9 @@ public class BookDetailServiceList implements BookListService {
 			Process process = null;
 			String bookTitle = btitle;
 //		//		C:\\javabigsetspring2023\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\pycode\\dbcon.py
-			String pyPath = "C:\\javabigsetspring2023\\git\\WM-MONSTARBOOKS\\Monstarbooks\\src\\main\\webapp\\resources\\pycode\\dbcon.py";
+			String pyPath = "/Users/klyeon/git/WM-MONSTARBOOKS/Monstarbooks/src/main/webapp/resources/pycode/dbcon.py";
 
-			builder = new ProcessBuilder("python", pyPath, bookTitle);
+			builder = new ProcessBuilder("python3", pyPath, bookTitle);
 
 			builder.redirectErrorStream(true);
 			process = builder.start();
@@ -102,23 +102,23 @@ public class BookDetailServiceList implements BookListService {
 				BookListDto dto = dao.bookDetail(bookno);
 
 //				리뷰 페이징
-				SearchVO searchVO = (SearchVO) map.get("searchVO");
-				String strPage = request.getParameter("page");
-				// 처음 null 처리
-				if (strPage == null)
-					strPage = "1";
-				int page = Integer.parseInt(strPage);
-				searchVO.setPage(page);
+//				SearchVO searchVO = (SearchVO) map.get("searchVO");
+//				String strPage = request.getParameter("page");
+//				// 처음 null 처리
+//				if (strPage == null)
+//					strPage = "1";
+//				int page = Integer.parseInt(strPage);
+//				searchVO.setPage(page);
 
 				// 전체 리뷰 수 조회
 				int reviewCnt = dao.reviewCnt(bookno);
-				searchVO.pageCalculate(reviewCnt);
+//				searchVO.pageCalculate(reviewCnt);
+//
+//				// 페이징 글 번호 전달
+//				int rowStart = searchVO.getRowStart();
+//				int rowEnd = searchVO.getRowEnd();
 
-				// 페이징 글 번호 전달
-				int rowStart = searchVO.getRowStart();
-				int rowEnd = searchVO.getRowEnd();
-
-				ArrayList<BookReviewDto> rdto = dao.bookReivew(bookno, rowStart, rowEnd);
+//				ArrayList<BookReviewDto> rdto = dao.bookReivew(bookno, rowStart, rowEnd);
 
 //				별점 평균 조회
 				// 리연 null 값 처리 추가
@@ -128,7 +128,7 @@ public class BookDetailServiceList implements BookListService {
 					starAvg = 0.0f; // 기본값 설정
 				}
 				model.addAttribute("list", dto);
-				model.addAttribute("review", rdto);
+//				model.addAttribute("review", rdto);
 				model.addAttribute("avg", starAvg);
 				model.addAttribute("reCnt", reviewCnt);
 
@@ -175,7 +175,7 @@ public class BookDetailServiceList implements BookListService {
 				} // 리연 추가 종료
 
 				model.addAttribute("arr", arr);
-
+				System.out.println(arr);
 //				로그인상태인지 확인
 				if (memberId != null) {
 					int memberno = dao.getMemberno(memberId);
