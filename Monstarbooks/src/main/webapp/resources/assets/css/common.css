@@ -375,7 +375,7 @@ input[type="file"] {
 	box-sizing: border-box;
 	font-family:FontAwesome;
 	color: var(--color-white);
-	font-size:3px;
+	font-size:10px;
     background: #f0f0f0;
     border-radius: 50%;
     position: absolute;

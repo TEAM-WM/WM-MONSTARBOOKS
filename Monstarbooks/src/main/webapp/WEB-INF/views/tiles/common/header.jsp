@@ -99,7 +99,7 @@
 					<li><a href="${pageContext.request.contextPath }/booklist/new">새로나온책</a></li>
 					<li><a href="${pageContext.request.contextPath }/booklist/category?list=kor&code=0">국내도서</a></li>
 					<li><a href="${pageContext.request.contextPath }/booklist/category?list=eng&code=0">외국도서</a></li>
-					<li><a href="">이벤트</a></li>
+					<li><a href="${pageContext.request.contextPath }/common/event/event">이벤트</a></li>
 				</ul>
 			</nav>
 			<section class="global-all-menu">
@@ -165,7 +165,7 @@
 							<a href="${pageContext.request.contextPath }/booklist/bestlist"> <i class="fa-solid fa-thumbs-up"></i>
 						</a> <span> 베스트 </span></li>
 						<li><a href="${pageContext.request.contextPath }/booklist/new"> N </a> <span> 새로나온책 </span></li>
-						<li><a href=""> <i class="fa-solid fa-gift"></i>
+						<li><a href="${pageContext.request.contextPath }/common/event/event"> <i class="fa-solid fa-gift"></i>
 						</a> <span>이벤트</span></li>
 						<li>
 						<a href="${pageContext.request.contextPath }/cscenter">
